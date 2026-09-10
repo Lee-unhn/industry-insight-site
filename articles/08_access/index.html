@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>到達人流：台鐵、公車站、YouBike、停車場｜開店分析所</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/5.24.0/maplibre-gl.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/5.24.0/maplibre-gl.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/6.1.0/echarts.min.js"></script>
+<style>
+  /* ------------------------------------------------------------------
+     設計系統 token（淺色專業報告風：白底、深藍主色、灰網格；黑白列印仍可辨）
+     與篇① articles/01_outline/index.html 同一套 token（Q38 裁定：全站統一）。
+     ------------------------------------------------------------------ */
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page-plane:     #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+
+    --series-1: #2a78d6;   /* blue -- 進站 / 汽車車位 / 主色 */
+    --series-2: #eb6834;   /* orange -- 出站 / 機車車位 */
+    --series-3: #1baf7a;   /* aqua -- YouBike 車位 */
+    --series-4: #eda100;   /* yellow -- 假日 */
+    --series-8: #e34948;   /* red -- 中心點 / 台南站標記 */
+
+    --ring-5:  #184f95;
+    --ring-10: #2a78d6;
+    --ring-15: #86b6ef;
+
+    --parking-paid: #2a78d6;
+    --parking-free: #86b6ef;
+    --youbike-dot:  #1baf7a;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--page-plane);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", "Microsoft JhengHei", sans-serif;
+    overflow-x: hidden;
+  }
+  body { min-width: 0; }
+  img, canvas, svg { max-width: 100%; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 20px 16px 48px; }
+
+  header.hero { padding: 8px 0 20px; border-bottom: 1px solid var(--gridline); margin-bottom: 20px; }
+  .kicker { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: var(--series-1); text-transform: uppercase; }
+  h1 { font-size: clamp(20px, 3.6vw, 30px); line-height: 1.3; margin: 6px 0 10px; }
+  .lede { font-size: 15px; color: var(--text-secondary); max-width: 74ch; line-height: 1.6; margin: 0 0 10px; }
+  .meta-line { font-size: 12.5px; color: var(--text-muted); }
+  .meta-line b { color: var(--text-secondary); font-weight: 600; }
+
+  .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .stat-tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .stat-label { font-size: 12.5px; color: var(--text-secondary); margin-bottom: 6px; }
+  .stat-value { font-size: clamp(22px, 3.4vw, 30px); font-weight: 600; font-variant-numeric: proportional-nums; line-height: 1.1; }
+  .stat-value .unit { font-size: 0.5em; font-weight: 500; color: var(--text-secondary); margin-left: 4px; }
+  .stat-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+  .stat-flag { font-size: 10.5px; color: var(--text-muted); }
+
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px 18px; margin-bottom: 18px; }
+  .card h2 { font-size: 16px; margin: 0 0 2px; }
+  .card .subtitle { font-size: 12.5px; color: var(--text-muted); margin: 0 0 12px; }
+
+  .map-card { padding: 0; overflow: hidden; }
+  .map-card .map-head { padding: 16px 18px 0; }
+  #map { width: 100%; height: 480px; position: relative; }
+  @media (max-width: 520px) { #map { height: 340px; } }
+  .map-legend {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(252,252,251,0.94); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 12px; font-size: 11.5px; color: var(--text-secondary); max-width: 200px; line-height: 1.5; z-index: 5;
+  }
+  .map-legend h4 { margin: 0 0 6px; font-size: 11.5px; color: var(--text-primary); }
+  .legend-row { display: flex; align-items: center; gap: 6px; margin: 3px 0; }
+  .legend-swatch-line { width: 20px; height: 0; border-top-width: 3px; flex: none; }
+  .legend-swatch-dot { width: 10px; height: 10px; border-radius: 50%; flex: none; border: 1px solid rgba(11,11,11,0.35); }
+  .center-star { width: 14px; height: 14px; flex: none; color: var(--series-8); }
+
+  .osm-note {
+    position: absolute; bottom: 4px; left: 8px; font-size: 10.5px; color: var(--text-muted);
+    background: rgba(252,252,251,0.85); padding: 1px 6px; border-radius: 4px; z-index: 5;
+  }
+
+  .maplibregl-marker .center-marker-label {
+    background: rgba(252,252,251,0.92); border: 1px solid var(--border); border-radius: 4px;
+    padding: 1px 6px; font-size: 11px; color: var(--text-primary); white-space: nowrap; transform: translate(10px, -8px);
+  }
+
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 820px) { .chart-grid { grid-template-columns: 1fr; } }
+  .echart { width: 100%; height: 300px; }
+
+  .table-toggle {
+    font-size: 12px; color: var(--series-1); background: none; border: 1px solid var(--border);
+    border-radius: 6px; padding: 3px 9px; cursor: pointer; margin-top: 8px;
+  }
+  .table-toggle:hover { background: var(--page-plane); }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 10px; display: none; }
+  .data-table.open { display: table; }
+  .data-table th, .data-table td { text-align: right; padding: 5px 8px; border-bottom: 1px solid var(--gridline); font-variant-numeric: tabular-nums; }
+  .data-table th:first-child, .data-table td:first-child { text-align: left; font-variant-numeric: normal; }
+  .data-table thead th { color: var(--text-secondary); font-weight: 600; border-bottom: 1px solid var(--baseline); }
+
+  .method h2 { font-size: 16px; margin: 0 0 10px; }
+  .method dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; font-size: 13px; margin: 0; }
+  .method dt { color: var(--text-secondary); white-space: nowrap; }
+  .method dd { margin: 0; color: var(--text-primary); }
+  @media (max-width: 560px) { .method dl { grid-template-columns: 1fr; } .method dt { margin-top: 6px; } }
+  .honest-note {
+    margin-top: 12px; padding: 10px 12px; background: var(--page-plane);
+    border-left: 3px solid var(--series-2); font-size: 12.5px; color: var(--text-secondary); border-radius: 0 6px 6px 0;
+  }
+  .honest-note + .honest-note { margin-top: 8px; border-left-color: var(--series-1); }
+
+  footer.site-footer { margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--gridline); font-size: 12px; color: var(--text-muted); }
+
+  #console-error-badge { display: none; }
+</style>
+<link rel="stylesheet" href="../_shared/reader.css" />
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">開店分析所 · 篇⑧ / 10</div>
+    <h1>到達人流：台鐵、公車站、YouBike、停車場</h1>
+    <p class="lede" id="lede">
+      以成大商圈 15 分鐘機車等時圈為主要範圍（5／10 分鐘只作對照），統計台南站進出站量、
+      公有停車場車位、YouBike 站點與車位，衡量顧客「怎麼到這裡、停哪裡」。公車站牌座標
+      需 TDX 金鑰，屬人類關卡，本篇暫不含公車，方法說明明講。
+    </p>
+    <p class="meta-line" id="meta-line">資料日期讀取中...</p>
+  </header>
+
+  <section class="stat-row" id="stat-row" aria-label="核心數字"></section>
+
+  <section class="card map-card">
+    <div class="map-head">
+      <h2>地圖 · 怎麼到這裡、停哪裡</h2>
+      <p class="subtitle">底圖與範圍邊界沿用篇①（無外部圖磚）；停車場依付費、免費分色，YouBike 站另一色；台南站與三個商圈核心點以星標標示。</p>
+    </div>
+    <div id="map">
+      <div class="map-legend" id="map-legend"></div>
+      <div class="osm-note">© OpenStreetMap contributors</div>
+    </div>
+  </section>
+
+  <div class="chart-grid">
+
+    <section class="card">
+      <h2>圖 A · 台南站每月進出站人次（近 3 年）</h2>
+      <p class="subtitle" id="chartA-subtitle">日均進站／出站人次（單位：人次／天）</p>
+      <div class="echart" id="chartA"></div>
+      <button class="table-toggle" data-target="tableA">顯示資料表格</button>
+      <table class="data-table" id="tableA"></table>
+    </section>
+
+    <section class="card">
+      <h2>圖 B · 平日跟假日，人潮差多少</h2>
+      <p class="subtitle" id="chartB-subtitle">依年度、星期分組平均（單位：人次／天）</p>
+      <div class="echart" id="chartB"></div>
+      <button class="table-toggle" data-target="tableB">顯示資料表格</button>
+      <table class="data-table" id="tableB"></table>
+    </section>
+
+    <section class="card">
+      <h2>圖 C · 三個範圍各有多少停車位</h2>
+      <p class="subtitle">累計到這個時間範圍內的全部車位數（單位：位／格）</p>
+      <div class="echart" id="chartC"></div>
+      <button class="table-toggle" data-target="tableC">顯示資料表格</button>
+      <table class="data-table" id="tableC"></table>
+    </section>
+
+    <section class="card">
+      <h2>平均每千家店有幾座停車場</h2>
+      <p class="subtitle">累計範圍內公有停車場「家數」÷ 累計範圍內店數 × 1000（單位：座／千家店）</p>
+      <div class="echart" id="chartE"></div>
+      <button class="table-toggle" data-target="tableE">顯示資料表格</button>
+      <table class="data-table" id="tableE"></table>
+    </section>
+
+  </div>
+
+  <details class="card method">
+    <summary>怎麼算的（方法與資料限制）</summary>
+    <dl id="method-dl"></dl>
+    <div class="honest-note" id="honest-note-1"></div>
+    <div class="honest-note" id="honest-note-2"></div>
+  </details>
+
+  <footer class="site-footer">
+    開店分析所｜資料來源：臺鐵每日各站進出站人數（臺鐵公司）、臺鐵車站基本資料集（data.gov.tw dataset 33425）、
+    台南市公有停車場開放資料、YouBike 2.0 台南市即時站點資料（台南市政府開放資料平台）、OpenStreetMap
+    （© OpenStreetMap contributors，ODbL）。互動圖與海報由同一份資料腳本產出。
+  </footer>
+
+</div>
+
+<script>
+(async function () {
+  "use strict";
+
+  const fmt = (n) => Number(n).toLocaleString("zh-Hant-TW");
+  const fmt1 = (n) => Number(n).toLocaleString("zh-Hant-TW", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+  // ---------------------------------------------------------------
+  // 資料載入（isochrones/roads 重用篇①產出；parking/youbike 是本篇自己的點位）
+  // ---------------------------------------------------------------
+  const [data, isochrones, roads, parking, youbike] = await Promise.all([
+    fetch("./data.json").then((r) => r.json()),
+    fetch("../01_outline/isochrones_simplified.geojson").then((r) => r.json()),
+    fetch("../01_outline/roads.geojson").then((r) => r.json()),
+    fetch("./parking.geojson").then((r) => r.json()),
+    fetch("./youbike.geojson").then((r) => r.json()),
+  ]);
+
+  const months36 = Object.keys(data.tra.monthly_36);
+  const RING_LABELS = { "5": "5 分圈", "10": "10 分圈（累計）", "15": "15 分圈（累計）" };
+
+  // ---------------------------------------------------------------
+  // 標頭 / meta
+  // ---------------------------------------------------------------
+  document.getElementById("meta-line").innerHTML =
+    `資料日期 <b>${data.meta.data_date}</b>　·　產出日期 <b>${data.meta.produced_date}</b>　·　` +
+    `台鐵資料涵蓋 <b>${data.tra.data_coverage.min_date} ～ ${data.tra.data_coverage.max_date}</b>` +
+    `（${data.tra.data_coverage.days_count} 天、${data.tra.data_coverage.years_covered} 個年度；` +
+    `${data.tra.data_coverage.max_date.slice(0,4)} 年為部分年，資料只到 ${data.tra.data_coverage.max_date}）`;
+
+  // ---------------------------------------------------------------
+  // Stat tiles
+  // ---------------------------------------------------------------
+  const ytd = data.tra.ytd;
+  const r12 = data.tra.rolling12;
+  const changeIn = Math.round((r12.ratio_pct.avg_in - 100) * 10) / 10;
+  const changeOut = Math.round((r12.ratio_pct.avg_out - 100) * 10) / 10;
+  const signed = (n) => `${n >= 0 ? "+" : ""}${fmt1(n)}`;
+  const parkC15 = data.parking.by_ring.cumulative["15"];
+  const bikeC15 = data.youbike.by_ring.cumulative["15"];
+  const distVals = Object.values(data.tra.distance_to_centers_m);
+  const distMin = Math.min(...distVals), distMax = Math.max(...distVals);
+
+  const stats = [
+    {
+      label: "台南站平均每天進出站人次",
+      value: fmt(Math.round(ytd.avg_in + ytd.avg_out)), unit: "人次/天",
+      sub: `${ytd.year} 年至今；進站 ${fmt(ytd.avg_in)}＋出站 ${fmt(ytd.avg_out)}（${ytd.days} 天平均）`,
+    },
+    {
+      label: "最近一年人潮是變多還變少",
+      value: signed(changeIn), unit: "% 進站",
+      sub: `出站 ${signed(changeOut)}%；近 12 個月 ${r12.recent.start}~${r12.recent.end} 日均進站 ${fmt(r12.recent.avg_in)}，` +
+        `前 12 個月 ${r12.prior.start}~${r12.prior.end} 日均進站 ${fmt(r12.prior.avg_in)}（皆完整月移動窗，非日曆年 YoY）`,
+    },
+    {
+      label: "附近有幾座公有停車場",
+      value: fmt(parkC15.facility_count), unit: "處",
+      sub: `機車 15 分鐘範圍；汽車位 ${fmt(parkC15.car_spaces)}＋機車位 ${fmt(parkC15.moto_spaces)}（一般車位，累計）`,
+    },
+    {
+      label: "附近有幾個 YouBike 站",
+      value: fmt(bikeC15.station_count), unit: "站",
+      sub: `機車 15 分鐘範圍；車柱數合計 ${fmt(bikeC15.dock_count)}（在營運站點，累計）`,
+    },
+    {
+      label: "三核心點到台南站距離",
+      value: `${fmt(distMin)}–${fmt(distMax)}`, unit: "公尺",
+      sub: "直線距離（WGS84→TWD97 投影）",
+    },
+  ];
+  document.getElementById("stat-row").innerHTML = stats.map((s) => `
+    <div class="stat-tile">
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-value">${s.value}<span class="unit">${s.unit}</span></div>
+      ${s.sub ? `<div class="stat-sub">${s.sub}</div>` : ""}
+    </div>
+  `).join("");
+
+  // ---------------------------------------------------------------
+  // 地圖
+  // ---------------------------------------------------------------
+  const style = {
+    version: 8,
+    sources: {
+      roads: { type: "geojson", data: roads },
+      ring15: { type: "geojson", data: featureFor(isochrones, 15) },
+      ring10: { type: "geojson", data: featureFor(isochrones, 10) },
+      ring5: { type: "geojson", data: featureFor(isochrones, 5) },
+      parking: { type: "geojson", data: parking },
+      youbike: { type: "geojson", data: youbike },
+    },
+    layers: [
+      { id: "bg", type: "background", paint: { "background-color": "#fcfcfb" } },
+      { id: "roads-line", type: "line", source: "roads", paint: { "line-color": "#c3c2b7", "line-width": 0.8, "line-opacity": 0.9 } },
+      { id: "ring15-line", type: "line", source: "ring15", paint: { "line-color": "#86b6ef", "line-width": 1.6, "line-dasharray": [2, 1.6] } },
+      { id: "ring10-line", type: "line", source: "ring10", paint: { "line-color": "#2a78d6", "line-width": 2.4 } },
+      { id: "ring5-line", type: "line", source: "ring5", paint: { "line-color": "#184f95", "line-width": 3.2 } },
+      {
+        id: "parking-pt", type: "circle", source: "parking",
+        paint: {
+          "circle-radius": 4,
+          "circle-color": ["match", ["get", "kind"], "paid", "#2a78d6", "free", "#86b6ef", "#2a78d6"],
+          "circle-stroke-width": 1, "circle-stroke-color": "#0b0b0b",
+        },
+      },
+      {
+        id: "youbike-pt", type: "circle", source: "youbike",
+        paint: { "circle-radius": 3.4, "circle-color": "#1baf7a", "circle-stroke-width": 1, "circle-stroke-color": "#0b0b0b" },
+      },
+    ],
+  };
+
+  function featureFor(fc, minutes) {
+    const f = fc.features.find((x) => x.properties.minutes === minutes);
+    return { type: "FeatureCollection", features: f ? [f] : [] };
+  }
+
+  const allCoords = isochrones.features.flatMap((f) => {
+    const g = f.geometry;
+    const rings = g.type === "Polygon" ? g.coordinates : g.coordinates.flat();
+    return rings.flat();
+  });
+  const lons = allCoords.map((c) => c[0]);
+  const lats = allCoords.map((c) => c[1]);
+  const bounds = [[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]];
+
+  const map = new maplibregl.Map({
+    container: "map",
+    style,
+    bounds,
+    fitBoundsOptions: { padding: 24 },
+    attributionControl: { compact: false, customAttribution: "© OpenStreetMap contributors (ODbL)" },
+    interactive: true,
+  });
+  map.dragRotate.disable();
+  map.touchZoomRotate.disableRotation();
+
+  // 三核心點彼此距離很近（見「三核心點到台南站距離」，最遠約 792 公尺），全部
+  // 掛文字標籤會互相重疊；只有台南站掛文字標籤，三核心點改掛①②③編號小標，
+  // 對照圖例列出名稱（地圖標籤重疊修正）。
+  map.on("load", () => {
+    data.meta.centers.forEach((c, i) => {
+      addNumberedMarker(c.lon, c.lat, i + 1, "#e34948");
+    });
+    addMarker(data.tra.station_lon, data.tra.station_lat, `台南站（${data.tra.station_name}）`, "#7a1f1f");
+  });
+
+  function addMarker(lon, lat, name, color) {
+    const el = document.createElement("div");
+    el.style.width = "16px";
+    el.style.height = "16px";
+    el.innerHTML = starSvg(color);
+    const wrap = document.createElement("div");
+    wrap.style.display = "flex";
+    wrap.style.alignItems = "center";
+    wrap.appendChild(el);
+    const label = document.createElement("span");
+    label.className = "center-marker-label";
+    label.textContent = name;
+    wrap.appendChild(label);
+    new maplibregl.Marker({ element: wrap, anchor: "left" }).setLngLat([lon, lat]).addTo(map);
+  }
+
+  function addNumberedMarker(lon, lat, n, color) {
+    const el = document.createElement("div");
+    el.style.width = "18px";
+    el.style.height = "18px";
+    el.style.position = "relative";
+    el.innerHTML = starSvg(color) + `<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;` +
+      `font-size:9px;font-weight:700;color:#fff;transform:translateY(-1px)">${n}</span>`;
+    new maplibregl.Marker({ element: el, anchor: "center" }).setLngLat([lon, lat]).addTo(map);
+  }
+
+  function starSvg(color) {
+    return `<svg viewBox="0 0 24 24" width="18" height="18" fill="${color}" stroke="#0b0b0b" stroke-width="1">
+      <path d="M12 1.8l2.9 6.9 7.4.6-5.7 4.9 1.8 7.3L12 17.6 5.6 21.5l1.8-7.3-5.7-4.9 7.4-.6z"/>
+    </svg>`;
+  }
+
+  const CIRCLED_DIGITS = ["①", "②", "③", "④", "⑤", "⑥"];
+  const centerLegendRows = data.meta.centers.map((c, i) => {
+    const badge = CIRCLED_DIGITS[i] || `#${i + 1}`;
+    return `<div class="legend-row"><svg class="center-star" viewBox="0 0 24 24" fill="#e34948" stroke="#0b0b0b" stroke-width="1"><path d="M12 1.8l2.9 6.9 7.4.6-5.7 4.9 1.8 7.3L12 17.6 5.6 21.5l1.8-7.3-5.7-4.9 7.4-.6z"/></svg>${badge} ${c.name}</div>`;
+  }).join("");
+
+  document.getElementById("map-legend").innerHTML = `
+    <h4>圖例</h4>
+    <div class="legend-row"><span class="legend-swatch-dot" style="background:#2a78d6"></span>公有收費停車場</div>
+    <div class="legend-row"><span class="legend-swatch-dot" style="background:#86b6ef"></span>公有免費停車場</div>
+    <div class="legend-row"><span class="legend-swatch-dot" style="background:#1baf7a"></span>YouBike 站（在營運）</div>
+    ${centerLegendRows}
+    <div class="legend-row"><svg class="center-star" viewBox="0 0 24 24" fill="#7a1f1f" stroke="#0b0b0b" stroke-width="1"><path d="M12 1.8l2.9 6.9 7.4.6-5.7 4.9 1.8 7.3L12 17.6 5.6 21.5l1.8-7.3-5.7-4.9 7.4-.6z"/></svg>台南站</div>
+    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#184f95;border-top-style:solid;border-top-width:3px"></span>5 分圈</div>
+    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#2a78d6;border-top-style:solid;border-top-width:2.4px"></span>10 分圈</div>
+    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#86b6ef;border-top-style:dashed;border-top-width:1.6px"></span>15 分圈</div>
+  `;
+
+  // ---------------------------------------------------------------
+  // ECharts 共用設定
+  // ---------------------------------------------------------------
+  const CHART_TEXT = { color: "#52514e", fontFamily: "system-ui, -apple-system, 'Segoe UI', 'Microsoft JhengHei', sans-serif" };
+  const AXIS_LINE = { lineStyle: { color: "#c3c2b7" } };
+  const AXIS_LABEL = { color: "#898781", fontSize: 11 };
+  const SPLIT_LINE = { lineStyle: { color: "#e1e0d9", width: 1, type: "solid" } };
+  function baseGrid() { return { left: 8, right: 18, top: 30, bottom: 8, containLabel: true }; }
+
+  // ---- 圖 A：台南站進出站月度曲線（近 36 個完整月） ----
+  const monthLabels = months36.map((m) => `${m.slice(0,4)}-${m.slice(4,6)}`);
+  const inSeries = months36.map((m) => data.tra.monthly_36[m].avg_in);
+  const outSeries = months36.map((m) => data.tra.monthly_36[m].avg_out);
+
+  document.getElementById("chartA-subtitle").textContent =
+    `日均進站／出站人次（單位：人次／天）；涵蓋 ${monthLabels[0]} ～ ${monthLabels[monthLabels.length - 1]}` +
+    `（${data.tra.monthly_36_range.count} 個完整月；只取「該月落地天數＝該月日曆天數」的整月，2026-09 因僅 1 天不列入）`;
+
+  const chartA = echarts.init(document.getElementById("chartA"));
+  chartA.setOption({
+    textStyle: CHART_TEXT,
+    grid: baseGrid(),
+    legend: { top: 0, right: 0, textStyle: { color: "#52514e", fontSize: 12 } },
+    tooltip: { trigger: "axis" },
+    xAxis: { type: "category", data: monthLabels, axisLine: AXIS_LINE, axisLabel: { ...AXIS_LABEL, interval: 2, rotate: 45 }, axisTick: { show: false } },
+    yAxis: { type: "value", name: "人次/天", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    series: [
+      { name: "進站", type: "line", data: inSeries, smooth: false, symbolSize: 5, lineStyle: { width: 2, color: "#2a78d6" }, itemStyle: { color: "#2a78d6" } },
+      { name: "出站", type: "line", data: outSeries, smooth: false, symbolSize: 5, lineStyle: { width: 2, color: "#eb6834" }, itemStyle: { color: "#eb6834" } },
+    ],
+  });
+  renderTable("tableA", ["月份", "日均進站", "日均出站", "天數"], months36.map((m) => [
+    `${m.slice(0,4)}-${m.slice(4,6)}`, fmt1(data.tra.monthly_36[m].avg_in), fmt1(data.tra.monthly_36[m].avg_out), fmt(data.tra.monthly_36[m].days),
+  ]));
+
+  // ---- 圖 B：各年平日 vs 假日 ----
+  const years = Object.keys(data.tra.yearly);
+  const yearLabels = years.map((y) => data.tra.yearly[y].complete_year ? `${y}` : `${y}（至${data.tra.data_coverage.max_date.slice(5)}）`);
+  const wkInSeries = years.map((y) => data.tra.weekday_weekend_by_year[y].weekday.avg_in);
+  const weInSeries = years.map((y) => data.tra.weekday_weekend_by_year[y].weekend.avg_in);
+  const wkOutSeries = years.map((y) => data.tra.weekday_weekend_by_year[y].weekday.avg_out);
+  const weOutSeries = years.map((y) => data.tra.weekday_weekend_by_year[y].weekend.avg_out);
+
+  document.getElementById("chartB-subtitle").textContent =
+    `依年度、星期分組平均（單位：人次／天）；${years[years.length - 1]} 為部分年（見上方資料涵蓋）`;
+
+  const chartB = echarts.init(document.getElementById("chartB"));
+  chartB.setOption({
+    textStyle: CHART_TEXT,
+    grid: baseGrid(),
+    legend: { top: 0, right: 0, textStyle: { color: "#52514e", fontSize: 12 } },
+    tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
+    xAxis: { type: "category", data: yearLabels, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, axisTick: { show: false } },
+    yAxis: { type: "value", name: "人次/天", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    series: [
+      { name: "進站（平日）", type: "bar", barMaxWidth: 18, data: wkInSeries, itemStyle: { color: "#2a78d6", borderRadius: [3, 3, 0, 0] } },
+      { name: "進站（假日）", type: "bar", barMaxWidth: 18, data: weInSeries, itemStyle: { color: "#2a78d6", opacity: 0.45, borderRadius: [3, 3, 0, 0] } },
+      { name: "出站（平日）", type: "bar", barMaxWidth: 18, data: wkOutSeries, itemStyle: { color: "#eb6834", borderRadius: [3, 3, 0, 0] } },
+      { name: "出站（假日）", type: "bar", barMaxWidth: 18, data: weOutSeries, itemStyle: { color: "#eb6834", opacity: 0.45, borderRadius: [3, 3, 0, 0] } },
+    ],
+  });
+  renderTable("tableB", ["年度", "平日進站", "假日進站", "平日出站", "假日出站", "平日天數", "假日天數"], years.map((y, i) => {
+    const ww = data.tra.weekday_weekend_by_year[y];
+    return [yearLabels[i], fmt1(ww.weekday.avg_in), fmt1(ww.weekend.avg_in), fmt1(ww.weekday.avg_out), fmt1(ww.weekend.avg_out), fmt(ww.weekday.days), fmt(ww.weekend.days)];
+  }));
+
+  // ---- 圖 C：三圈車位供給（累計） ----
+  const ringKeys = ["5", "10", "15"];
+  const carVals = ringKeys.map((m) => data.parking.by_ring.cumulative[m].car_spaces);
+  const motoVals = ringKeys.map((m) => data.parking.by_ring.cumulative[m].moto_spaces);
+  const bikeVals = ringKeys.map((m) => data.youbike.by_ring.cumulative[m].dock_count);
+  const chartC = echarts.init(document.getElementById("chartC"));
+  chartC.setOption({
+    textStyle: CHART_TEXT,
+    grid: baseGrid(),
+    legend: { top: 0, right: 0, textStyle: { color: "#52514e", fontSize: 12 } },
+    tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
+    xAxis: { type: "category", data: ringKeys.map((m) => RING_LABELS[m]), axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, axisTick: { show: false } },
+    yAxis: { type: "value", name: "位/格", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    series: [
+      { name: "汽車車位（一般）", type: "bar", barMaxWidth: 20, data: carVals, itemStyle: { color: "#2a78d6", borderRadius: [3, 3, 0, 0] } },
+      { name: "機車車位（一般）", type: "bar", barMaxWidth: 20, data: motoVals, itemStyle: { color: "#eb6834", borderRadius: [3, 3, 0, 0] } },
+      { name: "YouBike 車柱", type: "bar", barMaxWidth: 20, data: bikeVals, itemStyle: { color: "#1baf7a", borderRadius: [3, 3, 0, 0] } },
+    ],
+  });
+  renderTable("tableC", ["圈", "汽車車位", "機車車位", "YouBike 車柱", "停車場數", "YouBike 站數"], ringKeys.map((m, i) => [
+    RING_LABELS[m], fmt(carVals[i]), fmt(motoVals[i]), fmt(bikeVals[i]),
+    fmt(data.parking.by_ring.cumulative[m].facility_count), fmt(data.youbike.by_ring.cumulative[m].station_count),
+  ]));
+
+  // ---- 圖 E：每千家店停車場數 ----
+  const densityVals = ringKeys.map((m) => data.parking.density_per_1000_stores.facility[m]);
+  const chartE = echarts.init(document.getElementById("chartE"));
+  chartE.setOption({
+    textStyle: CHART_TEXT,
+    grid: baseGrid(),
+    tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
+    xAxis: { type: "category", data: ringKeys.map((m) => RING_LABELS[m]), axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, axisTick: { show: false } },
+    yAxis: { type: "value", name: "座/千家店", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    series: [{
+      type: "bar", barMaxWidth: 30, data: densityVals,
+      itemStyle: { color: "#2a78d6", borderRadius: [4, 4, 0, 0] },
+      label: { show: true, position: "top", color: "#52514e", fontSize: 11, formatter: (p) => fmt1(p.value) },
+    }],
+  });
+  renderTable("tableE", ["圈", "每千家店停車場數"], ringKeys.map((m, i) => [RING_LABELS[m], fmt1(densityVals[i])]));
+
+  window.addEventListener("resize", () => {
+    chartA.resize(); chartB.resize(); chartC.resize(); chartE.resize();
+    map.resize();
+  });
+
+  function renderTable(id, headers, rows) {
+    const el = document.getElementById(id);
+    el.innerHTML = `<thead><tr>${headers.map((h) => `<th>${h}</th>`).join("")}</tr></thead>` +
+      `<tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody>`;
+  }
+  document.querySelectorAll(".table-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const table = document.getElementById(btn.dataset.target);
+      const open = table.classList.toggle("open");
+      btn.textContent = open ? "隱藏資料表格" : "顯示資料表格";
+    });
+  });
+
+  // ---------------------------------------------------------------
+  // 方法說明
+  // ---------------------------------------------------------------
+  const mn = data.method_notes;
+  document.getElementById("method-dl").innerHTML = `
+    <dt>商圈邊界</dt><dd>與篇①同一份 15 分鐘機車等時圈（三核心點聯集），5／10 分只作對照</dd>
+    <dt>台鐵資料涵蓋</dt><dd>${data.tra.data_coverage.min_date} ～ ${data.tra.data_coverage.max_date}（${data.tra.data_coverage.days_count} 天、${data.tra.data_coverage.years_covered} 個年度）</dd>
+    <dt>台鐵資料與方法</dt><dd>${mn.tra_note}</dd>
+    <dt>公車</dt><dd>${mn.bus_note}</dd>
+    <dt>停車場</dt><dd>${mn.parking_note}</dd>
+    <dt>YouBike</dt><dd>${mn.youbike_note}</dd>
+    <dt>台南站座標來源</dt><dd>${data.tra.station_source}</dd>
+    <dt>三核心點到台南站距離</dt><dd>${data.meta.centers.map((c, i) => `${["①","②","③","④","⑤"][i] || `#${i+1}`} ${c.id}: ${fmt1(data.tra.distance_to_centers_m[c.id])} 公尺`).join("　")}</dd>
+    <dt>資料版本</dt><dd>${mn.data_version}</dd>
+    <dt>地圖著作權</dt><dd>${mn.osm_attribution}</dd>
+  `;
+  document.getElementById("honest-note-1").textContent =
+    `誠實揭露：${mn.bus_note}`;
+  document.getElementById("honest-note-2").textContent =
+    `誠實揭露：${mn.sum_verification_gap_note}`;
+
+})().catch((err) => {
+  console.error("[index] 載入失敗", err);
+  document.querySelector(".wrap").insertAdjacentHTML(
+    "afterbegin",
+    `<div style="background:#fde8e8;border:1px solid #e34948;color:#7a1f1f;padding:10px 14px;border-radius:8px;margin-bottom:14px">頁面資料載入失敗：${err && err.message ? err.message : err}</div>`
+  );
+});
+</script>
+<script src="../_shared/reader.js"></script>
+</body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>人流：誰在什麼時候來、從哪條路來｜開店分析所</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/5.24.0/maplibre-gl.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/5.24.0/maplibre-gl.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/6.1.0/echarts.min.js"></script>
+<style>
+  /* ------------------------------------------------------------------
+     設計系統 token（淺色專業報告風：白底、深藍主色、灰網格；黑白列印仍可辨）
+     與其餘各篇同一套 token（Q38 裁定：全站統一）。
+     ------------------------------------------------------------------ */
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page-plane:     #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+
+    --series-1: #2a78d6;   /* blue -- 台鐵進站 / 主要幹道 */
+    --series-2: #eb6834;   /* orange -- 台鐵出站 / 次要道路 */
+    --series-3: #1baf7a;   /* aqua -- 觀光 / 巷弄 */
+    --series-4: #eda100;   /* yellow -- 假日/暑假對照 */
+    --series-8: #e34948;   /* red -- 中心點標記 */
+
+    --tier-major: #184f95;
+    --tier-mid:   #2a78d6;
+    --tier-minor: #9ec5f4;
+
+    --stock-color: #898781;
+    --flow-color:  #2a78d6;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--page-plane);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", "Microsoft JhengHei", sans-serif;
+    overflow-x: hidden;
+  }
+  body { min-width: 0; }
+  img, canvas, svg { max-width: 100%; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 20px 16px 48px; }
+
+  header.hero { padding: 8px 0 20px; border-bottom: 1px solid var(--gridline); margin-bottom: 20px; }
+  .kicker { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: var(--series-1); text-transform: uppercase; }
+  h1 { font-size: clamp(20px, 3.6vw, 30px); line-height: 1.3; margin: 6px 0 10px; }
+  .lede { font-size: 15px; color: var(--text-secondary); max-width: 74ch; line-height: 1.6; margin: 0 0 10px; }
+  .meta-line { font-size: 12.5px; color: var(--text-muted); }
+  .meta-line b { color: var(--text-secondary); font-weight: 600; }
+
+  .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .stat-tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .stat-label { font-size: 12.5px; color: var(--text-secondary); margin-bottom: 6px; }
+  .stat-value { font-size: clamp(22px, 3.4vw, 30px); font-weight: 600; font-variant-numeric: proportional-nums; line-height: 1.1; }
+  .stat-value .unit { font-size: 0.5em; font-weight: 500; color: var(--text-secondary); margin-left: 4px; }
+  .stat-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px 18px; margin-bottom: 18px; }
+  .card h2 { font-size: 16px; margin: 0 0 2px; }
+  .card .subtitle { font-size: 12.5px; color: var(--text-muted); margin: 0 0 12px; }
+
+  .composition-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 6px 0 4px; }
+  .composition-table th, .composition-table td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--gridline); }
+  .composition-table th { color: var(--text-secondary); font-weight: 600; font-size: 12px; }
+  .composition-table td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .kind-badge { display: inline-block; font-size: 10.5px; padding: 1px 6px; border-radius: 999px; font-weight: 600; }
+  .kind-badge.stock { background: rgba(137,135,129,0.16); color: var(--stock-color); }
+  .kind-badge.flow  { background: rgba(42,120,214,0.14); color: var(--flow-color); }
+
+  .map-card { padding: 0; overflow: hidden; }
+  .map-card .map-head { padding: 16px 18px 0; }
+  #map { width: 100%; height: 440px; position: relative; }
+  @media (max-width: 520px) { #map { height: 320px; } }
+  .map-legend {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(252,252,251,0.94); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 12px; font-size: 11.5px; color: var(--text-secondary); max-width: 210px; line-height: 1.5; z-index: 5;
+  }
+  .map-legend h4 { margin: 0 0 6px; font-size: 11.5px; color: var(--text-primary); }
+  .legend-row { display: flex; align-items: center; gap: 6px; margin: 3px 0; }
+  .legend-swatch-line { width: 20px; height: 0; border-top-width: 3px; flex: none; }
+  .osm-note {
+    position: absolute; bottom: 4px; left: 8px; font-size: 10.5px; color: var(--text-muted);
+    background: rgba(252,252,251,0.85); padding: 1px 6px; border-radius: 4px; z-index: 5;
+  }
+  .streets-sub-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; padding: 16px 18px 18px; }
+  @media (max-width: 820px) { .streets-sub-grid { grid-template-columns: 1fr; } }
+  .echart-tiers { width: 100%; height: 220px; }
+
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 820px) { .chart-grid { grid-template-columns: 1fr; } }
+  .echart { width: 100%; height: 300px; }
+
+  .table-toggle {
+    font-size: 12px; color: var(--series-1); background: none; border: 1px solid var(--border);
+    border-radius: 6px; padding: 3px 9px; cursor: pointer; margin-top: 8px;
+  }
+  .table-toggle:hover { background: var(--page-plane); }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 10px; display: none; }
+  .data-table.open { display: table; }
+  .data-table th, .data-table td { text-align: right; padding: 5px 8px; border-bottom: 1px solid var(--gridline); font-variant-numeric: tabular-nums; }
+  .data-table th:first-child, .data-table td:first-child { text-align: left; font-variant-numeric: normal; }
+  .data-table thead th { color: var(--text-secondary); font-weight: 600; border-bottom: 1px solid var(--baseline); }
+
+  .method h2 { font-size: 16px; margin: 0 0 10px; }
+  .method dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; font-size: 13px; margin: 0; }
+  .method dt { color: var(--text-secondary); white-space: nowrap; }
+  .method dd { margin: 0; color: var(--text-primary); }
+  @media (max-width: 560px) { .method dl { grid-template-columns: 1fr; } .method dt { margin-top: 6px; } }
+  .honest-note {
+    margin-top: 12px; padding: 10px 12px; background: var(--page-plane);
+    border-left: 3px solid var(--series-2); font-size: 12.5px; color: var(--text-secondary); border-radius: 0 6px 6px 0;
+  }
+  .honest-note + .honest-note { margin-top: 8px; border-left-color: var(--series-1); }
+
+  footer.site-footer { margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--gridline); font-size: 12px; color: var(--text-muted); }
+</style>
+<link rel="stylesheet" href="../_shared/reader.css" />
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">開店分析所 · 篇⑪ / 11</div>
+    <h1>人流：誰在什麼時候來、從哪條路來</h1>
+    <p class="lede" id="lede">
+      不做輪詢、只用一次性公開資料，把成大商圈的人流拆成五個來源（居民、學生教職員、
+      醫院員工、台鐵到站、周邊景點旅客），看時間上怎麼波動、街道上怎麼分布。
+      路口車流量調查沒有公開資料，位置係數改用道路等級（臨主要幹道／次要道路／巷弄）當替代。
+    </p>
+    <p class="meta-line" id="meta-line">資料日期讀取中...</p>
+  </header>
+
+  <section class="stat-row" id="stat-row" aria-label="核心數字"></section>
+
+  <section class="card">
+    <h2>圖 A · 人流來源組成（每日量級）</h2>
+    <p class="subtitle" id="chartA-subtitle">量級對照，不是加總</p>
+    <div class="echart" id="chartA"></div>
+    <table class="composition-table" id="composition-table"></table>
+  </section>
+
+  <div class="chart-grid">
+
+    <section class="card">
+      <h2>圖 B · 一年 12 個月人流指數</h2>
+      <p class="subtitle" id="chartB-subtitle">相對指數，不是實際人數</p>
+      <div class="echart" id="chartB"></div>
+      <button class="table-toggle" data-target="tableB">顯示資料表格</button>
+      <table class="data-table" id="tableB"></table>
+    </section>
+
+    <section class="card">
+      <h2>圖 C · 平日 vs 假日、暑假 vs 其他月</h2>
+      <p class="subtitle">台鐵台南站日均進出站人次（單位：人次/天）</p>
+      <div class="echart" id="chartC"></div>
+      <button class="table-toggle" data-target="tableC">顯示資料表格</button>
+      <table class="data-table" id="tableC"></table>
+    </section>
+
+  </div>
+
+  <section class="card map-card">
+    <div class="map-head">
+      <h2>圖 D · 街道等級地圖與三檔店家密度</h2>
+      <p class="subtitle">5 分圈內道路依 highway 等級分三檔上色；灰色網格為篇①店家密度網格（重用，未重算）；右側為三檔緩衝範圍內的店家密度／位置係數。</p>
+    </div>
+    <div class="streets-sub-grid">
+      <div style="position:relative;">
+        <div id="map"></div>
+        <div class="map-legend" id="map-legend"></div>
+        <div class="osm-note">© OpenStreetMap contributors</div>
+      </div>
+      <div>
+        <div class="echart-tiers" id="chartD"></div>
+        <button class="table-toggle" data-target="tableD">顯示資料表格</button>
+        <table class="data-table" id="tableD"></table>
+      </div>
+    </div>
+  </section>
+
+  <details class="card method">
+    <summary>怎麼算的（方法與資料限制）</summary>
+    <dl id="method-dl"></dl>
+    <div class="honest-note" id="honest-note-1"></div>
+    <div class="honest-note" id="honest-note-2"></div>
+    <div class="honest-note" id="honest-note-3"></div>
+    <div class="honest-note" id="honest-note-4"></div>
+  </details>
+
+  <footer class="site-footer">
+    開店分析所｜資料來源：臺鐵每日各站進出站人數（臺鐵公司）、教育部校務資訊公開平臺（moe_udb）、
+    成大醫院組織規模頁（nckuh）、歷年國內主要觀光遊憩據點遊客人數月別統計（交通部觀光署）、
+    成功大學行事曆（web.ncku.edu.tw）、居住人口借用篇⑤、台鐵到站量級借用篇⑧、OpenStreetMap
+    （© OpenStreetMap contributors，ODbL）。互動圖與海報由同一份資料腳本產出。
+  </footer>
+
+</div>
+
+<script>
+(async function () {
+  "use strict";
+
+  const fmt = (n) => Number(n).toLocaleString("zh-Hant-TW");
+  const fmt1 = (n) => Number(n).toLocaleString("zh-Hant-TW", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const signedPct = (n) => `${n >= 0 ? "+" : ""}${fmt1(n)}%`;
+
+  const [data, isochrones, density, streets] = await Promise.all([
+    fetch("./data.json").then((r) => r.json()),
+    fetch("../01_outline/isochrones_simplified.geojson").then((r) => r.json()),
+    fetch("../01_outline/density.geojson").then((r) => r.json()),
+    fetch("./streets.geojson").then((r) => r.json()),
+  ]);
+
+  // ---------------------------------------------------------------
+  // 標頭 / meta
+  // ---------------------------------------------------------------
+  document.getElementById("meta-line").innerHTML =
+    `資料日期 <b>${data.meta.data_date}</b>　·　產出日期 <b>${data.meta.produced_date}</b>　·　` +
+    `觀光資料年份 <b>${data.tourism.latest_year}</b>（tourism_visits 最新可比對年份）`;
+
+  // ---------------------------------------------------------------
+  // Stat tiles
+  // ---------------------------------------------------------------
+  const st = data.stat_tiles;
+  const stats = [
+    { label: st.tra_daily.label, value: fmt(Math.round(st.tra_daily.value)), unit: st.tra_daily.unit, sub: "借用篇⑧ tra.ytd" },
+    { label: st.students_faculty_total.label, value: fmt(st.students_faculty_total.value), unit: st.students_faculty_total.unit, sub: st.students_faculty_total.sub },
+    { label: st.tourism_daily.label, value: fmt(Math.round(st.tourism_daily.value)), unit: st.tourism_daily.unit, sub: `${data.tourism.latest_year} 年，${data.tourism.in_ring_sites.length} 處已定位景點` },
+    { label: st.major_road_location_factor.label, value: fmt1(st.major_road_location_factor.value), unit: st.major_road_location_factor.unit, sub: st.major_road_location_factor.sub },
+  ];
+  document.getElementById("stat-row").innerHTML = stats.map((s) => `
+    <div class="stat-tile">
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-value">${s.value}<span class="unit">${s.unit}</span></div>
+      ${s.sub ? `<div class="stat-sub">${s.sub}</div>` : ""}
+    </div>
+  `).join("");
+
+  // ---------------------------------------------------------------
+  // 圖 A：人流來源組成
+  // ---------------------------------------------------------------
+  const items = data.composition.items;
+  const chartA = echarts.init(document.getElementById("chartA"));
+  chartA.setOption({
+    textStyle: { color: "#52514e", fontFamily: "system-ui, -apple-system, 'Segoe UI', 'Microsoft JhengHei', sans-serif" },
+    grid: { left: 8, right: 60, top: 10, bottom: 8, containLabel: true },
+    tooltip: {
+      trigger: "axis", axisPointer: { type: "shadow" },
+      formatter: (params) => {
+        const p = params[0];
+        const item = items[p.dataIndex];
+        return `${item.label}<br/>${fmt1(item.value)} ${item.unit}`;
+      },
+    },
+    xAxis: { type: "value", axisLine: { lineStyle: { color: "#c3c2b7" } }, axisLabel: { color: "#898781", fontSize: 11 }, splitLine: { lineStyle: { color: "#e1e0d9" } } },
+    yAxis: { type: "category", data: items.map((i) => i.label), axisLine: { lineStyle: { color: "#c3c2b7" } }, axisLabel: { color: "#52514e", fontSize: 11.5 }, axisTick: { show: false } },
+    series: [{
+      type: "bar", barMaxWidth: 22, data: items.map((i) => i.value),
+      itemStyle: { color: (p) => (items[p.dataIndex].kind === "stock" ? "#898781" : "#2a78d6"), borderRadius: [0, 4, 4, 0] },
+      label: { show: true, position: "right", color: "#52514e", fontSize: 11, formatter: (p) => fmt(Math.round(p.value)) },
+    }],
+  });
+  document.getElementById("chartA-subtitle").textContent = data.composition.kind_note;
+
+  document.getElementById("composition-table").innerHTML =
+    `<thead><tr><th>來源</th><th>性質</th><th>量級</th><th>單位／備註</th></tr></thead><tbody>` +
+    items.map((i) => `<tr>
+        <td>${i.label}</td>
+        <td><span class="kind-badge ${i.kind}">${i.kind === "stock" ? "存量" : "實測流量"}</span></td>
+        <td class="num">${fmt(Math.round(i.value))}</td>
+        <td>${i.unit}${i.note ? `　${i.note}` : ""}</td>
+      </tr>`).join("") + `</tbody>`;
+
+  // ---------------------------------------------------------------
+  // 圖 B：12 個月人流指數
+  // ---------------------------------------------------------------
+  const idx12 = data.time_dimension.footfall_index_12mo;
+  const monthLabels = idx12.map((r) => `${parseInt(r.month, 10)}月`);
+  const chartB = echarts.init(document.getElementById("chartB"));
+  chartB.setOption({
+    textStyle: { color: "#52514e", fontFamily: "system-ui, -apple-system, 'Segoe UI', 'Microsoft JhengHei', sans-serif" },
+    grid: { left: 8, right: 18, top: 30, bottom: 8, containLabel: true },
+    legend: { top: 0, right: 0, textStyle: { color: "#52514e", fontSize: 12 } },
+    tooltip: { trigger: "axis" },
+    xAxis: { type: "category", data: monthLabels, axisLine: { lineStyle: { color: "#c3c2b7" } }, axisLabel: { color: "#898781", fontSize: 11 }, axisTick: { show: false } },
+    yAxis: { type: "value", name: "指數（12個月平均=1.0）", nameTextStyle: { color: "#898781", fontSize: 11 }, axisLabel: { color: "#898781", fontSize: 11 }, splitLine: { lineStyle: { color: "#e1e0d9" } } },
+    series: [
+      { name: "綜合指數", type: "line", data: idx12.map((r) => r.composite_index), smooth: true, symbolSize: 6, lineStyle: { width: 2.5, color: "#2a78d6" }, itemStyle: { color: "#2a78d6" } },
+      { name: "台鐵季節指數", type: "line", data: idx12.map((r) => r.tra_index), smooth: true, symbolSize: 4, lineStyle: { width: 1.5, color: "#eb6834", type: "dashed" }, itemStyle: { color: "#eb6834" } },
+      { name: "觀光月度指數", type: "line", data: idx12.map((r) => r.tourism_index), smooth: true, symbolSize: 4, lineStyle: { width: 1.5, color: "#1baf7a", type: "dashed" }, itemStyle: { color: "#1baf7a" } },
+    ],
+  });
+  renderTable("tableB", ["月份", "綜合指數", "台鐵季節指數", "觀光月度指數", "學生權重"], idx12.map((r) => [
+    `${parseInt(r.month, 10)}月`, fmt1(r.composite_index), fmt1(r.tra_index), fmt1(r.tourism_index), fmt1(r.student_weight),
+  ]));
+
+  // ---------------------------------------------------------------
+  // 圖 C：平日/假日、暑假/其他月
+  // ---------------------------------------------------------------
+  const wkwe = data.time_dimension.weekday_weekend;
+  const sr = data.time_dimension.summer_vs_rest;
+  const cLabels = ["平日", "假日", "暑假(7-8月)", "其他月"];
+  const cIn = [wkwe.weekday.avg_in, wkwe.weekend.avg_in, sr.summer.avg_in, sr.rest.avg_in];
+  const cOut = [wkwe.weekday.avg_out, wkwe.weekend.avg_out, sr.summer.avg_out, sr.rest.avg_out];
+  const chartC = echarts.init(document.getElementById("chartC"));
+  chartC.setOption({
+    textStyle: { color: "#52514e", fontFamily: "system-ui, -apple-system, 'Segoe UI', 'Microsoft JhengHei', sans-serif" },
+    grid: { left: 8, right: 18, top: 30, bottom: 8, containLabel: true },
+    legend: { top: 0, right: 0, textStyle: { color: "#52514e", fontSize: 12 } },
+    tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
+    xAxis: { type: "category", data: cLabels, axisLine: { lineStyle: { color: "#c3c2b7" } }, axisLabel: { color: "#898781", fontSize: 11 }, axisTick: { show: false } },
+    yAxis: { type: "value", name: "人次/天", nameTextStyle: { color: "#898781", fontSize: 11 }, axisLabel: { color: "#898781", fontSize: 11 }, splitLine: { lineStyle: { color: "#e1e0d9" } } },
+    series: [
+      { name: "進站", type: "bar", barMaxWidth: 34, data: cIn, itemStyle: { color: "#2a78d6", borderRadius: [3, 3, 0, 0] } },
+      { name: "出站", type: "bar", barMaxWidth: 34, data: cOut, itemStyle: { color: "#eb6834", borderRadius: [3, 3, 0, 0] } },
+    ],
+  });
+  renderTable("tableC", ["類別", "日均進站", "日均出站", "天數"], [
+    ["平日", fmt1(wkwe.weekday.avg_in), fmt1(wkwe.weekday.avg_out), fmt(wkwe.weekday.days)],
+    ["假日", fmt1(wkwe.weekend.avg_in), fmt1(wkwe.weekend.avg_out), fmt(wkwe.weekend.days)],
+    ["暑假(7-8月)", fmt1(sr.summer.avg_in), fmt1(sr.summer.avg_out), fmt(sr.summer.days)],
+    ["其他月", fmt1(sr.rest.avg_in), fmt1(sr.rest.avg_out), fmt(sr.rest.days)],
+  ]);
+
+  // ---------------------------------------------------------------
+  // 圖 D：地圖（街道等級三色 + 密度網格）
+  // ---------------------------------------------------------------
+  const TIER_COLOR = { major: "#184f95", mid: "#2a78d6", minor: "#9ec5f4" };
+  const TIER_WIDTH = { major: 3.2, mid: 2, minor: 1 };
+
+  const maxCell = Math.max(...density.features.map((f) => f.properties.store_count), 1);
+  density.features.forEach((f) => { f.properties.density_ratio = f.properties.store_count / maxCell; });
+
+  const style = {
+    version: 8,
+    sources: {
+      density: { type: "geojson", data: density },
+      ring5: { type: "geojson", data: featureFor(isochrones, 5) },
+      streetsMajor: { type: "geojson", data: filterTier(streets, "major") },
+      streetsMid: { type: "geojson", data: filterTier(streets, "mid") },
+      streetsMinor: { type: "geojson", data: filterTier(streets, "minor") },
+    },
+    layers: [
+      { id: "bg", type: "background", paint: { "background-color": "#fcfcfb" } },
+      { id: "density-fill", type: "fill", source: "density", paint: { "fill-color": "#184f95", "fill-opacity": ["*", ["get", "density_ratio"], 0.35] } },
+      { id: "ring5-line", type: "line", source: "ring5", paint: { "line-color": "#c3c2b7", "line-width": 1.6, "line-dasharray": [2, 1.6] } },
+      { id: "streets-minor", type: "line", source: "streetsMinor", paint: { "line-color": TIER_COLOR.minor, "line-width": TIER_WIDTH.minor } },
+      { id: "streets-mid", type: "line", source: "streetsMid", paint: { "line-color": TIER_COLOR.mid, "line-width": TIER_WIDTH.mid } },
+      { id: "streets-major", type: "line", source: "streetsMajor", paint: { "line-color": TIER_COLOR.major, "line-width": TIER_WIDTH.major } },
+    ],
+  };
+
+  function filterTier(fc, tier) {
+    return { type: "FeatureCollection", features: fc.features.filter((f) => f.properties.tier === tier) };
+  }
+  function featureFor(fc, minutes) {
+    const f = fc.features.find((x) => x.properties.minutes === minutes);
+    return { type: "FeatureCollection", features: f ? [f] : [] };
+  }
+
+  const ring5Feature = isochrones.features.find((f) => f.properties.minutes === 5);
+  const ring5Coords = (ring5Feature.geometry.type === "Polygon" ? ring5Feature.geometry.coordinates : ring5Feature.geometry.coordinates.flat()).flat();
+  const lons = ring5Coords.map((c) => c[0]);
+  const lats = ring5Coords.map((c) => c[1]);
+  const bounds = [[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]];
+
+  const map = new maplibregl.Map({
+    container: "map",
+    style,
+    bounds,
+    fitBoundsOptions: { padding: 20 },
+    attributionControl: { compact: false, customAttribution: "© OpenStreetMap contributors (ODbL)" },
+    interactive: true,
+  });
+  map.dragRotate.disable();
+  map.touchZoomRotate.disableRotation();
+
+  document.getElementById("map-legend").innerHTML = `
+    <h4>圖例</h4>
+    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:${TIER_COLOR.major};border-top-style:solid;border-top-width:3.2px"></span>臨主要幹道</div>
+    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:${TIER_COLOR.mid};border-top-style:solid;border-top-width:2px"></span>臨次要道路</div>
+    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:${TIER_COLOR.minor};border-top-style:solid;border-top-width:1px"></span>臨巷弄／小路</div>
+    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#c3c2b7;border-top-style:dashed;border-top-width:1.6px"></span>5 分圈邊界</div>
+    <div class="legend-row" style="margin-top:4px;">深色網格＝店家密度較高（重用篇①）</div>
+  `;
+
+  // ---------------------------------------------------------------
+  // 圖 D 附帶：三檔店家密度／位置係數
+  // ---------------------------------------------------------------
+  const tierOrder = data.streets.tier_order;
+  const tiers = data.streets.tiers;
+  const chartD = echarts.init(document.getElementById("chartD"));
+  chartD.setOption({
+    textStyle: { color: "#52514e", fontFamily: "system-ui, -apple-system, 'Segoe UI', 'Microsoft JhengHei', sans-serif" },
+    grid: { left: 8, right: 40, top: 10, bottom: 8, containLabel: true },
+    tooltip: {
+      trigger: "axis", axisPointer: { type: "shadow" },
+      formatter: (params) => {
+        const p = params[0];
+        const tier = tierOrder[p.dataIndex];
+        const t = tiers[tier];
+        return `${t.label}<br/>位置係數 ${fmt1(t.location_factor)} 倍<br/>密度 ${fmt1(t.density_per_km2)}/km²<br/>店數 ${fmt(t.store_count)}（${fmt1(t.store_pct_of_ring5)}%）`;
+      },
+    },
+    xAxis: { type: "value", name: "位置係數（全圈平均=1.0）", nameTextStyle: { color: "#898781", fontSize: 10.5 }, axisLine: { lineStyle: { color: "#c3c2b7" } }, axisLabel: { color: "#898781", fontSize: 11 }, splitLine: { lineStyle: { color: "#e1e0d9" } } },
+    yAxis: { type: "category", data: tierOrder.map((t) => tiers[t].label), axisLine: { lineStyle: { color: "#c3c2b7" } }, axisLabel: { color: "#52514e", fontSize: 11 }, axisTick: { show: false } },
+    series: [{
+      type: "bar", barMaxWidth: 26, data: tierOrder.map((t) => tiers[t].location_factor),
+      itemStyle: { color: (p) => TIER_COLOR[tierOrder[p.dataIndex]], borderRadius: [0, 4, 4, 0] },
+      label: { show: true, position: "right", color: "#52514e", fontSize: 11, formatter: (p) => `${fmt1(p.value)} 倍` },
+    }],
+  });
+  renderTable("tableD", ["等級", "道路長度(km)", "店數", "占比", "密度(/km²)", "位置係數"], tierOrder.map((t) => {
+    const x = tiers[t];
+    return [x.label, fmt1(x.length_km), fmt(x.store_count), `${fmt1(x.store_pct_of_ring5)}%`, fmt1(x.density_per_km2), `${fmt1(x.location_factor)} 倍`];
+  }));
+
+  window.addEventListener("resize", () => {
+    chartA.resize(); chartB.resize(); chartC.resize(); chartD.resize();
+    map.resize();
+  });
+
+  function renderTable(id, headers, rows) {
+    const el = document.getElementById(id);
+    el.innerHTML = `<thead><tr>${headers.map((h) => `<th>${h}</th>`).join("")}</tr></thead>` +
+      `<tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody>`;
+  }
+  document.querySelectorAll(".table-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const table = document.getElementById(btn.dataset.target);
+      const open = table.classList.toggle("open");
+      btn.textContent = open ? "隱藏資料表格" : "顯示資料表格";
+    });
+  });
+
+  // ---------------------------------------------------------------
+  // 方法說明
+  // ---------------------------------------------------------------
+  const mn = data.method_notes;
+  document.getElementById("method-dl").innerHTML = `
+    <dt>商圈邊界</dt><dd>5 分圈＝街道等級與位置係數；10 分圈＝居住人口（借用篇⑤）；15 分圈＝觀光景點落點判定</dd>
+    <dt>人流來源</dt><dd>${data.composition.kind_note}</dd>
+    <dt>12個月人流指數</dt><dd>${mn.footfall_index_formula}</dd>
+    <dt>暑假對照</dt><dd>${mn.summer_vs_rest_note}</dd>
+    <dt>觀光景點座標</dt><dd>${mn.tourism_coord_note}</dd>
+    <dt>街道等級三檔</dt><dd>${mn.streets_method}</dd>
+    <dt>重用既有算法</dt><dd>${mn.reuse_note}</dd>
+    <dt>地圖著作權</dt><dd>${mn.osm_attribution}</dd>
+    <dt>資料版本</dt><dd>${mn.data_version}</dd>
+  `;
+  document.getElementById("honest-note-1").textContent = `誠實揭露（路口車流量調查）：${mn.not_available.intersection_traffic_survey}`;
+  document.getElementById("honest-note-2").textContent = `誠實揭露（醫院門診量）：${mn.not_available.hospital_outpatient_volume}`;
+  document.getElementById("honest-note-3").textContent = `誠實揭露（行事曆資料限制）：${mn.calendar_limitation}`;
+  document.getElementById("honest-note-4").textContent = `誠實揭露（不做輪詢）：${mn.not_available.polling_footfall}`;
+
+})().catch((err) => {
+  console.error("[index] 載入失敗", err);
+  document.querySelector(".wrap").insertAdjacentHTML(
+    "afterbegin",
+    `<div style="background:#fde8e8;border:1px solid #e34948;color:#7a1f1f;padding:10px 14px;border-radius:8px;margin-bottom:14px">頁面資料載入失敗：${err && err.message ? err.message : err}</div>`
+  );
+});
+</script>
+<script src="../_shared/reader.js"></script>
+</body>
+</html>

@@ -1,0 +1,487 @@
+{
+  "meta": {
+    "article_no": 8,
+    "title": "到達人流：台鐵、公車站、YouBike、停車場",
+    "data_date": "2026-09-08",
+    "produced_date": "2026-09-08",
+    "rings_used": [
+      5,
+      10,
+      15
+    ],
+    "primary_ring": 15,
+    "district_id": "ncku",
+    "district_name": "成大商圈",
+    "centers": [
+      {
+        "id": "tra_rear",
+        "name": "台南火車站後站出口",
+        "lat": 22.9971,
+        "lon": 120.2135
+      },
+      {
+        "id": "ncku_gate",
+        "name": "成大光復校區正門",
+        "lat": 22.9976,
+        "lon": 120.2138
+      },
+      {
+        "id": "nckuh",
+        "name": "成大醫院正門",
+        "lat": 23.0019,
+        "lon": 120.2183
+      }
+    ]
+  },
+  "store_counts": {
+    "single": {
+      "5": 11409,
+      "10": 26087,
+      "15": 21587
+    },
+    "cumulative": {
+      "5": 11409,
+      "10": 37496,
+      "15": 59083
+    }
+  },
+  "tra": {
+    "station_code": "4220",
+    "station_name": "台南",
+    "station_lat": 22.99719,
+    "station_lon": 120.21249,
+    "station_source": "臺鐵車站基本資料集（data.gov.tw dataset 33425，臺鐵公司；查證日 2026-09-08，站碼 4220／站名 台南／英文站名 Tainan／地址 台南市東區北門路二段4號／gps=22.99719 120.21249）",
+    "data_coverage": {
+      "min_date": "2023-01-01",
+      "max_date": "2026-09-01",
+      "days_count": 1340,
+      "months_count": 45,
+      "years_covered": 4
+    },
+    "yearly": {
+      "2023": {
+        "year": 2023,
+        "avg_in": 23736.9,
+        "avg_out": 24199.7,
+        "days": 365,
+        "complete_year": true
+      },
+      "2024": {
+        "year": 2024,
+        "avg_in": 25687.1,
+        "avg_out": 26184.2,
+        "days": 366,
+        "complete_year": true
+      },
+      "2025": {
+        "year": 2025,
+        "avg_in": 25701.6,
+        "avg_out": 26212.7,
+        "days": 365,
+        "complete_year": true
+      },
+      "2026": {
+        "year": 2026,
+        "avg_in": 24820.1,
+        "avg_out": 25201.5,
+        "days": 244,
+        "complete_year": false
+      }
+    },
+    "weekday_weekend_by_year": {
+      "2023": {
+        "weekday": {
+          "avg_in": 21897.7,
+          "avg_out": 22348.9,
+          "days": 260
+        },
+        "weekend": {
+          "avg_in": 28291.4,
+          "avg_out": 28782.7,
+          "days": 105
+        }
+      },
+      "2024": {
+        "weekday": {
+          "avg_in": 23492.1,
+          "avg_out": 24011.3,
+          "days": 262
+        },
+        "weekend": {
+          "avg_in": 31216.7,
+          "avg_out": 31658.2,
+          "days": 104
+        }
+      },
+      "2025": {
+        "weekday": {
+          "avg_in": 23673.5,
+          "avg_out": 24259.7,
+          "days": 261
+        },
+        "weekend": {
+          "avg_in": 30791.3,
+          "avg_out": 31114.2,
+          "days": 104
+        }
+      },
+      "2026": {
+        "weekday": {
+          "avg_in": 23184.8,
+          "avg_out": 23722.9,
+          "days": 174
+        },
+        "weekend": {
+          "avg_in": 28884.9,
+          "avg_out": 28876.8,
+          "days": 70
+        }
+      }
+    },
+    "monthly_36": {
+      "202309": {
+        "avg_in": 22788.4,
+        "avg_out": 23138.4,
+        "days": 30
+      },
+      "202310": {
+        "avg_in": 24746.1,
+        "avg_out": 25474.3,
+        "days": 31
+      },
+      "202311": {
+        "avg_in": 24879.6,
+        "avg_out": 25373.3,
+        "days": 30
+      },
+      "202312": {
+        "avg_in": 26157.7,
+        "avg_out": 26822.1,
+        "days": 31
+      },
+      "202401": {
+        "avg_in": 24834.5,
+        "avg_out": 25118.7,
+        "days": 31
+      },
+      "202402": {
+        "avg_in": 28521.5,
+        "avg_out": 29041.1,
+        "days": 29
+      },
+      "202403": {
+        "avg_in": 27493.1,
+        "avg_out": 27924.7,
+        "days": 31
+      },
+      "202404": {
+        "avg_in": 25409.0,
+        "avg_out": 25906.6,
+        "days": 30
+      },
+      "202405": {
+        "avg_in": 24733.9,
+        "avg_out": 25217.6,
+        "days": 31
+      },
+      "202406": {
+        "avg_in": 25519.7,
+        "avg_out": 25922.6,
+        "days": 30
+      },
+      "202407": {
+        "avg_in": 22533.1,
+        "avg_out": 22936.0,
+        "days": 31
+      },
+      "202408": {
+        "avg_in": 25985.3,
+        "avg_out": 26505.9,
+        "days": 31
+      },
+      "202409": {
+        "avg_in": 25512.5,
+        "avg_out": 26062.5,
+        "days": 30
+      },
+      "202410": {
+        "avg_in": 23586.1,
+        "avg_out": 24153.2,
+        "days": 31
+      },
+      "202411": {
+        "avg_in": 26893.1,
+        "avg_out": 27427.2,
+        "days": 30
+      },
+      "202412": {
+        "avg_in": 27425.0,
+        "avg_out": 28197.5,
+        "days": 31
+      },
+      "202501": {
+        "avg_in": 26426.7,
+        "avg_out": 26596.6,
+        "days": 31
+      },
+      "202502": {
+        "avg_in": 26784.0,
+        "avg_out": 27509.2,
+        "days": 28
+      },
+      "202503": {
+        "avg_in": 27000.1,
+        "avg_out": 27463.9,
+        "days": 31
+      },
+      "202504": {
+        "avg_in": 27270.5,
+        "avg_out": 27869.6,
+        "days": 30
+      },
+      "202505": {
+        "avg_in": 26644.4,
+        "avg_out": 27036.3,
+        "days": 31
+      },
+      "202506": {
+        "avg_in": 24918.4,
+        "avg_out": 25372.4,
+        "days": 30
+      },
+      "202507": {
+        "avg_in": 22140.0,
+        "avg_out": 22578.3,
+        "days": 31
+      },
+      "202508": {
+        "avg_in": 24486.6,
+        "avg_out": 24985.5,
+        "days": 31
+      },
+      "202509": {
+        "avg_in": 24015.7,
+        "avg_out": 24651.7,
+        "days": 30
+      },
+      "202510": {
+        "avg_in": 26393.5,
+        "avg_out": 26969.0,
+        "days": 31
+      },
+      "202511": {
+        "avg_in": 25647.3,
+        "avg_out": 26138.3,
+        "days": 30
+      },
+      "202512": {
+        "avg_in": 26765.9,
+        "avg_out": 27481.1,
+        "days": 31
+      },
+      "202601": {
+        "avg_in": 24549.4,
+        "avg_out": 24663.5,
+        "days": 31
+      },
+      "202602": {
+        "avg_in": 26932.6,
+        "avg_out": 27833.3,
+        "days": 28
+      },
+      "202603": {
+        "avg_in": 26171.4,
+        "avg_out": 26375.6,
+        "days": 31
+      },
+      "202604": {
+        "avg_in": 25625.6,
+        "avg_out": 26098.3,
+        "days": 30
+      },
+      "202605": {
+        "avg_in": 25832.7,
+        "avg_out": 26223.9,
+        "days": 31
+      },
+      "202606": {
+        "avg_in": 23035.0,
+        "avg_out": 23364.7,
+        "days": 30
+      },
+      "202607": {
+        "avg_in": 23638.5,
+        "avg_out": 23947.4,
+        "days": 31
+      },
+      "202608": {
+        "avg_in": 23187.1,
+        "avg_out": 23549.8,
+        "days": 31
+      }
+    },
+    "monthly_36_range": {
+      "start": "202309",
+      "end": "202608",
+      "count": 36
+    },
+    "rolling12": {
+      "recent": {
+        "start": "202509",
+        "end": "202608",
+        "avg_in": 25141.1,
+        "avg_out": 25595.7,
+        "days": 365
+      },
+      "prior": {
+        "start": "202409",
+        "end": "202508",
+        "avg_in": 25744.6,
+        "avg_out": 26256.3,
+        "days": 365
+      },
+      "ratio_pct": {
+        "avg_in": 97.7,
+        "avg_out": 97.5
+      }
+    },
+    "ytd": {
+      "year": 2026,
+      "avg_in": 24820.1,
+      "avg_out": 25201.5,
+      "days": 244
+    },
+    "distance_to_centers_m": {
+      "tra_rear": 104.0,
+      "ncku_gate": 141.8,
+      "nckuh": 791.7
+    }
+  },
+  "parking": {
+    "by_ring": {
+      "single": {
+        "5": {
+          "facility_count": 35,
+          "paid_count": 34,
+          "free_count": 1,
+          "car_spaces": 2253,
+          "moto_spaces": 1797
+        },
+        "10": {
+          "facility_count": 109,
+          "paid_count": 103,
+          "free_count": 6,
+          "car_spaces": 8622,
+          "moto_spaces": 2621
+        },
+        "15": {
+          "facility_count": 60,
+          "paid_count": 50,
+          "free_count": 10,
+          "car_spaces": 3395,
+          "moto_spaces": 1775
+        }
+      },
+      "cumulative": {
+        "5": {
+          "facility_count": 35,
+          "paid_count": 34,
+          "free_count": 1,
+          "car_spaces": 2253,
+          "moto_spaces": 1797
+        },
+        "10": {
+          "facility_count": 144,
+          "paid_count": 137,
+          "free_count": 7,
+          "car_spaces": 10875,
+          "moto_spaces": 4418
+        },
+        "15": {
+          "facility_count": 204,
+          "paid_count": 187,
+          "free_count": 17,
+          "car_spaces": 14270,
+          "moto_spaces": 6193
+        }
+      }
+    },
+    "density_per_1000_stores": {
+      "facility": {
+        "5": 3.07,
+        "10": 3.84,
+        "15": 3.45
+      },
+      "spaces": {
+        "5": 355.0,
+        "10": 407.9,
+        "15": 346.3
+      }
+    }
+  },
+  "youbike": {
+    "by_ring": {
+      "single": {
+        "5": {
+          "station_count": 66,
+          "dock_count": 2118
+        },
+        "10": {
+          "station_count": 137,
+          "dock_count": 3483
+        },
+        "15": {
+          "station_count": 124,
+          "dock_count": 2797
+        }
+      },
+      "cumulative": {
+        "5": {
+          "station_count": 66,
+          "dock_count": 2118
+        },
+        "10": {
+          "station_count": 203,
+          "dock_count": 5601
+        },
+        "15": {
+          "station_count": 327,
+          "dock_count": 8398
+        }
+      }
+    },
+    "nearest_to_center_m": {
+      "tra_rear": {
+        "distance_m": 17.7,
+        "station_name": "YouBike2.0_臺南車站(前鋒路)",
+        "station_sno": "501321052"
+      },
+      "ncku_gate": {
+        "distance_m": 50.8,
+        "station_name": "YouBike2.0_臺南車站(前鋒路)",
+        "station_sno": "501321052"
+      },
+      "nckuh": {
+        "distance_m": 91.0,
+        "station_name": "YouBike2.0_成大醫院(小東路)",
+        "station_sno": "501309006"
+      }
+    },
+    "snapshot_note": "tn_youbike 為抓取當下即時快照（parquet 檔名 2026-09-08），tot/sbi/bemp 會隨時間變動，非固定基準值"
+  },
+  "method_notes": {
+    "bus_note": "公車站牌座標僅在 TDX（運輸資料流通服務平臺）提供，需申請免費 API 金鑰（client_id/client_secret），屬人類關卡（D5 裁定）；本篇暫不含公車路網/站點，待金鑰到位後補",
+    "parking_note": "資料為台南市公有停車場（付費＋免費，全市 408 筆），不含私有停車場/收費停車格，非市場全部車位供給",
+    "youbike_note": "資料為抓取當下 YouBike 2.0 即時快照，只計入 act=='1'（目前在營運）站點；車柱總數(tot)/可借車數(sbi)會隨時間變動",
+    "tra_note": "台鐵資料涵蓋 2023-01-01～2026-09-01（1340 天、4 個年度：2023-2025 為完整年，2026 年至今為部分年，資料只到 2026-09-01）；pipeline/tra_station.py 合併 data/parquet/tra_hist/（回補年）與 data/parquet/tra/（當年至今）產出的單站多年序列。圖 A 月度曲線、平日/假日日均、近 12 個月 vs 前 12 個月比較只用「完整月」（該月落地天數等於該月日曆天數），排除只有 1 天的 2026-09 部分月，避免部分月日均混進整月比較",
+    "ring_use": {
+      "5": "店家分析",
+      "10": "居住人口",
+      "15": "可及性參考（本篇主要圈）"
+    },
+    "isochrone_method": "OSMnx 本機路網計算（機車，剔除快速道路/高架橋），與篇①同一份 data/geo/isochrones.geojson",
+    "sum_verification_gap_note": "停車位數、YouBike 車柱數兩類數字的原始欄位在 parquet 落地時型別是字串（非數值），check_numbers 的 sum 規則對字串欄位會直接失敗（DuckDB SUM(VARCHAR) 不支援），這兩類數字改用人工 duckdb（帶顯式轉型）與 pandas 交叉驗證，見任務回報；台鐵（tra_station）的兩個計數欄位已是 int64，不受此限，台鐵日均與加總數字全部改用 sum/ratio 規則接地",
+    "osm_attribution": "地圖底圖（路網/等時圈邊界）重用篇①產出，© OpenStreetMap contributors (ODbL)",
+    "data_version": "2026-09-08"
+  }
+}

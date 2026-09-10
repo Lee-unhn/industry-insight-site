@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>店面租金與不動產：實價登錄｜開店分析所</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/5.24.0/maplibre-gl.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/5.24.0/maplibre-gl.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/6.1.0/echarts.min.js"></script>
+<style>
+  /* ------------------------------------------------------------------
+     設計系統 token（淺色專業報告風：白底、深藍主色、灰網格；黑白列印仍可辨）
+     沿用篇① tokens（dataviz skill reference palette.md 的同一組已驗證色值），
+     本篇裁定只用淺色（Q38）。
+     ------------------------------------------------------------------ */
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page-plane:     #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+
+    /* 4 個真正的類別色（散點圖分層），已用 dataviz skill validate_palette.js
+       驗證：lightness/chroma/CVD/normal-vision 全 PASS（見驗收回報）；
+       #1baf7a/#eda100 對淺色背景的對比 WARN 一律搭配資料表格 toggle（skill
+       規則：WARN 不可忽略，需可見標籤或表格） */
+    --series-1: #2a78d6;   /* blue -- 5 分圈（單圈） */
+    --series-2: #eb6834;   /* orange -- 10 分圈（累計） */
+    --series-3: #1baf7a;   /* aqua -- 15 分圈（單圈） */
+    --series-4: #eda100;   /* yellow -- 東區（未達圈或未落點） */
+    --series-other: #c3c2b7; /* 其他行政區：刻意去彩度，Other 類別不列入強制
+                                 categorical 檢查（dataviz skill：第 N 類折進
+                                 Other 不需要專屬色相） */
+    --sale-color: #eb6834;  /* 買賣店面：橘色（series-2），與租賃(series-1藍)
+                                為驗證過的類別配對（dataviz validate_palette.js
+                                ΔE 33.6，正常色覺／CVD 皆可分辨） */
+
+    --ring-5:  #184f95;
+    --ring-10: #2a78d6;
+    --ring-15: #86b6ef;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--page-plane);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", "Microsoft JhengHei", sans-serif;
+    overflow-x: hidden;
+  }
+  body { min-width: 0; }
+  img, canvas, svg { max-width: 100%; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 20px 16px 48px; }
+
+  header.hero { padding: 8px 0 20px; border-bottom: 1px solid var(--gridline); margin-bottom: 20px; }
+  .kicker { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: var(--series-1); text-transform: uppercase; }
+  h1 { font-size: clamp(20px, 3.6vw, 30px); line-height: 1.3; margin: 6px 0 10px; }
+  .lede { font-size: 15px; color: var(--text-secondary); max-width: 74ch; line-height: 1.6; margin: 0 0 10px; }
+  .meta-line { font-size: 12.5px; color: var(--text-muted); }
+  .meta-line b { color: var(--text-secondary); font-weight: 600; }
+
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  @media (max-width: 700px) { .stat-row { grid-template-columns: repeat(2, 1fr); } }
+  .stat-tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .stat-label { font-size: 12.5px; color: var(--text-secondary); margin-bottom: 6px; }
+  .stat-value { font-size: clamp(20px, 3vw, 27px); font-weight: 600; font-variant-numeric: proportional-nums; line-height: 1.1; }
+  .stat-value .unit { font-size: 0.5em; font-weight: 500; color: var(--text-secondary); margin-left: 4px; }
+  .stat-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px 18px; margin-bottom: 18px; }
+  .card h2 { font-size: 16px; margin: 0 0 2px; }
+  .card .subtitle { font-size: 12.5px; color: var(--text-muted); margin: 0 0 12px; }
+
+  .map-card { padding: 0; overflow: hidden; }
+  .map-card .map-head { padding: 16px 18px 0; }
+  #map { width: 100%; height: 420px; position: relative; }
+  @media (max-width: 520px) { #map { height: 320px; } }
+  .map-legend {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(252,252,251,0.94); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 12px; font-size: 11.5px; color: var(--text-secondary); max-width: 210px; line-height: 1.5; z-index: 5;
+  }
+  .map-legend h4 { margin: 0 0 6px; font-size: 11.5px; color: var(--text-primary); }
+  .legend-row { display: flex; align-items: center; gap: 6px; margin: 3px 0; }
+  .legend-swatch-dot { width: 11px; height: 11px; border-radius: 50%; flex: none; border: 1.5px solid var(--text-primary); }
+  .legend-swatch-diamond { width: 11px; height: 11px; flex: none; border: 1.5px solid var(--text-primary); transform: rotate(45deg); }
+  .osm-note {
+    position: absolute; bottom: 4px; left: 8px; font-size: 10.5px; color: var(--text-muted);
+    background: rgba(252,252,251,0.85); padding: 1px 6px; border-radius: 4px; z-index: 5;
+  }
+  .sparse-note {
+    position: absolute; bottom: 4px; right: 8px; font-size: 10.5px; color: var(--text-secondary);
+    background: rgba(252,252,251,0.9); padding: 2px 8px; border-radius: 4px; z-index: 5; border: 1px solid var(--border);
+  }
+
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 820px) { .chart-grid { grid-template-columns: 1fr; } }
+  .echart { width: 100%; height: 300px; }
+
+  .table-toggle {
+    font-size: 12px; color: var(--series-1); background: none; border: 1px solid var(--border);
+    border-radius: 6px; padding: 3px 9px; cursor: pointer; margin-top: 8px;
+  }
+  .table-toggle:hover { background: var(--page-plane); }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 10px; display: none; overflow-x: auto; }
+  .table-scroll { overflow-x: auto; }
+  .data-table.open { display: table; }
+  .data-table th, .data-table td { text-align: right; padding: 5px 8px; border-bottom: 1px solid var(--gridline); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .data-table th:first-child, .data-table td:first-child { text-align: left; font-variant-numeric: normal; }
+  .data-table thead th { color: var(--text-secondary); font-weight: 600; border-bottom: 1px solid var(--baseline); }
+  .n-flag { color: var(--text-muted); font-style: italic; }
+
+  .method h2 { font-size: 16px; margin: 0 0 10px; }
+  .method dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; font-size: 13px; margin: 0; }
+  .method dt { color: var(--text-secondary); white-space: nowrap; }
+  .method dd { margin: 0; color: var(--text-primary); }
+  @media (max-width: 560px) { .method dl { grid-template-columns: 1fr; } .method dt { margin-top: 6px; } }
+  .honest-note { margin-top: 12px; padding: 10px 12px; background: var(--page-plane); border-left: 3px solid var(--series-2); font-size: 12.5px; color: var(--text-secondary); border-radius: 0 6px 6px 0; }
+
+  footer.site-footer { margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--gridline); font-size: 12px; color: var(--text-muted); }
+</style>
+<link rel="stylesheet" href="../_shared/reader.css" />
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">開店分析所 · 篇⑨ / 10</div>
+    <h1>店面租金與不動產：實價登錄</h1>
+    <p class="lede" id="lede">
+      以內政部實價登錄臺南市最新一季（單季揭露）租賃／買賣資料，篩出店面交易，
+      依 5 分圈、10 分圈（累計）、東區全區、臺南市全市四層分別統計每坪租金／
+      單價；地址落點率遠低於篇①的稅籍地址，5／10 分圈兩層樣本數常見不足 5
+      筆，本頁如實只列筆數，不用其他圈的數字平滑補上。
+    </p>
+    <p class="meta-line" id="meta-line">資料日期讀取中...</p>
+  </header>
+
+  <section class="stat-row" id="stat-row" aria-label="核心數字"></section>
+
+  <div class="chart-grid">
+
+    <section class="card">
+      <h2>圖 A · 每筆租金案件，坪數對租金</h2>
+      <p class="subtitle">每一點代表一筆店面租賃案件（不含地址），顏色代表落在哪個範圍或行政區；全市共 143 筆</p>
+      <div class="echart" id="chartA"></div>
+      <button class="table-toggle" data-target="tableA">顯示資料表格</button>
+      <div class="table-scroll"><table class="data-table" id="tableA"></table></div>
+    </section>
+
+    <section class="card">
+      <h2>圖 B · 各範圍租金中位數比較</h2>
+      <p class="subtitle">上下橫線＝這個範圍租金較低與較高的四分位；樣本數（n）小於 5 筆的範圍只標筆數、不畫中位數，避免用太少資料誤導（Q29）</p>
+      <div class="echart" id="chartB"></div>
+      <button class="table-toggle" data-target="tableB">顯示資料表格</button>
+      <div class="table-scroll"><table class="data-table" id="tableB"></table></div>
+    </section>
+
+    <section class="card">
+      <h2>圖 C · 每筆買賣案件，坪數對單價</h2>
+      <p class="subtitle">每一點代表一筆店面買賣案件（不含地址），顏色代表落在哪個範圍或行政區；全市共 61 筆</p>
+      <div class="echart" id="chartC"></div>
+      <button class="table-toggle" data-target="tableC">顯示資料表格</button>
+      <div class="table-scroll"><table class="data-table" id="tableC"></table></div>
+    </section>
+
+    <section class="card map-card">
+      <div class="map-head">
+        <h2>地圖 · 租賃、買賣案件在哪裡</h2>
+        <p class="subtitle">為保護隱私，點位已偏移到 100 公尺網格中心，不顯示實際門牌；底圖沿用篇①的道路網</p>
+      </div>
+      <div id="map">
+        <div class="map-legend" id="map-legend"></div>
+        <div class="osm-note">© OpenStreetMap contributors</div>
+        <div class="sparse-note" id="sparse-note"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <section class="card">
+    <h2>各範圍完整數字對照表</h2>
+    <p class="subtitle">租賃店面、買賣店面、非店面住宅三種類別對照，每個範圍都標示樣本數；樣本數小於 5 筆只列筆數（Q29）</p>
+    <button class="table-toggle" data-target="tableSummary">顯示完整總表</button>
+    <div class="table-scroll"><table class="data-table" id="tableSummary"></table></div>
+  </section>
+
+  <details class="card method">
+    <summary>怎麼算的（方法與資料限制）</summary>
+    <dl id="method-dl"></dl>
+    <div class="honest-note" id="honest-note"></div>
+  </details>
+
+  <footer class="site-footer">
+    開店分析所｜資料來源：內政部不動產交易實價查詢服務網（實價登錄，租賃／買賣，臺南市最新一季）、
+    臺南市門牌坐標資料、OpenStreetMap（© OpenStreetMap contributors，ODbL）。互動圖與海報由同一份資料腳本產出。
+  </footer>
+
+</div>
+
+<script>
+(async function () {
+  "use strict";
+
+  const fmt = (n) => Number(n).toLocaleString("zh-Hant-TW");
+  const fmt1 = (n) => Number(n).toLocaleString("zh-Hant-TW", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const fmtOrDash = (v, f) => (v === null || v === undefined ? "－" : f(v));
+
+  const LAYER_KEYS = ["ring5", "ring10", "dist_east", "city"];
+  const LAYER_SHORT = { ring5: "5 分圈", ring10: "10 分圈（累計）", dist_east: "東區", city: "臺南市全市" };
+  const LAYER_COLOR = { ring5: "#2a78d6", ring10: "#eb6834", ring15: "#1baf7a", dist_east: "#eda100", other: "#c3c2b7" };
+  const LAYER_TAG_LABEL = { ring5: "5 分圈", ring10: "10 分圈", ring15: "15 分圈", dist_east: "東區（圈外）", other: "其他行政區" };
+
+  // ---------------------------------------------------------------
+  // 資料載入
+  // ---------------------------------------------------------------
+  const [data, roads, isochrones] = await Promise.all([
+    fetch("./data.json").then((r) => r.json()),
+    fetch("../01_outline/roads.geojson").then((r) => r.json()),
+    fetch("../01_outline/isochrones_simplified.geojson").then((r) => r.json()),
+  ]);
+
+  // ---------------------------------------------------------------
+  // 標頭 / meta
+  // ---------------------------------------------------------------
+  document.getElementById("meta-line").innerHTML =
+    `資料日期 <b>${data.meta.data_date}</b>（租賃）／<b>${data.meta.sale_data_date}</b>（買賣）　·　產出日期 <b>${data.meta.produced_date}</b>　·　` +
+    `${data.meta.season_note}`;
+
+  // ---------------------------------------------------------------
+  // Stat tiles（4 個，都帶 n）
+  // ---------------------------------------------------------------
+  const rentCity = data.rent_shop.city;
+  const saleCity = data.sale_shop.city;
+  const rentEast = data.rent_shop.dist_east;
+  const saleEast = data.sale_shop.dist_east;
+  const stats = [
+    { label: "全市店面租賃案件數", value: fmt(rentCity.n), unit: "筆", sub: `東區 ${fmt(rentEast.n)} 筆` },
+    { label: "全市店面租金中位數（每坪）", value: fmt(rentCity.per_ping.median), unit: "元/坪", sub: `樣本數 ${fmt(rentCity.n)}（四分位 ${fmt(rentCity.per_ping.q1)}–${fmt(rentCity.per_ping.q3)}）` },
+    { label: "全市店面買賣案件數", value: fmt(saleCity.n), unit: "筆", sub: `東區 ${fmt(saleEast.n)} 筆` },
+    { label: "全市店面單價中位數（每坪）", value: fmt(Math.round(saleCity.per_ping.median)), unit: "元/坪", sub: `樣本數 ${fmt(saleCity.n)}（有效單價 ${fmt(saleCity.n_valid_price)} 筆）` },
+  ];
+  document.getElementById("stat-row").innerHTML = stats.map((s) => `
+    <div class="stat-tile">
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-value">${s.value}<span class="unit">${s.unit}</span></div>
+      <div class="stat-sub">${s.sub}</div>
+    </div>
+  `).join("");
+
+  // ---------------------------------------------------------------
+  // ECharts 共用設定
+  // ---------------------------------------------------------------
+  const CHART_TEXT = { color: "#52514e", fontFamily: "system-ui, -apple-system, 'Segoe UI', 'Microsoft JhengHei', sans-serif" };
+  const AXIS_LINE = { lineStyle: { color: "#c3c2b7" } };
+  const AXIS_LABEL = { color: "#898781", fontSize: 11 };
+  const SPLIT_LINE = { lineStyle: { color: "#e1e0d9", width: 1, type: "solid" } };
+  function baseGrid() { return { left: 8, right: 18, top: 8, bottom: 8, containLabel: true }; }
+
+  function scatterOption(rows, xLabel, yLabel, unit) {
+    const groups = {};
+    for (const r of rows) {
+      (groups[r.layer_tag] ||= []).push(r);
+    }
+    const order = ["other", "dist_east", "ring15", "ring10", "ring5"]; // other 先畫在下層，重點圈層蓋在上面
+    const series = order.filter((k) => groups[k]).map((k) => ({
+      name: LAYER_TAG_LABEL[k],
+      type: "scatter",
+      symbolSize: k === "other" ? 6 : 9,
+      data: groups[k].map((r) => [r.area_ping, r.per_ping]),
+      itemStyle: { color: LAYER_COLOR[k], opacity: k === "other" ? 0.55 : 0.9 },
+    }));
+    return {
+      textStyle: CHART_TEXT,
+      grid: { left: 10, right: 18, top: 30, bottom: 8, containLabel: true },
+      legend: { top: 0, left: 0, textStyle: { color: "#52514e", fontSize: 11 }, itemWidth: 10, itemHeight: 10 },
+      tooltip: {
+        trigger: "item",
+        formatter: (p) => `${p.seriesName}<br/>${xLabel}: ${fmt1(p.value[0])} 坪<br/>${yLabel}: ${fmt(Math.round(p.value[1]))} ${unit}`,
+      },
+      xAxis: { type: "value", name: xLabel + "（坪）", nameLocation: "middle", nameGap: 26, nameTextStyle: AXIS_LABEL, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+      yAxis: { type: "value", name: `${yLabel}（${unit}）`, nameTextStyle: AXIS_LABEL, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+      series,
+    };
+  }
+
+  // ---- 圖 A：租賃店面每坪租金分布 ----
+  const chartA = echarts.init(document.getElementById("chartA"));
+  chartA.setOption(scatterOption(data.scatter_rent_shop, "面積", "每坪月租", "元/坪"));
+  renderTable("tableA", ["面積（坪）", "每坪月租（元/坪）", "分層"], data.scatter_rent_shop.map((r) => [
+    fmt1(r.area_ping), fmt(Math.round(r.per_ping)), LAYER_TAG_LABEL[r.layer_tag],
+  ]));
+
+  // ---- 圖 C：買賣店面單價分布 ----
+  const chartC = echarts.init(document.getElementById("chartC"));
+  chartC.setOption(scatterOption(data.scatter_sale_shop, "面積", "每坪單價", "元/坪"));
+  renderTable("tableC", ["面積（坪）", "每坪單價（元/坪）", "分層"], data.scatter_sale_shop.map((r) => [
+    fmt1(r.area_ping), fmt(Math.round(r.per_ping)), LAYER_TAG_LABEL[r.layer_tag],
+  ]));
+
+  // ---- 圖 B：各層中位數＋四分位（誤差棒）與 n ----
+  const layerRows = LAYER_KEYS.map((k) => data.rent_shop[k]);
+  const medians = layerRows.map((r) => (r.stats_available ? r.per_ping.median : null));
+  const errBarData = layerRows.map((r, i) => (r.stats_available ? [i, r.per_ping.q1, r.per_ping.q3] : null)).filter(Boolean);
+  const ns = layerRows.map((r) => r.n);
+
+  const chartB = echarts.init(document.getElementById("chartB"));
+  chartB.setOption({
+    textStyle: CHART_TEXT,
+    grid: { left: 8, right: 18, top: 34, bottom: 8, containLabel: true },
+    tooltip: {
+      trigger: "axis",
+      formatter: (params) => {
+        const i = params[0].dataIndex;
+        const r = layerRows[i];
+        let s = `${LAYER_SHORT[LAYER_KEYS[i]]}　n=${fmt(r.n)}`;
+        if (r.stats_available) s += `<br/>中位數 ${fmt(r.per_ping.median)} 元/坪（四分位 ${fmt(r.per_ping.q1)}–${fmt(r.per_ping.q3)}）`;
+        else s += `<br/>樣本不足 5 筆，不列統計量`;
+        return s;
+      },
+    },
+    xAxis: { type: "category", data: LAYER_KEYS.map((k) => LAYER_SHORT[k]), axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, axisTick: { show: false } },
+    yAxis: { type: "value", name: "元/坪", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    series: [
+      {
+        name: "中位數", type: "bar", data: medians, barMaxWidth: 40,
+        itemStyle: { color: "#2a78d6", borderRadius: [4, 4, 0, 0] },
+        label: {
+          show: true, position: "top", color: "#52514e", fontSize: 11,
+          formatter: (p) => (p.value === null ? `n=${ns[p.dataIndex]}\n樣本不足` : `n=${ns[p.dataIndex]}\n${fmt(p.value)}`),
+        },
+      },
+      {
+        name: "四分位範圍", type: "custom", data: errBarData, z: 10,
+        encode: { x: 0, y: [1, 2] },
+        renderItem: function (params, api) {
+          const xValue = api.value(0);
+          const highPoint = api.coord([xValue, api.value(2)]);
+          const lowPoint = api.coord([xValue, api.value(1)]);
+          const halfWidth = (api.size ? api.size([1, 0])[0] : 20) * 0.12;
+          const style = { stroke: "#0b0b0b", fill: undefined, lineWidth: 1.5 };
+          return {
+            type: "group",
+            children: [
+              { type: "line", shape: { x1: highPoint[0], y1: highPoint[1], x2: lowPoint[0], y2: lowPoint[1] }, style },
+              { type: "line", shape: { x1: highPoint[0] - halfWidth, y1: highPoint[1], x2: highPoint[0] + halfWidth, y2: highPoint[1] }, style },
+              { type: "line", shape: { x1: lowPoint[0] - halfWidth, y1: lowPoint[1], x2: lowPoint[0] + halfWidth, y2: lowPoint[1] }, style },
+            ],
+          };
+        },
+      },
+    ],
+  });
+  renderTable("tableB", ["層", "n", "每坪月租中位數（元/坪）", "四分位 Q1", "四分位 Q3", "總月租中位數（元）", "面積中位數（坪）"], LAYER_KEYS.map((k) => {
+    const r = data.rent_shop[k];
+    if (!r.stats_available) return [LAYER_SHORT[k], fmt(r.n), "n<5 不列", "－", "－", "－", "－"];
+    return [LAYER_SHORT[k], fmt(r.n), fmt(r.per_ping.median), fmt(r.per_ping.q1), fmt(r.per_ping.q3), fmt(r.total.median), fmt1(r.area_ping.median)];
+  }));
+
+  // ---------------------------------------------------------------
+  // 圖 D：地圖（MapLibre，重用篇① roads.geojson / isochrones_simplified.geojson）
+  // ---------------------------------------------------------------
+  const pointsFC = {
+    type: "FeatureCollection",
+    features: data.map_points.map((p) => ({
+      type: "Feature",
+      properties: { type: p.type, ring: p.ring, count: p.count },
+      geometry: { type: "Point", coordinates: [p.lon, p.lat] },
+    })),
+  };
+
+  function featureFor(fc, minutes) {
+    const f = fc.features.find((x) => x.properties.minutes === minutes);
+    return { type: "FeatureCollection", features: f ? [f] : [] };
+  }
+
+  const style = {
+    version: 8,
+    sources: {
+      roads: { type: "geojson", data: roads },
+      ring15: { type: "geojson", data: featureFor(isochrones, 15) },
+      pts: { type: "geojson", data: pointsFC },
+    },
+    layers: [
+      { id: "bg", type: "background", paint: { "background-color": "#fcfcfb" } },
+      { id: "roads-line", type: "line", source: "roads", paint: { "line-color": "#c3c2b7", "line-width": 0.8, "line-opacity": 0.9 } },
+      { id: "ring15-line", type: "line", source: "ring15", paint: { "line-color": "#86b6ef", "line-width": 1.8, "line-dasharray": [2, 1.6] } },
+      { id: "ring15-fill", type: "fill", source: "ring15", paint: { "fill-color": "#86b6ef", "fill-opacity": 0.06 } },
+      {
+        id: "pts-rent", type: "circle", source: "pts", filter: ["==", ["get", "type"], "rent"],
+        paint: {
+          "circle-radius": ["+", 6, ["*", 3, ["sqrt", ["get", "count"]]]],
+          "circle-color": "#2a78d6", "circle-opacity": 0.85,
+          "circle-stroke-color": "#0b0b0b", "circle-stroke-width": 1.2,
+        },
+      },
+      {
+        id: "pts-sale", type: "circle", source: "pts", filter: ["==", ["get", "type"], "sale"],
+        paint: {
+          "circle-radius": ["+", 6, ["*", 3, ["sqrt", ["get", "count"]]]],
+          "circle-color": "#eb6834", "circle-opacity": 0.85,
+          "circle-stroke-color": "#0b0b0b", "circle-stroke-width": 1.2, "circle-stroke-opacity": 1,
+        },
+      },
+    ],
+  };
+
+  const g15 = isochrones.features.find((f) => f.properties.minutes === 15).geometry;
+  const ring15Coords = g15.type === "Polygon" ? g15.coordinates.flat() : g15.coordinates.flat(2);
+  const lons = ring15Coords.map((c) => c[0]);
+  const lats = ring15Coords.map((c) => c[1]);
+  const bounds = [[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]];
+
+  const map = new maplibregl.Map({
+    container: "map",
+    style,
+    bounds,
+    fitBoundsOptions: { padding: 24 },
+    attributionControl: { compact: false, customAttribution: "© OpenStreetMap contributors (ODbL)" },
+    interactive: true,
+  });
+  map.dragRotate.disable();
+  map.touchZoomRotate.disableRotation();
+
+  map.on("load", () => {
+    for (const layerId of ["pts-rent", "pts-sale"]) {
+      map.on("mouseenter", layerId, () => { map.getCanvas().style.cursor = "pointer"; });
+      map.on("mouseleave", layerId, () => { map.getCanvas().style.cursor = ""; });
+      map.on("click", layerId, (e) => {
+        const f = e.features[0];
+        const label = f.properties.type === "rent" ? "租賃店面" : "買賣店面";
+        new maplibregl.Popup({ closeButton: true })
+          .setLngLat(e.lngLat)
+          .setHTML(`<div style="font-size:12px">${label}｜落點於 ${f.properties.ring} 分圈｜此網格 ${f.properties.count} 筆（已偏移至 100m 網格中心，非原始門牌）</div>`)
+          .addTo(map);
+      });
+    }
+  });
+
+  document.getElementById("map-legend").innerHTML = `
+    <h4>圖例</h4>
+    <div class="legend-row"><span class="legend-swatch-dot" style="background:#2a78d6"></span>租賃店面</div>
+    <div class="legend-row"><span class="legend-swatch-dot" style="background:#eb6834"></span>買賣店面</div>
+    <div style="margin-top:4px">圓點大小＝該網格筆數；灰線＝主要道路；淺藍虛線區域＝15 分圈範圍</div>
+  `;
+  document.getElementById("sparse-note").textContent =
+    `僅 ${data.map_points.reduce((a, p) => a + p.count, 0)} 筆落在 15 分圈內（地址落點率低，見方法說明）`;
+
+  window.addEventListener("resize", () => {
+    chartA.resize(); chartB.resize(); chartC.resize();
+    map.resize();
+  });
+
+  function renderTable(id, headers, rows) {
+    const el = document.getElementById(id);
+    el.innerHTML = `<thead><tr>${headers.map((h) => `<th>${h}</th>`).join("")}</tr></thead>` +
+      `<tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody>`;
+  }
+  document.querySelectorAll(".table-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const table = document.getElementById(btn.dataset.target);
+      const open = table.classList.toggle("open");
+      btn.textContent = open ? "隱藏資料表格" : (btn.dataset.target === "tableSummary" ? "顯示完整總表" : "顯示資料表格");
+    });
+  });
+
+  // ---------------------------------------------------------------
+  // 各層數字總表（租賃／買賣／非店面對照）
+  // ---------------------------------------------------------------
+  const summaryHeaders = ["類別", "層", "n", "每坪中位數（元/坪）", "Q1", "Q3", "總額中位數（元）", "面積中位數（坪）"];
+  const summaryRows = [];
+  for (const k of LAYER_KEYS) {
+    const r = data.rent_shop[k];
+    summaryRows.push(r.stats_available
+      ? ["租賃店面", LAYER_SHORT[k], fmt(r.n), fmt(r.per_ping.median), fmt(r.per_ping.q1), fmt(r.per_ping.q3), fmt(r.total.median), fmt1(r.area_ping.median)]
+      : ["租賃店面", LAYER_SHORT[k], fmt(r.n), "n<5 不列", "－", "－", "－", "－"]);
+  }
+  for (const k of LAYER_KEYS) {
+    const r = data.sale_shop[k];
+    summaryRows.push(r.stats_available
+      ? ["買賣店面", LAYER_SHORT[k], fmt(r.n), fmt(Math.round(r.per_ping.median)), fmt(Math.round(r.per_ping.q1)), fmt(Math.round(r.per_ping.q3)), fmt(r.total.median), fmt1(r.area_ping.median)]
+      : ["買賣店面", LAYER_SHORT[k], fmt(r.n), "n<5 不列", "－", "－", "－", "－"]);
+  }
+  for (const k of LAYER_KEYS) {
+    const r = data.rent_residential[k];
+    summaryRows.push(r.stats_available
+      ? ["非店面住宅對照（租賃）", LAYER_SHORT[k], fmt(r.n), fmt(r.per_ping_median), "－", "－", "－", "－"]
+      : ["非店面住宅對照（租賃）", LAYER_SHORT[k], fmt(r.n), "n<5 不列", "－", "－", "－", "－"]);
+  }
+  renderTable("tableSummary", summaryHeaders, summaryRows);
+
+  // ---------------------------------------------------------------
+  // 方法說明
+  // ---------------------------------------------------------------
+  const mn = data.method_notes;
+  document.getElementById("method-dl").innerHTML = `
+    <dt>資料範圍</dt><dd>${mn.scope}</dd>
+    <dt>店面判準（租賃）</dt><dd>${mn.shop_criteria_rent}</dd>
+    <dt>店面判準（買賣）</dt><dd>${mn.shop_criteria_sale}</dd>
+    <dt>非店面對照判準</dt><dd>${mn.residential_contrast_criteria}</dd>
+    <dt>坪數換算</dt><dd>${mn.ping_conversion}</dd>
+    <dt>租金是否含車位／管理費</dt><dd>${mn.rent_includes_parking_or_mgmt_fee}</dd>
+    <dt>落點方法</dt><dd>${mn.join_method}</dd>
+    <dt>落點率</dt><dd>租賃全量 ${fmt1(data.join_stats.rent_all.join_rate_pct)}%（店面子集 ${fmt1(data.join_stats.rent_shop.join_rate_pct)}%）；買賣全量 ${fmt1(data.join_stats.sale_all.join_rate_pct)}%（店面子集 ${fmt1(data.join_stats.sale_shop.join_rate_pct)}%）</dd>
+    <dt>未落點處理</dt><dd>${mn.unmatched_note}</dd>
+    <dt>地圖偏移</dt><dd>${mn.map_privacy_note}（網格 ${mn.map_grid_cell_m}m）</dd>
+    <dt>資料版本</dt><dd>${mn.data_version}</dd>
+  `;
+  document.getElementById("honest-note").textContent =
+    `誠實揭露：${mn.join_caveat}`;
+
+})().catch((err) => {
+  console.error("[index] 載入失敗", err);
+  document.querySelector(".wrap").insertAdjacentHTML(
+    "afterbegin",
+    `<div style="background:#fde8e8;border:1px solid #e34948;color:#7a1f1f;padding:10px 14px;border-radius:8px;margin-bottom:14px">頁面資料載入失敗：${err && err.message ? err.message : err}</div>`
+  );
+});
+</script>
+<script src="../_shared/reader.js"></script>
+</body>
+</html>

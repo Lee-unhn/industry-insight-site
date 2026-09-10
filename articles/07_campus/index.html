@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>校園與醫院族群：學生分層、教職員、醫院員工、進駐廠商、南科通勤｜開店分析所</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/6.1.0/echarts.min.js"></script>
+<style>
+  /* ------------------------------------------------------------------
+     設計系統 token（淺色專業報告風：白底、深藍主色、灰網格；黑白列印仍可辨）
+     與篇①②④同一份 token（Q38 裁定：全站沿用同一視覺模板）。
+     ------------------------------------------------------------------ */
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page-plane:     #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+
+    --series-1: #2a78d6;   /* blue -- 學生 / 主色 */
+    --series-2: #eb6834;   /* orange -- 教職員 */
+    --series-3: #1baf7a;   /* aqua -- 醫院員工 */
+    --series-4: #eda100;   /* yellow -- 第四類保留（本篇未用） */
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--page-plane);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", "Microsoft JhengHei", sans-serif;
+    overflow-x: hidden;
+  }
+  body { min-width: 0; }
+  img, canvas, svg { max-width: 100%; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 20px 16px 48px; }
+
+  header.hero { padding: 8px 0 20px; border-bottom: 1px solid var(--gridline); margin-bottom: 20px; }
+  .kicker { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: var(--series-1); text-transform: uppercase; }
+  h1 { font-size: clamp(20px, 3.6vw, 30px); line-height: 1.3; margin: 6px 0 10px; }
+  .lede { font-size: 15px; color: var(--text-secondary); max-width: 74ch; line-height: 1.6; margin: 0 0 10px; }
+  .meta-line { font-size: 12.5px; color: var(--text-muted); }
+  .meta-line b { color: var(--text-secondary); font-weight: 600; }
+
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  @media (max-width: 700px) { .stat-row { grid-template-columns: repeat(2, 1fr); } }
+  .stat-tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .stat-label { font-size: 12.5px; color: var(--text-secondary); margin-bottom: 6px; }
+  .stat-value { font-size: clamp(20px, 2.8vw, 27px); font-weight: 600; font-variant-numeric: proportional-nums; line-height: 1.15; }
+  .stat-value .unit { font-size: 0.5em; font-weight: 500; color: var(--text-secondary); margin-left: 4px; }
+  .stat-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px 18px; margin-bottom: 18px; }
+  .card h2 { font-size: 16px; margin: 0 0 2px; }
+  .card .subtitle { font-size: 12.5px; color: var(--text-muted); margin: 0 0 12px; }
+
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 820px) { .chart-grid { grid-template-columns: 1fr; } }
+  .echart { width: 100%; height: 320px; }
+  .echart.wide { grid-column: 1 / -1; height: 200px; }
+
+  .table-toggle {
+    font-size: 12px; color: var(--series-1); background: none; border: 1px solid var(--border);
+    border-radius: 6px; padding: 3px 9px; cursor: pointer; margin-top: 8px;
+  }
+  .table-toggle:hover { background: var(--page-plane); }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 10px; display: none; }
+  .data-table.open { display: table; }
+  .data-table th, .data-table td { text-align: right; padding: 5px 8px; border-bottom: 1px solid var(--gridline); font-variant-numeric: tabular-nums; }
+  .data-table th:first-child, .data-table td:first-child { text-align: left; font-variant-numeric: normal; }
+  .data-table thead th { color: var(--text-secondary); font-weight: 600; border-bottom: 1px solid var(--baseline); }
+  .table-wrap { overflow-x: auto; }
+
+  .method h2 { font-size: 16px; margin: 0 0 10px; }
+  .method dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; font-size: 13px; margin: 0; }
+  .method dt { color: var(--text-secondary); white-space: nowrap; }
+  .method dd { margin: 0; color: var(--text-primary); }
+  @media (max-width: 560px) { .method dl { grid-template-columns: 1fr; } .method dt { margin-top: 6px; } }
+  .honest-note {
+    margin-top: 12px; padding: 10px 12px; background: var(--page-plane);
+    border-left: 3px solid var(--series-2); font-size: 12.5px; color: var(--text-secondary); border-radius: 0 6px 6px 0;
+  }
+
+  .context-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+  @media (max-width: 700px) { .context-row { grid-template-columns: 1fr; } }
+  .context-card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .context-card .v { font-size: 22px; font-weight: 600; }
+  .context-card .l { font-size: 12.5px; color: var(--text-secondary); margin: 2px 0 6px; }
+  .context-card .n { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+  footer.site-footer { margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--gridline); font-size: 12px; color: var(--text-muted); }
+</style>
+<link rel="stylesheet" href="../_shared/reader.css" />
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">開店分析所 · 篇⑦ / 10</div>
+    <h1>校園與醫院族群：學生分層、教職員、醫院員工、進駐廠商、南科通勤</h1>
+    <p class="lede" id="lede">
+      成大商圈的固定客群有多大？這篇不套等時圈——學生、教職員、醫院員工本身就是定點族群，
+      不是「落在圈內」的店家。從教育部彙總數、成大醫院官網、產學進駐廠商名錄三個來源，
+      算出一個「不靠居住人口也存在」的基本客群量，並與 5 分圈居住人口對照。
+    </p>
+    <p class="meta-line" id="meta-line">資料日期讀取中...</p>
+  </header>
+
+  <section class="stat-row" id="stat-row" aria-label="核心數字"></section>
+
+  <div class="chart-grid">
+
+    <section class="card">
+      <h2>圖 A · 各學制學生有多少人</h2>
+      <p class="subtitle" id="subtitleA">學年度讀取中...</p>
+      <div class="echart" id="chartA"></div>
+      <button class="table-toggle" data-target="tableA">顯示資料表格</button>
+      <div class="table-wrap"><table class="data-table" id="tableA"></table></div>
+    </section>
+
+    <section class="card">
+      <h2>圖 D · 醫院員工分布在哪些職類</h2>
+      <p class="subtitle" id="subtitleD">統計日期讀取中...</p>
+      <div class="echart" id="chartD"></div>
+      <button class="table-toggle" data-target="tableD">顯示資料表格</button>
+      <div class="table-wrap"><table class="data-table" id="tableD"></table></div>
+    </section>
+
+    <section class="card">
+      <h2>圖 B · 穩定客群是哪些人組成的</h2>
+      <p class="subtitle">學生＋專任教師＋成大醫院員工三者加總，各占多少</p>
+      <div class="echart wide" id="chartB"></div>
+      <button class="table-toggle" data-target="tableB">顯示資料表格</button>
+      <div class="table-wrap"><table class="data-table" id="tableB"></table></div>
+    </section>
+
+    <section class="card">
+      <h2>圖 C · 穩定客群跟住附近的人，哪個比較多</h2>
+      <p class="subtitle" id="subtitleC">對照量級讀取中...</p>
+      <div class="echart" id="chartC"></div>
+      <button class="table-toggle" data-target="tableC">顯示資料表格</button>
+      <div class="table-wrap"><table class="data-table" id="tableC"></table></div>
+    </section>
+
+    <section class="card">
+      <h2>順帶一提：附近還有哪些就業人口</h2>
+      <p class="subtitle">這兩個數字沒算進上面的穩定客群總量，但可以當作附近就業狀況的參考</p>
+      <div class="context-row" id="context-row"></div>
+    </section>
+
+  </div>
+
+  <details class="card method">
+    <summary>怎麼算的（方法與資料限制）</summary>
+    <dl id="method-dl"></dl>
+    <div class="honest-note" id="honest-note"></div>
+  </details>
+
+  <footer class="site-footer">
+    開店分析所｜資料來源：教育部大專校院校務資訊公開平臺、成大醫院組織規模頁、成大產學創新總中心進駐廠商名錄、南部科學園區管理局年報。
+    互動圖與海報由同一份資料腳本產出。
+  </footer>
+
+</div>
+
+<script>
+(async function () {
+  "use strict";
+
+  const fmt = (n) => Number(n).toLocaleString("zh-Hant-TW");
+  const fmt1 = (n) => Number(n).toLocaleString("zh-Hant-TW", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+  const data = await fetch("./data.json").then((r) => r.json());
+
+  document.getElementById("meta-line").innerHTML =
+    `資料日期 <b>${data.meta.data_date}</b>　·　產出日期 <b>${data.meta.produced_date}</b>　·　` +
+    `${data.students.academic_year} 學年度｜成大醫院統計至 <b>${data.hospital.stat_date}</b>`;
+
+  // ---------------------------------------------------------------
+  // Stat tiles
+  // ---------------------------------------------------------------
+  const t = data.students.tiers;
+  const stats = [
+    {
+      label: "在學學生總數", value: fmt(data.students.total.count), unit: "人",
+      sub: `${data.students.academic_year} 學年度；學士 ${fmt(t[0].count)}　碩士 ${fmt(t[1].count)}　博士 ${fmt(t[2].count)}`,
+    },
+    { label: "專任教師", value: fmt(data.faculty.count), unit: "人", sub: null },
+    {
+      label: "成大醫院員工人數", value: fmt(data.hospital.total), unit: "人",
+      sub: `統計至 ${data.hospital.stat_date}；` + data.hospital.categories.map((c) => `${c.label} ${fmt(c.count)}`).join("　"),
+    },
+    {
+      label: "商圈穩定客群總量", value: fmt(data.fixed_population.total), unit: "人",
+      sub: `學生＋教職員＋醫院員工；是機車 5 分鐘範圍居住人口的 ${fmt1(data.residential_comparison.ratio_fixed_to_residential_pct)}%`,
+    },
+  ];
+  document.getElementById("stat-row").innerHTML = stats.map((s) => `
+    <div class="stat-tile">
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-value">${s.value}<span class="unit">${s.unit}</span></div>
+      ${s.sub ? `<div class="stat-sub">${s.sub}</div>` : ""}
+    </div>
+  `).join("");
+
+  // ---------------------------------------------------------------
+  // ECharts 共用設定
+  // ---------------------------------------------------------------
+  const CHART_TEXT = { color: "#52514e", fontFamily: "system-ui, -apple-system, 'Segoe UI', 'Microsoft JhengHei', sans-serif" };
+  const AXIS_LINE = { lineStyle: { color: "#c3c2b7" } };
+  const AXIS_LABEL = { color: "#898781", fontSize: 11 };
+  const SPLIT_LINE = { lineStyle: { color: "#e1e0d9", width: 1, type: "solid" } };
+  function baseGrid() { return { left: 8, right: 18, top: 34, bottom: 8, containLabel: true }; }
+
+  function renderTable(id, headers, rows) {
+    const el = document.getElementById(id);
+    el.innerHTML = `<thead><tr>${headers.map((h) => `<th>${h}</th>`).join("")}</tr></thead>` +
+      `<tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody>`;
+  }
+
+  // ---- 圖 A：學生分層 ----
+  document.getElementById("subtitleA").textContent =
+    `${data.students.academic_year} 學年度在學學生數 ${fmt(data.students.total.count)} 人，依教育部彙總學制歸戶（系所明細不追）`;
+  const tierLabels = t.map((x) => x.label);
+  const chartA = echarts.init(document.getElementById("chartA"));
+  chartA.setOption({
+    textStyle: CHART_TEXT,
+    grid: baseGrid(),
+    tooltip: { trigger: "axis", axisPointer: { type: "shadow" }, valueFormatter: (v) => `${fmt(v)} 人` },
+    xAxis: { type: "category", data: tierLabels, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, axisTick: { show: false } },
+    yAxis: { type: "value", name: "人", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    series: [{
+      name: "學生數", type: "bar", barMaxWidth: 64,
+      data: t.map((x) => x.count),
+      itemStyle: { color: "#2a78d6", borderRadius: [4, 4, 0, 0] },
+      label: { show: true, position: "top", color: "#52514e", fontSize: 12, formatter: (p) => `${fmt(p.value)}\n(${fmt1(t[p.dataIndex].pct)}%)` },
+    }],
+  });
+  renderTable("tableA", ["學制", "人數", "占比"], t.map((x) => [x.label, fmt(x.count), `${fmt1(x.pct)}%`]));
+
+  // ---- 圖 D：醫院職類 ----
+  const cats = data.hospital.categories;
+  document.getElementById("subtitleD").textContent =
+    `統計至 ${data.hospital.stat_date}，總計 ${fmt(data.hospital.total)} 人（官網「XX合計」小計列，五類相加＝總計）`;
+  const chartD = echarts.init(document.getElementById("chartD"));
+  chartD.setOption({
+    textStyle: CHART_TEXT,
+    grid: baseGrid(),
+    tooltip: { trigger: "axis", axisPointer: { type: "shadow" }, valueFormatter: (v) => `${fmt(v)} 人` },
+    xAxis: { type: "category", data: cats.map((c) => c.label), axisLine: AXIS_LINE, axisLabel: { ...AXIS_LABEL, interval: 0 }, axisTick: { show: false } },
+    yAxis: { type: "value", name: "人", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    series: [{
+      name: "醫院員工", type: "bar", barMaxWidth: 44,
+      data: cats.map((c) => c.count),
+      itemStyle: { color: "#1baf7a", borderRadius: [4, 4, 0, 0] },
+      label: { show: true, position: "top", color: "#52514e", fontSize: 11, formatter: (p) => fmt(p.value) },
+    }],
+  });
+  renderTable("tableD", ["職類", "人數", "占比"], cats.map((c) => [c.label, fmt(c.count), `${fmt1(c.pct)}%`]));
+
+  // ---- 圖 B：固定客群組成（單列堆疊） ----
+  const compParts = [
+    { key: "students", label: "學生", color: "#2a78d6", count: data.fixed_population.students },
+    { key: "faculty", label: "專任教師", color: "#eb6834", count: data.fixed_population.faculty },
+    { key: "hospital", label: "醫院員工", color: "#1baf7a", count: data.fixed_population.hospital },
+  ];
+  const chartB = echarts.init(document.getElementById("chartB"));
+  chartB.setOption({
+    textStyle: CHART_TEXT,
+    grid: { left: 8, right: 18, top: 8, bottom: 8, containLabel: true },
+    legend: { top: 0, left: 0, textStyle: { color: "#52514e", fontSize: 11.5 } },
+    tooltip: {
+      trigger: "item",
+      formatter: (p) => `${p.seriesName}：${fmt(p.value)} 人（${fmt1((p.value / data.fixed_population.total) * 100)}%）`,
+    },
+    xAxis: { type: "value", show: false },
+    yAxis: { type: "category", data: ["固定客群"], show: false },
+    series: compParts.map((p) => ({
+      name: p.label, type: "bar", stack: "total", barWidth: 64,
+      data: [p.count],
+      itemStyle: { color: p.color },
+      label: {
+        show: true, position: "inside", color: "#fff", fontSize: 12,
+        formatter: () => (p.count / data.fixed_population.total > 0.06 ? fmt(p.count) : ""),
+      },
+    })),
+  });
+  renderTable("tableB", ["族群", "人數", "占固定客群 %"], compParts.map((p) => [
+    p.label, fmt(p.count), `${fmt1((p.count / data.fixed_population.total) * 100)}%`,
+  ]));
+
+  // ---- 圖 C：固定客群 vs 5 分圈居住人口 ----
+  const rc = data.residential_comparison;
+  document.getElementById("subtitleC").textContent =
+    rc.is_estimate
+      ? `5 分圈居住人口為粗略估計（${rc.method}）`
+      : `5 分圈居住人口引用篇⑤（${rc.method}）`;
+  const compareLabels = ["固定客群總量", `5 分圈居住人口${rc.is_estimate ? "（估）" : ""}`];
+  const compareValues = [data.fixed_population.total, rc.population];
+  const chartC = echarts.init(document.getElementById("chartC"));
+  chartC.setOption({
+    textStyle: CHART_TEXT,
+    grid: baseGrid(),
+    tooltip: { trigger: "axis", axisPointer: { type: "shadow" }, valueFormatter: (v) => `${fmt(v)} 人` },
+    xAxis: { type: "category", data: compareLabels, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, axisTick: { show: false } },
+    yAxis: { type: "value", name: "人", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    series: [{
+      name: "人數", type: "bar", barMaxWidth: 90,
+      data: [
+        { value: compareValues[0], itemStyle: { color: "#2a78d6", borderRadius: [4, 4, 0, 0] } },
+        { value: compareValues[1], itemStyle: { color: "#eb6834", borderRadius: [4, 4, 0, 0] } },
+      ],
+      label: { show: true, position: "top", color: "#52514e", fontSize: 12, formatter: (p) => fmt(p.value) },
+    }],
+  });
+  renderTable("tableC", ["項目", "人數"], compareLabels.map((label, i) => [label, fmt(compareValues[i])]));
+
+  // ---------------------------------------------------------------
+  // 產學鄰里 context cards（不計入固定客群總量）
+  // ---------------------------------------------------------------
+  document.getElementById("context-row").innerHTML = `
+    <div class="context-card">
+      <div class="v">${fmt(data.incubator.company_count)} 家</div>
+      <div class="l">成大產學創新總中心進駐廠商</div>
+      <div class="n">${data.incubator.note}；統計日期 ${data.incubator.stat_date}</div>
+    </div>
+    <div class="context-card">
+      <div class="v">${fmt(data.stsp_commute.count)} 人</div>
+      <div class="l">南科臺南園區從業員工數（${data.stsp_commute.year} 年）</div>
+      <div class="n">${data.stsp_commute.note}</div>
+    </div>
+  `;
+
+  window.addEventListener("resize", () => { chartA.resize(); chartB.resize(); chartC.resize(); chartD.resize(); });
+
+  document.querySelectorAll(".table-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const table = document.getElementById(btn.dataset.target);
+      const open = table.classList.toggle("open");
+      btn.textContent = open ? "隱藏資料表格" : "顯示資料表格";
+    });
+  });
+
+  // ---------------------------------------------------------------
+  // 方法說明
+  // ---------------------------------------------------------------
+  const mn = data.method_notes;
+  document.getElementById("method-dl").innerHTML = `
+    <dt>學生分層定義</dt><dd>${mn.student_tier_definition}</dd>
+    <dt>醫院職類定義</dt><dd>${mn.hospital_category_definition}</dd>
+    <dt>進駐廠商定義</dt><dd>${mn.incubator_definition}</dd>
+    <dt>南科通勤定義</dt><dd>${mn.stsp_commute_definition}</dd>
+    <dt>固定客群總量定義</dt><dd>${mn.fixed_population_definition}</dd>
+    <dt>居住人口對照</dt><dd>${mn.residential_comparison_definition}</dd>
+    <dt>資料版本</dt><dd>${mn.data_version}</dd>
+  `;
+  document.getElementById("honest-note").textContent =
+    `誠實揭露：固定客群總量（${fmt(data.fixed_population.total)} 人）不含進駐廠商員工數（官網名錄無公開員工數字，只有家數）與南科臺南園區從業員工數` +
+    `（${fmt(data.stsp_commute.count)} 人，2025 年官方年報數字，鄰近大型就業中心，但非本商圈定義族群）——` +
+    `兩者只作對照脈絡，不計入總量，避免虛灌客群規模；圖 C 的居住人口對照數字取自 5 分圈範圍。`;
+
+})().catch((err) => {
+  console.error("[index] 載入失敗", err);
+  document.querySelector(".wrap").insertAdjacentHTML(
+    "afterbegin",
+    `<div style="background:#fde8e8;border:1px solid #e34948;color:#7a1f1f;padding:10px 14px;border-radius:8px;margin-bottom:14px">頁面資料載入失敗：${err && err.message ? err.message : err}</div>`
+  );
+});
+</script>
+<script src="../_shared/reader.js"></script>
+</body>
+</html>

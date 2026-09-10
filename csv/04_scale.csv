@@ -1,0 +1,175 @@
+# table: meta
+field,value
+meta.article_no,4
+meta.title,店家規模：資本額、組織別、連鎖 vs 獨立
+meta.data_date,2026-09-08
+meta.produced_date,2026-09-08
+meta.rings_used,5; 10; 15
+meta.primary_ring,5
+meta.district_id,ncku
+meta.district_name,成大商圈
+scope.ring5_total_stores,11409
+scope.city_total_stores,135577
+scope.restaurant_count_ring5,2185
+scope.retail_count_ring5,2948
+scope.industry_labels.56,餐飲業
+scope.industry_labels.47-48,零售業
+capital.restaurant_ring5.total,2185
+capital.restaurant_ring5.registered_count,2115
+capital.restaurant_ring5.unregistered.count,70
+capital.restaurant_ring5.unregistered.pct_of_total,3.2
+capital.restaurant_ring5.median_registered_capital,50000
+capital.retail_ring5.total,2948
+capital.retail_ring5.registered_count,2708
+capital.retail_ring5.unregistered.count,240
+capital.retail_ring5.unregistered.pct_of_total,8.1
+capital.retail_ring5.median_registered_capital,50000
+capital.restaurant_city.total,17614
+capital.restaurant_city.registered_count,16895
+capital.restaurant_city.unregistered.count,719
+capital.restaurant_city.unregistered.pct_of_total,4.1
+capital.restaurant_city.median_registered_capital,30000
+capital.retail_city.total,34443
+capital.retail_city.registered_count,31638
+capital.retail_city.unregistered.count,2805
+capital.retail_city.unregistered.pct_of_total,8.1
+capital.retail_city.median_registered_capital,30000
+org_type.restaurant_ring5.total,2185
+org_type.restaurant_ring5.公司.count,39
+org_type.restaurant_ring5.公司.pct,1.8
+org_type.restaurant_ring5.有限公司.count,103
+org_type.restaurant_ring5.有限公司.pct,4.7
+org_type.restaurant_ring5.獨資.count,1875
+org_type.restaurant_ring5.獨資.pct,85.8
+org_type.restaurant_ring5.其他.count,168
+org_type.restaurant_ring5.其他.pct,7.7
+org_type.retail_ring5.total,2948
+org_type.retail_ring5.公司.count,179
+org_type.retail_ring5.公司.pct,6.1
+org_type.retail_ring5.有限公司.count,299
+org_type.retail_ring5.有限公司.pct,10.1
+org_type.retail_ring5.獨資.count,2250
+org_type.retail_ring5.獨資.pct,76.3
+org_type.retail_ring5.其他.count,220
+org_type.retail_ring5.其他.pct,7.5
+org_type.restaurant_city.total,17614
+org_type.restaurant_city.公司.count,357
+org_type.restaurant_city.公司.pct,2
+org_type.restaurant_city.有限公司.count,582
+org_type.restaurant_city.有限公司.pct,3.3
+org_type.restaurant_city.獨資.count,15597
+org_type.restaurant_city.獨資.pct,88.5
+org_type.restaurant_city.其他.count,1078
+org_type.restaurant_city.其他.pct,6.1
+org_type.retail_city.total,34443
+org_type.retail_city.公司.count,2083
+org_type.retail_city.公司.pct,6
+org_type.retail_city.有限公司.count,2989
+org_type.retail_city.有限公司.pct,8.7
+org_type.retail_city.獨資.count,27201
+org_type.retail_city.獨資.pct,79
+org_type.retail_city.其他.count,2170
+org_type.retail_city.其他.pct,6.3
+branch.restaurant_by_ring.5.total,2185
+branch.restaurant_by_ring.5.branch_count,70
+branch.restaurant_by_ring.5.branch_pct,3.2
+branch.restaurant_by_ring.10.total,3969
+branch.restaurant_by_ring.10.branch_count,178
+branch.restaurant_by_ring.10.branch_pct,4.5
+branch.restaurant_by_ring.15.total,2477
+branch.restaurant_by_ring.15.branch_count,112
+branch.restaurant_by_ring.15.branch_pct,4.5
+branch.retail_by_ring.5.total,2948
+branch.retail_by_ring.5.branch_count,240
+branch.retail_by_ring.5.branch_pct,8.1
+branch.retail_by_ring.10.total,6747
+branch.retail_by_ring.10.branch_count,543
+branch.retail_by_ring.10.branch_pct,8
+branch.retail_by_ring.15.total,4812
+branch.retail_by_ring.15.branch_count,435
+branch.retail_by_ring.15.branch_pct,9
+same_name_chain_estimate.restaurant_ring5.threshold,3
+same_name_chain_estimate.restaurant_ring5.n_groups,0
+same_name_chain_estimate.restaurant_ring5.stores_in_groups,0
+same_name_chain_estimate.restaurant_ring5.pct_of_total,0
+same_name_chain_estimate.retail_ring5.threshold,3
+same_name_chain_estimate.retail_ring5.n_groups,0
+same_name_chain_estimate.retail_ring5.stores_in_groups,0
+same_name_chain_estimate.retail_ring5.pct_of_total,0
+same_name_chain_estimate.restaurant_city.threshold,3
+same_name_chain_estimate.restaurant_city.n_groups,40
+same_name_chain_estimate.restaurant_city.stores_in_groups,179
+same_name_chain_estimate.restaurant_city.pct_of_total,1
+same_name_chain_estimate.retail_city.threshold,3
+same_name_chain_estimate.retail_city.n_groups,29
+same_name_chain_estimate.retail_city.stores_in_groups,259
+same_name_chain_estimate.retail_city.pct_of_total,0.8
+founding_year.restaurant_ring5.recent_years_window,5
+founding_year.restaurant_ring5.recent_cutoff_year,2022
+founding_year.restaurant_ring5.recent_count,813
+founding_year.restaurant_ring5.recent_pct,37.2
+founding_year.retail_ring5.recent_years_window,5
+founding_year.retail_ring5.recent_cutoff_year,2022
+founding_year.retail_ring5.recent_count,704
+founding_year.retail_ring5.recent_pct,23.9
+founding_year.restaurant_city.recent_years_window,5
+founding_year.restaurant_city.recent_cutoff_year,2022
+founding_year.restaurant_city.recent_count,6436
+founding_year.restaurant_city.recent_pct,36.5
+founding_year.retail_city.recent_years_window,5
+founding_year.retail_city.recent_cutoff_year,2022
+founding_year.retail_city.recent_count,8069
+founding_year.retail_city.recent_pct,23.4
+founding_year.histogram_ring5.restaurant.window_start_year,2012
+founding_year.histogram_ring5.restaurant.window_end_year,2026
+founding_year.histogram_ring5.restaurant.years,2012; 2013; 2014; 2015; 2016; 2017; 2018; 2019; 2020; 2021; 2022; 2023; 2024; 2025; 2026
+founding_year.histogram_ring5.restaurant.counts,34; 54; 47; 71; 87; 67; 92; 92; 124; 146; 135; 169; 176; 201; 132
+founding_year.histogram_ring5.restaurant.older_count,558
+founding_year.histogram_ring5.retail.window_start_year,2012
+founding_year.histogram_ring5.retail.window_end_year,2026
+founding_year.histogram_ring5.retail.years,2012; 2013; 2014; 2015; 2016; 2017; 2018; 2019; 2020; 2021; 2022; 2023; 2024; 2025; 2026
+founding_year.histogram_ring5.retail.counts,49; 74; 84; 82; 81; 89; 74; 102; 102; 129; 130; 166; 146; 165; 97
+founding_year.histogram_ring5.retail.older_count,1378
+combined_ring5.branch_pct,6
+combined_ring5.recent5_pct,29.6
+method_notes.ring_scope,資本額／組織別／連鎖占比以 5 分圈為主，另列全市（同業種）對照；分店占比另列 10／15 分
+method_notes.capital_buckets,以登記資本額分箱（新台幣）：≤10萬／10-50萬／50-200萬／200-1000萬／>1000萬；資本額為 0 或無法判讀者計入「未登記」，不納入分箱與中位數
+method_notes.capital_unregistered_note,分支機構（見下）多數登記資本額為 0（資本歸總公司），故「未登記」比例會偏高，屬正常現象，非資料缺失
+method_notes.org_type_buckets,沿用篇①桶法：公司（股份有限公司／本國或外國公司之分公司或辦事處）／有限公司／獨資／其他（合夥／合作社／有限合夥）
+method_notes.branch_definition,以稅籍登記的母公司代碼欄位是否非空，判定該店是否為分支機構（連鎖／分店）；欄位非空即計為分店
+method_notes.same_name_chain_definition,近似連鎖估計：同一營業人名稱在同一範圍內出現 >= 3 次的群組，只計群組數與群組內店數合計，不輸出名稱本身；與母公司代碼判準是兩種獨立估計，可能重疊
+method_notes.founding_year_definition,設立日期為民國年月日 7 位數字，年份 = 民國年 + 1911
+method_notes.recent_years_definition,「近 5 年新開店」= 設立年份 >= 資料年度 - 4（資料年度 2026，即 2022-2026）
+method_notes.data_version,2026-09-08
+
+# table: capital.restaurant_ring5.buckets
+label,count,pct_of_registered
+≤10萬,1507,71.3
+10-50萬,500,23.6
+50-200萬,67,3.2
+200-1000萬,37,1.7
+>1000萬,4,0.2
+
+# table: capital.retail_ring5.buckets
+label,count,pct_of_registered
+≤10萬,1807,66.7
+10-50萬,596,22
+50-200萬,164,6.1
+200-1000萬,106,3.9
+>1000萬,35,1.3
+
+# table: capital.restaurant_city.buckets
+label,count,pct_of_registered
+≤10萬,12815,75.9
+10-50萬,3401,20.1
+50-200萬,388,2.3
+200-1000萬,243,1.4
+>1000萬,48,0.3
+
+# table: capital.retail_city.buckets
+label,count,pct_of_registered
+≤10萬,22160,70
+10-50萬,6275,19.8
+50-200萬,1758,5.6
+200-1000萬,1154,3.6
+>1000萬,291,0.9

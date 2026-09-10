@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>居住人口所得與職業：村里所得四分位＋東區職業結構｜開店分析所</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/5.24.0/maplibre-gl.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/5.24.0/maplibre-gl.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/6.1.0/echarts.min.js"></script>
+<style>
+  /* ------------------------------------------------------------------
+     設計系統 token（淺色專業報告風：白底、深藍主色、灰網格；黑白列印仍可辨）
+     與篇①同一套 token（dataviz skill palette），跨篇視覺一致。
+     ------------------------------------------------------------------ */
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page-plane:     #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+
+    --series-1: #2a78d6;   /* blue -- 東區 / 農業 */
+    --series-2: #eb6834;   /* orange -- 北區 / 工業 */
+    --series-3: #1baf7a;   /* aqua -- 中西區 / 服務業 */
+    --series-4: #eda100;   /* yellow -- 10 分圈範圍合計 */
+    --series-5: #7a5ea8;   /* purple -- 全市對照 */
+    --series-8: #e34948;   /* red -- 標註/中心點 */
+
+    /* 所得序列色階（單一藍色調，淺→深，choropleth 用） */
+    --seq-100: #cde2fb;
+    --seq-250: #86b6ef;
+    --seq-400: #3987e5;
+    --seq-550: #1c5cab;
+    --seq-700: #0d366b;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--page-plane);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", "Microsoft JhengHei", sans-serif;
+    overflow-x: hidden;
+  }
+  body { min-width: 0; }
+  img, canvas, svg { max-width: 100%; }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 20px 16px 48px;
+  }
+
+  header.hero {
+    padding: 8px 0 20px;
+    border-bottom: 1px solid var(--gridline);
+    margin-bottom: 20px;
+  }
+  .kicker {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--series-1);
+    text-transform: uppercase;
+  }
+  h1 {
+    font-size: clamp(20px, 3.6vw, 30px);
+    line-height: 1.3;
+    margin: 6px 0 10px;
+  }
+  .lede {
+    font-size: 15px;
+    color: var(--text-secondary);
+    max-width: 74ch;
+    line-height: 1.6;
+    margin: 0 0 10px;
+  }
+  .meta-line {
+    font-size: 12.5px;
+    color: var(--text-muted);
+  }
+  .meta-line b { color: var(--text-secondary); font-weight: 600; }
+
+  /* ---------------- stat tiles ---------------- */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 700px) {
+    .stat-row { grid-template-columns: repeat(2, 1fr); }
+  }
+  .stat-tile {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .stat-label {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+  .stat-value {
+    font-size: clamp(20px, 3vw, 27px);
+    font-weight: 600;
+    font-variant-numeric: proportional-nums;
+    line-height: 1.1;
+  }
+  .stat-value .unit { font-size: 0.5em; font-weight: 500; color: var(--text-secondary); margin-left: 4px; }
+  .stat-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  /* ---------------- cards ---------------- */
+  .card {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px 18px;
+    margin-bottom: 18px;
+  }
+  .card h2 {
+    font-size: 16px;
+    margin: 0 0 2px;
+  }
+  .card .subtitle {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin: 0 0 12px;
+  }
+
+  /* ---------------- map ---------------- */
+  .map-card { padding: 0; overflow: hidden; }
+  .map-card .map-head { padding: 16px 18px 0; }
+  #map {
+    width: 100%;
+    height: 460px;
+    position: relative;
+  }
+  @media (max-width: 520px) {
+    #map { height: 340px; }
+  }
+  .map-legend {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(252,252,251,0.94);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 11.5px;
+    color: var(--text-secondary);
+    max-width: 200px;
+    line-height: 1.5;
+    z-index: 5;
+  }
+  .map-legend h4 { margin: 0 0 6px; font-size: 11.5px; color: var(--text-primary); }
+  .legend-row { display: flex; align-items: center; gap: 6px; margin: 3px 0; }
+  .legend-swatch-line { width: 20px; height: 0; border-top-width: 3px; flex: none; }
+  .legend-swatch-box { width: 12px; height: 12px; border-radius: 2px; flex: none; }
+  .legend-ramp {
+    height: 10px; border-radius: 3px; margin: 4px 0 3px;
+    background: linear-gradient(to right, var(--seq-100), var(--seq-250), var(--seq-400), var(--seq-550), var(--seq-700));
+  }
+  .legend-ramp-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); }
+
+  .osm-note {
+    position: absolute;
+    bottom: 4px;
+    left: 8px;
+    font-size: 10.5px;
+    color: var(--text-muted);
+    background: rgba(252,252,251,0.85);
+    padding: 1px 6px;
+    border-radius: 4px;
+    z-index: 5;
+  }
+
+  /* ---------------- charts grid ---------------- */
+  .chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  @media (max-width: 820px) {
+    .chart-grid { grid-template-columns: 1fr; }
+  }
+  .echart { width: 100%; height: 300px; }
+  #chartA { height: 560px; }
+  #chartB { height: 300px; }
+  #chartD { height: 260px; }
+
+  .table-toggle {
+    font-size: 12px;
+    color: var(--series-1);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 9px;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+  .table-toggle:hover { background: var(--page-plane); }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    margin-top: 10px;
+    display: none;
+    max-height: 360px;
+    overflow-y: auto;
+  }
+  .table-scroll { max-height: 360px; overflow-y: auto; margin-top: 10px; display: none; }
+  .table-scroll.open { display: block; }
+  .table-scroll table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .table-scroll th, .table-scroll td {
+    text-align: right;
+    padding: 5px 8px;
+    border-bottom: 1px solid var(--gridline);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .table-scroll th:first-child, .table-scroll td:first-child,
+  .table-scroll th:nth-child(2), .table-scroll td:nth-child(2) { text-align: left; font-variant-numeric: normal; }
+  .table-scroll thead th {
+    color: var(--text-secondary); font-weight: 600; border-bottom: 1px solid var(--baseline);
+    position: sticky; top: 0; background: var(--surface-1);
+  }
+  .data-table.open { display: table; }
+  .data-table th, .data-table td {
+    text-align: right;
+    padding: 5px 8px;
+    border-bottom: 1px solid var(--gridline);
+    font-variant-numeric: tabular-nums;
+  }
+  .data-table th:first-child, .data-table td:first-child { text-align: left; font-variant-numeric: normal; }
+  .data-table thead th { color: var(--text-secondary); font-weight: 600; border-bottom: 1px solid var(--baseline); }
+
+  /* ---------------- method notes ---------------- */
+  .method h2 { font-size: 16px; margin: 0 0 10px; }
+  .method dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 6px 14px;
+    font-size: 13px;
+    margin: 0;
+  }
+  .method dt { color: var(--text-secondary); white-space: nowrap; }
+  .method dd { margin: 0; color: var(--text-primary); }
+  @media (max-width: 560px) {
+    .method dl { grid-template-columns: 1fr; }
+    .method dt { margin-top: 6px; }
+  }
+  .honest-note {
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: var(--page-plane);
+    border-left: 3px solid var(--series-2);
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    border-radius: 0 6px 6px 0;
+  }
+  .missing-note {
+    padding: 14px 16px;
+    background: var(--page-plane);
+    border: 1px dashed var(--baseline);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 13px;
+  }
+
+  footer.site-footer {
+    margin-top: 28px;
+    padding-top: 14px;
+    border-top: 1px solid var(--gridline);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  #console-error-badge { display: none; }
+</style>
+<link rel="stylesheet" href="../_shared/reader.css" />
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">開店分析所 · 篇⑥ / 10</div>
+    <h1>居住人口所得與職業：村里所得四分位＋東區職業結構</h1>
+    <p class="lede" id="lede">
+      以財政部村里綜合所得統計，看東區、北區、中西區（機車 10 分鐘等時圈涵蓋的核心行政區）
+      居民所得水準與臺南市其餘地區的差距；再用主計總處 109 年人口普查，看這三區的
+      15 歲以上有工作人口在農業／工業／服務業的分布。兩者合起來，回答「這裡的居民
+      口袋深不深、平常在哪個產業上班」。
+    </p>
+    <p class="meta-line" id="meta-line">資料日期讀取中...</p>
+  </header>
+
+  <section class="stat-row" id="stat-row" aria-label="核心數字">
+    <!-- 4 個 stat tile 由 JS 填入 -->
+  </section>
+
+  <section class="card">
+    <h2>圖 A · 各里所得中位數排行</h2>
+    <p class="subtitle" id="chartA-subtitle">涵蓋東區、北區、中西區（機車 10 分鐘範圍）；虛線＝這個範圍與臺南市其餘地區的中位數平均對照（單位：千元，年綜合所得）</p>
+    <div class="echart" id="chartA"></div>
+    <button class="table-toggle" data-target="tableA">顯示全部村里原始資料表格（可逐筆核對）</button>
+    <div class="table-scroll" id="tableA-wrap"><table id="tableA"></table></div>
+  </section>
+
+  <div class="chart-grid">
+
+    <section class="card">
+      <h2>圖 B · 所得高低對照（五組）</h2>
+      <p class="subtitle">「較低所得」「中位數」「較高所得」是把各里自己的分位數平均起來；「加權平均」＝所得總額 ÷ 申報戶數（單位：千元）</p>
+      <div class="echart" id="chartB"></div>
+      <button class="table-toggle" data-target="tableB">顯示資料表格</button>
+      <table class="data-table" id="tableB"></table>
+    </section>
+
+    <section class="card">
+      <h2>圖 D · 居民大多在哪個產業上班（三區）</h2>
+      <p class="subtitle" id="chartD-subtitle">根據 109 年人口普查，看農業、工業、服務業各占多少（三類加起來 100%）</p>
+      <div class="echart" id="chartD" hidden></div>
+      <button class="table-toggle" data-target="tableD" id="chartD-table-btn" hidden>顯示資料表格</button>
+      <table class="data-table" id="tableD"></table>
+      <div class="missing-note" id="chartD-missing" hidden></div>
+    </section>
+
+  </div>
+
+  <section class="card map-card">
+    <div class="map-head">
+      <h2>地圖 · 哪一區所得比較高</h2>
+      <p class="subtitle">底圖沿用篇①路網；顏色愈深代表這個行政區的加權平均所得愈高；紅色虛線＝機車 10 分鐘範圍邊界</p>
+    </div>
+    <div id="map">
+      <div class="map-legend" id="map-legend"></div>
+      <div class="osm-note">© OpenStreetMap contributors</div>
+    </div>
+  </section>
+
+  <details class="card method">
+    <summary>怎麼算的（方法與資料限制）</summary>
+    <dl id="method-dl"></dl>
+    <div class="honest-note" id="honest-note"></div>
+  </details>
+
+  <footer class="site-footer">
+    開店分析所｜資料來源：財政部綜稅所得總額各縣市鄉鎮村里統計分析表（111 年度）、
+    內政部統計區人口統計（segis_pop）、主計總處三大普查動態查詢系統（109 年人口及住宅普查）、
+    OpenStreetMap（© OpenStreetMap contributors，ODbL）。互動圖與海報由同一份資料腳本產出。
+  </footer>
+
+</div>
+
+<script>
+(async function () {
+  "use strict";
+
+  const fmt = (n) => Number(n).toLocaleString("zh-Hant-TW");
+  const fmt1 = (n) => Number(n).toLocaleString("zh-Hant-TW", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+  // ---------------------------------------------------------------
+  // 資料載入
+  // ---------------------------------------------------------------
+  const [data, roads, districtsGeo, ring10Geo] = await Promise.all([
+    fetch("./data.json").then((r) => r.json()),
+    fetch("../01_outline/roads.geojson").then((r) => r.json()),
+    fetch("./districts_income.geojson").then((r) => r.json()),
+    fetch("../01_outline/isochrones_simplified.geojson").then((r) => r.json()),
+  ]);
+
+  const DISTRICT_ORDER = ["東區", "北區", "中西區"];
+  const DISTRICT_COLOR = { "東區": "#2a78d6", "北區": "#eb6834", "中西區": "#1baf7a" };
+  const ds = data.district_stats;
+  const rc = data.ring_coverage;
+
+  // ---------------------------------------------------------------
+  // 標頭 / meta
+  // ---------------------------------------------------------------
+  document.getElementById("meta-line").innerHTML =
+    `所得資料日期 <b>${data.meta.income_data_date}</b>（111 年度）　·　` +
+    `職業普查資料日期 <b>${data.meta.census_occ_data_date || "－"}</b>（109 年）　·　` +
+    `產出日期 <b>${data.meta.produced_date}</b>`;
+
+  // ---------------------------------------------------------------
+  // Stat tiles
+  // ---------------------------------------------------------------
+  const gapPct = (ds.ring10.weighted_mean / ds.city.weighted_mean - 1) * 100;
+  const eastVsNorth = (ds["東區"].weighted_mean / ds["北區"].weighted_mean - 1) * 100;
+  const stats = [
+    { label: "這裡居民的加權平均所得", value: fmt1(ds.ring10.weighted_mean), unit: "千元", sub: `全市 ${fmt1(ds.city.weighted_mean)} 千元，高出 ${fmt1(gapPct)}%` },
+    { label: "涵蓋幾個里（東＋北＋中西）", value: fmt(ds.ring10.n), unit: "里", sub: `東 ${ds["東區"].n}／北 ${ds["北區"].n}／中西 ${ds["中西區"].n}` },
+    { label: "東區跟北區所得差多少", value: fmt1(eastVsNorth), unit: "%", sub: `東 ${fmt1(ds["東區"].weighted_mean)} 千元 vs 北 ${fmt1(ds["北區"].weighted_mean)} 千元` },
+    { label: "東區有多少人做服務業", value: data.census_occupation.available ? fmt1(data.census_occupation.districts["東區"]["服務業"].pct) : "－", unit: data.census_occupation.available ? "%" : "", sub: data.census_occupation.available ? "有工作人口，109 年普查" : "資料待補（D3）" },
+  ];
+  document.getElementById("stat-row").innerHTML = stats.map((s) => `
+    <div class="stat-tile">
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-value">${s.value}<span class="unit">${s.unit}</span></div>
+      ${s.sub ? `<div class="stat-sub">${s.sub}</div>` : ""}
+    </div>
+  `).join("");
+
+  // ---------------------------------------------------------------
+  // ECharts 共用設定
+  // ---------------------------------------------------------------
+  const CHART_TEXT = { color: "#52514e", fontFamily: "system-ui, -apple-system, 'Segoe UI', 'Microsoft JhengHei', sans-serif" };
+  const AXIS_LINE = { lineStyle: { color: "#c3c2b7" } };
+  const AXIS_LABEL = { color: "#898781", fontSize: 11 };
+  const SPLIT_LINE = { lineStyle: { color: "#e1e0d9", width: 1, type: "solid" } };
+
+  // ---- 圖 A：村里所得中位數分布（橫向長條，104 村里，依中位數排序） ----
+  const villages = data.villages; // 已由資料腳本依中位數遞減排序
+  document.getElementById("chartA-subtitle").textContent =
+    `涵蓋東區、北區、中西區（機車 10 分鐘範圍，共 ${fmt(villages.length)} 個里；已濾除原始表的「合計」「其他」彙總列，見方法說明）；` +
+    `虛線＝這個範圍與臺南市其餘地區的中位數平均對照。單位：千元（新臺幣年綜合所得）`;
+  const villagesAsc = villages.slice().reverse(); // ECharts 類目軸由下到上，最大值放最上面用遞增資料
+  const chartA = echarts.init(document.getElementById("chartA"));
+  chartA.setOption({
+    textStyle: CHART_TEXT,
+    grid: { left: 8, right: 70, top: 34, bottom: 8, containLabel: true },
+    dataZoom: [
+      // villagesAsc 由低到高排序，類目軸把陣列最後一筆畫在最上面；預設視窗要
+      // 落在陣列「後段」（start 接近 100）才會讓畫面預設顯示中位數最高的
+      // 村里，不是最低的（start=0 會顯示陣列前段＝最低的村里，不是想要的預設畫面）。
+      { type: "slider", yAxisIndex: 0, width: 12, right: 8, start: Math.max(0, 100 - (25 / villages.length) * 100), end: 100 },
+    ],
+    tooltip: {
+      trigger: "axis",
+      axisPointer: { type: "shadow" },
+      formatter: (params) => {
+        const p = params[0];
+        const v = villagesAsc[p.dataIndex];
+        return `${v.district}${v.name}<br/>中位數 ${fmt(v.median)} 千元（納稅單位 ${fmt(v.tax_units)} 戶）`;
+      },
+    },
+    xAxis: { type: "value", name: "千元", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE,
+      axisPointer: { show: false } },
+    yAxis: {
+      type: "category",
+      data: villagesAsc.map((v) => `${v.district}${v.name}`),
+      axisLine: AXIS_LINE, axisTick: { show: false },
+      axisLabel: { color: "#52514e", fontSize: 10.5 },
+    },
+    series: [
+      {
+        type: "bar",
+        data: villagesAsc.map((v) => ({ value: v.median, itemStyle: { color: DISTRICT_COLOR[v.district] } })),
+        barMaxWidth: 10,
+        markLine: {
+          symbol: "none",
+          label: { formatter: (p) => p.name, color: "#52514e", fontSize: 10.5 },
+          lineStyle: { type: "dashed", color: "#898781", width: 1.4 },
+          data: [
+            { name: `10 分圈範圍均值 ${fmt1(ds.ring10.mean_of_median)}`, xAxis: ds.ring10.mean_of_median },
+            { name: `臺南市其餘均值 ${fmt1(ds.city_rest.mean_of_median)}`, xAxis: ds.city_rest.mean_of_median, lineStyle: { color: "#e34948" } },
+          ],
+        },
+      },
+    ],
+  });
+  document.getElementById("map-legend"); // no-op keep linter quiet
+
+  function renderVillageTable() {
+    const el = document.getElementById("tableA");
+    const headers = ["行政區", "村里", "納稅單位(戶)", "綜合所得總額(千元)", "平均數", "中位數", "第一分位", "第三分位"];
+    el.innerHTML = `<thead><tr>${headers.map((h) => `<th>${h}</th>`).join("")}</tr></thead>` +
+      `<tbody>${villages.map((v) => `<tr><td>${v.district}</td><td>${v.name}</td><td>${fmt(v.tax_units)}</td><td>${fmt(v.total_income)}</td><td>${fmt(v.mean)}</td><td>${fmt(v.median)}</td><td>${fmt(v.q1)}</td><td>${fmt(v.q3)}</td></tr>`).join("")}</tbody>`;
+  }
+  renderVillageTable();
+
+  // ---- 圖 B：四分位對照（五層） ----
+  const groupOrder = ["東區", "北區", "中西區", "ring10", "city"];
+  const groupLabel = { "東區": "東區", "北區": "北區", "中西區": "中西區", ring10: "10 分圈範圍", city: "臺南市全市" };
+  const seriesDefs = [
+    { key: "mean_of_q1", name: "村里第一分位簡單平均", color: "#86b6ef" },
+    { key: "mean_of_median", name: "村里中位數簡單平均", color: "#2a78d6" },
+    { key: "weighted_mean", name: "納稅單位加權平均", color: "#184f95" },
+    { key: "mean_of_q3", name: "村里第三分位簡單平均", color: "#0d366b" },
+  ];
+  const chartB = echarts.init(document.getElementById("chartB"));
+  chartB.setOption({
+    textStyle: CHART_TEXT,
+    grid: { left: 8, right: 18, top: 30, bottom: 8, containLabel: true },
+    legend: { top: 0, textStyle: { color: "#52514e", fontSize: 11 }, itemWidth: 12, itemHeight: 8 },
+    tooltip: { trigger: "axis", axisPointer: { type: "shadow" }, valueFormatter: (v) => `${fmt1(v)} 千元` },
+    xAxis: { type: "value", name: "千元", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    yAxis: { type: "category", data: groupOrder.map((k) => groupLabel[k]), axisLine: AXIS_LINE, axisLabel: { color: "#52514e", fontSize: 11.5 }, axisTick: { show: false } },
+    series: seriesDefs.map((s) => ({
+      name: s.name, type: "bar", data: groupOrder.map((k) => ds[k][s.key]),
+      itemStyle: { color: s.color }, barMaxWidth: 14,
+    })),
+  });
+  const tableBHeaders = ["群組", ...seriesDefs.map((s) => s.name)];
+  document.getElementById("tableB").innerHTML =
+    `<thead><tr>${tableBHeaders.map((h) => `<th>${h}</th>`).join("")}</tr></thead>` +
+    `<tbody>${groupOrder.map((k) => `<tr><td>${groupLabel[k]}</td>${seriesDefs.map((s) => `<td>${fmt1(ds[k][s.key])}</td>`).join("")}</tr>`).join("")}</tbody>`;
+
+  // ---- 圖 D：職業(行業)結構 三區堆疊 ----
+  // #chartD／#chartD-table-btn／#chartD-missing 三個容器一開始就在靜態 HTML
+  // 裡（用 hidden 屬性藏著），只切換 hidden、不用 innerHTML 動態插入
+  // echarts 容器 -- 之前用 innerHTML 插入再馬上 echarts.init() 量到的
+  // container 寬度是 0（layout 還沒 settle），畫出來的 canvas 只有 38px
+  // 寬，整張圖擠成一條窄直線；容器一開始就存在於 DOM 就不會有這個問題。
+  const co = data.census_occupation;
+  if (co.available) {
+    document.getElementById("chartD-subtitle").textContent =
+      "根據 109 年人口普查（鄉鎮市區層級只公開行業別，非細分職業別），看農業、工業、服務業各占多少（三類加起來 100%）";
+    document.getElementById("chartD").hidden = false;
+    document.getElementById("chartD-table-btn").hidden = false;
+    const indOrder = ["農業", "工業", "服務業"];
+    const indColor = { "農業": "#1baf7a", "工業": "#eda100", "服務業": "#2a78d6" };
+    const chartD = echarts.init(document.getElementById("chartD"));
+    chartD.setOption({
+      textStyle: CHART_TEXT,
+      grid: { left: 8, right: 18, top: 30, bottom: 8, containLabel: true },
+      legend: { top: 0, textStyle: { color: "#52514e", fontSize: 12 } },
+      tooltip: { trigger: "axis", axisPointer: { type: "shadow" }, valueFormatter: (v) => `${v}%` },
+      xAxis: { type: "value", name: "%", max: 100, nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+      yAxis: { type: "category", data: DISTRICT_ORDER, axisLine: AXIS_LINE, axisLabel: { color: "#52514e", fontSize: 12 }, axisTick: { show: false } },
+      series: indOrder.map((ind, idx) => ({
+        name: ind, type: "bar", stack: "s", barMaxWidth: 26,
+        data: DISTRICT_ORDER.map((d) => co.districts[d][ind].pct),
+        itemStyle: { color: indColor[ind] },
+        label: { show: true, color: ind === "服務業" ? "#fff" : "#0b0b0b", fontSize: 11, formatter: (p) => p.value >= 4 ? `${p.value}%` : "" },
+      })),
+    });
+    document.getElementById("tableD").innerHTML =
+      `<thead><tr><th>行政區</th>${indOrder.map((i) => `<th>${i} 人數</th><th>${i} %</th>`).join("")}<th>合計人數</th></tr></thead>` +
+      `<tbody>${DISTRICT_ORDER.map((d) => `<tr><td>${d}</td>${indOrder.map((i) => `<td>${fmt(co.districts[d][i].n)}</td><td>${fmt1(co.districts[d][i].pct)}</td>`).join("")}<td>${fmt(co.districts[d].total)}</td></tr>`).join("")}</tbody>`;
+    window.__chartDResizeHandle = () => chartD.resize();
+  } else {
+    document.getElementById("chartD-subtitle").textContent = "職業普查半自動抓取尚未完成";
+    const missing = document.getElementById("chartD-missing");
+    missing.hidden = false;
+    missing.textContent = `資料待補（D3）：${co.note || ""}`;
+  }
+
+  // ---------------------------------------------------------------
+  // 圖 A / B / D 資料表格切換
+  // ---------------------------------------------------------------
+  document.querySelectorAll(".table-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (btn.dataset.target === "tableA") {
+        const wrap = document.getElementById("tableA-wrap");
+        const open = wrap.classList.toggle("open");
+        btn.textContent = open ? "隱藏全部村里原始資料表格" : "顯示全部村里原始資料表格（可逐筆核對）";
+        return;
+      }
+      const table = document.getElementById(btn.dataset.target);
+      const open = table.classList.toggle("open");
+      btn.textContent = open ? "隱藏資料表格" : "顯示資料表格";
+    });
+  });
+
+  // ---------------------------------------------------------------
+  // 圖 C：choropleth 地圖（MapLibre，底圖重用篇①路網，無外部圖磚）
+  // ---------------------------------------------------------------
+  const incomes = districtsGeo.features.map((f) => f.properties.weighted_mean_income);
+  const minIncome = Math.min(...incomes), maxIncome = Math.max(...incomes);
+
+  function ring10Feature() {
+    const f = ring10Geo.features.find((x) => x.properties.minutes === 10);
+    return { type: "FeatureCollection", features: f ? [f] : [] };
+  }
+
+  const style = {
+    version: 8,
+    sources: {
+      roads: { type: "geojson", data: roads },
+      districts: { type: "geojson", data: districtsGeo },
+      ring10: { type: "geojson", data: ring10Feature() },
+    },
+    layers: [
+      { id: "bg", type: "background", paint: { "background-color": "#fcfcfb" } },
+      {
+        id: "districts-fill", type: "fill", source: "districts",
+        paint: {
+          "fill-color": [
+            "interpolate", ["linear"], ["get", "weighted_mean_income"],
+            minIncome, "#cde2fb",
+            (minIncome + maxIncome) / 2, "#3987e5",
+            maxIncome, "#0d366b",
+          ],
+          "fill-opacity": 0.75,
+        },
+      },
+      {
+        id: "roads-line", type: "line", source: "roads",
+        paint: { "line-color": "#c3c2b7", "line-width": 0.7, "line-opacity": 0.8 },
+      },
+      {
+        id: "districts-line", type: "line", source: "districts",
+        paint: { "line-color": "#0b0b0b", "line-width": 1, "line-opacity": 0.35 },
+      },
+      {
+        id: "ring10-line", type: "line", source: "ring10",
+        paint: { "line-color": "#e34948", "line-width": 2, "line-dasharray": [3, 2] },
+      },
+    ],
+  };
+
+  const allCoords = districtsGeo.features.flatMap((f) => {
+    const g = f.geometry;
+    const rings = g.type === "Polygon" ? g.coordinates : g.coordinates.flat();
+    return rings.flat();
+  });
+  const lons = allCoords.map((c) => c[0]);
+  const lats = allCoords.map((c) => c[1]);
+  const bounds = [[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]];
+
+  const map = new maplibregl.Map({
+    container: "map",
+    style,
+    bounds,
+    fitBoundsOptions: { padding: 32 },
+    attributionControl: { compact: false, customAttribution: "© OpenStreetMap contributors (ODbL)" },
+    interactive: true,
+  });
+  map.dragRotate.disable();
+  map.touchZoomRotate.disableRotation();
+
+  map.on("load", () => {
+    map.on("click", "districts-fill", (e) => {
+      const p = e.features[0].properties;
+      new maplibregl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(`<b>${p.district}</b><br/>加權平均所得 ${fmt1(p.weighted_mean_income)} 千元<br/>村里數 ${p.n_villages}`)
+        .addTo(map);
+    });
+    map.on("mouseenter", "districts-fill", () => { map.getCanvas().style.cursor = "pointer"; });
+    map.on("mouseleave", "districts-fill", () => { map.getCanvas().style.cursor = ""; });
+  });
+
+  document.getElementById("map-legend").innerHTML = `
+    <h4>圖例</h4>
+    <div class="legend-ramp"></div>
+    <div class="legend-ramp-labels"><span>${fmt1(minIncome)} 千元</span><span>${fmt1(maxIncome)} 千元</span></div>
+    <div class="legend-row" style="margin-top:6px"><span class="legend-swatch-line" style="border-top-color:#e34948;border-top-style:dashed;border-top-width:2px"></span>10 分鐘等時圈邊界</div>
+    <div style="margin-top:4px">灰線＝主要道路（重用篇①路網）</div>
+    <div style="margin-top:4px;color:var(--text-muted)">choropleth 為行政區級（無村里邊界圖資，見方法說明）</div>
+  `;
+
+  window.addEventListener("resize", () => {
+    chartA.resize(); chartB.resize();
+    if (window.__chartDResizeHandle) window.__chartDResizeHandle();
+    map.resize();
+  });
+
+  // ---------------------------------------------------------------
+  // 方法說明
+  // ---------------------------------------------------------------
+  const mn = data.method_notes;
+  document.getElementById("method-dl").innerHTML = `
+    <dt>涵蓋範圍</dt><dd>東區／北區／中西區三個行政區的全部村里（整區判定，見「村里↔統計區對映」）</dd>
+    <dt>原始表彙總列處理</dt><dd>${mn.aggregate_rows_excluded}</dd>
+    <dt>村里↔統計區對映</dt><dd>${mn.village_to_minstat_mapping}</dd>
+    <dt>10 分圈涵蓋方法</dt><dd>${mn.ring_coverage_method}</dd>
+    <dt>10 分圈人口加權涵蓋率</dt><dd>東區 ${fmt1(rc["東區"].coverage_pct)}%（統計區 ${fmt(rc["東區"].n_minstat_areas)} 個）／北區 ${fmt1(rc["北區"].coverage_pct)}%（${fmt(rc["北區"].n_minstat_areas)} 個）／中西區 ${fmt1(rc["中西區"].coverage_pct)}%（${fmt(rc["中西區"].n_minstat_areas)} 個）</dd>
+    <dt>所得單位</dt><dd>${mn.income_unit}</dd>
+    <dt>職業/行業資料細度</dt><dd>${mn.census_occ_granularity}</dd>
+    <dt>choropleth 細度</dt><dd>${mn.choropleth_granularity}</dd>
+    <dt>資料版本</dt><dd>所得 ${data.meta.income_data_date}（111 年度）；職業普查 ${data.meta.census_occ_data_date || "－"}（109 年）</dd>
+  `;
+  document.getElementById("honest-note").textContent =
+    `誠實揭露：${mn.numbers_yaml_coverage}`;
+
+})().catch((err) => {
+  console.error("[index] 載入失敗", err);
+  document.querySelector(".wrap").insertAdjacentHTML(
+    "afterbegin",
+    `<div style="background:#fde8e8;border:1px solid #e34948;color:#7a1f1f;padding:10px 14px;border-radius:8px;margin-bottom:14px">頁面資料載入失敗：${err && err.message ? err.message : err}</div>`
+  );
+});
+</script>
+<script src="../_shared/reader.js"></script>
+</body>
+</html>

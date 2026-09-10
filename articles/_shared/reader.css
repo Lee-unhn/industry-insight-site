@@ -1,0 +1,148 @@
+/* ------------------------------------------------------------------
+   reader.css — 白話閱讀層（術語 tooltip、方法摺疊、結論區塊）
+   跟隨各篇既有的設計 token（--text-primary / --text-secondary /
+   --text-muted / --gridline / --border / --series-1 / --page-plane /
+   --surface-1），不重複定義色票，只補共用元件樣式。
+
+   R4 裁定（單一設計系統）：色票單一來源改為 tokens.css，這裡 import
+   它，不再只靠各篇 index.html 自己 :root 裡的重複定義撐住 var() 的
+   fallback 值——fallback 還留著（見下方各條 var(--x, #hex)），是雙保險，
+   萬一哪天 tokens.css 載入順序或路徑出問題，畫面仍不會整個掉色。
+   ------------------------------------------------------------------ */
+@import url("./tokens.css");
+
+/* ---------------- 術語（.term） ---------------- */
+abbr.term {
+  text-decoration: none;
+  border-bottom: 1.5px dotted var(--text-muted, #898781);
+  cursor: help;
+  font: inherit;
+  color: inherit;
+}
+abbr.term:hover,
+abbr.term:focus-visible,
+abbr.term[aria-expanded="true"] {
+  border-bottom-color: var(--series-1, #2a78d6);
+  color: var(--series-1, #2a78d6);
+}
+abbr.term:focus-visible {
+  outline: 2px solid var(--series-1, #2a78d6);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+#term-tooltip {
+  position: fixed;
+  z-index: 9999;
+  max-width: min(280px, calc(100vw - 24px));
+  background: var(--text-primary, #0b0b0b);
+  color: var(--surface-1, #fcfcfb);
+  font-size: 12.5px;
+  line-height: 1.55;
+  padding: 8px 10px;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(11, 11, 11, 0.22);
+  pointer-events: none;
+}
+#term-tooltip[hidden] { display: none; }
+#term-tooltip .tip-extra {
+  display: block;
+  margin-top: 4px;
+  color: var(--baseline, #c3c2b7);
+  font-size: 11.5px;
+}
+
+/* ---------------- 方法說明 / 誠實揭露（<details class="method">） ---------------- */
+details.method > summary {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary, #0b0b0b);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 2px 0;
+}
+details.method > summary::-webkit-details-marker { display: none; }
+details.method > summary::before {
+  content: "▸";
+  display: inline-block;
+  font-size: 11px;
+  color: var(--text-muted, #898781);
+  transition: transform 0.15s ease;
+  flex: none;
+}
+details.method[open] > summary::before { transform: rotate(90deg); }
+details.method > summary:focus-visible {
+  outline: 2px solid var(--series-1, #2a78d6);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+details.method > summary:hover { color: var(--series-1, #2a78d6); }
+details.method > dl { margin-top: 12px; }
+details.method > .honest-note { margin-top: 12px; }
+
+/* ---------------- 結論區塊（<section class="verdict">） ---------------- */
+section.verdict {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: var(--surface-1, #fcfcfb);
+  border: 1px solid var(--border, rgba(11,11,11,0.10));
+  border-left-width: 5px;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 14px 0 20px;
+}
+section.verdict[data-light="green"] { border-left-color: var(--light-green, #1b8a5a); }
+section.verdict[data-light="yellow"] { border-left-color: var(--light-yellow, #a86a00); }
+section.verdict[data-light="red"] { border-left-color: var(--light-red, #b3261e); }
+
+.verdict-dot {
+  flex: none;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  margin-top: 5px;
+}
+section.verdict[data-light="green"] .verdict-dot { background: var(--light-green, #1b8a5a); }
+section.verdict[data-light="yellow"] .verdict-dot { background: var(--light-yellow, #a86a00); }
+section.verdict[data-light="red"] .verdict-dot { background: var(--light-red, #b3261e); }
+
+.verdict-body { min-width: 0; }
+.verdict-tag {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-bottom: 4px;
+}
+section.verdict[data-light="green"] .verdict-tag { color: var(--light-green, #1b8a5a); }
+section.verdict[data-light="yellow"] .verdict-tag { color: var(--light-yellow, #a86a00); }
+section.verdict[data-light="red"] .verdict-tag { color: var(--light-red, #b3261e); }
+
+.verdict-headline {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary, #0b0b0b);
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+.verdict-reasons {
+  margin: 0 0 8px;
+  padding-left: 18px;
+  font-size: 13px;
+  color: var(--text-secondary, #52514e);
+  line-height: 1.6;
+}
+.verdict-reasons li { margin: 0 0 2px; }
+.verdict-caveat {
+  font-size: 12px;
+  color: var(--text-muted, #898781);
+  margin: 0;
+}
+
+@media (max-width: 560px) {
+  section.verdict { padding: 12px 14px; }
+}

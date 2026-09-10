@@ -1,0 +1,554 @@
+{
+  "meta": {
+    "article_no": 5,
+    "title": "居住人口結構：年齡、性別、戶數",
+    "data_date": "2026-09-08",
+    "census_period": "113Y12M",
+    "produced_date": "2026-09-08",
+    "rings_used": [
+      5,
+      10,
+      15
+    ],
+    "primary_ring": 10,
+    "district_id": "ncku",
+    "district_name": "成大商圈",
+    "centers": [
+      {
+        "id": "tra_rear",
+        "name": "台南火車站後站出口",
+        "lat": 22.9971,
+        "lon": 120.2135
+      },
+      {
+        "id": "ncku_gate",
+        "name": "成大光復校區正門",
+        "lat": 22.9976,
+        "lon": 120.2138
+      },
+      {
+        "id": "nckuh",
+        "name": "成大醫院正門",
+        "lat": 23.0019,
+        "lon": 120.2183
+      }
+    ]
+  },
+  "ring_area_km2": {
+    "5": 7.83,
+    "10": 28.85,
+    "15": 58.8
+  },
+  "rings": {
+    "5": {
+      "area_weighted": {
+        "population": 106770,
+        "households": 48599,
+        "male": 51139,
+        "female": 55631,
+        "sex_ratio": 91.9,
+        "avg_household_size": 2.2,
+        "minstat_count": 783,
+        "age_bands": {
+          "age_0_14": {
+            "label": "0-14 歲",
+            "count": 13830,
+            "male": 7345,
+            "female": 6485,
+            "pct": 13.0
+          },
+          "age_15_64": {
+            "label": "15-64 歲",
+            "count": 68649,
+            "male": 33172,
+            "female": 35476,
+            "pct": 64.3
+          },
+          "age_65_up": {
+            "label": "65 歲以上",
+            "count": 24292,
+            "male": 10622,
+            "female": 13670,
+            "pct": 22.8
+          }
+        }
+      },
+      "centroid": {
+        "population": 107145,
+        "households": 48804,
+        "male": 51280,
+        "female": 55865,
+        "sex_ratio": 91.8,
+        "avg_household_size": 2.2,
+        "minstat_count": 664,
+        "age_bands": {
+          "age_0_14": {
+            "label": "0-14 歲",
+            "count": 13919,
+            "male": 7382,
+            "female": 6537,
+            "pct": 13.0
+          },
+          "age_15_64": {
+            "label": "15-64 歲",
+            "count": 68914,
+            "male": 33282,
+            "female": 35632,
+            "pct": 64.3
+          },
+          "age_65_up": {
+            "label": "65 歲以上",
+            "count": 24312,
+            "male": 10616,
+            "female": 13696,
+            "pct": 22.7
+          }
+        }
+      },
+      "diff": {
+        "population_diff": -375,
+        "population_diff_pct": -0.3,
+        "households_diff": -205,
+        "households_diff_pct": -0.4
+      }
+    },
+    "10": {
+      "area_weighted": {
+        "population": 392469,
+        "households": 171316,
+        "male": 187014,
+        "female": 205456,
+        "sex_ratio": 91.0,
+        "avg_household_size": 2.29,
+        "minstat_count": 2497,
+        "age_bands": {
+          "age_0_14": {
+            "label": "0-14 歲",
+            "count": 47737,
+            "male": 24802,
+            "female": 22935,
+            "pct": 12.2
+          },
+          "age_15_64": {
+            "label": "15-64 歲",
+            "count": 264775,
+            "male": 127443,
+            "female": 137331,
+            "pct": 67.5
+          },
+          "age_65_up": {
+            "label": "65 歲以上",
+            "count": 79958,
+            "male": 34768,
+            "female": 45189,
+            "pct": 20.4
+          }
+        }
+      },
+      "centroid": {
+        "population": 393115,
+        "households": 171788,
+        "male": 187311,
+        "female": 205804,
+        "sex_ratio": 91.0,
+        "avg_household_size": 2.29,
+        "minstat_count": 2283,
+        "age_bands": {
+          "age_0_14": {
+            "label": "0-14 歲",
+            "count": 47784,
+            "male": 24835,
+            "female": 22949,
+            "pct": 12.2
+          },
+          "age_15_64": {
+            "label": "15-64 歲",
+            "count": 265306,
+            "male": 127696,
+            "female": 137610,
+            "pct": 67.5
+          },
+          "age_65_up": {
+            "label": "65 歲以上",
+            "count": 80025,
+            "male": 34780,
+            "female": 45245,
+            "pct": 20.4
+          }
+        }
+      },
+      "diff": {
+        "population_diff": -646,
+        "population_diff_pct": -0.2,
+        "households_diff": -472,
+        "households_diff_pct": -0.3
+      }
+    },
+    "15": {
+      "area_weighted": {
+        "population": 640526,
+        "households": 270448,
+        "male": 306891,
+        "female": 333635,
+        "sex_ratio": 92.0,
+        "avg_household_size": 2.37,
+        "minstat_count": 3905,
+        "age_bands": {
+          "age_0_14": {
+            "label": "0-14 歲",
+            "count": 75842,
+            "male": 39371,
+            "female": 36471,
+            "pct": 11.8
+          },
+          "age_15_64": {
+            "label": "15-64 歲",
+            "count": 441924,
+            "male": 213747,
+            "female": 228177,
+            "pct": 69.0
+          },
+          "age_65_up": {
+            "label": "65 歲以上",
+            "count": 122760,
+            "male": 53773,
+            "female": 68987,
+            "pct": 19.2
+          }
+        }
+      },
+      "centroid": {
+        "population": 638310,
+        "households": 269776,
+        "male": 305747,
+        "female": 332563,
+        "sex_ratio": 91.9,
+        "avg_household_size": 2.37,
+        "minstat_count": 3619,
+        "age_bands": {
+          "age_0_14": {
+            "label": "0-14 歲",
+            "count": 75399,
+            "male": 39118,
+            "female": 36281,
+            "pct": 11.8
+          },
+          "age_15_64": {
+            "label": "15-64 歲",
+            "count": 440506,
+            "male": 213064,
+            "female": 227442,
+            "pct": 69.0
+          },
+          "age_65_up": {
+            "label": "65 歲以上",
+            "count": 122405,
+            "male": 53565,
+            "female": 68840,
+            "pct": 19.2
+          }
+        }
+      },
+      "diff": {
+        "population_diff": 2216,
+        "population_diff_pct": 0.3,
+        "households_diff": 672,
+        "households_diff_pct": 0.2
+      }
+    }
+  },
+  "districts": {
+    "city": {
+      "name": "臺南市全市",
+      "population": 1857812,
+      "households": 745876,
+      "male": 921201,
+      "female": 936611,
+      "sex_ratio": 98.4,
+      "avg_household_size": 2.49,
+      "minstat_count": 12774,
+      "age_bands": {
+        "age_0_14": {
+          "label": "0-14 歲",
+          "count": 208620,
+          "male": 108324,
+          "female": 100296,
+          "pct": 11.2
+        },
+        "age_15_64": {
+          "label": "15-64 歲",
+          "count": 1285343,
+          "male": 646015,
+          "female": 639328,
+          "pct": 69.2
+        },
+        "age_65_up": {
+          "label": "65 歲以上",
+          "count": 363849,
+          "male": 166862,
+          "female": 196987,
+          "pct": 19.6
+        }
+      }
+    },
+    "east": {
+      "name": "東區",
+      "population": 181851,
+      "households": 76023,
+      "male": 86324,
+      "female": 95527,
+      "sex_ratio": 90.4,
+      "avg_household_size": 2.39,
+      "minstat_count": 1074,
+      "age_bands": {
+        "age_0_14": {
+          "label": "0-14 歲",
+          "count": 24524,
+          "male": 12650,
+          "female": 11874,
+          "pct": 13.5
+        },
+        "age_15_64": {
+          "label": "15-64 歲",
+          "count": 122850,
+          "male": 58473,
+          "female": 64377,
+          "pct": 67.6
+        },
+        "age_65_up": {
+          "label": "65 歲以上",
+          "count": 34477,
+          "male": 15201,
+          "female": 19276,
+          "pct": 19.0
+        }
+      }
+    },
+    "north": {
+      "name": "北區",
+      "population": 125833,
+      "households": 53544,
+      "male": 60725,
+      "female": 65108,
+      "sex_ratio": 93.3,
+      "avg_household_size": 2.35,
+      "minstat_count": 772,
+      "age_bands": {
+        "age_0_14": {
+          "label": "0-14 歲",
+          "count": 13155,
+          "male": 6867,
+          "female": 6288,
+          "pct": 10.5
+        },
+        "age_15_64": {
+          "label": "15-64 歲",
+          "count": 87572,
+          "male": 42992,
+          "female": 44580,
+          "pct": 69.6
+        },
+        "age_65_up": {
+          "label": "65 歲以上",
+          "count": 25106,
+          "male": 10866,
+          "female": 14240,
+          "pct": 20.0
+        }
+      }
+    },
+    "central_west": {
+      "name": "中西區",
+      "population": 76991,
+      "households": 33582,
+      "male": 37069,
+      "female": 39922,
+      "sex_ratio": 92.9,
+      "avg_household_size": 2.29,
+      "minstat_count": 522,
+      "age_bands": {
+        "age_0_14": {
+          "label": "0-14 歲",
+          "count": 11437,
+          "male": 6117,
+          "female": 5320,
+          "pct": 14.9
+        },
+        "age_15_64": {
+          "label": "15-64 歲",
+          "count": 48641,
+          "male": 23335,
+          "female": 25306,
+          "pct": 63.2
+        },
+        "age_65_up": {
+          "label": "65 歲以上",
+          "count": 16913,
+          "male": 7617,
+          "female": 9296,
+          "pct": 22.0
+        }
+      }
+    }
+  },
+  "age_pyramid": {
+    "granularity": "一級發布區（CODE1）",
+    "district_label": "東區（涵蓋東區的一級發布區聚合，非 10 分圈）",
+    "note": "五歲年齡組資料只發布到一級發布區，無法對到等時圈幾何，退回涵蓋東區的一級發布區聚合並標明（規格 #3 圖 E）",
+    "n_code1_areas": 610,
+    "bands": [
+      {
+        "label": "0-4",
+        "total": 4494,
+        "male": 2341,
+        "female": 2153
+      },
+      {
+        "label": "5-9",
+        "total": 8709,
+        "male": 4411,
+        "female": 4298
+      },
+      {
+        "label": "10-14",
+        "total": 11321,
+        "male": 5898,
+        "female": 5423
+      },
+      {
+        "label": "15-19",
+        "total": 8298,
+        "male": 4291,
+        "female": 4007
+      },
+      {
+        "label": "20-24",
+        "total": 9332,
+        "male": 4885,
+        "female": 4447
+      },
+      {
+        "label": "25-29",
+        "total": 11315,
+        "male": 5865,
+        "female": 5450
+      },
+      {
+        "label": "30-34",
+        "total": 11317,
+        "male": 5673,
+        "female": 5644
+      },
+      {
+        "label": "35-39",
+        "total": 10959,
+        "male": 5323,
+        "female": 5636
+      },
+      {
+        "label": "40-44",
+        "total": 14506,
+        "male": 6612,
+        "female": 7894
+      },
+      {
+        "label": "45-49",
+        "total": 15094,
+        "male": 6876,
+        "female": 8218
+      },
+      {
+        "label": "50-54",
+        "total": 13967,
+        "male": 6276,
+        "female": 7691
+      },
+      {
+        "label": "55-59",
+        "total": 14229,
+        "male": 6431,
+        "female": 7798
+      },
+      {
+        "label": "60-64",
+        "total": 13833,
+        "male": 6241,
+        "female": 7592
+      },
+      {
+        "label": "65-69",
+        "total": 12129,
+        "male": 5482,
+        "female": 6647
+      },
+      {
+        "label": "70-74",
+        "total": 9979,
+        "male": 4524,
+        "female": 5455
+      },
+      {
+        "label": "75-79",
+        "total": 5652,
+        "male": 2531,
+        "female": 3121
+      },
+      {
+        "label": "80-84",
+        "total": 3675,
+        "male": 1508,
+        "female": 2167
+      },
+      {
+        "label": "85-89",
+        "total": 1938,
+        "male": 738,
+        "female": 1200
+      },
+      {
+        "label": "90-94",
+        "total": 852,
+        "male": 316,
+        "female": 536
+      },
+      {
+        "label": "95-99",
+        "total": 230,
+        "male": 94,
+        "female": 136
+      },
+      {
+        "label": "100+",
+        "total": 22,
+        "male": 8,
+        "female": 14
+      }
+    ],
+    "total_population": 181851
+  },
+  "method_notes": {
+    "primary_ring": 10,
+    "ring_use": {
+      "5": "店家分析",
+      "10": "居住人口",
+      "15": "可及性參考"
+    },
+    "area_weighted_method": "每個最小統計區在 EPSG:3826（TWD97）下與等時圈多邊形算交集面積，交集面積 / 統計區總面積 = 權重，人口／戶數／性別／年齡組依權重分配後加總",
+    "centroid_method": "每個最小統計區取代表點（representative point，保證落在多邊形內部），落在圈內＝整區 100% 算入該圈，不拆分",
+    "method_diff_note": "兩法在三個圈的差距都在 1% 以內（面積加權法通常比質心法更平滑，因為邊界上的統計區會被拆成一部分而非整區算進或算出）；細節見上方「兩種估計法對照」表格",
+    "household_data_caveat": "戶數（H_CNT）來自 segis_pop，落地為 VARCHAR（相容既有快照），check_numbers 的 duckdb sum 規則無法對 VARCHAR 欄位重算，本篇戶數相關數字改標 const 並附來源說明，人工抽樣用 duckdb CAST 交叉驗證",
+    "age_pyramid_granularity": "一級發布區（CODE1）",
+    "age_pyramid_note": "五歲年齡組資料只發布到一級發布區，無法對到等時圈幾何，退回涵蓋東區的一級發布區聚合並標明（規格 #3 圖 E）",
+    "district_prefix_map": {
+      "中西區": "A6737",
+      "仁德區": "A6727",
+      "北區": "A6734",
+      "南區": "A6733",
+      "安平區": "A6736",
+      "東區": "A6732",
+      "永康區": "A6731"
+    },
+    "data_period": "113Y12M",
+    "data_version": "2026-09-08"
+  }
+}

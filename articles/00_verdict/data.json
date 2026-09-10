@@ -1,0 +1,1288 @@
+{
+  "meta": {
+    "article_no": 0,
+    "title": "成大商圈開店評估",
+    "data_date": "2026-09-08",
+    "produced_date": "2026-09-10",
+    "district_id": "ncku",
+    "district_name": "成大商圈",
+    "source_articles": [
+      "01_outline",
+      "02_industry",
+      "03_survival",
+      "04_scale",
+      "05_population",
+      "07_campus",
+      "08_access",
+      "09_property",
+      "10_spending",
+      "12_pricing"
+    ],
+    "cohort_year_for_4yr_survival": "2022"
+  },
+  "summary": "餐飲多為黃燈：能開，但要挑位置、控租金",
+  "headline": "成大商圈能不能賺，要看選哪個業種、開在哪個位置：分析的 17 個業種小類／情境裡，餐飲 4 個情境改用由下而上模型（客群消費預算→推估客單價→進店率×位置係數→來客數→營收），同業全市平均只留作對照；零售 13 個小類篇⑫沒有建由下而上鏈，仍沿用篇⑩同業平均法。先扣掉 4 個「大型業態」（量販／百貨、建材量販、加油站、汽機車經銷——全市平均被少數大型店拉高，一般小店主開不了這個規模，見下方「大型業態（參考）」），剩下 13 個一般小店可比的小類／情境，3 個綠燈、7 個黃燈、3 個紅燈——餐飲 4 個情境（次要道路、中檔客單價算出來）0 綠、4 黃、0 紅，比同業全市平均樂觀不少：由下而上假設店開在有一定人流的次要道路、直接抓實際客群的消費預算，同業平均是把全市所有地段（含冷清巷弄）都攤在一起算出來的平均值，位置越差、由下而上估出來的營收落差越大，見下方各情境的巷弄／主幹道區間與試算器；資訊及通訊設備零售業約 8.5 個月回本最快，零售裡的零售攤販則可能回不了本。這頁不是要你選哪個小類，是把假設攤開讓你自己套上位置與坪數再判斷。",
+  "categories": [
+    {
+      "code": "561",
+      "name": "餐食業（餐館情境）",
+      "group": "餐飲",
+      "industry_label": "561餐食業（餐館情境）",
+      "city_store_count": 13287,
+      "revenue_method": "bottom_up",
+      "bottom_up_profile": "餐館",
+      "borrowed_from": null,
+      "revenue": {
+        "low": 210178.0,
+        "mid": 211658.0,
+        "high": 339306.0,
+        "unit": "元/月，全市同小類每店月均（同業平均，對照用，不進燈號計算）"
+      },
+      "revenue_bottom_up": {
+        "low": 84898.0,
+        "mid": 222254.0,
+        "high": 293954.0,
+        "tiers": {
+          "low": "alley",
+          "mid": "secondary",
+          "high": "main_road"
+        },
+        "location_factor": {
+          "main_road": 1.32,
+          "secondary": 1.05,
+          "alley": 0.43
+        },
+        "unit_price": {
+          "low": 569.4,
+          "mid": 645.9,
+          "high": 722.6
+        },
+        "affordability_cap": 387.3,
+        "capacity_cap_per_seat": 58131.0,
+        "per_store_daily_customers_baseline": 10.92,
+        "capture_rate_pct": {
+          "main_road": 18.02,
+          "secondary": 14.33,
+          "alley": 5.87
+        },
+        "vs_top_down_pct": 105.0,
+        "source": "articles/12_pricing/data.json#revenue_bottom_up.餐館"
+      },
+      "borrow_note": "",
+      "area_ping_default": 25.0,
+      "rent_month": 23552.5,
+      "cost_pct_sum": 74,
+      "cost": {
+        "low": 62824.5,
+        "mid": 164468.0,
+        "high": 217526.0
+      },
+      "net_profit": {
+        "low": -1479.0,
+        "mid": 34233.5,
+        "high": 52875.5
+      },
+      "investment": 1500000.0,
+      "payback_months": 43.8,
+      "survival_pct_used": 63.0,
+      "light": "yellow",
+      "summary": "黃燈：月淨利約 3.4 萬元，約 44 個月回本",
+      "scale": "small",
+      "scale_reason": "全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）",
+      "scale_signals": {
+        "revenue_multiple_vs_median": 0.62,
+        "capital_median_ntd": 50000.0,
+        "branch_pct": 3.2
+      }
+    },
+    {
+      "code": "561",
+      "name": "餐食業（小吃情境）",
+      "group": "餐飲",
+      "industry_label": "561餐食業（小吃情境）",
+      "city_store_count": 13287,
+      "revenue_method": "bottom_up",
+      "bottom_up_profile": "小吃",
+      "borrowed_from": null,
+      "revenue": {
+        "low": 210178.0,
+        "mid": 211658.0,
+        "high": 339306.0,
+        "unit": "元/月，全市同小類每店月均（同業平均，對照用，不進燈號計算）"
+      },
+      "revenue_bottom_up": {
+        "low": 81180.0,
+        "mid": 201825.0,
+        "high": 223200.0,
+        "tiers": {
+          "low": "alley",
+          "mid": "secondary",
+          "high": "main_road"
+        },
+        "location_factor": {
+          "main_road": 1.32,
+          "secondary": 1.05,
+          "alley": 0.43
+        },
+        "unit_price": {
+          "low": 220.0,
+          "mid": 269.1,
+          "high": 297.6
+        },
+        "affordability_cap": 387.3,
+        "capacity_cap_per_seat": 24219.0,
+        "per_store_daily_customers_baseline": 26.22,
+        "capture_rate_pct": {
+          "main_road": 3.04,
+          "secondary": 2.42,
+          "alley": 0.99
+        },
+        "vs_top_down_pct": 95.4,
+        "source": "articles/12_pricing/data.json#revenue_bottom_up.小吃"
+      },
+      "borrow_note": "",
+      "area_ping_default": 15.0,
+      "rent_month": 14131.5,
+      "cost_pct_sum": 74,
+      "cost": {
+        "low": 60073.2,
+        "mid": 149350.5,
+        "high": 165168.0
+      },
+      "net_profit": {
+        "low": 6975.3,
+        "mid": 38343.0,
+        "high": 43900.5
+      },
+      "investment": 1500000.0,
+      "payback_months": 39.1,
+      "survival_pct_used": 63.0,
+      "light": "yellow",
+      "summary": "黃燈：月淨利約 3.8 萬元，約 39 個月回本",
+      "scale": "small",
+      "scale_reason": "全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）",
+      "scale_signals": {
+        "revenue_multiple_vs_median": 0.62,
+        "capital_median_ntd": 50000.0,
+        "branch_pct": 3.2
+      }
+    },
+    {
+      "code": "562",
+      "name": "外燴及團膳承包業（借用餐館係數）",
+      "group": "餐飲",
+      "industry_label": "562外燴及團膳承包業（借用餐館係數）",
+      "city_store_count": 304,
+      "revenue_method": "bottom_up",
+      "bottom_up_profile": "餐館",
+      "borrowed_from": "餐館",
+      "revenue": {
+        "low": 210178.0,
+        "mid": 466953.0,
+        "high": 339306.0,
+        "unit": "元/月，全市同小類每店月均（同業平均，對照用，不進燈號計算）"
+      },
+      "revenue_bottom_up": {
+        "low": 84898.0,
+        "mid": 222254.0,
+        "high": 293954.0,
+        "tiers": {
+          "low": "alley",
+          "mid": "secondary",
+          "high": "main_road"
+        },
+        "location_factor": {
+          "main_road": 1.32,
+          "secondary": 1.05,
+          "alley": 0.43
+        },
+        "unit_price": {
+          "low": 569.4,
+          "mid": 645.9,
+          "high": 722.6
+        },
+        "affordability_cap": 387.3,
+        "capacity_cap_per_seat": 58131.0,
+        "per_store_daily_customers_baseline": 10.92,
+        "capture_rate_pct": {
+          "main_road": 18.02,
+          "secondary": 14.33,
+          "alley": 5.87
+        },
+        "vs_top_down_pct": 105.0,
+        "source": "articles/12_pricing/data.json#revenue_bottom_up.餐館（562外燴及團膳承包業無自己錨點，借用 餐館 的係數）"
+      },
+      "borrow_note": "外燴及團膳承包業沒有自己的客單價/進店率錨點（外燴是大宗預訂/外送模式，篇⑫沒有幫它單獨建模），借用「餐館」的由下而上係數（進店率×位置係數×客單價）計算，非它自己的獨立估計。",
+      "area_ping_default": 25.0,
+      "rent_month": 23552.5,
+      "cost_pct_sum": 74,
+      "cost": {
+        "low": 62824.5,
+        "mid": 164468.0,
+        "high": 217526.0
+      },
+      "net_profit": {
+        "low": -1479.0,
+        "mid": 34233.5,
+        "high": 52875.5
+      },
+      "investment": 1500000.0,
+      "payback_months": 43.8,
+      "survival_pct_used": 63.0,
+      "light": "yellow",
+      "summary": "黃燈：月淨利約 3.4 萬元，約 44 個月回本",
+      "scale": "small",
+      "scale_reason": "全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）",
+      "scale_signals": {
+        "revenue_multiple_vs_median": 1.38,
+        "capital_median_ntd": 50000.0,
+        "branch_pct": 3.2
+      }
+    },
+    {
+      "code": "563",
+      "name": "飲料業（飲料店情境）",
+      "group": "餐飲",
+      "industry_label": "563飲料業（飲料店情境）",
+      "city_store_count": 4023,
+      "revenue_method": "bottom_up",
+      "bottom_up_profile": "飲料店",
+      "borrowed_from": null,
+      "revenue": {
+        "low": 210178.0,
+        "mid": 208697.0,
+        "high": 339306.0,
+        "unit": "元/月，全市同小類每店月均（同業平均，對照用，不進燈號計算）"
+      },
+      "revenue_bottom_up": {
+        "low": 80080.0,
+        "mid": 217200.0,
+        "high": 240000.0,
+        "tiers": {
+          "low": "alley",
+          "mid": "secondary",
+          "high": "main_road"
+        },
+        "location_factor": {
+          "main_road": 1.32,
+          "secondary": 1.05,
+          "alley": 0.43
+        },
+        "unit_price": {
+          "low": 59.2,
+          "mid": 72.4,
+          "high": 80.0
+        },
+        "affordability_cap": 387.3,
+        "capacity_cap_per_seat": 6516.0,
+        "per_store_daily_customers_baseline": 96.09,
+        "capture_rate_pct": {
+          "main_road": 67.06,
+          "secondary": 53.34,
+          "alley": 21.84
+        },
+        "vs_top_down_pct": 104.1,
+        "source": "articles/12_pricing/data.json#revenue_bottom_up.飲料店"
+      },
+      "borrow_note": "",
+      "area_ping_default": 8.0,
+      "rent_month": 7536.8,
+      "cost_pct_sum": 74,
+      "cost": {
+        "low": 59259.2,
+        "mid": 160728.0,
+        "high": 177600.0
+      },
+      "net_profit": {
+        "low": 13284.0,
+        "mid": 48935.2,
+        "high": 54863.2
+      },
+      "investment": 1500000.0,
+      "payback_months": 30.7,
+      "survival_pct_used": 63.0,
+      "light": "yellow",
+      "summary": "黃燈：月淨利約 4.9 萬元，約 31 個月回本",
+      "scale": "small",
+      "scale_reason": "全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）",
+      "scale_signals": {
+        "revenue_multiple_vs_median": 0.62,
+        "capital_median_ntd": 50000.0,
+        "branch_pct": 3.2
+      }
+    },
+    {
+      "code": "471",
+      "name": "綜合商品零售業",
+      "group": "零售",
+      "industry_label": "471綜合商品零售業",
+      "city_store_count": 2801,
+      "revenue_method": "top_down",
+      "bottom_up_profile": null,
+      "borrowed_from": null,
+      "revenue": {
+        "low": 327205.0,
+        "mid": 2754841.0,
+        "high": 755884.0,
+        "unit": "元/月，全市同小類每店月均（同業平均法）"
+      },
+      "revenue_bottom_up": null,
+      "borrow_note": "",
+      "area_ping_default": 20.0,
+      "rent_month": 18842.0,
+      "cost_pct_sum": 85,
+      "cost": {
+        "low": 278124.2,
+        "mid": 2341614.9,
+        "high": 642501.4
+      },
+      "net_profit": {
+        "low": 30238.8,
+        "mid": 394384.1,
+        "high": 94540.6
+      },
+      "investment": 800000.0,
+      "payback_months": 2.0,
+      "survival_pct_used": 63.0,
+      "light": "green",
+      "summary": "綠燈：月淨利約 39.4 萬元，約 2 個月回本",
+      "scale": "large",
+      "scale_reason": "全市每店月均銷售額 2,754,841 元，是全體 16 小類中位數（339,019 元）的 8.1 倍，超過 3 倍門檻；471綜合商品零售業涵蓋百貨公司、量販店、超市等大型業態，全市每店月均 銷售額由這些大型店拉高，非中小型獨立店家可比，一定列為 large。",
+      "scale_signals": {
+        "revenue_multiple_vs_median": 8.13,
+        "capital_median_ntd": 50000.0,
+        "branch_pct": 8.1
+      }
+    },
+    {
+      "code": "472",
+      "name": "食品、飲料及菸草製品零售業",
+      "group": "零售",
+      "industry_label": "472食品、飲料及菸草製品零售業",
+      "city_store_count": 7996,
+      "revenue_method": "top_down",
+      "bottom_up_profile": null,
+      "borrowed_from": null,
+      "revenue": {
+        "low": 327205.0,
+        "mid": 337663.0,
+        "high": 755884.0,
+        "unit": "元/月，全市同小類每店月均（同業平均法）"
+      },
+      "revenue_bottom_up": null,
+      "borrow_note": "",
+      "area_ping_default": 20.0,
+      "rent_month": 18842.0,
+      "cost_pct_sum": 85,
+      "cost": {
+        "low": 278124.2,
+        "mid": 287013.5,
+        "high": 642501.4
+      },
+      "net_profit": {
+        "low": 30238.8,
+        "mid": 31807.5,
+        "high": 94540.6
+      },
+      "investment": 800000.0,
+      "payback_months": 25.2,
+      "survival_pct_used": 63.0,
+      "light": "yellow",
+      "summary": "黃燈：月淨利約 3.2 萬元，約 25 個月回本",
+      "scale": "small",
+      "scale_reason": "全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）",
+      "scale_signals": {
+        "revenue_multiple_vs_median": 1.0,
+        "capital_median_ntd": 50000.0,
+        "branch_pct": 8.1
+      }
+    },
+    {
+      "code": "473",
+      "name": "布疋及服飾品零售業",
+      "group": "零售",
+      "industry_label": "473布疋及服飾品零售業",
+      "city_store_count": 2566,
+      "revenue_method": "top_down",
+      "bottom_up_profile": null,
+      "borrowed_from": null,
+      "revenue": {
+        "low": 327205.0,
+        "mid": 339019.0,
+        "high": 755884.0,
+        "unit": "元/月，全市同小類每店月均（同業平均法）"
+      },
+      "revenue_bottom_up": null,
+      "borrow_note": "",
+      "area_ping_default": 20.0,
+      "rent_month": 18842.0,
+      "cost_pct_sum": 85,
+      "cost": {
+        "low": 278124.2,
+        "mid": 288166.1,
+        "high": 642501.4
+      },
+      "net_profit": {
+        "low": 30238.8,
+        "mid": 32010.9,
+        "high": 94540.6
+      },
+      "investment": 800000.0,
+      "payback_months": 25.0,
+      "survival_pct_used": 63.0,
+      "light": "yellow",
+      "summary": "黃燈：月淨利約 3.2 萬元，約 25 個月回本",
+      "scale": "small",
+      "scale_reason": "全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）",
+      "scale_signals": {
+        "revenue_multiple_vs_median": 1.0,
+        "capital_median_ntd": 50000.0,
+        "branch_pct": 8.1
+      }
+    },
+    {
+      "code": "474",
+      "name": "家用器具及用品零售業",
+      "group": "零售",
+      "industry_label": "474家用器具及用品零售業",
+      "city_store_count": 4193,
+      "revenue_method": "top_down",
+      "bottom_up_profile": null,
+      "borrowed_from": null,
+      "revenue": {
+        "low": 327205.0,
+        "mid": 521217.0,
+        "high": 755884.0,
+        "unit": "元/月，全市同小類每店月均（同業平均法）"
+      },
+      "revenue_bottom_up": null,
+      "borrow_note": "",
+      "area_ping_default": 20.0,
+      "rent_month": 18842.0,
+      "cost_pct_sum": 85,
+      "cost": {
+        "low": 278124.2,
+        "mid": 443034.5,
+        "high": 642501.4
+      },
+      "net_profit": {
+        "low": 30238.8,
+        "mid": 59340.5,
+        "high": 94540.6
+      },
+      "investment": 800000.0,
+      "payback_months": 13.5,
+      "survival_pct_used": 63.0,
+      "light": "green",
+      "summary": "綠燈：月淨利約 5.9 萬元，約 14 個月回本",
+      "scale": "small",
+      "scale_reason": "全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）",
+      "scale_signals": {
+        "revenue_multiple_vs_median": 1.54,
+        "capital_median_ntd": 50000.0,
+        "branch_pct": 8.1
+      }
+    },
+    {
+      "code": "475",
+      "name": "藥品、醫療用品及化粧品零售業",
+      "group": "零售",
+      "industry_label": "475藥品、醫療用品及化粧品零售業",
+      "city_store_count": 2295,
+      "revenue_method": "top_down",
+      "bottom_up_profile": null,
+      "borrowed_from": null,
+      "revenue": {
+        "low": 327205.0,
+        "mid": 327205.0,
+        "high": 755884.0,
+        "unit": "元/月，全市同小類每店月均（同業平均法）"
+      },
+      "revenue_bottom_up": null,
+      "borrow_note": "",
+      "area_ping_default": 20.0,
+      "rent_month": 18842.0,
+      "cost_pct_sum": 85,
+      "cost": {
+        "low": 278124.2,
+        "mid": 278124.2,
+        "high": 642501.4
+      },
+      "net_profit": {
+        "low": 30238.8,
+        "mid": 30238.8,
+        "high": 94540.6
+      },
+      "investment": 800000.0,
+      "payback_months": 26.5,
+      "survival_pct_used": 63.0,
+      "light": "yellow",
+      "summary": "黃燈：月淨利約 3.0 萬元，約 26 個月回本",
+      "scale": "small",
+      "scale_reason": "全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）",
+      "scale_signals": {
+        "revenue_multiple_vs_median": 0.97,
+        "capital_median_ntd": 50000.0,
+        "branch_pct": 8.1
+      }
+    },
+    {
+      "code": "476",
+      "name": "文教育樂用品零售業",
+      "group": "零售",
+      "industry_label": "476文教育樂用品零售業",
+      "city_store_count": 1279,
+      "revenue_method": "top_down",
+      "bottom_up_profile": null,
+      "borrowed_from": null,
+      "revenue": {
+        "low": 327205.0,
+        "mid": 608481.0,
+        "high": 755884.0,
+        "unit": "元/月，全市同小類每店月均（同業平均法）"
+      },
+      "revenue_bottom_up": null,
+      "borrow_note": "",
+      "area_ping_default": 20.0,
+      "rent_month": 18842.0,
+      "cost_pct_sum": 85,
+      "cost": {
+        "low": 278124.2,
+        "mid": 517208.8,
+        "high": 642501.4
+      },
+      "net_profit": {
+        "low": 30238.8,
+        "mid": 72430.2,
+        "high": 94540.6
+      },
+      "investment": 800000.0,
+      "payback_months": 11.0,
+      "survival_pct_used": 63.0,
+      "light": "green",
+      "summary": "綠燈：月淨利約 7.2 萬元，約 11 個月回本",
+      "scale": "small",
+      "scale_reason": "全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）",
+      "scale_signals": {
+        "revenue_multiple_vs_median": 1.79,
+        "capital_median_ntd": 50000.0,
+        "branch_pct": 8.1
+      }
+    },
+    {
+      "code": "481",
+      "name": "建材零售業",
+      "group": "零售",
+      "industry_label": "481建材零售業",
+      "city_store_count": 837,
+      "revenue_method": "top_down",
+      "bottom_up_profile": null,
+      "borrowed_from": null,
+      "revenue": {
+        "low": 327205.0,
+        "mid": 678814.0,
+        "high": 755884.0,
+        "unit": "元/月，全市同小類每店月均（同業平均法）"
+      },
+      "revenue_bottom_up": null,
+      "borrow_note": "",
+      "area_ping_default": 20.0,
+      "rent_month": 18842.0,
+      "cost_pct_sum": 85,
+      "cost": {
+        "low": 278124.2,
+        "mid": 576991.9,
+        "high": 642501.4
+      },
+      "net_profit": {
+        "low": 30238.8,
+        "mid": 82980.1,
+        "high": 94540.6
+      },
+      "investment": 800000.0,
+      "payback_months": 9.6,
+      "survival_pct_used": 63.0,
+      "light": "green",
+      "summary": "綠燈：月淨利約 8.3 萬元，約 10 個月回本",
+      "scale": "large",
+      "scale_reason": "481建材零售業全市每店月均銷售額由大型建材量販／工程材料商拉高，非 一般小型建材行水準；未達月均銷售額 3 倍中位數的資料判準門檻，屬人工 手動覆蓋（Owner 對成大商圈實際觀察：核心商圈內看不到中小型建材行， 這個小類的「全市平均」幾乎等於大型業態平均），一定列為 large。",
+      "scale_signals": {
+        "revenue_multiple_vs_median": 2.0,
+        "capital_median_ntd": 50000.0,
+        "branch_pct": 8.1
+      }
+    },
+    {
+      "code": "482",
+      "name": "燃料及相關產品零售業",
+      "group": "零售",
+      "industry_label": "482燃料及相關產品零售業",
+      "city_store_count": 573,
+      "revenue_method": "top_down",
+      "bottom_up_profile": null,
+      "borrowed_from": null,
+      "revenue": {
+        "low": 327205.0,
+        "mid": 8091691.0,
+        "high": 755884.0,
+        "unit": "元/月，全市同小類每店月均（同業平均法）"
+      },
+      "revenue_bottom_up": null,
+      "borrow_note": "",
+      "area_ping_default": 20.0,
+      "rent_month": 18842.0,
+      "cost_pct_sum": 85,
+      "cost": {
+        "low": 278124.2,
+        "mid": 6877937.3,
+        "high": 642501.4
+      },
+      "net_profit": {
+        "low": 30238.8,
+        "mid": 1194911.7,
+        "high": 94540.6
+      },
+      "investment": 800000.0,
+      "payback_months": 0.7,
+      "survival_pct_used": 63.0,
+      "light": "green",
+      "summary": "綠燈：月淨利約 119.5 萬元，約 1 個月回本",
+      "scale": "large",
+      "scale_reason": "全市每店月均銷售額 8,091,691 元，是全體 16 小類中位數（339,019 元）的 23.9 倍，超過 3 倍門檻；482燃料及相關產品零售業以加油站為主力，全市每店月均銷售額由極少數 大型加油站拉高，一般小型店家不可能達到這個規模，一定列為 large。",
+      "scale_signals": {
+        "revenue_multiple_vs_median": 23.87,
+        "capital_median_ntd": 50000.0,
+        "branch_pct": 8.1
+      }
+    },
+    {
+      "code": "483",
+      "name": "資訊及通訊設備零售業",
+      "group": "零售",
+      "industry_label": "483資訊及通訊設備零售業",
+      "city_store_count": 1007,
+      "revenue_method": "top_down",
+      "bottom_up_profile": null,
+      "borrowed_from": null,
+      "revenue": {
+        "low": 327205.0,
+        "mid": 755884.0,
+        "high": 755884.0,
+        "unit": "元/月，全市同小類每店月均（同業平均法）"
+      },
+      "revenue_bottom_up": null,
+      "borrow_note": "",
+      "area_ping_default": 20.0,
+      "rent_month": 18842.0,
+      "cost_pct_sum": 85,
+      "cost": {
+        "low": 278124.2,
+        "mid": 642501.4,
+        "high": 642501.4
+      },
+      "net_profit": {
+        "low": 30238.8,
+        "mid": 94540.6,
+        "high": 94540.6
+      },
+      "investment": 800000.0,
+      "payback_months": 8.5,
+      "survival_pct_used": 63.0,
+      "light": "green",
+      "summary": "綠燈：月淨利約 9.5 萬元，約 8 個月回本",
+      "scale": "small",
+      "scale_reason": "全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）",
+      "scale_signals": {
+        "revenue_multiple_vs_median": 2.23,
+        "capital_median_ntd": 50000.0,
+        "branch_pct": 8.1
+      }
+    },
+    {
+      "code": "484",
+      "name": "汽機車及其零配件、用品零售業",
+      "group": "零售",
+      "industry_label": "484汽機車及其零配件、用品零售業",
+      "city_store_count": 2210,
+      "revenue_method": "top_down",
+      "bottom_up_profile": null,
+      "borrowed_from": null,
+      "revenue": {
+        "low": 327205.0,
+        "mid": 1729969.0,
+        "high": 755884.0,
+        "unit": "元/月，全市同小類每店月均（同業平均法）"
+      },
+      "revenue_bottom_up": null,
+      "borrow_note": "",
+      "area_ping_default": 20.0,
+      "rent_month": 18842.0,
+      "cost_pct_sum": 85,
+      "cost": {
+        "low": 278124.2,
+        "mid": 1470473.6,
+        "high": 642501.4
+      },
+      "net_profit": {
+        "low": 30238.8,
+        "mid": 240653.4,
+        "high": 94540.6
+      },
+      "investment": 800000.0,
+      "payback_months": 3.3,
+      "survival_pct_used": 63.0,
+      "light": "green",
+      "summary": "綠燈：月淨利約 24.1 萬元，約 3 個月回本",
+      "scale": "large",
+      "scale_reason": "全市每店月均銷售額 1,729,969 元，是全體 16 小類中位數（339,019 元）的 5.1 倍，超過 3 倍門檻；484汽機車及其零配件、用品零售業全市每店月均銷售額由大型汽車經銷商 拉高，小型機車行／零配件行規模差距極大，一定列為 large。",
+      "scale_signals": {
+        "revenue_multiple_vs_median": 5.1,
+        "capital_median_ntd": 50000.0,
+        "branch_pct": 8.1
+      }
+    },
+    {
+      "code": "485",
+      "name": "其他專賣零售業",
+      "group": "零售",
+      "industry_label": "485其他專賣零售業",
+      "city_store_count": 2736,
+      "revenue_method": "top_down",
+      "bottom_up_profile": null,
+      "borrowed_from": null,
+      "revenue": {
+        "low": 327205.0,
+        "mid": 219661.0,
+        "high": 755884.0,
+        "unit": "元/月，全市同小類每店月均（同業平均法）"
+      },
+      "revenue_bottom_up": null,
+      "borrow_note": "",
+      "area_ping_default": 20.0,
+      "rent_month": 18842.0,
+      "cost_pct_sum": 85,
+      "cost": {
+        "low": 278124.2,
+        "mid": 186711.9,
+        "high": 642501.4
+      },
+      "net_profit": {
+        "low": 30238.8,
+        "mid": 14107.1,
+        "high": 94540.6
+      },
+      "investment": 800000.0,
+      "payback_months": 56.7,
+      "survival_pct_used": 63.0,
+      "light": "red",
+      "summary": "紅燈：月淨利約 1.4 萬元，約 57 個月回本",
+      "scale": "small",
+      "scale_reason": "全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）",
+      "scale_signals": {
+        "revenue_multiple_vs_median": 0.65,
+        "capital_median_ntd": 50000.0,
+        "branch_pct": 8.1
+      }
+    },
+    {
+      "code": "486",
+      "name": "零售攤販",
+      "group": "零售",
+      "industry_label": "486零售攤販",
+      "city_store_count": 312,
+      "revenue_method": "top_down",
+      "bottom_up_profile": null,
+      "borrowed_from": null,
+      "revenue": {
+        "low": 327205.0,
+        "mid": 69194.0,
+        "high": 755884.0,
+        "unit": "元/月，全市同小類每店月均（同業平均法）"
+      },
+      "revenue_bottom_up": null,
+      "borrow_note": "",
+      "area_ping_default": 20.0,
+      "rent_month": 18842.0,
+      "cost_pct_sum": 85,
+      "cost": {
+        "low": 278124.2,
+        "mid": 58814.9,
+        "high": 642501.4
+      },
+      "net_profit": {
+        "low": 30238.8,
+        "mid": -8462.9,
+        "high": 94540.6
+      },
+      "investment": 800000.0,
+      "payback_months": null,
+      "survival_pct_used": 63.0,
+      "light": "red",
+      "summary": "紅燈：月淨利約 -0.8 萬元，難以回本",
+      "scale": "small",
+      "scale_reason": "全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）",
+      "scale_signals": {
+        "revenue_multiple_vs_median": 0.2,
+        "capital_median_ntd": 50000.0,
+        "branch_pct": 8.1
+      }
+    },
+    {
+      "code": "487",
+      "name": "其他非店面零售業",
+      "group": "零售",
+      "industry_label": "487其他非店面零售業",
+      "city_store_count": 5638,
+      "revenue_method": "top_down",
+      "bottom_up_profile": null,
+      "borrowed_from": null,
+      "revenue": {
+        "low": 327205.0,
+        "mid": 181531.0,
+        "high": 755884.0,
+        "unit": "元/月，全市同小類每店月均（同業平均法）"
+      },
+      "revenue_bottom_up": null,
+      "borrow_note": "",
+      "area_ping_default": 20.0,
+      "rent_month": 18842.0,
+      "cost_pct_sum": 85,
+      "cost": {
+        "low": 278124.2,
+        "mid": 154301.4,
+        "high": 642501.4
+      },
+      "net_profit": {
+        "low": 30238.8,
+        "mid": 8387.6,
+        "high": 94540.6
+      },
+      "investment": 800000.0,
+      "payback_months": 95.4,
+      "survival_pct_used": 63.0,
+      "light": "red",
+      "summary": "紅燈：月淨利約 0.8 萬元，約 95 個月回本",
+      "scale": "small",
+      "scale_reason": "全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）",
+      "scale_signals": {
+        "revenue_multiple_vs_median": 0.54,
+        "capital_median_ntd": 50000.0,
+        "branch_pct": 8.1
+      }
+    }
+  ],
+  "scale_summary": {
+    "revenue_multiple_threshold": 3.0,
+    "median_revenue_all_categories_ntd": 339019.0,
+    "revenue_threshold_ntd": 1017057.0,
+    "small_count": 13,
+    "large_count": 4,
+    "large_codes": [
+      "471",
+      "481",
+      "482",
+      "484"
+    ],
+    "large_names": [
+      "綜合商品零售業",
+      "建材零售業",
+      "燃料及相關產品零售業",
+      "汽機車及其零配件、用品零售業"
+    ],
+    "large_short_labels": [
+      "量販／百貨",
+      "建材量販",
+      "加油站",
+      "汽機車經銷"
+    ],
+    "light_counts_small": {
+      "green": 3,
+      "yellow": 7,
+      "red": 3
+    }
+  },
+  "overview_signals": {
+    "customer_base": {
+      "resident_population_ring10": 392469,
+      "resident_households_ring10": 171316,
+      "resident_population_ring5": 106770,
+      "fixed_population_total": 29649,
+      "fixed_population_students": 23485,
+      "fixed_population_faculty": 1293,
+      "fixed_population_hospital": 4871,
+      "fixed_to_resident_ring5_ratio_pct": 27.8
+    },
+    "competition": {
+      "ring5_store_count": 11409,
+      "ring5_density_per_km2": 1457.1,
+      "city_density_per_km2": 61.85,
+      "density_ratio_vs_city": 23.6,
+      "restaurant_lq_5611": {
+        "code": "5611",
+        "name": "餐館",
+        "lq": 0.98,
+        "label": "接近全市平均"
+      },
+      "retail_lq_top": {
+        "code": "4712",
+        "name": "百貨公司",
+        "lq": 2.92,
+        "label": "相對集中"
+      }
+    },
+    "risk": {
+      "cohort_year": "2022",
+      "cohort_survival_ring5_pct": 63.0,
+      "recent12_open": 684,
+      "recent12_close": 511,
+      "close_org_type_solo_pct": 78.9
+    },
+    "access": {
+      "tra_daily_avg_in_2026": 24820.1,
+      "parking_ring5_facility_count": 35,
+      "parking_ring5_car_spaces": 2253,
+      "parking_ring5_moto_spaces": 1797,
+      "youbike_ring5_station_count": 66,
+      "youbike_ring5_dock_count": 2118
+    },
+    "rent": {
+      "dist_east_per_ping_median": 942.1,
+      "dist_east_n": 34
+    }
+  },
+  "dimensions": [
+    {
+      "key": "footfall",
+      "name": "人流",
+      "question": "這裡人多不多？",
+      "light": "green",
+      "one_liner": "台鐵日均進出站合計約 5.0 萬人次，同業校準後有效日人流約 11.7 萬人次，兩項都達高量級門檻，人流基本盤穩。",
+      "articles": [
+        "11_footfall",
+        "08_access"
+      ],
+      "evidence": [
+        {
+          "label": "台鐵日均進出站合計",
+          "value": 50021.6,
+          "unit": "人次/天",
+          "source": "articles/11_footfall/data.json#composition.by_key.tra（avg_in + avg_out）"
+        },
+        {
+          "label": "同業校準後有效日人流",
+          "value": 116522.5,
+          "unit": "人次/天",
+          "source": "articles/12_pricing/data.json#effective_footfall.daily_effective_footfall"
+        },
+        {
+          "label": "臨主要幹道店家密度係數",
+          "value": 1.32,
+          "unit": "倍",
+          "source": "articles/11_footfall/data.json#streets.tiers.major.location_factor"
+        }
+      ]
+    },
+    {
+      "key": "capture",
+      "name": "客流",
+      "question": "有人流會不會走進來？",
+      "light": "yellow",
+      "one_liner": "三個餐飲業態隱含進店率：餐館 13.7%（進店率超出區間或基準來客偏離校準範圍）、小吃 2.3%（進店率與基準來客都合理）、飲料店 50.8%（進店率超出區間或基準來客偏離校準範圍）；1/3 個業態同時通過兩項檢查。",
+      "articles": [
+        "12_pricing"
+      ],
+      "evidence": [
+        {
+          "label": "餐館隱含進店率",
+          "value": 13.65,
+          "unit": "%",
+          "source": "articles/12_pricing/data.json#capture_rate.categories.餐館.implied_capture_rate"
+        },
+        {
+          "label": "小吃隱含進店率",
+          "value": 2.3,
+          "unit": "%",
+          "source": "articles/12_pricing/data.json#capture_rate.categories.小吃.implied_capture_rate"
+        },
+        {
+          "label": "飲料店隱含進店率",
+          "value": 50.8,
+          "unit": "%",
+          "source": "articles/12_pricing/data.json#capture_rate.categories.飲料店.implied_capture_rate"
+        }
+      ]
+    },
+    {
+      "key": "customer_segment",
+      "name": "消費族群",
+      "question": "附近住的、來的是什麼人？",
+      "light": "green",
+      "one_liner": "固定客群（學生＋教職員＋醫院員工）共 29,649 人，相當於 5 分圈居住人口的 27.8%，是疊加而非取代的額外客源，族群基本盤穩固。",
+      "articles": [
+        "05_population",
+        "07_campus"
+      ],
+      "evidence": [
+        {
+          "label": "固定客群合計（學生＋教職員＋醫院員工）",
+          "value": 29649.0,
+          "unit": "人",
+          "source": "articles/07_campus/data.json#fixed_population.total"
+        },
+        {
+          "label": "固定客群占 5 分圈居住人口比",
+          "value": 27.8,
+          "unit": "%",
+          "source": "articles/07_campus/data.json#residential_comparison.ratio_fixed_to_residential_pct"
+        },
+        {
+          "label": "10 分圈居住人口",
+          "value": 392469.0,
+          "unit": "人",
+          "source": "articles/05_population/data.json#rings.10.area_weighted.population"
+        }
+      ]
+    },
+    {
+      "key": "spending_power",
+      "name": "消費能力",
+      "question": "這些人有沒有錢花？",
+      "light": "green",
+      "one_liner": "10 分圈村里所得加權平均 1001.3 千元/年，比全市 815.3 千元高 22.8%，購買力優於平均，撐得起中高價位定位。",
+      "articles": [
+        "06_income",
+        "12_pricing"
+      ],
+      "evidence": [
+        {
+          "label": "10 分圈村里所得加權平均",
+          "value": 1001.3,
+          "unit": "千元/年",
+          "source": "articles/06_income/data.json#district_stats.ring10.weighted_mean"
+        },
+        {
+          "label": "全市村里所得加權平均",
+          "value": 815.3,
+          "unit": "千元/年",
+          "source": "articles/06_income/data.json#district_stats.city.weighted_mean"
+        },
+        {
+          "label": "10 分圈高於全市幅度",
+          "value": 22.8,
+          "unit": "%",
+          "source": "(articles/06_income/data.json#district_stats.ring10.weighted_mean ÷ articles/06_income/data.json#district_stats.city.weighted_mean − 1) × 100"
+        },
+        {
+          "label": "餐館客單價中檔（篇⑫推估，佐證用不進燈號）",
+          "value": 645.9,
+          "unit": "元",
+          "source": "articles/12_pricing/data.json#unit_price.categories.餐館.mid"
+        }
+      ]
+    },
+    {
+      "key": "access",
+      "name": "交通便利",
+      "question": "客人到得了嗎？",
+      "light": "yellow",
+      "one_liner": "台鐵台南站日均進站 24,820 人次，5 分圈停車位（汽車＋機車）4,050 個，其中一項還沒到高量級門檻。",
+      "articles": [
+        "08_access"
+      ],
+      "evidence": [
+        {
+          "label": "台鐵台南站日均進站",
+          "value": 24820.1,
+          "unit": "人次/天",
+          "source": "articles/08_access/data.json#tra.ytd.avg_in"
+        },
+        {
+          "label": "5 分圈停車位（汽車＋機車）",
+          "value": 4050.0,
+          "unit": "個",
+          "source": "articles/08_access/data.json#parking.by_ring.cumulative.5（car_spaces + moto_spaces）"
+        },
+        {
+          "label": "5 分圈 YouBike 站點",
+          "value": 66.0,
+          "unit": "處",
+          "source": "articles/08_access/data.json#youbike.by_ring.cumulative.5.station_count"
+        }
+      ]
+    },
+    {
+      "key": "competition",
+      "name": "產業競爭",
+      "question": "同業擠不擠、活得下去嗎？",
+      "light": "yellow",
+      "one_liner": "5 分圈店家密度是全市 23.6 倍，同批 2022 年開店 4 年後存活率 63.0%，競爭密集、存活率沒到理想水準，是黃燈。",
+      "articles": [
+        "02_industry",
+        "03_survival",
+        "04_scale"
+      ],
+      "evidence": [
+        {
+          "label": "5 分圈店家密度是全市倍數",
+          "value": 23.6,
+          "unit": "倍",
+          "source": "articles/01_outline/data.json#density.density_ratio_vs_city"
+        },
+        {
+          "label": "2022 年開店戶 4 年後存活率",
+          "value": 63.0,
+          "unit": "%",
+          "source": "articles/03_survival/data.json#cohort_survival.ring5（年份=2022）.rate_pct"
+        },
+        {
+          "label": "最大宗餐館業態（5611）LQ",
+          "value": 0.98,
+          "unit": "",
+          "source": "articles/02_industry/data.json#lq.restaurant（code=5611）.lq"
+        }
+      ]
+    },
+    {
+      "key": "competitors",
+      "name": "競品",
+      "question": "附近同業是誰、開得贏嗎？",
+      "light": "yellow",
+      "one_liner": "餐館密度是全市 33.9 倍、最近對手僅 112 公尺，但商圈整體近 12 個月開關業淨增 +173 家，不是收縮市場",
+      "articles": [
+        "13_competitors"
+      ],
+      "evidence": []
+    }
+  ],
+  "assumptions_snapshot": {
+    "version": 1,
+    "note": "成本結構為「業界常規預設值」，不是成大商圈的實測數字；開店前應以實際報價與現場 談定的租金取代。每個數值都附 note 說明來源／推論依據。Owner 可直接改這個檔案、 重跑 `uv run python -m pipeline.articles.a00_verdict` 讓總評頁與試算器套用新值 （R3 裁定：articles/00_verdict/「成大商圈開店評估」損益試算器的預設輸入）。",
+    "cost_structure": {
+      "餐飲": {
+        "food_pct": {
+          "value": 33,
+          "unit": "%",
+          "note": "業界常規預設：食材成本占營收比例，餐飲業常見範圍約 28-35%，本檔取中間偏高值；非本商圈實測。"
+        },
+        "labor_pct": {
+          "value": 30,
+          "unit": "%",
+          "note": "業界常規預設：人事成本（含排班兼職）占營收比例，餐飲業常見範圍約 25-35%；非本商圈實測。"
+        },
+        "utility_pct": {
+          "value": 6,
+          "unit": "%",
+          "note": "業界常規預設：水電雜支占營收比例；非本商圈實測。"
+        },
+        "other_pct": {
+          "value": 5,
+          "unit": "%",
+          "note": "業界常規預設：行銷／耗材／稅費等其他固定支出占營收比例；非本商圈實測。"
+        }
+      },
+      "零售": {
+        "goods_pct": {
+          "value": 62,
+          "unit": "%",
+          "note": "業界常規預設：進貨成本占營收比例（等於毛利率約 38%），零售業毛利率常見範圍約 30-45%；非本商圈實測。"
+        },
+        "labor_pct": {
+          "value": 15,
+          "unit": "%",
+          "note": "業界常規預設：人事成本占營收比例，零售業人力密度通常低於餐飲；非本商圈實測。"
+        },
+        "utility_pct": {
+          "value": 4,
+          "unit": "%",
+          "note": "業界常規預設：水電雜支占營收比例；非本商圈實測。"
+        },
+        "other_pct": {
+          "value": 4,
+          "unit": "%",
+          "note": "業界常規預設：行銷／耗材／稅費等其他固定支出占營收比例；非本商圈實測。"
+        }
+      }
+    },
+    "rent": {
+      "source_article": "articles/09_property/data.json",
+      "source_path": "rent_shop.dist_east.per_ping.median",
+      "value_ntd_per_ping_month": 942.1,
+      "fallback_rule": "5 分圈／10 分圈實價登錄店面租賃樣本數 n<5（見 articles/09_property/data.json 的 rent_shop.ring5.n=1、rent_shop.ring10.n=3，皆 stats_available=false）， 依 Q29 裁定樣本數少時只列筆數、不做統計；本頁租金因此改用東區（dist_east） 全區店面租金中位數 942.1 元/坪/月替代，並在頁面上標明「以東區全區中位數替代」。",
+      "default_area_ping": {
+        "餐飲": {
+          "value": 25,
+          "unit": "坪",
+          "note": "業界常規預設：中小型餐飲店面常見坪數，可於試算器調整；非本商圈實測。"
+        },
+        "零售": {
+          "value": 20,
+          "unit": "坪",
+          "note": "業界常規預設：中小型零售店面常見坪數，可於試算器調整；非本商圈實測。"
+        }
+      }
+    },
+    "investment": {
+      "餐飲": {
+        "value": 1500000,
+        "unit": "元",
+        "note": "業界常規預設：中小型餐飲裝潢＋廚房設備初期投資；實際依店型（有無內用、廚房大小）差異極大，非本商圈實測。"
+      },
+      "零售": {
+        "value": 800000,
+        "unit": "元",
+        "note": "業界常規預設：中小型零售裝潢＋陳列設備初期投資；實際依店型差異極大，非本商圈實測。"
+      }
+    },
+    "verdict_rules": {
+      "description": "00_verdict 損益試算器的紅黃綠燈判定門檻（程式自動算，非人工判斷）。",
+      "green": "月淨利中位情境 >= 5 萬元，且投資回收 <= 24 個月，且同業 4 年存活率 >= 60%",
+      "yellow": "月淨利中位情境介於 1-5 萬元，或投資回收介於 24-48 個月（且未觸發紅燈條件）",
+      "red": "月淨利中位情境 < 1 萬元，或投資回收 > 48 個月（含永不回收），或同業 4 年存活率 < 50%",
+      "evaluation_order": "先檢查紅燈條件（任一成立即紅燈），否則檢查綠燈條件（三者皆成立才綠燈）， 其餘為黃燈——紅燈條件優先於黃燈區間，避免「月淨利落在黃燈區間但回收超過48個月」 這種情況被誤判成黃燈。",
+      "net_profit_threshold_green_ntd": 50000,
+      "net_profit_threshold_yellow_low_ntd": 10000,
+      "payback_threshold_green_months": 24,
+      "payback_threshold_yellow_months": 48,
+      "survival_threshold_green_pct": 60,
+      "survival_threshold_red_pct": 50,
+      "survival_source": "articles/03_survival/data.json 的 cohort_survival.ring5（年份 2022，開店滿 4 年組別） rate_pct=63.0；商圈整體（不分業種）存活率，因篇③未拆分餐飲/零售各自的 cohort 存活率， 本頁對餐飲與零售全部小類套用同一個存活率門檻判定，屬已知限制，頁面上會標明。"
+    },
+    "scale_rules": {
+      "description": "判定 00_verdict 16 個業種小類裡哪些是「大型業態」（規模不是一般小店主能複製， 燈號會誤導）。用資料判準（下列三條，任一成立＝large）加上人工手動覆蓋 （manual_overrides）兩層：資料判準負責可重算、可稽核；manual_overrides 負責補資料判準因粒度不足而漏接的已知案例（見 granularity_note）。",
+      "revenue_multiple_threshold": 3,
+      "revenue_multiple_rule": "該小類全市每店月均銷售額（篇⑩法一 per_store_monthly_ntd）> 全體 16 小類 月均銷售額中位數的 3 倍，即為 large。中位數與各小類月均銷售額本身都已經 在 categories.*.revenue.mid 裡，門檻值與觸發結果寫入 articles/00_verdict/data.json 的 scale_summary。",
+      "capital_median_threshold_ntd": 2000000,
+      "branch_pct_threshold": 30,
+      "granularity_note": "篇④（04_scale）的資本額中位數與分店占比只拆到「餐飲／零售」兩個大類 （capital.restaurant_ring5 / retail_ring5 的 median_registered_capital， branch.restaurant_by_ring / retail_by_ring 的 branch_pct），沒有拆到本頁 16 個小類（3 碼）逐一計算 -- 這是已讀過篇④全文確認的資料粒度限制，不是 本頁漏做。本頁對同一大類的所有小類套用同一組篇④大類數字（餐飲：資本額 中位數 5 萬元、5 分圈分店占比 3.2%；零售：資本額中位數 5 萬元、5 分圈 分店占比 8.1%），兩者都遠低於門檻（200 萬元／30%），所以這兩條資料判準 目前對全部 16 個小類都不會觸發 -- 程式仍然照算（保留门槛，未來篇④若補 小類級資料可以直接生效），但實際負責抓出「大型業態」的是月均銷售額判準 與下面的 manual_overrides，不是這兩條。",
+      "manual_overrides": {
+        "482": {
+          "short_label": "加油站",
+          "reason": "482燃料及相關產品零售業以加油站為主力，全市每店月均銷售額由極少數 大型加油站拉高，一般小型店家不可能達到這個規模，一定列為 large。"
+        },
+        "471": {
+          "short_label": "量販／百貨",
+          "reason": "471綜合商品零售業涵蓋百貨公司、量販店、超市等大型業態，全市每店月均 銷售額由這些大型店拉高，非中小型獨立店家可比，一定列為 large。"
+        },
+        "484": {
+          "short_label": "汽機車經銷",
+          "reason": "484汽機車及其零配件、用品零售業全市每店月均銷售額由大型汽車經銷商 拉高，小型機車行／零配件行規模差距極大，一定列為 large。"
+        },
+        "481": {
+          "short_label": "建材量販",
+          "reason": "481建材零售業全市每店月均銷售額由大型建材量販／工程材料商拉高，非 一般小型建材行水準；未達月均銷售額 3 倍中位數的資料判準門檻，屬人工 手動覆蓋（Owner 對成大商圈實際觀察：核心商圈內看不到中小型建材行， 這個小類的「全市平均」幾乎等於大型業態平均），一定列為 large。"
+        }
+      }
+    },
+    "article_verdicts_rule_note": "articles/_shared/verdicts.json 每篇一條白話結論的燈號規則：綠＝該篇訊號對開店有利、 黃＝有利有弊、紅＝明顯不利；由撰寫者依該篇 data.json 的核心數字綜合判斷寫入， 不是像上面 00_verdict 損益試算器的燈號是程式自動算出——十篇涵蓋的面向（人口、 租金、存活率、消費金流…）異質性太高，無法套同一組數字門檻。"
+  },
+  "method_notes": {
+    "revenue_source": "餐飲 4 個情境（561-餐館／561-小吃／562-借用餐館係數／563-飲料店）改用篇⑫由下而上模型：客群消費預算→推估客單價（三檔）→進店率×位置係數（主幹道/次要/巷弄）→來客數→月營收，revenue_bottom_up.low/mid/high 分別對應巷弄/次要道路/主幹道；燈號、月淨利、投資回收都用revenue_bottom_up.mid（次要道路、中檔客單價）算。篇⑩法一同業平均（『臺南市全市 × 行業』每店平均銷售額，民國111年/2022年財政部營業稅銷售額 ÷ 稅籍店數，D1 裁定粒度只到全市）降為 revenue 欄的對照數字，不進燈號計算。零售 13 個小類篇⑫沒有建由下而上鏈，維持篇⑩法一同業平均月營收，revenue.low/high＝該小類所屬大類（餐飲/零售）全部小類每店月均銷售額的 P25/P75（篇⑩已知限制）",
+    "bottom_up_source": "篇⑫ revenue_bottom_up/unit_price/capture_rate（基準來客以同業校準，需求端／供給端為上下界，位置係數與客單價為情境變數）。稅籍 561餐食業合併了餐館與小吃兩種業態（篇⑩已知限制），本頁拆成561-餐館、561-小吃兩個情境；563飲料業對應篇⑫『飲料店』；562外燴及團膳承包業沒有自己的客單價/進店率錨點（外燴是大宗預訂/外送模式，不是現場零售座位模式），借用『餐館』的由下而上係數計算，頁面與 data.json（borrowed_from 欄）都標示這是借用值，不是562自己的獨立估計。餐飲 4 個情境的坪數預設（餐館25/小吃15/飲料店8坪）改用篇⑫ method_notes.assumptions_local.default_area_ping（依業態實際店型設定），不再套用 assumptions.yaml 統一的餐飲25坪預設（該預設仍用於562的借用計算與零售13個小類）。",
+    "rent_source": "租金＝articles/09_property/data.json 東區店面租金中位數（942.1 元/坪/月，樣本 34 筆）× 坪數；5分圈/10分圈實價登錄店面樣本數 n<5（1/3 筆），依 Q29 樣本數少不做統計，改用東區全區替代",
+    "cost_structure_source": "成本比例＝assumptions.yaml 業界常規預設值（非本商圈實測），可調整；試算器預設帶入這些值，使用者可自行改",
+    "survival_source": "articles/03_survival/data.json 的 cohort_survival.ring5（年份 2022，開店滿 4 年組別） rate_pct=63.0；商圈整體（不分業種）存活率，因篇③未拆分餐飲/零售各自的 cohort 存活率， 本頁對餐飲與零售全部小類套用同一個存活率門檻判定，屬已知限制，頁面上會標明。",
+    "scale_source": "17 個小類／情境的 revenue.mid（餐飲用同業平均對照值、零售用同業平均月營收）用來判定 scale，跟由下而上營收是兩個不同概念（scale 判定的是『全市平均是否被少數大型店拉高』，由下而上是『這個位置能估出多少營收』），刻意不混用，門檻計算方式不變：例如 482燃料及相關產品零售業（加油站等）與 471綜合商品零售業（百貨/量販）平均月營收達數百萬元——回本快是因為分母是大型業態的平均值，不是一般中小型獨立店家能預期的水準。本頁把 17 個小類／情境分成 scale=small／large 兩組（assumptions.yaml#scale_rules）：large＝該小類全市每店月均銷售額 > 全體中位數的 3 倍，或篇④資本額中位數 > 200 萬，或篇④分店占比 > 30%，任一成立；加上人工手動覆蓋 manual_overrides（482/471/484/481，各附一句理由，都是零售小類，餐飲 4 個情境目前沒有一個觸發 large）。large 者不算進總表的綠／黃／紅燈統計，燈號改標「灰燈：大型業態，非小店可比」，預設從總表隱藏，可展開查看；試算器下拉選單另分「大型業態（參考）」群組。已知限制：篇④的資本額中位數與分店占比只拆到餐飲/零售兩個大類，沒有拆到本頁的小類，這兩條資料判準因此對全部小類都不會觸發，真正抓出大型業態的是月均銷售額判準與 manual_overrides（見 assumptions.yaml#scale_rules.granularity_note）。",
+    "disclaimer": "同業平均不是個店預測：任何一家店的實際營收會因地點、經營方式、規模而有巨大差異；餐飲的由下而上估算也是模型推估，不是本商圈實測，位置係數/進店率/客單價都是可調的假設；本頁燈號是這些假設下的粗篩，不是對特定店面的獲利保證",
+    "not_covered_in_numbers_yaml": "篇①-⑩＋⑫原始數字（篇⑩月均、篇⑨租金中位數、篇③存活率、篇⑫由下而上營收等）本頁用 const 型別附來源路徑核對『抄得對不對』，不重算來源篇自己的算式（那件事已經在來源篇自己的 numbers.yaml 做過）；租金/成本/淨利三情境是乘減法組合，check_numbers 沒有通用加減法原語，同樣用 const 附完整公式；唯一能用 harness 原生 ratio 驗證的衍生數字是投資回收月數（除法）；scale_summary 的計數（small_count/large_count/light_counts_small）同樣用 const 附計算方式"
+  }
+}

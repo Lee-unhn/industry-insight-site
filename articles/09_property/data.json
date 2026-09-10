@@ -1,0 +1,1248 @@
+{
+  "meta": {
+    "article_no": 9,
+    "title": "店面租金與不動產：實價登錄",
+    "data_date": "2026-09-08",
+    "sale_data_date": "2026-09-08",
+    "addr_points_data_date": "2026-09-08",
+    "produced_date": "2026-09-08",
+    "season_note": "內政部實價登錄僅發布最新一季（單季揭露，非累積），資料涵蓋租賃/買賣登記日期皆落在民國115年（2026年）",
+    "rings_used": [
+      5,
+      10,
+      15
+    ]
+  },
+  "layers": {
+    "ring5": "5 分圈（單圈，店家分析核心圈）",
+    "ring10": "10 分圈（累計 5+10 分，與篇①一致）",
+    "dist_east": "東區（全區，鄉鎮市區欄直接篩選，不需地址落點）",
+    "city": "臺南市（全市，鄉鎮市區欄直接篩選，不需地址落點）"
+  },
+  "rent_shop": {
+    "ring5": {
+      "n": 1,
+      "stats_available": false
+    },
+    "ring10": {
+      "n": 3,
+      "stats_available": false
+    },
+    "dist_east": {
+      "n": 34,
+      "stats_available": true,
+      "n_valid_price": 34,
+      "per_ping": {
+        "median": 942.1,
+        "q1": 688.4,
+        "q3": 1248.8
+      },
+      "total": {
+        "median": 23500.0
+      },
+      "area_ping": {
+        "median": 29.59
+      }
+    },
+    "city": {
+      "n": 143,
+      "stats_available": true,
+      "n_valid_price": 143,
+      "per_ping": {
+        "median": 1024.8,
+        "q1": 743.8,
+        "q3": 1358.7
+      },
+      "total": {
+        "median": 24000.0
+      },
+      "area_ping": {
+        "median": 29.77
+      }
+    }
+  },
+  "sale_shop": {
+    "ring5": {
+      "n": 1,
+      "stats_available": false
+    },
+    "ring10": {
+      "n": 4,
+      "stats_available": false
+    },
+    "dist_east": {
+      "n": 8,
+      "stats_available": true,
+      "n_valid_price": 8,
+      "per_ping": {
+        "median": 181011.6,
+        "q1": 142584.3,
+        "q3": 215808.3
+      },
+      "total": {
+        "median": 7530000.0
+      },
+      "area_ping": {
+        "median": 32.59
+      }
+    },
+    "city": {
+      "n": 61,
+      "stats_available": true,
+      "n_valid_price": 58,
+      "per_ping": {
+        "median": 282604.9,
+        "q1": 174562.8,
+        "q3": 440518.2
+      },
+      "total": {
+        "median": 12000000.0
+      },
+      "area_ping": {
+        "median": 36.19
+      }
+    }
+  },
+  "rent_residential": {
+    "ring5": {
+      "n": 5,
+      "stats_available": true,
+      "per_ping_median": 568.6
+    },
+    "ring10": {
+      "n": 79,
+      "stats_available": true,
+      "per_ping_median": 727.3
+    },
+    "dist_east": {
+      "n": 603,
+      "stats_available": true,
+      "per_ping_median": 664.5
+    },
+    "city": {
+      "n": 3911,
+      "stats_available": true,
+      "per_ping_median": 638.0
+    }
+  },
+  "join_stats": {
+    "rent_all": {
+      "total_count": 4141,
+      "matched_count": 214,
+      "unmatched_count": 3927,
+      "join_rate_pct": 5.2,
+      "unmatched_pct": 94.8
+    },
+    "sale_all": {
+      "total_count": 6248,
+      "matched_count": 307,
+      "unmatched_count": 5941,
+      "join_rate_pct": 4.9,
+      "unmatched_pct": 95.1
+    },
+    "rent_shop": {
+      "total_count": 143,
+      "matched_count": 5,
+      "unmatched_count": 138,
+      "join_rate_pct": 3.5,
+      "unmatched_pct": 96.5
+    },
+    "sale_shop": {
+      "total_count": 61,
+      "matched_count": 7,
+      "unmatched_count": 54,
+      "join_rate_pct": 11.5,
+      "unmatched_pct": 88.5
+    }
+  },
+  "scatter_rent_shop": [
+    {
+      "per_ping": 495.9,
+      "area_ping": 38.43,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1814.9,
+      "area_ping": 8.55,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1811.6,
+      "area_ping": 8.55,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 819.8,
+      "area_ping": 30.54,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 985.1,
+      "area_ping": 23.33,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 2800.0,
+      "area_ping": 10.0,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1183.5,
+      "area_ping": 19.42,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1024.8,
+      "area_ping": 17.56,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 366.9,
+      "area_ping": 61.99,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 952.1,
+      "area_ping": 39.95,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 971.9,
+      "area_ping": 43.06,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1259.5,
+      "area_ping": 25.39,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 310.7,
+      "area_ping": 193.61,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 2029.8,
+      "area_ping": 40.37,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 747.1,
+      "area_ping": 57.47,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 1371.9,
+      "area_ping": 17.51,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 588.4,
+      "area_ping": 101.79,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 938.8,
+      "area_ping": 33.55,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 852.9,
+      "area_ping": 17.61,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1583.5,
+      "area_ping": 12.0,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 628.1,
+      "area_ping": 44.54,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 915.7,
+      "area_ping": 38.25,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1348.8,
+      "area_ping": 12.99,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 1054.5,
+      "area_ping": 39.82,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 2059.5,
+      "area_ping": 41.29,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 2102.5,
+      "area_ping": 7.14,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 581.8,
+      "area_ping": 34.11,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 449.6,
+      "area_ping": 51.24,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 472.7,
+      "area_ping": 101.56,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1719.0,
+      "area_ping": 32.0,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1259.5,
+      "area_ping": 15.1,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 2350.4,
+      "area_ping": 5.32,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1117.4,
+      "area_ping": 17.88,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 3269.4,
+      "area_ping": 5.51,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1160.3,
+      "area_ping": 31.05,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1133.9,
+      "area_ping": 11.47,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 486.0,
+      "area_ping": 30.79,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 535.5,
+      "area_ping": 37.31,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 889.3,
+      "area_ping": 11.25,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 2115.7,
+      "area_ping": 7.56,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 783.5,
+      "area_ping": 14.05,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1451.2,
+      "area_ping": 16.53,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 681.0,
+      "area_ping": 161.58,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1527.3,
+      "area_ping": 248.96,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 912.4,
+      "area_ping": 13.16,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 743.8,
+      "area_ping": 40.37,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 793.4,
+      "area_ping": 16.4,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1659.5,
+      "area_ping": 57.25,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1338.8,
+      "area_ping": 14.77,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1487.6,
+      "area_ping": 18.14,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 2733.9,
+      "area_ping": 4.02,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 373.6,
+      "area_ping": 40.24,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 1395.0,
+      "area_ping": 10.76,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 912.4,
+      "area_ping": 43.67,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 743.8,
+      "area_ping": 34.97,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 469.4,
+      "area_ping": 31.89,
+      "layer_tag": "ring15"
+    },
+    {
+      "per_ping": 879.3,
+      "area_ping": 88.01,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1543.8,
+      "area_ping": 26.58,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1008.3,
+      "area_ping": 56.45,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 1537.2,
+      "area_ping": 14.31,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 760.3,
+      "area_ping": 28.92,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1636.4,
+      "area_ping": 30.55,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1031.4,
+      "area_ping": 17.45,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 886.0,
+      "area_ping": 18.03,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 747.1,
+      "area_ping": 53.49,
+      "layer_tag": "ring10"
+    },
+    {
+      "per_ping": 790.1,
+      "area_ping": 32.84,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1643.0,
+      "area_ping": 109.49,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 2390.1,
+      "area_ping": 50.18,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 753.7,
+      "area_ping": 23.6,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1183.5,
+      "area_ping": 15.19,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1044.6,
+      "area_ping": 49.76,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 452.9,
+      "area_ping": 44.21,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 872.7,
+      "area_ping": 16.06,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1699.2,
+      "area_ping": 10.0,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 809.9,
+      "area_ping": 22.21,
+      "layer_tag": "ring10"
+    },
+    {
+      "per_ping": 598.3,
+      "area_ping": 41.86,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 2998.3,
+      "area_ping": 7.67,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1712.4,
+      "area_ping": 14.2,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 489.3,
+      "area_ping": 63.37,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1338.8,
+      "area_ping": 13.45,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1368.6,
+      "area_ping": 40.14,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 214.9,
+      "area_ping": 69.46,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1229.8,
+      "area_ping": 14.63,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1338.8,
+      "area_ping": 13.45,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1038.0,
+      "area_ping": 17.35,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 472.7,
+      "area_ping": 148.25,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1246.3,
+      "area_ping": 16.03,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1081.0,
+      "area_ping": 14.82,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1137.2,
+      "area_ping": 19.37,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 6152.1,
+      "area_ping": 2.93,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 611.6,
+      "area_ping": 130.52,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 492.6,
+      "area_ping": 80.76,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1940.5,
+      "area_ping": 25.75,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1487.6,
+      "area_ping": 104.27,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1292.6,
+      "area_ping": 38.65,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 704.1,
+      "area_ping": 26.99,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 429.8,
+      "area_ping": 46.71,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 1077.7,
+      "area_ping": 37.16,
+      "layer_tag": "ring5"
+    },
+    {
+      "per_ping": 1603.3,
+      "area_ping": 17.03,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 681.0,
+      "area_ping": 51.28,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 383.5,
+      "area_ping": 72.83,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 948.8,
+      "area_ping": 57.5,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 743.8,
+      "area_ping": 20.2,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 773.6,
+      "area_ping": 41.42,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 829.8,
+      "area_ping": 48.14,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 571.9,
+      "area_ping": 59.43,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 1157.0,
+      "area_ping": 12.97,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 690.9,
+      "area_ping": 28.65,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 571.9,
+      "area_ping": 52.42,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 555.4,
+      "area_ping": 26.98,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 1038.0,
+      "area_ping": 48.13,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 773.6,
+      "area_ping": 29.77,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 942.1,
+      "area_ping": 33.99,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1623.1,
+      "area_ping": 11.69,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 952.1,
+      "area_ping": 36.81,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 948.8,
+      "area_ping": 16.85,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 796.7,
+      "area_ping": 21.96,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1289.3,
+      "area_ping": 14.75,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 1755.4,
+      "area_ping": 10.81,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 1114.0,
+      "area_ping": 35.72,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 1133.9,
+      "area_ping": 17.45,
+      "layer_tag": "ring15"
+    },
+    {
+      "per_ping": 393.4,
+      "area_ping": 35.66,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1233.1,
+      "area_ping": 13.39,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1451.2,
+      "area_ping": 15.16,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 2479.3,
+      "area_ping": 25.02,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1133.9,
+      "area_ping": 28.21,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 932.2,
+      "area_ping": 34.33,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 1137.2,
+      "area_ping": 25.0,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1279.3,
+      "area_ping": 28.11,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 1120.7,
+      "area_ping": 25.02,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 803.3,
+      "area_ping": 41.03,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 403.3,
+      "area_ping": 57.02,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 591.7,
+      "area_ping": 40.54,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1762.0,
+      "area_ping": 34.04,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1071.1,
+      "area_ping": 42.05,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 737.2,
+      "area_ping": 81.43,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 687.6,
+      "area_ping": 23.97,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 638.0,
+      "area_ping": 54.91,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 915.7,
+      "area_ping": 35.01,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 1216.5,
+      "area_ping": 20.53,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1315.7,
+      "area_ping": 30.42,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1137.2,
+      "area_ping": 23.71,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 651.2,
+      "area_ping": 13.04,
+      "layer_tag": "dist_east"
+    }
+  ],
+  "scatter_sale_shop": [
+    {
+      "per_ping": 177742.1,
+      "area_ping": 38.71,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 702829.7,
+      "area_ping": 41.53,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 71606.6,
+      "area_ping": 83.79,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 360290.9,
+      "area_ping": 26.72,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 308562.0,
+      "area_ping": 39.15,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 421517.3,
+      "area_ping": 37.84,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 131996.7,
+      "area_ping": 189.4,
+      "layer_tag": "ring10"
+    },
+    {
+      "per_ping": 152158.7,
+      "area_ping": 20.37,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 730720.6,
+      "area_ping": 17.11,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 634618.2,
+      "area_ping": 72.89,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 184281.0,
+      "area_ping": 11.51,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 174333.9,
+      "area_ping": 16.75,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 245404.9,
+      "area_ping": 36.19,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 317960.3,
+      "area_ping": 39.94,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 70757.0,
+      "area_ping": 9.61,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 349613.2,
+      "area_ping": 12.87,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 321084.3,
+      "area_ping": 7.16,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 232803.3,
+      "area_ping": 3.65,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 116128.9,
+      "area_ping": 7.75,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 271348.8,
+      "area_ping": 25.8,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 139917.4,
+      "area_ping": 21.44,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 165821.5,
+      "area_ping": 7.54,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 752327.2,
+      "area_ping": 35.89,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 199219.8,
+      "area_ping": 8.03,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 175249.6,
+      "area_ping": 14.21,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 212429.7,
+      "area_ping": 56.49,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 231735.5,
+      "area_ping": 72.84,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 479054.5,
+      "area_ping": 33.4,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1119398.3,
+      "area_ping": 19.65,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 228925.6,
+      "area_ping": 95.23,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 309008.3,
+      "area_ping": 26.47,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 183028.1,
+      "area_ping": 23.06,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 214419.8,
+      "area_ping": 64.36,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 324033.0,
+      "area_ping": 51.94,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 160274.4,
+      "area_ping": 53.03,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 265573.5,
+      "area_ping": 48.95,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 352459.5,
+      "area_ping": 13.62,
+      "layer_tag": "ring5"
+    },
+    {
+      "per_ping": 202330.6,
+      "area_ping": 37.81,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 173490.9,
+      "area_ping": 31.7,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 1089276.0,
+      "area_ping": 40.58,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 129434.7,
+      "area_ping": 92.71,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 113861.2,
+      "area_ping": 136.13,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 113861.2,
+      "area_ping": 136.13,
+      "layer_tag": "dist_east"
+    },
+    {
+      "per_ping": 159190.1,
+      "area_ping": 20.42,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 390426.4,
+      "area_ping": 35.86,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 446201.6,
+      "area_ping": 35.86,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 170000.0,
+      "area_ping": 1332.99,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 375765.3,
+      "area_ping": 21.29,
+      "layer_tag": "ring10"
+    },
+    {
+      "per_ping": 705381.8,
+      "area_ping": 109.74,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 534882.6,
+      "area_ping": 62.05,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 505395.0,
+      "area_ping": 40.75,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 494862.8,
+      "area_ping": 34.82,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 423467.8,
+      "area_ping": 42.78,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 293861.1,
+      "area_ping": 47.4,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 459375.2,
+      "area_ping": 57.82,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 476823.1,
+      "area_ping": 55.4,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 419709.1,
+      "area_ping": 44.32,
+      "layer_tag": "other"
+    },
+    {
+      "per_ping": 721735.5,
+      "area_ping": 63.57,
+      "layer_tag": "other"
+    }
+  ],
+  "map_points": [
+    {
+      "type": "rent",
+      "lon": 120.21821,
+      "lat": 22.99055,
+      "ring": 5,
+      "count": 1
+    },
+    {
+      "type": "rent",
+      "lon": 120.22975,
+      "lat": 23.0204,
+      "ring": 10,
+      "count": 1
+    },
+    {
+      "type": "rent",
+      "lon": 120.23274,
+      "lat": 23.00958,
+      "ring": 10,
+      "count": 1
+    },
+    {
+      "type": "rent",
+      "lon": 120.24635,
+      "lat": 23.01687,
+      "ring": 15,
+      "count": 1
+    },
+    {
+      "type": "rent",
+      "lon": 120.25709,
+      "lat": 23.01602,
+      "ring": 15,
+      "count": 1
+    },
+    {
+      "type": "sale",
+      "lon": 120.22588,
+      "lat": 23.01497,
+      "ring": 10,
+      "count": 1
+    },
+    {
+      "type": "sale",
+      "lon": 120.22684,
+      "lat": 23.01678,
+      "ring": 10,
+      "count": 1
+    },
+    {
+      "type": "sale",
+      "lon": 120.22882,
+      "lat": 23.01137,
+      "ring": 5,
+      "count": 1
+    },
+    {
+      "type": "sale",
+      "lon": 120.23077,
+      "lat": 23.01318,
+      "ring": 10,
+      "count": 1
+    }
+  ],
+  "method_notes": {
+    "scope": "僅最新一季（單季揭露），非月更累積；篇⑨其餘 9 篇皆為累積或最新快照，此篇特別容易受單季波動影響，樣本數少時不做平滑",
+    "shop_criteria_rent": "建物型態='店面(店鋪)'（乾淨分類值，可直接篩選）",
+    "shop_criteria_sale": "主要用途='商業用'（買賣無乾淨的「店面」分類值，用主要用途近似，會排除「住商用」等不精確符合的類別，篩選後樣本數偏小是預期行為）",
+    "residential_contrast_criteria": "建物型態 in ['住宅大樓(11層含以上有電梯)', '華廈(10層含以下有電梯)', '公寓(5樓含以下無電梯)', '透天厝']（排除店面/工廠/倉庫/辦公商業大樓/農舍/其他）",
+    "ping_conversion": "1 坪 = 3.305785 平方公尺（台灣不動產慣用換算常數：1坪=3.305785平方公尺（1坪=36台尺²，1台尺=10/33公尺））",
+    "ping_m2_ratio": 3.305785,
+    "rent_includes_parking_or_mgmt_fee": "租賃總額元欄位未明確拆分管理費是否內含（實價登錄無獨立管理費欄位）；143 筆店面租賃中僅 8 筆有車位類別註記，且對應車位總額元均為 0 元，可視為總額元已涵蓋車位（若有）、非額外計費 -- 詳見篇⑨附表",
+    "join_method": "重用篇①店家落點方法（pipeline/stores_geo.geocode_stores/assign_rings）：實價登錄「土地位置建物門牌」比照稅籍地址做同一套 exact/no_floor/street_fallback 三級 cascade",
+    "join_caveat": "實價登錄地址落點率遠低於篇①稅籍地址（本篇全量約5%、篇①約93%）：內政部實價登錄揭露地址時本身即對門牌做模糊化/去識別化處理，部分案例的門牌號或路段文字無法精確對應臺南市門牌坐標資料，屬資料源已知限制；5 分圈／10 分圈兩層需要地址落點才算得出，樣本數常見 n<5，依規格（Q29）只列筆數",
+    "unmatched_note": "未落點的筆數仍計入東區/臺南市（依鄉鎮市區欄直接篩選，不需地址落點）與全部統計，只有 5/10 分圈兩層會因未落點而排除",
+    "min_n_for_stats": 5,
+    "map_grid_cell_m": 100.0,
+    "map_privacy_note": "圖 D 地圖點位已偏移到 100m 網格中心，不顯示原始門牌或逐筆點位",
+    "data_version": "2026-09-08"
+  }
+}

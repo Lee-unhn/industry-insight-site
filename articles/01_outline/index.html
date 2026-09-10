@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>成大商圈輪廓：機車等時圈、店家總量與分布｜開店分析所</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/5.24.0/maplibre-gl.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/5.24.0/maplibre-gl.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/6.1.0/echarts.min.js"></script>
+<style>
+  /* ------------------------------------------------------------------
+     設計系統 token（淺色專業報告風：白底、深藍主色、灰網格；黑白列印仍可辨）
+     取自 dataviz skill 的 reference palette.md，本篇裁定只用淺色（Q38）。
+     ------------------------------------------------------------------ */
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page-plane:     #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+
+    --series-1: #2a78d6;   /* blue -- 餐飲 / 主色 */
+    --series-2: #eb6834;   /* orange -- 零售 */
+    --series-3: #1baf7a;   /* aqua -- 公司（組織別第 3 桶） */
+    --series-4: #eda100;   /* yellow -- 其他（組織別第 4 桶） */
+    --series-8: #e34948;   /* red -- 中心點標記，與藍色序列明顯區隔 */
+
+    /* 三圈邊界：色相＋線寬＋虛實三重編碼，黑白列印也能分辨 */
+    --ring-5:  #184f95;   /* 5 分：深藍、實線、最粗 */
+    --ring-10: #2a78d6;   /* 10 分：中藍、實線、中等 */
+    --ring-15: #86b6ef;   /* 15 分：淺藍、虛線、最細 */
+
+    /* 密度序列色階（單一藍色調，淺→深） */
+    --seq-100: #cde2fb;
+    --seq-250: #86b6ef;
+    --seq-400: #3987e5;
+    --seq-550: #1c5cab;
+    --seq-700: #0d366b;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--page-plane);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", "Microsoft JhengHei", sans-serif;
+    overflow-x: hidden;
+  }
+  body { min-width: 0; }
+  img, canvas, svg { max-width: 100%; }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 20px 16px 48px;
+  }
+
+  header.hero {
+    padding: 8px 0 20px;
+    border-bottom: 1px solid var(--gridline);
+    margin-bottom: 20px;
+  }
+  .kicker {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--series-1);
+    text-transform: uppercase;
+  }
+  h1 {
+    font-size: clamp(20px, 3.6vw, 30px);
+    line-height: 1.3;
+    margin: 6px 0 10px;
+  }
+  .lede {
+    font-size: 15px;
+    color: var(--text-secondary);
+    max-width: 74ch;
+    line-height: 1.6;
+    margin: 0 0 10px;
+  }
+  .meta-line {
+    font-size: 12.5px;
+    color: var(--text-muted);
+  }
+  .meta-line b { color: var(--text-secondary); font-weight: 600; }
+
+  /* ---------------- stat tiles ---------------- */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 700px) {
+    .stat-row { grid-template-columns: repeat(2, 1fr); }
+  }
+  .stat-tile {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .stat-label {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+  .stat-value {
+    font-size: clamp(22px, 3.4vw, 30px);
+    font-weight: 600;
+    font-variant-numeric: proportional-nums;
+    line-height: 1.1;
+  }
+  .stat-value .unit { font-size: 0.5em; font-weight: 500; color: var(--text-secondary); margin-left: 4px; }
+  .stat-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  /* ---------------- cards ---------------- */
+  .card {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px 18px;
+    margin-bottom: 18px;
+  }
+  .card h2 {
+    font-size: 16px;
+    margin: 0 0 2px;
+  }
+  .card .subtitle {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin: 0 0 12px;
+  }
+
+  /* ---------------- map ---------------- */
+  .map-card { padding: 0; overflow: hidden; }
+  .map-card .map-head { padding: 16px 18px 0; }
+  #map {
+    width: 100%;
+    height: 480px;
+    position: relative;
+  }
+  @media (max-width: 520px) {
+    #map { height: 340px; }
+  }
+  .map-legend {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(252,252,251,0.94);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 11.5px;
+    color: var(--text-secondary);
+    max-width: 190px;
+    line-height: 1.5;
+    z-index: 5;
+  }
+  .map-legend h4 { margin: 0 0 6px; font-size: 11.5px; color: var(--text-primary); }
+  .legend-row { display: flex; align-items: center; gap: 6px; margin: 3px 0; }
+  .legend-swatch-line { width: 20px; height: 0; border-top-width: 3px; flex: none; }
+  .legend-swatch-box { width: 12px; height: 12px; border-radius: 2px; flex: none; }
+  .legend-ramp {
+    height: 10px; border-radius: 3px; margin: 4px 0 3px;
+    background: linear-gradient(to right, var(--seq-100), var(--seq-250), var(--seq-400), var(--seq-550), var(--seq-700));
+  }
+  .legend-ramp-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); }
+  .center-star {
+    width: 14px; height: 14px; flex: none;
+    color: var(--series-8);
+  }
+
+  .osm-note {
+    position: absolute;
+    bottom: 4px;
+    left: 8px;
+    font-size: 10.5px;
+    color: var(--text-muted);
+    background: rgba(252,252,251,0.85);
+    padding: 1px 6px;
+    border-radius: 4px;
+    z-index: 5;
+  }
+
+  .maplibregl-marker .center-marker-label {
+    background: rgba(252,252,251,0.92);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 11px;
+    color: var(--text-primary);
+    white-space: nowrap;
+    transform: translate(10px, -8px);
+  }
+
+  /* ---------------- charts grid ---------------- */
+  .chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  @media (max-width: 820px) {
+    .chart-grid { grid-template-columns: 1fr; }
+  }
+  .echart { width: 100%; height: 300px; }
+
+  .table-toggle {
+    font-size: 12px;
+    color: var(--series-1);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 9px;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+  .table-toggle:hover { background: var(--page-plane); }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    margin-top: 10px;
+    display: none;
+  }
+  .data-table.open { display: table; }
+  .data-table th, .data-table td {
+    text-align: right;
+    padding: 5px 8px;
+    border-bottom: 1px solid var(--gridline);
+    font-variant-numeric: tabular-nums;
+  }
+  .data-table th:first-child, .data-table td:first-child { text-align: left; font-variant-numeric: normal; }
+  .data-table thead th { color: var(--text-secondary); font-weight: 600; border-bottom: 1px solid var(--baseline); }
+
+  /* ---------------- method notes ---------------- */
+  .method h2 { font-size: 16px; margin: 0 0 10px; }
+  .method dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 6px 14px;
+    font-size: 13px;
+    margin: 0;
+  }
+  .method dt { color: var(--text-secondary); white-space: nowrap; }
+  .method dd { margin: 0; color: var(--text-primary); }
+  @media (max-width: 560px) {
+    .method dl { grid-template-columns: 1fr; }
+    .method dt { margin-top: 6px; }
+  }
+  .honest-note {
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: var(--page-plane);
+    border-left: 3px solid var(--series-2);
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    border-radius: 0 6px 6px 0;
+  }
+
+  footer.site-footer {
+    margin-top: 28px;
+    padding-top: 14px;
+    border-top: 1px solid var(--gridline);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  #console-error-badge { display: none; }
+</style>
+<link rel="stylesheet" href="../_shared/reader.css" />
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">開店分析所 · 篇① / 10</div>
+    <h1>成大商圈輪廓：機車等時圈、店家總量與分布</h1>
+    <p class="lede" id="lede">
+      以台南火車站後站、成大光復校區正門、成大醫院正門三個核心點的機車 5／10／15
+      分鐘等時圈聯集，界定成大商圈範圍，統計圈內店家總量、業種結構與店家密度，
+      作為之後 9 篇細部分析的地理骨架。
+    </p>
+    <p class="meta-line" id="meta-line">資料日期讀取中...</p>
+  </header>
+
+  <section class="stat-row" id="stat-row" aria-label="核心數字">
+    <!-- 4 個 stat tile 由 JS 填入 -->
+  </section>
+
+  <section class="card map-card">
+    <div class="map-head">
+      <h2>地圖 · 商圈範圍與店家分布</h2>
+      <p class="subtitle">底圖是自行計算的道路網（沒有用外部地圖圖磚）；三層等時圈用顏色、線的粗細、虛線實線三種方式區分，黑白列印也看得出差異。</p>
+    </div>
+    <div id="map">
+      <div class="map-legend" id="map-legend"></div>
+      <div class="osm-note">© OpenStreetMap contributors</div>
+    </div>
+  </section>
+
+  <div class="chart-grid">
+
+    <section class="card">
+      <h2>圖 A · 三個範圍各有多少店</h2>
+      <p class="subtitle">單圈＝只算剛好落在這一圈的店；累計＝加上更小圈的店，等於騎到這裡為止會經過的店家總數（單位：家）</p>
+      <div class="echart" id="chartA"></div>
+      <button class="table-toggle" data-target="tableA">顯示資料表格</button>
+      <table class="data-table" id="tableA"></table>
+    </section>
+
+    <section class="card">
+      <h2>圖 B · 核心商圈最常見的 12 種店</h2>
+      <p class="subtitle">依「稅務行業標準分類」細分行業，店數由多到少排序（單位：家）</p>
+      <div class="echart" id="chartB" style="height:340px"></div>
+      <button class="table-toggle" data-target="tableB">顯示資料表格</button>
+      <table class="data-table" id="tableB"></table>
+    </section>
+
+    <section class="card">
+      <h2>圖 C · 餐飲、零售各占多少</h2>
+      <p class="subtitle">三個範圍分別統計、只算落在該範圍內的店，三類加起來是 100%（單位：% 家數占比）</p>
+      <div class="echart" id="chartC"></div>
+      <button class="table-toggle" data-target="tableC">顯示資料表格</button>
+      <table class="data-table" id="tableC"></table>
+    </section>
+
+    <section class="card">
+      <h2>圖 D · 公司、獨資等組織型態各占多少</h2>
+      <p class="subtitle">三個範圍分別統計、只算落在該範圍內的店，四類加起來是 100%（單位：% 家數占比）</p>
+      <div class="echart" id="chartD"></div>
+      <button class="table-toggle" data-target="tableD">顯示資料表格</button>
+      <table class="data-table" id="tableD"></table>
+    </section>
+
+  </div>
+
+  <details class="card method">
+    <summary>怎麼算的（方法與資料限制）</summary>
+    <dl id="method-dl"></dl>
+    <div class="honest-note" id="honest-note"></div>
+  </details>
+
+  <footer class="site-footer">
+    開店分析所｜資料來源：財政部全國營業（稅籍）登記資料集、臺南市門牌坐標資料、稅務行業標準分類（財政部統計處）、
+    OpenStreetMap（© OpenStreetMap contributors，ODbL）。互動圖與海報由同一份資料腳本產出。
+  </footer>
+
+</div>
+
+<script>
+(async function () {
+  "use strict";
+
+  const fmt = (n) => Number(n).toLocaleString("zh-Hant-TW");
+  const fmt1 = (n) => Number(n).toLocaleString("zh-Hant-TW", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+  // ---------------------------------------------------------------
+  // 資料載入
+  // ---------------------------------------------------------------
+  const [data, isochrones, roads, density] = await Promise.all([
+    fetch("./data.json").then((r) => r.json()),
+    fetch("./isochrones_simplified.geojson").then((r) => r.json()),
+    fetch("./roads.geojson").then((r) => r.json()),
+    fetch("./density.geojson").then((r) => r.json()),
+  ]);
+
+  // ---------------------------------------------------------------
+  // 標頭 / meta
+  // ---------------------------------------------------------------
+  document.getElementById("meta-line").innerHTML =
+    `資料日期 <b>${data.meta.data_date}</b>　·　產出日期 <b>${data.meta.produced_date}</b>　·　` +
+    `join 率 <b>${fmt1(data.join.join_rate_pct)}%</b>（未落點 ${fmt1(data.join.unmatched_pct)}%，不進圖表）`;
+
+  // ---------------------------------------------------------------
+  // Stat tiles
+  // ---------------------------------------------------------------
+  const s5 = data.store_counts.single["5"];
+  const rr5 = data.restaurant_retail.single["5"];
+  const dens = data.density;
+  const stats = [
+    { label: "商圈核心店數", value: fmt(s5), unit: "家", sub: "機車 5 分鐘內範圍" },
+    { label: "餐飲家數", value: fmt(rr5.restaurant), unit: "家", sub: `機車 5 分鐘內範圍，占 ${fmt1(rr5.restaurant_pct)}%` },
+    { label: "零售家數", value: fmt(rr5.retail), unit: "家", sub: `機車 5 分鐘內範圍，占 ${fmt1(rr5.retail_pct)}%` },
+    { label: "店家密度是全市平均的幾倍", value: fmt1(dens.density_ratio_vs_city), unit: "倍", sub: `${fmt1(dens.ring5_density_per_km2)} 家/km²（全市 ${fmt1(dens.city_density_per_km2)}）` },
+  ];
+  document.getElementById("stat-row").innerHTML = stats.map((s) => `
+    <div class="stat-tile">
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-value">${s.value}<span class="unit">${s.unit}</span></div>
+      ${s.sub ? `<div class="stat-sub">${s.sub}</div>` : ""}
+    </div>
+  `).join("");
+
+  // ---------------------------------------------------------------
+  // 地圖（MapLibre，無外部圖磚，底圖用 roads.geojson + 白底）
+  // ---------------------------------------------------------------
+  const style = {
+    version: 8,
+    sources: {
+      roads: { type: "geojson", data: roads },
+      density: { type: "geojson", data: density },
+      ring15: { type: "geojson", data: featureFor(isochrones, 15) },
+      ring10: { type: "geojson", data: featureFor(isochrones, 10) },
+      ring5: { type: "geojson", data: featureFor(isochrones, 5) },
+    },
+    layers: [
+      { id: "bg", type: "background", paint: { "background-color": "#fcfcfb" } },
+      {
+        id: "roads-line", type: "line", source: "roads",
+        paint: { "line-color": "#c3c2b7", "line-width": 0.8, "line-opacity": 0.9 },
+      },
+      {
+        id: "density-fill", type: "fill", source: "density",
+        paint: {
+          "fill-color": densityColorExpr(density),
+          "fill-opacity": 0.82,
+        },
+      },
+      {
+        id: "ring15-line", type: "line", source: "ring15",
+        paint: { "line-color": "#86b6ef", "line-width": 1.6, "line-dasharray": [2, 1.6] },
+      },
+      {
+        id: "ring10-line", type: "line", source: "ring10",
+        paint: { "line-color": "#2a78d6", "line-width": 2.4 },
+      },
+      {
+        id: "ring5-line", type: "line", source: "ring5",
+        paint: { "line-color": "#184f95", "line-width": 3.2 },
+      },
+    ],
+  };
+
+  function featureFor(fc, minutes) {
+    const f = fc.features.find((x) => x.properties.minutes === minutes);
+    return { type: "FeatureCollection", features: f ? [f] : [] };
+  }
+
+  function densityColorExpr(fc) {
+    let max = 1;
+    for (const f of fc.features) max = Math.max(max, f.properties.store_count || 0);
+    return [
+      "interpolate", ["linear"], ["get", "store_count"],
+      0, "#fcfcfb",
+      Math.max(1, Math.round(max * 0.08)), "#cde2fb",
+      Math.max(2, Math.round(max * 0.25)), "#86b6ef",
+      Math.max(3, Math.round(max * 0.5)), "#3987e5",
+      Math.max(4, Math.round(max * 0.75)), "#1c5cab",
+      max, "#0d366b",
+    ];
+  }
+
+  const allCoords = isochrones.features.flatMap((f) => {
+    const g = f.geometry;
+    const rings = g.type === "Polygon" ? g.coordinates : g.coordinates.flat();
+    return rings.flat();
+  });
+  const lons = allCoords.map((c) => c[0]);
+  const lats = allCoords.map((c) => c[1]);
+  const bounds = [[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]];
+
+  const map = new maplibregl.Map({
+    container: "map",
+    style,
+    bounds,
+    fitBoundsOptions: { padding: 24 },
+    attributionControl: { compact: false, customAttribution: "© OpenStreetMap contributors (ODbL)" },
+    interactive: true,
+  });
+  map.dragRotate.disable();
+  map.touchZoomRotate.disableRotation();
+
+  map.on("load", () => {
+    for (const c of data.meta.centers) {
+      const el = document.createElement("div");
+      el.style.width = "16px";
+      el.style.height = "16px";
+      el.innerHTML = starSvg();
+      const wrap = document.createElement("div");
+      wrap.style.display = "flex";
+      wrap.style.alignItems = "center";
+      wrap.appendChild(el);
+      const label = document.createElement("span");
+      label.className = "center-marker-label";
+      label.textContent = c.name;
+      wrap.appendChild(label);
+      new maplibregl.Marker({ element: wrap, anchor: "left" })
+        .setLngLat([c.lon, c.lat])
+        .addTo(map);
+    }
+  });
+
+  function starSvg() {
+    return `<svg viewBox="0 0 24 24" width="16" height="16" fill="#e34948" stroke="#0b0b0b" stroke-width="1">
+      <path d="M12 1.8l2.9 6.9 7.4.6-5.7 4.9 1.8 7.3L12 17.6 5.6 21.5l1.8-7.3-5.7-4.9 7.4-.6z"/>
+    </svg>`;
+  }
+
+  document.getElementById("map-legend").innerHTML = `
+    <h4>圖例</h4>
+    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#184f95;border-top-style:solid;border-top-width:3px"></span>5 分（店家分析）</div>
+    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#2a78d6;border-top-style:solid;border-top-width:2.4px"></span>10 分（居住人口）</div>
+    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#86b6ef;border-top-style:dashed;border-top-width:1.6px"></span>15 分（可及性參考）</div>
+    <div class="legend-row"><svg class="center-star" viewBox="0 0 24 24" fill="#e34948" stroke="#0b0b0b" stroke-width="1"><path d="M12 1.8l2.9 6.9 7.4.6-5.7 4.9 1.8 7.3L12 17.6 5.6 21.5l1.8-7.3-5.7-4.9 7.4-.6z"/></svg>三個商圈核心點</div>
+    <div class="legend-ramp"></div>
+    <div class="legend-ramp-labels"><span>0 家/150m格</span><span>密度高</span></div>
+    <div style="margin-top:4px">灰線＝主要道路（OSM 路網）</div>
+  `;
+
+  // ---------------------------------------------------------------
+  // ECharts 共用設定
+  // ---------------------------------------------------------------
+  const CHART_TEXT = { color: "#52514e", fontFamily: "system-ui, -apple-system, 'Segoe UI', 'Microsoft JhengHei', sans-serif" };
+  const AXIS_LINE = { lineStyle: { color: "#c3c2b7" } };
+  const AXIS_LABEL = { color: "#898781", fontSize: 11 };
+  const SPLIT_LINE = { lineStyle: { color: "#e1e0d9", width: 1, type: "solid" } };
+
+  function baseGrid() {
+    return { left: 8, right: 18, top: 30, bottom: 8, containLabel: true };
+  }
+
+  // ---- 圖 A：各圈店數（單圈 vs 累計） ----
+  const ringLabels = ["5 分", "10 分", "15 分"];
+  const singleVals = [5, 10, 15].map((m) => data.store_counts.single[String(m)]);
+  const cumVals = [5, 10, 15].map((m) => data.store_counts.cumulative[String(m)]);
+
+  const chartA = echarts.init(document.getElementById("chartA"));
+  chartA.setOption({
+    textStyle: CHART_TEXT,
+    grid: baseGrid(),
+    legend: { top: 0, right: 0, textStyle: { color: "#52514e", fontSize: 12 } },
+    tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
+    xAxis: { type: "category", data: ringLabels, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, axisTick: { show: false } },
+    yAxis: { type: "value", name: "家", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    series: [
+      {
+        name: "單圈", type: "bar", data: singleVals, barMaxWidth: 22,
+        itemStyle: { color: "#2a78d6", borderRadius: [4, 4, 0, 0] },
+        label: { show: true, position: "top", color: "#52514e", fontSize: 11, formatter: (p) => p.value.toLocaleString("zh-Hant-TW") },
+      },
+      {
+        name: "累計", type: "bar", data: cumVals, barMaxWidth: 22,
+        itemStyle: { color: "#eb6834", borderRadius: [4, 4, 0, 0] },
+        label: { show: true, position: "top", color: "#52514e", fontSize: 11, formatter: (p) => p.value.toLocaleString("zh-Hant-TW") },
+      },
+    ],
+  });
+  renderTable("tableA", ["圈", "單圈家數", "累計家數"], [5, 10, 15].map((m) => [
+    `${m} 分`, fmt(data.store_counts.single[String(m)]), fmt(data.store_counts.cumulative[String(m)]),
+  ]));
+
+  // ---- 圖 B：5 分圈前 12 業種（橫條） ----
+  const top12 = data.top12_industry_mid_ring5.slice().reverse(); // 由下到上遞增，最大值在最上面
+  const chartB = echarts.init(document.getElementById("chartB"));
+  chartB.setOption({
+    textStyle: CHART_TEXT,
+    grid: { left: 8, right: 40, top: 8, bottom: 8, containLabel: true },
+    tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
+    xAxis: { type: "value", name: "家", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    yAxis: {
+      type: "category",
+      data: top12.map((d) => `${d.name}（${d.code}）`),
+      axisLine: AXIS_LINE, axisTick: { show: false },
+      axisLabel: { color: "#52514e", fontSize: 11.5 },
+    },
+    series: [{
+      type: "bar", data: top12.map((d) => d.count), barMaxWidth: 16,
+      itemStyle: { color: "#2a78d6", borderRadius: [0, 4, 4, 0] },
+      label: { show: true, position: "right", color: "#52514e", fontSize: 11, formatter: (p) => p.value.toLocaleString("zh-Hant-TW") },
+    }],
+  });
+  renderTable("tableB", ["業種（代碼）", "5 分圈家數"], data.top12_industry_mid_ring5.map((d) => [
+    `${d.name}（${d.code}）`, fmt(d.count),
+  ]));
+
+  // ---- 圖 C：餐飲／零售／其他占比（100% 堆疊） ----
+  const rrSingle = [5, 10, 15].map((m) => data.restaurant_retail.single[String(m)]);
+  const otherPct = rrSingle.map((d) => Math.max(0, 100 - d.restaurant_pct - d.retail_pct));
+  const chartC = echarts.init(document.getElementById("chartC"));
+  chartC.setOption({
+    textStyle: CHART_TEXT,
+    grid: baseGrid(),
+    legend: { top: 0, right: 0, textStyle: { color: "#52514e", fontSize: 12 } },
+    tooltip: { trigger: "axis", axisPointer: { type: "shadow" }, valueFormatter: (v) => `${v}%` },
+    xAxis: { type: "category", data: ringLabels, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, axisTick: { show: false } },
+    yAxis: { type: "value", name: "%", max: 100, nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    series: [
+      {
+        name: `餐飲（${data.restaurant_retail.industry_labels["56"]}）`, type: "bar", stack: "s", barMaxWidth: 22,
+        data: rrSingle.map((d) => d.restaurant_pct),
+        itemStyle: { color: "#2a78d6" },
+        label: { show: true, color: "#fff", fontSize: 11, formatter: (p) => `${p.value}%` },
+      },
+      {
+        name: `零售（${data.restaurant_retail.industry_labels["47-48"]}）`, type: "bar", stack: "s", barMaxWidth: 22,
+        data: rrSingle.map((d) => d.retail_pct),
+        itemStyle: { color: "#eb6834" },
+        label: { show: true, color: "#fff", fontSize: 11, formatter: (p) => `${p.value}%` },
+      },
+      {
+        name: "其他業種", type: "bar", stack: "s", barMaxWidth: 22,
+        data: otherPct.map((v) => Math.round(v * 10) / 10),
+        itemStyle: { color: "#c3c2b7", borderRadius: [4, 4, 0, 0] },
+        label: { show: true, color: "#52514e", fontSize: 11, formatter: (p) => `${p.value}%` },
+      },
+    ],
+  });
+  renderTable("tableC", ["圈", "餐飲 %", "零售 %", "其他 %"], [5, 10, 15].map((m, i) => [
+    `${m} 分`, fmt1(rrSingle[i].restaurant_pct), fmt1(rrSingle[i].retail_pct), fmt1(otherPct[i]),
+  ]));
+
+  // ---- 圖 D：組織別分布（100% 堆疊） ----
+  const orgOrder = ["公司", "有限公司", "獨資", "其他"];
+  const orgColors = { "公司": "#2a78d6", "有限公司": "#eb6834", "獨資": "#1baf7a", "其他": "#eda100" };
+  const orgByRing = [5, 10, 15].map((m) => data.org_type_by_ring[String(m)]);
+  const chartD = echarts.init(document.getElementById("chartD"));
+  chartD.setOption({
+    textStyle: CHART_TEXT,
+    grid: baseGrid(),
+    legend: { top: 0, right: 0, textStyle: { color: "#52514e", fontSize: 12 } },
+    tooltip: { trigger: "axis", axisPointer: { type: "shadow" }, valueFormatter: (v) => `${v}%` },
+    xAxis: { type: "category", data: ringLabels, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, axisTick: { show: false } },
+    yAxis: { type: "value", name: "%", max: 100, nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    series: orgOrder.map((key, idx) => ({
+      name: key, type: "bar", stack: "org", barMaxWidth: 22,
+      data: orgByRing.map((r) => r[key].pct),
+      itemStyle: { color: orgColors[key], borderRadius: idx === orgOrder.length - 1 ? [4, 4, 0, 0] : [0, 0, 0, 0] },
+      label: { show: true, color: (key === "公司" || key === "獨資") ? "#fff" : "#0b0b0b", fontSize: 10.5, formatter: (p) => p.value >= 5 ? `${p.value}%` : "" },
+    })),
+  });
+  renderTable("tableD", ["圈", ...orgOrder.map((k) => `${k} %`)], orgByRing.map((r, i) => [
+    `${[5, 10, 15][i]} 分`, ...orgOrder.map((k) => fmt1(r[k].pct)),
+  ]));
+
+  window.addEventListener("resize", () => {
+    chartA.resize(); chartB.resize(); chartC.resize(); chartD.resize();
+    map.resize();
+  });
+
+  function renderTable(id, headers, rows) {
+    const el = document.getElementById(id);
+    el.innerHTML = `<thead><tr>${headers.map((h) => `<th>${h}</th>`).join("")}</tr></thead>` +
+      `<tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody>`;
+  }
+  document.querySelectorAll(".table-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const table = document.getElementById(btn.dataset.target);
+      const open = table.classList.toggle("open");
+      btn.textContent = open ? "隱藏資料表格" : "顯示資料表格";
+    });
+  });
+
+  // ---------------------------------------------------------------
+  // 方法說明
+  // ---------------------------------------------------------------
+  const mn = data.method_notes;
+  const centersHtml = data.meta.centers.map((c) => c.name).join("、");
+  document.getElementById("method-dl").innerHTML = `
+    <dt>商圈邊界假設</dt><dd>機車均速 ${mn.scooter_speed_kmh} km/h，OSMnx 本機路網計算等時圈，剔除機車不可行駛的快速道路／高架橋</dd>
+    <dt>三個核心點</dt><dd>${centersHtml}（等時圈取三核心聯集）</dd>
+    <dt>圈的用途</dt><dd>5 分＝${mn.ring_use["5"]}；10 分＝${mn.ring_use["10"]}；15 分＝${mn.ring_use["15"]}</dd>
+    <dt>店家落點方法</dt><dd>${mn.join_method}</dd>
+    <dt>join 率</dt><dd>${fmt1(mn.join_rate_pct)}%；未落點 ${fmt1(mn.unmatched_pct)}%（${mn.unmatched_note}）</dd>
+    <dt>資料版本</dt><dd>${mn.data_version}</dd>
+    <dt>路網著作權</dt><dd>${mn.osm_attribution}</dd>
+  `;
+  document.getElementById("honest-note").textContent =
+    `誠實揭露：全市 ${fmt(data.join.total_count)} 家稅籍店家中，${fmt(data.join.unmatched_count)} 家（${fmt1(data.join.unmatched_pct)}%）` +
+    `因地址比對不到門牌坐標而未落點，未計入本頁地圖與任何依圈分組的統計；密度網格僅涵蓋 15 分圈範圍，公開頁不顯示逐店店名或點位。`;
+
+})().catch((err) => {
+  console.error("[index] 載入失敗", err);
+  document.querySelector(".wrap").insertAdjacentHTML(
+    "afterbegin",
+    `<div style="background:#fde8e8;border:1px solid #e34948;color:#7a1f1f;padding:10px 14px;border-radius:8px;margin-bottom:14px">頁面資料載入失敗：${err && err.message ? err.message : err}</div>`
+  );
+});
+</script>
+<script src="../_shared/reader.js"></script>
+</body>
+</html>

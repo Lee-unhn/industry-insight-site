@@ -1,0 +1,462 @@
+{
+  "meta": {
+    "article_no": 10,
+    "title": "消費金流推斷：兩法交叉",
+    "vat_sales_data_date": "2026-09-08",
+    "vat_sales_year_roc": "111",
+    "vat_sales_year_ce": 2022,
+    "hh_survey_region_data_date": "2026-09-08",
+    "hh_survey_structure_data_date": "2026-09-08",
+    "hh_survey_year": "2024",
+    "stores_geo_data_date": "2026-09-08",
+    "produced_date": "2026-09-08",
+    "primary_ring": 10,
+    "secondary_ring": 5,
+    "district_id": "ncku",
+    "district_name": "成大商圈",
+    "industry_labels": {
+      "56": "餐飲業",
+      "47-48": "零售業"
+    }
+  },
+  "population_ref": {
+    "source_path": "articles/05_population/data.json",
+    "method": "面積加權法（每個最小統計區依與 10 分鐘等時圈交集面積 / 統計區總面積分配後加總）",
+    "households": 171316,
+    "population": 392469,
+    "data_date": "2026-09-08"
+  },
+  "method1_supply": {
+    "majors": {
+      "56": {
+        "label": "餐飲業",
+        "industry_label": "56餐飲業",
+        "city_sales_thousand": 45526070.0,
+        "city_sales_ntd": 45526070000.0,
+        "city_store_count": 17614,
+        "per_store_annual_ntd": 2584653.0,
+        "per_store_monthly_ntd": 215388.0,
+        "ring10_store_count": 6154,
+        "ring10_supply_annual_ntd": 15905951787.0,
+        "ring10_supply_monthly_ntd": 1325495982.0,
+        "ring5_store_count": 2185,
+        "ring5_supply_annual_ntd": 5647465820.0
+      },
+      "47-48": {
+        "label": "零售業",
+        "industry_label": "47-48零售業",
+        "city_sales_thousand": 317231954.0,
+        "city_sales_ntd": 317231954000.0,
+        "city_store_count": 34443,
+        "per_store_annual_ntd": 9210346.0,
+        "per_store_monthly_ntd": 767529.0,
+        "ring10_store_count": 9695,
+        "ring10_supply_annual_ntd": 89294306362.0,
+        "ring10_supply_monthly_ntd": 7441192197.0,
+        "ring5_store_count": 2948,
+        "ring5_supply_annual_ntd": 27152100583.0
+      }
+    },
+    "small_categories": {
+      "561": {
+        "code": "561",
+        "name": "餐食業",
+        "group": "餐飲",
+        "major2": "56",
+        "industry_label": "561餐食業",
+        "city_sales_thousand": 33747552.0,
+        "city_sales_ntd": 33747552000.0,
+        "city_store_count": 13287,
+        "per_store_annual_ntd": 2539893.0,
+        "per_store_monthly_ntd": 211658.0
+      },
+      "562": {
+        "code": "562",
+        "name": "外燴及團膳承包業",
+        "group": "餐飲",
+        "major2": "56",
+        "industry_label": "562外燴及團膳承包業",
+        "city_sales_thousand": 1703446.0,
+        "city_sales_ntd": 1703446000.0,
+        "city_store_count": 304,
+        "per_store_annual_ntd": 5603441.0,
+        "per_store_monthly_ntd": 466953.0
+      },
+      "563": {
+        "code": "563",
+        "name": "飲料業",
+        "group": "餐飲",
+        "major2": "56",
+        "industry_label": "563飲料業",
+        "city_sales_thousand": 10075072.0,
+        "city_sales_ntd": 10075072000.0,
+        "city_store_count": 4023,
+        "per_store_annual_ntd": 2504368.0,
+        "per_store_monthly_ntd": 208697.0
+      },
+      "471": {
+        "code": "471",
+        "name": "綜合商品零售業",
+        "group": "零售",
+        "major2": "47",
+        "industry_label": "471綜合商品零售業",
+        "city_sales_thousand": 92595715.0,
+        "city_sales_ntd": 92595715000.0,
+        "city_store_count": 2801,
+        "per_store_annual_ntd": 33058092.0,
+        "per_store_monthly_ntd": 2754841.0
+      },
+      "472": {
+        "code": "472",
+        "name": "食品、飲料及菸草製品零售業",
+        "group": "零售",
+        "major2": "47",
+        "industry_label": "472食品、飲料及菸草製品零售業",
+        "city_sales_thousand": 32399407.0,
+        "city_sales_ntd": 32399407000.0,
+        "city_store_count": 7996,
+        "per_store_annual_ntd": 4051952.0,
+        "per_store_monthly_ntd": 337663.0
+      },
+      "473": {
+        "code": "473",
+        "name": "布疋及服飾品零售業",
+        "group": "零售",
+        "major2": "47",
+        "industry_label": "473布疋及服飾品零售業",
+        "city_sales_thousand": 10439086.0,
+        "city_sales_ntd": 10439086000.0,
+        "city_store_count": 2566,
+        "per_store_annual_ntd": 4068233.0,
+        "per_store_monthly_ntd": 339019.0
+      },
+      "474": {
+        "code": "474",
+        "name": "家用器具及用品零售業",
+        "group": "零售",
+        "major2": "47",
+        "industry_label": "474家用器具及用品零售業",
+        "city_sales_thousand": 26225532.0,
+        "city_sales_ntd": 26225532000.0,
+        "city_store_count": 4193,
+        "per_store_annual_ntd": 6254599.0,
+        "per_store_monthly_ntd": 521217.0
+      },
+      "475": {
+        "code": "475",
+        "name": "藥品、醫療用品及化粧品零售業",
+        "group": "零售",
+        "major2": "47",
+        "industry_label": "475藥品、醫療用品及化粧品零售業",
+        "city_sales_thousand": 9011230.0,
+        "city_sales_ntd": 9011230000.0,
+        "city_store_count": 2295,
+        "per_store_annual_ntd": 3926462.0,
+        "per_store_monthly_ntd": 327205.0
+      },
+      "476": {
+        "code": "476",
+        "name": "文教育樂用品零售業",
+        "group": "零售",
+        "major2": "47",
+        "industry_label": "476文教育樂用品零售業",
+        "city_sales_thousand": 9338967.0,
+        "city_sales_ntd": 9338967000.0,
+        "city_store_count": 1279,
+        "per_store_annual_ntd": 7301772.0,
+        "per_store_monthly_ntd": 608481.0
+      },
+      "481": {
+        "code": "481",
+        "name": "建材零售業",
+        "group": "零售",
+        "major2": "48",
+        "industry_label": "481建材零售業",
+        "city_sales_thousand": 6818003.0,
+        "city_sales_ntd": 6818003000.0,
+        "city_store_count": 837,
+        "per_store_annual_ntd": 8145762.0,
+        "per_store_monthly_ntd": 678814.0
+      },
+      "482": {
+        "code": "482",
+        "name": "燃料及相關產品零售業",
+        "group": "零售",
+        "major2": "48",
+        "industry_label": "482燃料及相關產品零售業",
+        "city_sales_thousand": 55638470.0,
+        "city_sales_ntd": 55638470000.0,
+        "city_store_count": 573,
+        "per_store_annual_ntd": 97100297.0,
+        "per_store_monthly_ntd": 8091691.0
+      },
+      "483": {
+        "code": "483",
+        "name": "資訊及通訊設備零售業",
+        "group": "零售",
+        "major2": "48",
+        "industry_label": "483資訊及通訊設備零售業",
+        "city_sales_thousand": 9134105.0,
+        "city_sales_ntd": 9134105000.0,
+        "city_store_count": 1007,
+        "per_store_annual_ntd": 9070611.0,
+        "per_store_monthly_ntd": 755884.0
+      },
+      "484": {
+        "code": "484",
+        "name": "汽機車及其零配件、用品零售業",
+        "group": "零售",
+        "major2": "48",
+        "industry_label": "484汽機車及其零配件、用品零售業",
+        "city_sales_thousand": 45878776.0,
+        "city_sales_ntd": 45878776000.0,
+        "city_store_count": 2210,
+        "per_store_annual_ntd": 20759627.0,
+        "per_store_monthly_ntd": 1729969.0
+      },
+      "485": {
+        "code": "485",
+        "name": "其他專賣零售業",
+        "group": "零售",
+        "major2": "48",
+        "industry_label": "485其他專賣零售業",
+        "city_sales_thousand": 7211922.0,
+        "city_sales_ntd": 7211922000.0,
+        "city_store_count": 2736,
+        "per_store_annual_ntd": 2635936.0,
+        "per_store_monthly_ntd": 219661.0
+      },
+      "486": {
+        "code": "486",
+        "name": "零售攤販",
+        "group": "零售",
+        "major2": "48",
+        "industry_label": "486零售攤販",
+        "city_sales_thousand": 259062.0,
+        "city_sales_ntd": 259062000.0,
+        "city_store_count": 312,
+        "per_store_annual_ntd": 830327.0,
+        "per_store_monthly_ntd": 69194.0
+      },
+      "487": {
+        "code": "487",
+        "name": "其他非店面零售業",
+        "group": "零售",
+        "major2": "48",
+        "industry_label": "487其他非店面零售業",
+        "city_sales_thousand": 12281679.0,
+        "city_sales_ntd": 12281679000.0,
+        "city_store_count": 5638,
+        "per_store_annual_ntd": 2178375.0,
+        "per_store_monthly_ntd": 181531.0
+      }
+    }
+  },
+  "method2_demand": {
+    "region_year": "2024",
+    "struct_year": "2024",
+    "hh_annual_total_ntd": 776782.0,
+    "restaurant_pct": 13.74,
+    "retail_categories": {
+      "食品飲料及菸草": {
+        "key": "食品飲料及菸草",
+        "column": "食品飲料及菸草-百分比",
+        "pct": 15.3
+      },
+      "衣著鞋襪類": {
+        "key": "衣著鞋襪類",
+        "column": "衣著鞋襪類-百分比",
+        "pct": 2.62
+      },
+      "家具設備及家務維護": {
+        "key": "家具設備及家務維護",
+        "column": "家具設備及家務維護-百分比",
+        "pct": 2.92
+      },
+      "休閒、運動、文化及教育": {
+        "key": "休閒、運動、文化及教育",
+        "column": "休閒、運動、文化及教育-百分比",
+        "pct": 6.29
+      }
+    },
+    "retail_pct_sum": 27.13,
+    "per_household_annual_restaurant_ntd": 106730.0,
+    "per_household_annual_retail_ntd": 210741.0,
+    "ring10_households": 171316,
+    "ring10_demand_pool_restaurant_annual_ntd": 18284530434.0,
+    "ring10_demand_pool_retail_annual_ntd": 36103297721.0,
+    "ring10_demand_pool_restaurant_monthly_ntd": 1523710870.0,
+    "ring10_demand_pool_retail_monthly_ntd": 3008608143.0
+  },
+  "cross": {
+    "56": {
+      "supply_annual_ntd": 15905951787.0,
+      "demand_annual_ntd": 18284530434.0,
+      "gap_ntd": 2378578647.0,
+      "demand_to_supply_ratio_pct": 115.0,
+      "gap_pct": 15.0,
+      "bigger_side": "demand"
+    },
+    "47-48": {
+      "supply_annual_ntd": 89294306362.0,
+      "demand_annual_ntd": 36103297721.0,
+      "gap_ntd": -53191008641.0,
+      "demand_to_supply_ratio_pct": 40.4,
+      "gap_pct": -59.6,
+      "bigger_side": "supply"
+    }
+  },
+  "revenue_bands": {
+    "餐飲": {
+      "items": [
+        {
+          "code": "561",
+          "name": "餐食業",
+          "industry_label": "561餐食業",
+          "city_store_count": 13287,
+          "per_store_monthly_ntd": 211658.0
+        },
+        {
+          "code": "562",
+          "name": "外燴及團膳承包業",
+          "industry_label": "562外燴及團膳承包業",
+          "city_store_count": 304,
+          "per_store_monthly_ntd": 466953.0
+        },
+        {
+          "code": "563",
+          "name": "飲料業",
+          "industry_label": "563飲料業",
+          "city_store_count": 4023,
+          "per_store_monthly_ntd": 208697.0
+        }
+      ],
+      "n_small_categories": 3,
+      "p25_monthly_ntd": 210178.0,
+      "p75_monthly_ntd": 339306.0
+    },
+    "零售": {
+      "items": [
+        {
+          "code": "471",
+          "name": "綜合商品零售業",
+          "industry_label": "471綜合商品零售業",
+          "city_store_count": 2801,
+          "per_store_monthly_ntd": 2754841.0
+        },
+        {
+          "code": "472",
+          "name": "食品、飲料及菸草製品零售業",
+          "industry_label": "472食品、飲料及菸草製品零售業",
+          "city_store_count": 7996,
+          "per_store_monthly_ntd": 337663.0
+        },
+        {
+          "code": "473",
+          "name": "布疋及服飾品零售業",
+          "industry_label": "473布疋及服飾品零售業",
+          "city_store_count": 2566,
+          "per_store_monthly_ntd": 339019.0
+        },
+        {
+          "code": "474",
+          "name": "家用器具及用品零售業",
+          "industry_label": "474家用器具及用品零售業",
+          "city_store_count": 4193,
+          "per_store_monthly_ntd": 521217.0
+        },
+        {
+          "code": "475",
+          "name": "藥品、醫療用品及化粧品零售業",
+          "industry_label": "475藥品、醫療用品及化粧品零售業",
+          "city_store_count": 2295,
+          "per_store_monthly_ntd": 327205.0
+        },
+        {
+          "code": "476",
+          "name": "文教育樂用品零售業",
+          "industry_label": "476文教育樂用品零售業",
+          "city_store_count": 1279,
+          "per_store_monthly_ntd": 608481.0
+        },
+        {
+          "code": "481",
+          "name": "建材零售業",
+          "industry_label": "481建材零售業",
+          "city_store_count": 837,
+          "per_store_monthly_ntd": 678814.0
+        },
+        {
+          "code": "482",
+          "name": "燃料及相關產品零售業",
+          "industry_label": "482燃料及相關產品零售業",
+          "city_store_count": 573,
+          "per_store_monthly_ntd": 8091691.0
+        },
+        {
+          "code": "483",
+          "name": "資訊及通訊設備零售業",
+          "industry_label": "483資訊及通訊設備零售業",
+          "city_store_count": 1007,
+          "per_store_monthly_ntd": 755884.0
+        },
+        {
+          "code": "484",
+          "name": "汽機車及其零配件、用品零售業",
+          "industry_label": "484汽機車及其零配件、用品零售業",
+          "city_store_count": 2210,
+          "per_store_monthly_ntd": 1729969.0
+        },
+        {
+          "code": "485",
+          "name": "其他專賣零售業",
+          "industry_label": "485其他專賣零售業",
+          "city_store_count": 2736,
+          "per_store_monthly_ntd": 219661.0
+        },
+        {
+          "code": "486",
+          "name": "零售攤販",
+          "industry_label": "486零售攤販",
+          "city_store_count": 312,
+          "per_store_monthly_ntd": 69194.0
+        },
+        {
+          "code": "487",
+          "name": "其他非店面零售業",
+          "industry_label": "487其他非店面零售業",
+          "city_store_count": 5638,
+          "per_store_monthly_ntd": 181531.0
+        }
+      ],
+      "n_small_categories": 13,
+      "p25_monthly_ntd": 327205.0,
+      "p75_monthly_ntd": 755884.0
+    }
+  },
+  "method_notes": {
+    "unit_assumption": "vat_sales（財政部營業稅銷售額）銷售額欄位的原始 CSV 未標註金額單位；本篇依內部量級交叉檢核判定為仟元（千元），非元：若照『元』解讀，臺南市 56 餐飲業全市年銷售額僅約 4,553 萬元，換算每店年營收不到千元，明顯不合理；改用『千元』解讀後，餐飲全市每店年營收約 258 萬元（約 21.5 萬元/月），且與法二（家庭收支調查）算出的 10 分圈餐飲消費池數量級相符（同為十位數億元），兩種獨立算法在數量級上互相印證，故本篇銷售額一律先乘 1000 換算為元後再使用；財政部官方資料集說明頁與 data.gov.tw API metadata 均未見明文單位標註，此為本篇依交叉檢核做出的假設，非官方文件直接確認，若日後找到官方單位聲明應覆核。",
+    "tax_basis": "『銷售額』為加值型及非加值型營業稅籍申報之銷售額，一般認定為未稅（不含加值型營業稅本身 5%）之交易金額；惟小規模營業人（免用統一發票）等特定類型申報基礎是否完全一致，開放資料集未逐筆註明，本篇未做任何稅額調整，直接引用財政部原始申報數字。",
+    "year_mismatch": "三個資料源使用不同年份：vat_sales（法一銷售額）為民國 111 年（2022 年）財政部最新可用年；hh_survey_region／hh_survey_structure（法二消費支出與結構）為主計總處最新可用年（2024 年）；稅籍店數（分母／10 分圈店數）取自 stores_geo 最新快照（2026-09-08）。供給端『每店平均』用 2022 年銷售額除以 2026 年店數，若近年店數成長，會低估 2022 年當時的真實每店平均；反過來若用這個比率乘上 2026 年店數估計『現在』的營收，也未反映 2022-2026 年間的物價與消費水準變化，兩個方向的年份錯位風險都存在，讀者需自行斟酌。",
+    "granularity": "D1 裁定：財政部開放資料『按地區別及稅務行業別分』的地理粒度最細只到縣市（臺南市全市），沒有東區／北區等行政區級數字，更不用說 5／10 分鐘等時圈。法一的『每店月均銷售額』是全市平均比率，套到 10 分圈店數只是假設『10 分圈店家的營收水準跟全市同業平均一樣』，不是 10 分圈本身的實測值。",
+    "structure_caveat": "『餐廳及住宿』是主計總處家庭收支調查消費型態表的既有分類，同時包含餐廳外食與住宿（旅館）支出，官方未進一步拆分兩者占比，本篇整類用來近似『外食支出』，可能高估外食部分。",
+    "mid_level_note": "vat_sales 只公布到稅務行業標準分類『小』類（3 碼，如 561 餐食業、471 綜合商品零售業），比稅籍店家掛的『細』類（4 碼，如 5611 餐館）粗一級。本篇把稅籍店家依 industry_mid 前 3 碼併回『小』類再跟 vat_sales 對齊，圖表與讀者工具顯示的『業種』是小類，不是稅籍原始細類。",
+    "revenue_band_note": "『月營收區間』只是同業（同一小類）全市平均值，不是對任何一家特定店的預測，也不是機率分布。P25／P75 是把餐飲（3 個小類）或零售（13 個小類）底下所有小類各自的『全市每店月均銷售額』當一組數字，取其四分位距，用來呈現『這個大類底下不同小型態彼此差多少』；餐飲小類數量僅 3 個，四分位距統計意義有限，僅供參考。任何一家店的實際營收會因地點、經營方式、規模而有巨大差異，不應把這個區間當成自己這家店的預測。",
+    "retail_categories_included": [
+      "食品飲料及菸草-百分比",
+      "衣著鞋襪類-百分比",
+      "家具設備及家務維護-百分比",
+      "休閒、運動、文化及教育-百分比"
+    ],
+    "retail_categories_excluded": [
+      "住宅服務水電瓦斯及其他燃料-百分比",
+      "醫療保健-百分比",
+      "交通及資通訊-百分比",
+      "保險及金融服務-百分比",
+      "其他-百分比"
+    ],
+    "ring_definition": "10 分圈＝10 分鐘機車等時圈整個範圍（面積加權/店數累計皆為 ring∈{5,10} 或整個 10 分等時圈範圍，非環狀 shell），與篇①/篇⑤一致",
+    "primary_ring": 10,
+    "data_version": "2026-09-08"
+  }
+}

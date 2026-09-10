@@ -1,0 +1,259 @@
+{
+  "meta": {
+    "article_no": 1,
+    "title": "成大商圈輪廓：機車等時圈、店家總量與分布",
+    "data_date": "2026-09-08",
+    "produced_date": "2026-09-08",
+    "rings_used": [
+      5,
+      10,
+      15
+    ],
+    "district_id": "ncku",
+    "district_name": "成大商圈",
+    "scooter_speed_kmh": 22,
+    "centers": [
+      {
+        "id": "tra_rear",
+        "name": "台南火車站後站出口",
+        "lat": 22.9971,
+        "lon": 120.2135
+      },
+      {
+        "id": "ncku_gate",
+        "name": "成大光復校區正門",
+        "lat": 22.9976,
+        "lon": 120.2138
+      },
+      {
+        "id": "nckuh",
+        "name": "成大醫院正門",
+        "lat": 23.0019,
+        "lon": 120.2183
+      }
+    ]
+  },
+  "join": {
+    "total_count": 135577,
+    "matched_count": 126023,
+    "unmatched_count": 9554,
+    "join_rate_pct": 93.0,
+    "unmatched_pct": 7.0
+  },
+  "ring_area_km2": {
+    "5": 7.83,
+    "10": 28.85,
+    "15": 58.8
+  },
+  "store_counts": {
+    "single": {
+      "5": 11409,
+      "10": 26087,
+      "15": 21587
+    },
+    "cumulative": {
+      "5": 11409,
+      "10": 37496,
+      "15": 59083
+    }
+  },
+  "restaurant_retail": {
+    "industry_labels": {
+      "56": "餐飲業",
+      "47-48": "零售業"
+    },
+    "single": {
+      "5": {
+        "total": 11409,
+        "restaurant": 2185,
+        "retail": 2948,
+        "restaurant_pct": 19.2,
+        "retail_pct": 25.8
+      },
+      "10": {
+        "total": 26087,
+        "restaurant": 3969,
+        "retail": 6747,
+        "restaurant_pct": 15.2,
+        "retail_pct": 25.9
+      },
+      "15": {
+        "total": 21587,
+        "restaurant": 2477,
+        "retail": 4812,
+        "restaurant_pct": 11.5,
+        "retail_pct": 22.3
+      }
+    },
+    "cumulative": {
+      "5": {
+        "total": 11409,
+        "restaurant": 2185,
+        "retail": 2948,
+        "restaurant_pct": 19.2,
+        "retail_pct": 25.8
+      },
+      "10": {
+        "total": 37496,
+        "restaurant": 6154,
+        "retail": 9695,
+        "restaurant_pct": 16.4,
+        "retail_pct": 25.9
+      },
+      "15": {
+        "total": 59083,
+        "restaurant": 8631,
+        "retail": 14507,
+        "restaurant_pct": 14.6,
+        "retail_pct": 24.6
+      }
+    }
+  },
+  "top12_industry_mid_ring5": [
+    {
+      "code": "5611",
+      "name": "餐館",
+      "count": 1456
+    },
+    {
+      "code": "5631",
+      "name": "飲料店",
+      "count": 604
+    },
+    {
+      "code": "4871",
+      "name": "電子購物及郵購業",
+      "count": 422
+    },
+    {
+      "code": "4729",
+      "name": "其他食品、飲料及菸草製品零售業",
+      "count": 408
+    },
+    {
+      "code": "9621",
+      "name": "美髮業",
+      "count": 356
+    },
+    {
+      "code": "4732",
+      "name": "服裝及其配件零售業",
+      "count": 334
+    },
+    {
+      "code": "6499",
+      "name": "未分類其他金融服務業",
+      "count": 315
+    },
+    {
+      "code": "4340",
+      "name": "建物完工裝修工程業",
+      "count": 286
+    },
+    {
+      "code": "6811",
+      "name": "不動產租售業",
+      "count": 226
+    },
+    {
+      "code": "4331",
+      "name": "機電、電信及電路設備安裝業",
+      "count": 195
+    },
+    {
+      "code": "9690",
+      "name": "其他個人服務業",
+      "count": 185
+    },
+    {
+      "code": "4852",
+      "name": "其他全新商品零售業",
+      "count": 176
+    }
+  ],
+  "density": {
+    "ring5_store_count": 11409,
+    "ring5_area_km2": 7.83,
+    "ring5_density_per_km2": 1457.1,
+    "city_store_count": 135577,
+    "city_area_km2": 2192.0,
+    "city_area_source": "內政部地政司公告臺南市土地總面積（臺南市政府全球資訊網「市政概況」沿用）",
+    "city_density_per_km2": 61.85,
+    "density_ratio_vs_city": 23.6
+  },
+  "org_type_by_ring": {
+    "5": {
+      "total": 11409,
+      "公司": {
+        "count": 1131,
+        "pct": 9.9
+      },
+      "有限公司": {
+        "count": 2735,
+        "pct": 24.0
+      },
+      "獨資": {
+        "count": 6786,
+        "pct": 59.5
+      },
+      "其他": {
+        "count": 757,
+        "pct": 6.6
+      }
+    },
+    "10": {
+      "total": 26087,
+      "公司": {
+        "count": 2540,
+        "pct": 9.7
+      },
+      "有限公司": {
+        "count": 6700,
+        "pct": 25.7
+      },
+      "獨資": {
+        "count": 15319,
+        "pct": 58.7
+      },
+      "其他": {
+        "count": 1528,
+        "pct": 5.9
+      }
+    },
+    "15": {
+      "total": 21587,
+      "公司": {
+        "count": 2096,
+        "pct": 9.7
+      },
+      "有限公司": {
+        "count": 6347,
+        "pct": 29.4
+      },
+      "獨資": {
+        "count": 11922,
+        "pct": 55.2
+      },
+      "其他": {
+        "count": 1222,
+        "pct": 5.7
+      }
+    }
+  },
+  "method_notes": {
+    "isochrone_method": "OSMnx 本機路網計算（drive network，剔除 motorway/trunk 及其 link）",
+    "scooter_speed_kmh": 22,
+    "centers_count": 3,
+    "ring_use": {
+      "5": "店家分析",
+      "10": "居住人口",
+      "15": "可及性參考"
+    },
+    "join_method": "稅籍營業地址與臺南市門牌坐標離線比對（exact/no_floor/street_fallback 三級 cascade）",
+    "join_rate_pct": 93.0,
+    "unmatched_pct": 7.0,
+    "unmatched_note": "未落點店家（無法比對到座標）不計入地圖與任何依圈分組的圖表",
+    "data_version": "2026-09-08",
+    "osm_attribution": "© OpenStreetMap contributors (ODbL)"
+  }
+}

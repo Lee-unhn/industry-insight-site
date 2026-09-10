@@ -1,0 +1,433 @@
+{
+  "meta": {
+    "article_no": 4,
+    "title": "店家規模：資本額、組織別、連鎖 vs 獨立",
+    "data_date": "2026-09-08",
+    "produced_date": "2026-09-08",
+    "rings_used": [
+      5,
+      10,
+      15
+    ],
+    "primary_ring": 5,
+    "district_id": "ncku",
+    "district_name": "成大商圈"
+  },
+  "scope": {
+    "ring5_total_stores": 11409,
+    "city_total_stores": 135577,
+    "restaurant_count_ring5": 2185,
+    "retail_count_ring5": 2948,
+    "industry_labels": {
+      "56": "餐飲業",
+      "47-48": "零售業"
+    }
+  },
+  "capital": {
+    "restaurant_ring5": {
+      "total": 2185,
+      "registered_count": 2115,
+      "unregistered": {
+        "count": 70,
+        "pct_of_total": 3.2
+      },
+      "median_registered_capital": 50000.0,
+      "buckets": [
+        {
+          "label": "≤10萬",
+          "count": 1507,
+          "pct_of_registered": 71.3
+        },
+        {
+          "label": "10-50萬",
+          "count": 500,
+          "pct_of_registered": 23.6
+        },
+        {
+          "label": "50-200萬",
+          "count": 67,
+          "pct_of_registered": 3.2
+        },
+        {
+          "label": "200-1000萬",
+          "count": 37,
+          "pct_of_registered": 1.7
+        },
+        {
+          "label": ">1000萬",
+          "count": 4,
+          "pct_of_registered": 0.2
+        }
+      ]
+    },
+    "retail_ring5": {
+      "total": 2948,
+      "registered_count": 2708,
+      "unregistered": {
+        "count": 240,
+        "pct_of_total": 8.1
+      },
+      "median_registered_capital": 50000.0,
+      "buckets": [
+        {
+          "label": "≤10萬",
+          "count": 1807,
+          "pct_of_registered": 66.7
+        },
+        {
+          "label": "10-50萬",
+          "count": 596,
+          "pct_of_registered": 22.0
+        },
+        {
+          "label": "50-200萬",
+          "count": 164,
+          "pct_of_registered": 6.1
+        },
+        {
+          "label": "200-1000萬",
+          "count": 106,
+          "pct_of_registered": 3.9
+        },
+        {
+          "label": ">1000萬",
+          "count": 35,
+          "pct_of_registered": 1.3
+        }
+      ]
+    },
+    "restaurant_city": {
+      "total": 17614,
+      "registered_count": 16895,
+      "unregistered": {
+        "count": 719,
+        "pct_of_total": 4.1
+      },
+      "median_registered_capital": 30000.0,
+      "buckets": [
+        {
+          "label": "≤10萬",
+          "count": 12815,
+          "pct_of_registered": 75.9
+        },
+        {
+          "label": "10-50萬",
+          "count": 3401,
+          "pct_of_registered": 20.1
+        },
+        {
+          "label": "50-200萬",
+          "count": 388,
+          "pct_of_registered": 2.3
+        },
+        {
+          "label": "200-1000萬",
+          "count": 243,
+          "pct_of_registered": 1.4
+        },
+        {
+          "label": ">1000萬",
+          "count": 48,
+          "pct_of_registered": 0.3
+        }
+      ]
+    },
+    "retail_city": {
+      "total": 34443,
+      "registered_count": 31638,
+      "unregistered": {
+        "count": 2805,
+        "pct_of_total": 8.1
+      },
+      "median_registered_capital": 30000.0,
+      "buckets": [
+        {
+          "label": "≤10萬",
+          "count": 22160,
+          "pct_of_registered": 70.0
+        },
+        {
+          "label": "10-50萬",
+          "count": 6275,
+          "pct_of_registered": 19.8
+        },
+        {
+          "label": "50-200萬",
+          "count": 1758,
+          "pct_of_registered": 5.6
+        },
+        {
+          "label": "200-1000萬",
+          "count": 1154,
+          "pct_of_registered": 3.6
+        },
+        {
+          "label": ">1000萬",
+          "count": 291,
+          "pct_of_registered": 0.9
+        }
+      ]
+    }
+  },
+  "org_type": {
+    "restaurant_ring5": {
+      "total": 2185,
+      "公司": {
+        "count": 39,
+        "pct": 1.8
+      },
+      "有限公司": {
+        "count": 103,
+        "pct": 4.7
+      },
+      "獨資": {
+        "count": 1875,
+        "pct": 85.8
+      },
+      "其他": {
+        "count": 168,
+        "pct": 7.7
+      }
+    },
+    "retail_ring5": {
+      "total": 2948,
+      "公司": {
+        "count": 179,
+        "pct": 6.1
+      },
+      "有限公司": {
+        "count": 299,
+        "pct": 10.1
+      },
+      "獨資": {
+        "count": 2250,
+        "pct": 76.3
+      },
+      "其他": {
+        "count": 220,
+        "pct": 7.5
+      }
+    },
+    "restaurant_city": {
+      "total": 17614,
+      "公司": {
+        "count": 357,
+        "pct": 2.0
+      },
+      "有限公司": {
+        "count": 582,
+        "pct": 3.3
+      },
+      "獨資": {
+        "count": 15597,
+        "pct": 88.5
+      },
+      "其他": {
+        "count": 1078,
+        "pct": 6.1
+      }
+    },
+    "retail_city": {
+      "total": 34443,
+      "公司": {
+        "count": 2083,
+        "pct": 6.0
+      },
+      "有限公司": {
+        "count": 2989,
+        "pct": 8.7
+      },
+      "獨資": {
+        "count": 27201,
+        "pct": 79.0
+      },
+      "其他": {
+        "count": 2170,
+        "pct": 6.3
+      }
+    }
+  },
+  "branch": {
+    "restaurant_by_ring": {
+      "5": {
+        "total": 2185,
+        "branch_count": 70,
+        "branch_pct": 3.2
+      },
+      "10": {
+        "total": 3969,
+        "branch_count": 178,
+        "branch_pct": 4.5
+      },
+      "15": {
+        "total": 2477,
+        "branch_count": 112,
+        "branch_pct": 4.5
+      }
+    },
+    "retail_by_ring": {
+      "5": {
+        "total": 2948,
+        "branch_count": 240,
+        "branch_pct": 8.1
+      },
+      "10": {
+        "total": 6747,
+        "branch_count": 543,
+        "branch_pct": 8.0
+      },
+      "15": {
+        "total": 4812,
+        "branch_count": 435,
+        "branch_pct": 9.0
+      }
+    }
+  },
+  "same_name_chain_estimate": {
+    "restaurant_ring5": {
+      "threshold": 3,
+      "n_groups": 0,
+      "stores_in_groups": 0,
+      "pct_of_total": 0.0
+    },
+    "retail_ring5": {
+      "threshold": 3,
+      "n_groups": 0,
+      "stores_in_groups": 0,
+      "pct_of_total": 0.0
+    },
+    "restaurant_city": {
+      "threshold": 3,
+      "n_groups": 40,
+      "stores_in_groups": 179,
+      "pct_of_total": 1.0
+    },
+    "retail_city": {
+      "threshold": 3,
+      "n_groups": 29,
+      "stores_in_groups": 259,
+      "pct_of_total": 0.8
+    }
+  },
+  "founding_year": {
+    "restaurant_ring5": {
+      "recent_years_window": 5,
+      "recent_cutoff_year": 2022,
+      "recent_count": 813,
+      "recent_pct": 37.2
+    },
+    "retail_ring5": {
+      "recent_years_window": 5,
+      "recent_cutoff_year": 2022,
+      "recent_count": 704,
+      "recent_pct": 23.9
+    },
+    "restaurant_city": {
+      "recent_years_window": 5,
+      "recent_cutoff_year": 2022,
+      "recent_count": 6436,
+      "recent_pct": 36.5
+    },
+    "retail_city": {
+      "recent_years_window": 5,
+      "recent_cutoff_year": 2022,
+      "recent_count": 8069,
+      "recent_pct": 23.4
+    },
+    "histogram_ring5": {
+      "restaurant": {
+        "window_start_year": 2012,
+        "window_end_year": 2026,
+        "years": [
+          2012,
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024,
+          2025,
+          2026
+        ],
+        "counts": [
+          34,
+          54,
+          47,
+          71,
+          87,
+          67,
+          92,
+          92,
+          124,
+          146,
+          135,
+          169,
+          176,
+          201,
+          132
+        ],
+        "older_count": 558
+      },
+      "retail": {
+        "window_start_year": 2012,
+        "window_end_year": 2026,
+        "years": [
+          2012,
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024,
+          2025,
+          2026
+        ],
+        "counts": [
+          49,
+          74,
+          84,
+          82,
+          81,
+          89,
+          74,
+          102,
+          102,
+          129,
+          130,
+          166,
+          146,
+          165,
+          97
+        ],
+        "older_count": 1378
+      }
+    }
+  },
+  "combined_ring5": {
+    "branch_pct": 6.0,
+    "recent5_pct": 29.6
+  },
+  "method_notes": {
+    "ring_scope": "資本額／組織別／連鎖占比以 5 分圈為主，另列全市（同業種）對照；分店占比另列 10／15 分",
+    "capital_buckets": "以登記資本額分箱（新台幣）：≤10萬／10-50萬／50-200萬／200-1000萬／>1000萬；資本額為 0 或無法判讀者計入「未登記」，不納入分箱與中位數",
+    "capital_unregistered_note": "分支機構（見下）多數登記資本額為 0（資本歸總公司），故「未登記」比例會偏高，屬正常現象，非資料缺失",
+    "org_type_buckets": "沿用篇①桶法：公司（股份有限公司／本國或外國公司之分公司或辦事處）／有限公司／獨資／其他（合夥／合作社／有限合夥）",
+    "branch_definition": "以稅籍登記的母公司代碼欄位是否非空，判定該店是否為分支機構（連鎖／分店）；欄位非空即計為分店",
+    "same_name_chain_definition": "近似連鎖估計：同一營業人名稱在同一範圍內出現 >= 3 次的群組，只計群組數與群組內店數合計，不輸出名稱本身；與母公司代碼判準是兩種獨立估計，可能重疊",
+    "founding_year_definition": "設立日期為民國年月日 7 位數字，年份 = 民國年 + 1911",
+    "recent_years_definition": "「近 5 年新開店」= 設立年份 >= 資料年度 - 4（資料年度 2026，即 2022-2026）",
+    "data_version": "2026-09-08"
+  }
+}

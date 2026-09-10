@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "note": "articles/_shared/ 不是一篇文章，是十篇共用的白話閱讀層（glossary.json + reader.css + reader.js）。這個 data.json 只是滿足 harness/check_numbers.py 對 articles/ 下每個資料夾都要求 data.json + numbers.yaml 的結構性假設，不是分析頁面。"
+  },
+  "glossary_term_count": 50
+}

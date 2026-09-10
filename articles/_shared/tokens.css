@@ -1,0 +1,86 @@
+/* ------------------------------------------------------------------
+   tokens.css — 單一設計系統來源（R4 裁定）
+   淺色專業報告風：白底、深藍主色、灰網格；黑白列印仍可辨（Q38）。
+   值全部照抄 articles/01_outline/index.html 既有 :root（該篇是全站
+   風格基準，第一版落地時就這樣定的），不在這裡另創配色或另訂色階。
+   articles/_shared/reader.css 與 site/src/styles/global.css 都 @import
+   這支檔案，色票只在這裡改一次，兩邊自動同步。
+   ------------------------------------------------------------------ */
+:root {
+  color-scheme: light;
+
+  /* ---- 完整色票（沿用各篇既有變數名，reader.css / global.css 現有的
+     var(--text-primary, #0b0b0b) 這類 fallback 值就是照這裡抄的） ---- */
+  --surface-1: #fcfcfb;
+  --page-plane: #f9f9f7;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #898781;
+  --gridline: #e1e0d9;
+  --baseline: #c3c2b7;
+  --border: rgba(11, 11, 11, 0.1);
+
+  /* 圖表用資料序列色（dataviz skill reference palette，各篇 D3/Chart.js 圖表共用） */
+  --series-1: #2a78d6; /* 藍 -- 餐飲 / 主色 */
+  --series-2: #eb6834; /* 橘 -- 零售 */
+  --series-3: #1baf7a; /* 綠 -- 公司 */
+  --series-4: #eda100; /* 黃 -- 其他 */
+  --series-8: #e34948; /* 紅 -- 中心點標記 */
+
+  --ring-5: #184f95;
+  --ring-10: #2a78d6;
+  --ring-15: #86b6ef;
+
+  --seq-100: #cde2fb;
+  --seq-250: #86b6ef;
+  --seq-400: #3987e5;
+  --seq-550: #1c5cab;
+  --seq-700: #0d366b;
+
+  /* 站台 chrome 用品牌色（global.css 既有名） */
+  --brand-blue: #184f95;
+  --brand-blue-mid: #2a78d6;
+  --brand-blue-light: #cde2fb;
+  --accent-orange: #eb6834;
+  --accent-green: #1baf7a;
+  --accent-red: #e34948;
+
+  /* 燈號語意色（跟圖表資料序列色分開一組，紅黃綠灰四色，判定用途專用，
+     不跟著圖表色譜變動——dataviz skill guidance：semantic color 跟 accent
+     hue 要分開） */
+  --light-green: #1b8a5a;
+  --light-yellow: #a86a00;
+  --light-red: #b3261e;
+  --light-grey: #6b6a64;
+
+  /* ---- 這次新增的精簡語意層（給首頁與往後新頁面直接用，值全部 alias
+     回上面同一份色票，不重複定義十六進位色碼） ---- */
+  --bg: var(--page-plane);
+  --ink: var(--text-primary);
+  --primary: var(--brand-blue);
+  --grid: var(--gridline);
+  --accent: var(--accent-orange); /* 僅圖表強調用，不做互動元件主色 */
+
+  /* ---- 字 ---- */
+  --font: "Microsoft JhengHei", "Noto Sans TC", system-ui, sans-serif;
+  --fs-1: 11px; /* 極小標籤 / meta */
+  --fs-2: 12.5px; /* caption / 說明 */
+  --fs-3: 14px; /* UI 文字 / 次要內文 */
+  --fs-4: 16px; /* 內文本文 */
+  --fs-5: 20px; /* 小標 h2/h3 */
+  --fs-6: 30px; /* 主標 h1 / hero */
+
+  /* ---- 間距（4px 基準） ---- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-7: 32px;
+  --sp-8: 48px;
+
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(11, 11, 11, 0.08), 0 8px 20px rgba(11, 11, 11, 0.06);
+  --container: 1100px;
+}

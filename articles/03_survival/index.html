@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>開歇業與存活率：近 5 年月度曲線｜開店分析所</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/6.1.0/echarts.min.js"></script>
+<style>
+  /* ------------------------------------------------------------------
+     設計系統 token（淺色專業報告風：白底、深藍主色、灰網格；黑白列印仍可辨）
+     沿用篇①②④同一套 token（pipeline/articles/common.py 視覺模板），本篇不
+     另闢新色，只新增「5 分圈（深）vs 全市（淺）」這組既有的範圍對照色。
+     ------------------------------------------------------------------ */
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page-plane:     #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+
+    --series-1: #2a78d6;   /* blue -- 開業 */
+    --series-2: #eb6834;   /* orange -- 歇業 */
+    --series-2-light: #f5b98c; /* orange 淺 -- 歇業／全市對照用 */
+    --ring-5:  #184f95;   /* 深藍 -- 5 分圈（範圍對照：深＝核心商圈） */
+    --ring-15: #86b6ef;   /* 淺藍 -- 全臺南（範圍對照：淺＝城市對照組） */
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--page-plane);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", "Microsoft JhengHei", sans-serif;
+    overflow-x: hidden;
+  }
+  body { min-width: 0; }
+  img, canvas, svg { max-width: 100%; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 20px 16px 48px; }
+
+  header.hero { padding: 8px 0 20px; border-bottom: 1px solid var(--gridline); margin-bottom: 20px; }
+  .kicker { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: var(--series-1); text-transform: uppercase; }
+  h1 { font-size: clamp(20px, 3.6vw, 30px); line-height: 1.3; margin: 6px 0 10px; }
+  .lede { font-size: 15px; color: var(--text-secondary); max-width: 74ch; line-height: 1.6; margin: 0 0 10px; }
+  .meta-line { font-size: 12.5px; color: var(--text-muted); }
+  .meta-line b { color: var(--text-secondary); font-weight: 600; }
+
+  /* ---------------- stat tiles ---------------- */
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  @media (max-width: 700px) { .stat-row { grid-template-columns: repeat(2, 1fr); } }
+  .stat-tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .stat-label { font-size: 12.5px; color: var(--text-secondary); margin-bottom: 6px; }
+  .stat-value { font-size: clamp(20px, 3.2vw, 28px); font-weight: 600; font-variant-numeric: proportional-nums; line-height: 1.1; }
+  .stat-value .unit { font-size: 0.5em; font-weight: 500; color: var(--text-secondary); margin-left: 4px; }
+  .stat-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  /* ---------------- cards ---------------- */
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px 18px; margin-bottom: 18px; }
+  .card h2 { font-size: 16px; margin: 0 0 2px; }
+  .card .subtitle { font-size: 12.5px; color: var(--text-muted); margin: 0 0 12px; }
+  .card.wide { grid-column: 1 / -1; }
+
+  /* ---------------- charts grid ---------------- */
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 820px) { .chart-grid { grid-template-columns: 1fr; } }
+  .echart { width: 100%; height: 320px; }
+  .echart.tall { height: 340px; }
+
+  .table-toggle {
+    font-size: 12px; color: var(--series-1); background: none;
+    border: 1px solid var(--border); border-radius: 6px; padding: 3px 9px;
+    cursor: pointer; margin-top: 8px;
+  }
+  .table-toggle:hover { background: var(--page-plane); }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 10px; display: none; max-height: 320px; overflow-y: auto; }
+  .data-table.open { display: block; }
+  .data-table thead, .data-table tbody { display: table; width: 100%; table-layout: fixed; }
+  .data-table th, .data-table td { text-align: right; padding: 5px 8px; border-bottom: 1px solid var(--gridline); font-variant-numeric: tabular-nums; }
+  .data-table th:first-child, .data-table td:first-child { text-align: left; font-variant-numeric: normal; }
+  .data-table thead th { color: var(--text-secondary); font-weight: 600; border-bottom: 1px solid var(--baseline); }
+
+  /* ---------------- method notes ---------------- */
+  .method h2 { font-size: 16px; margin: 0 0 10px; }
+  .method dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; font-size: 13px; margin: 0; }
+  .method dt { color: var(--text-secondary); white-space: nowrap; }
+  .method dd { margin: 0; color: var(--text-primary); }
+  @media (max-width: 560px) {
+    .method dl { grid-template-columns: 1fr; }
+    .method dt { margin-top: 6px; }
+  }
+  .honest-note {
+    margin-top: 12px; padding: 10px 12px; background: var(--page-plane);
+    border-left: 3px solid var(--series-2); font-size: 12.5px; color: var(--text-secondary);
+    border-radius: 0 6px 6px 0; line-height: 1.6;
+  }
+  .honest-note ul { margin: 6px 0 0; padding-left: 18px; }
+  .honest-note li { margin: 3px 0; }
+
+  footer.site-footer { margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--gridline); font-size: 12px; color: var(--text-muted); }
+</style>
+<link rel="stylesheet" href="../_shared/reader.css" />
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">開店分析所 · 篇③ / 10</div>
+    <h1>開歇業與存活率：近 5 年月度曲線</h1>
+    <p class="lede" id="lede">
+      成大商圈（5 分鐘機車核心商圈）每個月開幾家、關幾家？開了店之後能撐多久？
+      本篇用 61 個月（2021-07～2026-07）的開歇業事件，畫出月度趨勢與 12 個月移動平均、
+      年度開歇業對照、開業年 cohort 存活率，以及開業後仍在營業的簡化生存曲線，
+      5 分圈與全臺南並列對照。
+    </p>
+    <p class="meta-line" id="meta-line">資料日期讀取中...</p>
+  </header>
+
+  <section class="stat-row" id="stat-row" aria-label="核心數字">
+    <!-- 4 個 stat tile 由 JS 填入 -->
+  </section>
+
+  <div class="chart-grid">
+
+    <section class="card">
+      <h2>圖 A · 這裡每個月開幾家、關幾家</h2>
+      <p class="subtitle">細線＝當月原始值；粗線＝12 個月移動平均，抹平單月忽高忽低看長期趨勢（第 12 個月即 2022-06 起才有值）；長條＝淨增（開業－歇業）。可用下方滑桿縮放月份範圍。</p>
+      <div class="echart tall" id="chartA"></div>
+      <button class="table-toggle" data-target="tableA">顯示資料表格</button>
+      <div class="data-table" id="tableA"></div>
+    </section>
+
+    <section class="card">
+      <h2>圖 B · 每年開幾家、關幾家</h2>
+      <p class="subtitle">年份標「＊」者為部分年觀察（2021 僅 7-12 月、2026 僅 1-7 月），不可直接跟整年比較</p>
+      <div class="echart" id="chartB"></div>
+      <button class="table-toggle" data-target="tableB">顯示資料表格</button>
+      <div class="data-table" id="tableB"></div>
+    </section>
+
+    <section class="card">
+      <h2>圖 C · 同一年開的店，現在還剩幾成</h2>
+      <p class="subtitle">同一年開業的店分成一組（統計上稱 cohort），追蹤到現在還在營業的比例；2021、2026 資料不滿一整年，2026 那組才開幕沒多久，存活率偏高是觀察期太短所致，不是真的比較耐久</p>
+      <div class="echart" id="chartC"></div>
+      <button class="table-toggle" data-target="tableC">顯示資料表格</button>
+      <div class="data-table" id="tableC"></div>
+    </section>
+
+    <section class="card">
+      <h2>圖 D · 開店之後能撐多久</h2>
+      <p class="subtitle">用生存曲線估算開店後仍在營業的比例如何隨時間下降（方法上有右設限，處理「還沒看到結局」的店）；虛線＝全臺南對照。灰色虛線是「一半店還在」的參考線，兩條線在目前觀察期內都還沒跌破</p>
+      <div class="echart" id="chartD"></div>
+      <button class="table-toggle" data-target="tableD">顯示資料表格</button>
+      <div class="data-table" id="tableD"></div>
+    </section>
+
+  </div>
+
+  <details class="card method">
+    <summary>怎麼算的（方法與資料限制）</summary>
+    <dl id="method-dl"></dl>
+    <div class="honest-note" id="honest-note"></div>
+  </details>
+
+  <footer class="site-footer">
+    開店分析所｜資料來源：財政部全國營業（稅籍）登記資料集、公司登記資料集（開業／歇業四份清冊回補合成）。
+    互動圖與海報由同一份資料腳本產出，公開頁全部聚合輸出，不含店名、登記編號、地址等可識別個別店家的欄位。
+  </footer>
+
+</div>
+
+<script>
+(async function () {
+  "use strict";
+
+  const fmt = (n) => Number(n).toLocaleString("zh-Hant-TW");
+  const fmt1 = (n) => Number(n).toLocaleString("zh-Hant-TW", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const monthLabel = (m) => `${m.slice(2, 4)}/${m.slice(4, 6)}`;
+
+  // ---------------------------------------------------------------
+  // 資料載入
+  // ---------------------------------------------------------------
+  const data = await fetch("./data.json").then((r) => r.json());
+
+  // ---------------------------------------------------------------
+  // 標頭 / meta
+  // ---------------------------------------------------------------
+  document.getElementById("meta-line").innerHTML =
+    `資料日期 <b>${data.meta.data_date}</b>　·　產出日期 <b>${data.meta.produced_date}</b>　·　` +
+    `資料涵蓋 <b>${monthLabel(data.meta.month_start)}～${monthLabel(data.meta.month_end)}</b>` +
+    `（${data.meta.months_present} 個月）　·　全臺南事件總數 <b>${fmt(data.meta.n_events_total)}</b> 筆` +
+    `（開業 ${fmt(data.meta.n_open_total)}／歇業 ${fmt(data.meta.n_close_total)}）`;
+
+  // ---------------------------------------------------------------
+  // Stat tiles
+  // ---------------------------------------------------------------
+  const st = data.stat_tiles;
+  const stats = [
+    { label: "最近一年新開幾家店", value: fmt(st.recent12_open.value), unit: "家", sub: `機車 5 分鐘內範圍，${monthLabel(st.recent12_open.window_start)}～${monthLabel(st.recent12_open.window_end)}` },
+    { label: "最近一年關了幾家店", value: fmt(st.recent12_close.value), unit: "家", sub: `機車 5 分鐘內範圍，${monthLabel(st.recent12_close.window_start)}～${monthLabel(st.recent12_close.window_end)}` },
+    { label: "2022 年開的店現在還剩幾成", value: fmt1(st.cohort2022_survival_ring5_pct), unit: "%", sub: "機車 5 分鐘內範圍" },
+    { label: "開店大概能撐幾個月（估計）", value: st.median_survival_months.label, unit: "", sub: `觀察期滿 ${st.median_survival_months.max_observed_months} 個月時仍有 ${fmt1(st.median_survival_months.s_at_max_observed_pct)}% 存活` },
+  ];
+  document.getElementById("stat-row").innerHTML = stats.map((s) => `
+    <div class="stat-tile">
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-value">${s.value}${s.unit ? `<span class="unit">${s.unit}</span>` : ""}</div>
+      ${s.sub ? `<div class="stat-sub">${s.sub}</div>` : ""}
+    </div>
+  `).join("");
+
+  // ---------------------------------------------------------------
+  // ECharts 共用設定
+  // ---------------------------------------------------------------
+  const CHART_TEXT = { color: "#52514e", fontFamily: "system-ui, -apple-system, 'Segoe UI', 'Microsoft JhengHei', sans-serif" };
+  const AXIS_LINE = { lineStyle: { color: "#c3c2b7" } };
+  const AXIS_LABEL = { color: "#898781", fontSize: 11 };
+  const SPLIT_LINE = { lineStyle: { color: "#e1e0d9", width: 1, type: "solid" } };
+
+  function renderTable(id, headers, rows) {
+    const el = document.getElementById(id);
+    el.innerHTML = `<table style="width:100%;border-collapse:collapse"><thead><tr>${headers.map((h) => `<th style="text-align:right;padding:5px 8px;border-bottom:1px solid var(--baseline);color:var(--text-secondary);font-weight:600">${h}</th>`).join("")}</tr></thead>` +
+      `<tbody>${rows.map((r) => `<tr>${r.map((c, i) => `<td style="text-align:${i === 0 ? "left" : "right"};padding:5px 8px;border-bottom:1px solid var(--gridline);font-variant-numeric:tabular-nums">${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+  }
+  document.querySelectorAll(".table-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const table = document.getElementById(btn.dataset.target);
+      const open = table.classList.toggle("open");
+      btn.textContent = open ? "隱藏資料表格" : "顯示資料表格";
+    });
+  });
+
+  // ---- 圖 A：月度開／歇／淨增＋12 個月移動平均 ----
+  const mo = data.monthly.ring5;
+  const monthLabels = mo.months.map(monthLabel);
+
+  const chartA = echarts.init(document.getElementById("chartA"));
+  chartA.setOption({
+    textStyle: CHART_TEXT,
+    grid: { left: 8, right: 18, top: 40, bottom: 70, containLabel: true },
+    legend: {
+      top: 0,
+      textStyle: { color: "#52514e", fontSize: 11 },
+      data: ["淨增（月）", "開業（月）", "歇業（月）", "開業（12月移動平均）", "歇業（12月移動平均）"],
+    },
+    tooltip: { trigger: "axis" },
+    dataZoom: [
+      { type: "inside", start: 45, end: 100 },
+      { type: "slider", height: 14, bottom: 8, borderColor: "#e1e0d9", fillerColor: "rgba(42,120,214,0.12)", handleStyle: { color: "#2a78d6" } },
+    ],
+    xAxis: { type: "category", data: monthLabels, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, axisTick: { show: false } },
+    yAxis: { type: "value", name: "家", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    series: [
+      {
+        name: "淨增（月）", type: "bar", data: mo.net, barMaxWidth: 6, z: 1,
+        itemStyle: { color: "#c3c2b7", opacity: 0.55, borderRadius: [2, 2, 0, 0] },
+      },
+      {
+        name: "開業（月）", type: "line", data: mo.open, showSymbol: false, z: 2,
+        lineStyle: { color: "#2a78d6", width: 1.2, opacity: 0.45 }, itemStyle: { color: "#2a78d6" },
+      },
+      {
+        name: "歇業（月）", type: "line", data: mo.close, showSymbol: false, z: 2,
+        lineStyle: { color: "#eb6834", width: 1.2, opacity: 0.45 }, itemStyle: { color: "#eb6834" },
+      },
+      {
+        name: "開業（12月移動平均）", type: "line", data: mo.open_ma12, showSymbol: false, connectNulls: false, z: 3,
+        lineStyle: { color: "#184f95", width: 2.6 }, itemStyle: { color: "#184f95" },
+      },
+      {
+        name: "歇業（12月移動平均）", type: "line", data: mo.close_ma12, showSymbol: false, connectNulls: false, z: 3,
+        lineStyle: { color: "#eb6834", width: 2.6 }, itemStyle: { color: "#eb6834" },
+      },
+    ],
+  });
+  renderTable(
+    "tableA",
+    ["月份", "開業", "歇業", "淨增", "開業MA12", "歇業MA12"],
+    mo.months.map((m, i) => [
+      m, fmt(mo.open[i]), fmt(mo.close[i]), fmt(mo.net[i]),
+      mo.open_ma12[i] == null ? "–" : fmt1(mo.open_ma12[i]),
+      mo.close_ma12[i] == null ? "–" : fmt1(mo.close_ma12[i]),
+    ]),
+  );
+
+  // ---- 圖 B：年度開業／歇業 ----
+  const annual = data.annual.ring5;
+  const yearLabels = annual.map((r) => (r.partial ? `${r.year}＊` : r.year));
+  const chartB = echarts.init(document.getElementById("chartB"));
+  chartB.setOption({
+    textStyle: CHART_TEXT,
+    grid: { left: 8, right: 18, top: 30, bottom: 8, containLabel: true },
+    legend: { top: 0, right: 0, textStyle: { color: "#52514e", fontSize: 12 } },
+    tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
+    xAxis: { type: "category", data: yearLabels, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, axisTick: { show: false } },
+    yAxis: { type: "value", name: "家", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    series: [
+      {
+        name: "開業", type: "bar", data: annual.map((r) => r.open), barMaxWidth: 26,
+        itemStyle: { color: "#2a78d6", borderRadius: [4, 4, 0, 0] },
+        label: { show: true, position: "top", color: "#52514e", fontSize: 11, formatter: (p) => fmt(p.value) },
+      },
+      {
+        name: "歇業", type: "bar", data: annual.map((r) => r.close), barMaxWidth: 26,
+        itemStyle: { color: "#eb6834", borderRadius: [4, 4, 0, 0] },
+        label: { show: true, position: "top", color: "#52514e", fontSize: 11, formatter: (p) => fmt(p.value) },
+      },
+    ],
+  });
+  renderTable("tableB", ["年份", "開業", "歇業", "淨增", "備註"], annual.map((r) => [
+    r.year, fmt(r.open), fmt(r.close), fmt(r.net), r.partial_note || "整年",
+  ]));
+
+  // ---- 圖 C：cohort 存活率（5 分圈 vs 全臺南） ----
+  const cYears = data.cohort_survival.years;
+  const cRing5 = data.cohort_survival.ring5;
+  const cCity = data.cohort_survival.city;
+  const chartC = echarts.init(document.getElementById("chartC"));
+  chartC.setOption({
+    textStyle: CHART_TEXT,
+    grid: { left: 8, right: 18, top: 30, bottom: 8, containLabel: true },
+    legend: { top: 0, right: 0, textStyle: { color: "#52514e", fontSize: 12 } },
+    tooltip: {
+      trigger: "axis", axisPointer: { type: "shadow" },
+      formatter: (params) => {
+        const idx = params[0].dataIndex;
+        const r5 = cRing5[idx], ct = cCity[idx];
+        return `${cYears[idx]} 年開業 cohort<br/>` +
+          `5 分圈：${fmt1(r5.rate_pct)}%（${fmt(r5.still_active_count)}/${fmt(r5.open_count)}）<br/>` +
+          `全臺南：${fmt1(ct.rate_pct)}%（${fmt(ct.still_active_count)}/${fmt(ct.open_count)}）`;
+      },
+    },
+    xAxis: { type: "category", data: cYears, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, axisTick: { show: false } },
+    yAxis: { type: "value", name: "%", max: 100, nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    series: [
+      {
+        name: "5 分圈", type: "bar", data: cRing5.map((r) => r.rate_pct), barMaxWidth: 22,
+        itemStyle: { color: "#184f95", borderRadius: [4, 4, 0, 0] },
+        label: { show: true, position: "top", color: "#52514e", fontSize: 10.5, formatter: (p) => `${p.value}%` },
+      },
+      {
+        name: "全臺南", type: "bar", data: cCity.map((r) => r.rate_pct), barMaxWidth: 22,
+        itemStyle: { color: "#86b6ef", borderRadius: [4, 4, 0, 0] },
+        label: { show: true, position: "top", color: "#52514e", fontSize: 10.5, formatter: (p) => `${p.value}%` },
+      },
+    ],
+  });
+  renderTable("tableC", ["開業年", "5分圈開業數", "5分圈仍營業", "5分圈存活率", "全臺南開業數", "全臺南仍營業", "全臺南存活率"], cYears.map((y, i) => [
+    y, fmt(cRing5[i].open_count), fmt(cRing5[i].still_active_count), `${fmt1(cRing5[i].rate_pct)}%`,
+    fmt(cCity[i].open_count), fmt(cCity[i].still_active_count), `${fmt1(cCity[i].rate_pct)}%`,
+  ]));
+
+  // ---- 圖 D：生存曲線（簡化 KM，5 分圈 vs 全臺南） ----
+  const kmR = data.km_survival.ring5.table;
+  const kmC = data.km_survival.city.table;
+  const dLabels = kmR.map((r) => r.d);
+  const chartD = echarts.init(document.getElementById("chartD"));
+  chartD.setOption({
+    textStyle: CHART_TEXT,
+    grid: { left: 8, right: 18, top: 30, bottom: 8, containLabel: true },
+    legend: { top: 0, right: 0, textStyle: { color: "#52514e", fontSize: 12 } },
+    tooltip: {
+      trigger: "axis",
+      formatter: (params) => {
+        const idx = params[0].dataIndex;
+        const r5 = kmR[idx], ct = kmC[idx];
+        return `開業後第 ${dLabels[idx]} 個月<br/>` +
+          `5 分圈：${fmt1(r5.survival_pct)}%（風險集 ${fmt(r5.at_risk)}）<br/>` +
+          `全臺南：${fmt1(ct.survival_pct)}%（風險集 ${fmt(ct.at_risk)}）`;
+      },
+    },
+    xAxis: { type: "category", data: dLabels, name: "開業後月數", nameLocation: "middle", nameGap: 26, nameTextStyle: AXIS_LABEL, axisLine: AXIS_LINE, axisLabel: { ...AXIS_LABEL, interval: 5 }, axisTick: { show: false } },
+    yAxis: { type: "value", name: "仍營業 %", min: 0, max: 100, nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    series: [
+      {
+        name: "5 分圈", type: "line", data: kmR.map((r) => r.survival_pct), showSymbol: false, step: "end",
+        lineStyle: { color: "#184f95", width: 2.4 }, itemStyle: { color: "#184f95" },
+        areaStyle: { color: "#184f95", opacity: 0.08 },
+        markLine: { silent: true, symbol: "none", lineStyle: { color: "#898781", type: "dashed", width: 1 }, label: { show: true, formatter: "50%", color: "#898781", fontSize: 10 }, data: [{ yAxis: 50 }] },
+      },
+      {
+        name: "全臺南", type: "line", data: kmC.map((r) => r.survival_pct), showSymbol: false, step: "end",
+        lineStyle: { color: "#86b6ef", width: 2, type: "dashed" }, itemStyle: { color: "#86b6ef" },
+      },
+    ],
+  });
+  renderTable("tableD", ["開業後月數", "5分圈存活率", "5分圈風險集", "全臺南存活率", "全臺南風險集"], dLabels.map((d, i) => [
+    d, `${fmt1(kmR[i].survival_pct)}%`, fmt(kmR[i].at_risk), `${fmt1(kmC[i].survival_pct)}%`, fmt(kmC[i].at_risk),
+  ]));
+
+  window.addEventListener("resize", () => {
+    chartA.resize(); chartB.resize(); chartC.resize(); chartD.resize();
+  });
+
+  // ---------------------------------------------------------------
+  // 方法說明
+  // ---------------------------------------------------------------
+  const mn = data.method_notes;
+  const cs = data.close_structure;
+  const rr = data.restaurant_retail_open;
+  const orgBuckets = cs.org_type.buckets.map((b) => `${b.label} ${fmt1(b.pct)}%（${fmt(b.count)} 家）`).join("　·　");
+  const capBuckets = cs.capital.buckets.map((b) => `${b.label} ${fmt1(b.pct_of_registered)}%`).join("　·　");
+  document.getElementById("method-dl").innerHTML = `
+    <dt>統計範圍</dt><dd>${mn.scope_note}</dd>
+    <dt>資料視窗</dt><dd>${mn.data_window_note}</dd>
+    <dt>移動平均定義</dt><dd>${mn.ma_definition}</dd>
+    <dt>仍營業判定</dt><dd>${mn.still_active_definition}</dd>
+    <dt>生存曲線方法</dt><dd>${mn.km_method}</dd>
+    <dt>中位存活月數</dt><dd>${mn.km_median_note}</dd>
+    <dt>生存曲線資料品質</dt><dd>${mn.km_data_quality_note}</dd>
+    <dt>歇業組織型態</dt><dd>${mn.close_org_type_buckets}；本篇實測（5 分圈，共 ${fmt(cs.org_type.total)} 筆）：${orgBuckets}</dd>
+    <dt>歇業資本額分箱</dt><dd>${mn.close_capital_note}；已登記 ${fmt(cs.capital.registered_count)} 筆中位數 ${fmt(cs.capital.median_registered_capital)} 元，分布：${capBuckets}</dd>
+    <dt>行業別覆蓋率</dt><dd>${mn.industry_coverage_note}</dd>
+    <dt>開業餐飲／零售占比範圍</dt><dd>${mn.restaurant_retail_scope}；本篇實測（5 分圈開業事件，industry_major 覆蓋率 ${fmt1(rr.coverage_pct)}%）：${rr.industry_labels["56"]} ${fmt1(rr.restaurant.pct)}%、${rr.industry_labels["47-48"]} ${fmt1(rr.retail.pct)}%</dd>
+    <dt>隱私處理</dt><dd>${mn.privacy_note}</dd>
+    <dt>資料版本</dt><dd>${mn.data_version}</dd>
+  `;
+  document.getElementById("honest-note").innerHTML = `
+    <b>誠實揭露</b>
+    <ul>
+      <li>2021 年僅 7-12 月（6 個月）、2026 年僅 1-7 月（7 個月）資料，其餘年份為完整 12 個月；圖 B 年度長條與這兩年的比較僅供參考，不是同基準的整年對照。</li>
+      <li>圖 C 的 2026 cohort 開業至今僅數月，「存活率」偏高是觀察期過短、還沒來得及歇業所致，不代表這批店真的比較耐久，不可跟 2021-2024 等已有數年觀察期的 cohort 直接比較。</li>
+      <li>圖 A／B／歇業結構／開業行業占比皆以 5 分圈為主；圖 C／D 的存活率與生存曲線另列全臺南對照，全臺南範圍不要求地址落點成功、涵蓋所有稅籍開歇業事件，5 分圈範圍則要求落點成功且在核心商圈內，兩者分母定義不同。</li>
+      <li>industry_major（行業別）只在該筆登記編號目前仍在稅籍名冊上時才有值，因此開業事件的餐飲／零售占比只涵蓋仍營業者（覆蓋率 ${fmt1(rr.coverage_pct)}%），不代表全部開業事件的行業結構；歇業事件幾乎查不到行業別（覆蓋率 &lt;0.1%），因此歇業資本額分箱不拆餐飲／零售，只看整體。</li>
+      <li>本篇中位存活月數標示為「${st.median_survival_months.label}」：整段觀察期（最長 ${data.km_survival.ring5.max_duration_months} 個月）存活率都沒有跌破 50%，不是「無法計算」，而是資料視窗還不夠長、看不到跌破的那一刻。</li>
+    </ul>
+  `;
+
+})().catch((err) => {
+  console.error("[index] 載入失敗", err);
+  document.querySelector(".wrap").insertAdjacentHTML(
+    "afterbegin",
+    `<div style="background:#fde8e8;border:1px solid #e34948;color:#7a1f1f;padding:10px 14px;border-radius:8px;margin-bottom:14px">頁面資料載入失敗：${err && err.message ? err.message : err}</div>`
+  );
+});
+</script>
+<script src="../_shared/reader.js"></script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+# table: meta
+field,value
+meta.article_no,5
+meta.title,居住人口結構：年齡、性別、戶數
+meta.data_date,2026-09-08
+meta.census_period,113Y12M
+meta.produced_date,2026-09-08
+meta.rings_used,5; 10; 15
+meta.primary_ring,10
+meta.district_id,ncku
+meta.district_name,成大商圈
+ring_area_km2.5,7.83
+ring_area_km2.10,28.85
+ring_area_km2.15,58.8
+rings.5.area_weighted.population,106770
+rings.5.area_weighted.households,48599
+rings.5.area_weighted.male,51139
+rings.5.area_weighted.female,55631
+rings.5.area_weighted.sex_ratio,91.9
+rings.5.area_weighted.avg_household_size,2.2
+rings.5.area_weighted.minstat_count,783
+rings.5.area_weighted.age_bands.age_0_14.label,0-14 歲
+rings.5.area_weighted.age_bands.age_0_14.count,13830
+rings.5.area_weighted.age_bands.age_0_14.male,7345
+rings.5.area_weighted.age_bands.age_0_14.female,6485
+rings.5.area_weighted.age_bands.age_0_14.pct,13
+rings.5.area_weighted.age_bands.age_15_64.label,15-64 歲
+rings.5.area_weighted.age_bands.age_15_64.count,68649
+rings.5.area_weighted.age_bands.age_15_64.male,33172
+rings.5.area_weighted.age_bands.age_15_64.female,35476
+rings.5.area_weighted.age_bands.age_15_64.pct,64.3
+rings.5.area_weighted.age_bands.age_65_up.label,65 歲以上
+rings.5.area_weighted.age_bands.age_65_up.count,24292
+rings.5.area_weighted.age_bands.age_65_up.male,10622
+rings.5.area_weighted.age_bands.age_65_up.female,13670
+rings.5.area_weighted.age_bands.age_65_up.pct,22.8
+rings.5.centroid.population,107145
+rings.5.centroid.households,48804
+rings.5.centroid.male,51280
+rings.5.centroid.female,55865
+rings.5.centroid.sex_ratio,91.8
+rings.5.centroid.avg_household_size,2.2
+rings.5.centroid.minstat_count,664
+rings.5.centroid.age_bands.age_0_14.label,0-14 歲
+rings.5.centroid.age_bands.age_0_14.count,13919
+rings.5.centroid.age_bands.age_0_14.male,7382
+rings.5.centroid.age_bands.age_0_14.female,6537
+rings.5.centroid.age_bands.age_0_14.pct,13
+rings.5.centroid.age_bands.age_15_64.label,15-64 歲
+rings.5.centroid.age_bands.age_15_64.count,68914
+rings.5.centroid.age_bands.age_15_64.male,33282
+rings.5.centroid.age_bands.age_15_64.female,35632
+rings.5.centroid.age_bands.age_15_64.pct,64.3
+rings.5.centroid.age_bands.age_65_up.label,65 歲以上
+rings.5.centroid.age_bands.age_65_up.count,24312
+rings.5.centroid.age_bands.age_65_up.male,10616
+rings.5.centroid.age_bands.age_65_up.female,13696
+rings.5.centroid.age_bands.age_65_up.pct,22.7
+rings.5.diff.population_diff,-375
+rings.5.diff.population_diff_pct,-0.3
+rings.5.diff.households_diff,-205
+rings.5.diff.households_diff_pct,-0.4
+rings.10.area_weighted.population,392469
+rings.10.area_weighted.households,171316
+rings.10.area_weighted.male,187014
+rings.10.area_weighted.female,205456
+rings.10.area_weighted.sex_ratio,91
+rings.10.area_weighted.avg_household_size,2.29
+rings.10.area_weighted.minstat_count,2497
+rings.10.area_weighted.age_bands.age_0_14.label,0-14 歲
+rings.10.area_weighted.age_bands.age_0_14.count,47737
+rings.10.area_weighted.age_bands.age_0_14.male,24802
+rings.10.area_weighted.age_bands.age_0_14.female,22935
+rings.10.area_weighted.age_bands.age_0_14.pct,12.2
+rings.10.area_weighted.age_bands.age_15_64.label,15-64 歲
+rings.10.area_weighted.age_bands.age_15_64.count,264775
+rings.10.area_weighted.age_bands.age_15_64.male,127443
+rings.10.area_weighted.age_bands.age_15_64.female,137331
+rings.10.area_weighted.age_bands.age_15_64.pct,67.5
+rings.10.area_weighted.age_bands.age_65_up.label,65 歲以上
+rings.10.area_weighted.age_bands.age_65_up.count,79958
+rings.10.area_weighted.age_bands.age_65_up.male,34768
+rings.10.area_weighted.age_bands.age_65_up.female,45189
+rings.10.area_weighted.age_bands.age_65_up.pct,20.4
+rings.10.centroid.population,393115
+rings.10.centroid.households,171788
+rings.10.centroid.male,187311
+rings.10.centroid.female,205804
+rings.10.centroid.sex_ratio,91
+rings.10.centroid.avg_household_size,2.29
+rings.10.centroid.minstat_count,2283
+rings.10.centroid.age_bands.age_0_14.label,0-14 歲
+rings.10.centroid.age_bands.age_0_14.count,47784
+rings.10.centroid.age_bands.age_0_14.male,24835
+rings.10.centroid.age_bands.age_0_14.female,22949
+rings.10.centroid.age_bands.age_0_14.pct,12.2
+rings.10.centroid.age_bands.age_15_64.label,15-64 歲
+rings.10.centroid.age_bands.age_15_64.count,265306
+rings.10.centroid.age_bands.age_15_64.male,127696
+rings.10.centroid.age_bands.age_15_64.female,137610
+rings.10.centroid.age_bands.age_15_64.pct,67.5
+rings.10.centroid.age_bands.age_65_up.label,65 歲以上
+rings.10.centroid.age_bands.age_65_up.count,80025
+rings.10.centroid.age_bands.age_65_up.male,34780
+rings.10.centroid.age_bands.age_65_up.female,45245
+rings.10.centroid.age_bands.age_65_up.pct,20.4
+rings.10.diff.population_diff,-646
+rings.10.diff.population_diff_pct,-0.2
+rings.10.diff.households_diff,-472
+rings.10.diff.households_diff_pct,-0.3
+rings.15.area_weighted.population,640526
+rings.15.area_weighted.households,270448
+rings.15.area_weighted.male,306891
+rings.15.area_weighted.female,333635
+rings.15.area_weighted.sex_ratio,92
+rings.15.area_weighted.avg_household_size,2.37
+rings.15.area_weighted.minstat_count,3905
+rings.15.area_weighted.age_bands.age_0_14.label,0-14 歲
+rings.15.area_weighted.age_bands.age_0_14.count,75842
+rings.15.area_weighted.age_bands.age_0_14.male,39371
+rings.15.area_weighted.age_bands.age_0_14.female,36471
+rings.15.area_weighted.age_bands.age_0_14.pct,11.8
+rings.15.area_weighted.age_bands.age_15_64.label,15-64 歲
+rings.15.area_weighted.age_bands.age_15_64.count,441924
+rings.15.area_weighted.age_bands.age_15_64.male,213747
+rings.15.area_weighted.age_bands.age_15_64.female,228177
+rings.15.area_weighted.age_bands.age_15_64.pct,69
+rings.15.area_weighted.age_bands.age_65_up.label,65 歲以上
+rings.15.area_weighted.age_bands.age_65_up.count,122760
+rings.15.area_weighted.age_bands.age_65_up.male,53773
+rings.15.area_weighted.age_bands.age_65_up.female,68987
+rings.15.area_weighted.age_bands.age_65_up.pct,19.2
+rings.15.centroid.population,638310
+rings.15.centroid.households,269776
+rings.15.centroid.male,305747
+rings.15.centroid.female,332563
+rings.15.centroid.sex_ratio,91.9
+rings.15.centroid.avg_household_size,2.37
+rings.15.centroid.minstat_count,3619
+rings.15.centroid.age_bands.age_0_14.label,0-14 歲
+rings.15.centroid.age_bands.age_0_14.count,75399
+rings.15.centroid.age_bands.age_0_14.male,39118
+rings.15.centroid.age_bands.age_0_14.female,36281
+rings.15.centroid.age_bands.age_0_14.pct,11.8
+rings.15.centroid.age_bands.age_15_64.label,15-64 歲
+rings.15.centroid.age_bands.age_15_64.count,440506
+rings.15.centroid.age_bands.age_15_64.male,213064
+rings.15.centroid.age_bands.age_15_64.female,227442
+rings.15.centroid.age_bands.age_15_64.pct,69
+rings.15.centroid.age_bands.age_65_up.label,65 歲以上
+rings.15.centroid.age_bands.age_65_up.count,122405
+rings.15.centroid.age_bands.age_65_up.male,53565
+rings.15.centroid.age_bands.age_65_up.female,68840
+rings.15.centroid.age_bands.age_65_up.pct,19.2
+rings.15.diff.population_diff,2216
+rings.15.diff.population_diff_pct,0.3
+rings.15.diff.households_diff,672
+rings.15.diff.households_diff_pct,0.2
+districts.city.name,臺南市全市
+districts.city.population,1857812
+districts.city.households,745876
+districts.city.male,921201
+districts.city.female,936611
+districts.city.sex_ratio,98.4
+districts.city.avg_household_size,2.49
+districts.city.minstat_count,12774
+districts.city.age_bands.age_0_14.label,0-14 歲
+districts.city.age_bands.age_0_14.count,208620
+districts.city.age_bands.age_0_14.male,108324
+districts.city.age_bands.age_0_14.female,100296
+districts.city.age_bands.age_0_14.pct,11.2
+districts.city.age_bands.age_15_64.label,15-64 歲
+districts.city.age_bands.age_15_64.count,1285343
+districts.city.age_bands.age_15_64.male,646015
+districts.city.age_bands.age_15_64.female,639328
+districts.city.age_bands.age_15_64.pct,69.2
+districts.city.age_bands.age_65_up.label,65 歲以上
+districts.city.age_bands.age_65_up.count,363849
+districts.city.age_bands.age_65_up.male,166862
+districts.city.age_bands.age_65_up.female,196987
+districts.city.age_bands.age_65_up.pct,19.6
+districts.east.name,東區
+districts.east.population,181851
+districts.east.households,76023
+districts.east.male,86324
+districts.east.female,95527
+districts.east.sex_ratio,90.4
+districts.east.avg_household_size,2.39
+districts.east.minstat_count,1074
+districts.east.age_bands.age_0_14.label,0-14 歲
+districts.east.age_bands.age_0_14.count,24524
+districts.east.age_bands.age_0_14.male,12650
+districts.east.age_bands.age_0_14.female,11874
+districts.east.age_bands.age_0_14.pct,13.5
+districts.east.age_bands.age_15_64.label,15-64 歲
+districts.east.age_bands.age_15_64.count,122850
+districts.east.age_bands.age_15_64.male,58473
+districts.east.age_bands.age_15_64.female,64377
+districts.east.age_bands.age_15_64.pct,67.6
+districts.east.age_bands.age_65_up.label,65 歲以上
+districts.east.age_bands.age_65_up.count,34477
+districts.east.age_bands.age_65_up.male,15201
+districts.east.age_bands.age_65_up.female,19276
+districts.east.age_bands.age_65_up.pct,19
+districts.north.name,北區
+districts.north.population,125833
+districts.north.households,53544
+districts.north.male,60725
+districts.north.female,65108
+districts.north.sex_ratio,93.3
+districts.north.avg_household_size,2.35
+districts.north.minstat_count,772
+districts.north.age_bands.age_0_14.label,0-14 歲
+districts.north.age_bands.age_0_14.count,13155
+districts.north.age_bands.age_0_14.male,6867
+districts.north.age_bands.age_0_14.female,6288
+districts.north.age_bands.age_0_14.pct,10.5
+districts.north.age_bands.age_15_64.label,15-64 歲
+districts.north.age_bands.age_15_64.count,87572
+districts.north.age_bands.age_15_64.male,42992
+districts.north.age_bands.age_15_64.female,44580
+districts.north.age_bands.age_15_64.pct,69.6
+districts.north.age_bands.age_65_up.label,65 歲以上
+districts.north.age_bands.age_65_up.count,25106
+districts.north.age_bands.age_65_up.male,10866
+districts.north.age_bands.age_65_up.female,14240
+districts.north.age_bands.age_65_up.pct,20
+districts.central_west.name,中西區
+districts.central_west.population,76991
+districts.central_west.households,33582
+districts.central_west.male,37069
+districts.central_west.female,39922
+districts.central_west.sex_ratio,92.9
+districts.central_west.avg_household_size,2.29
+districts.central_west.minstat_count,522
+districts.central_west.age_bands.age_0_14.label,0-14 歲
+districts.central_west.age_bands.age_0_14.count,11437
+districts.central_west.age_bands.age_0_14.male,6117
+districts.central_west.age_bands.age_0_14.female,5320
+districts.central_west.age_bands.age_0_14.pct,14.9
+districts.central_west.age_bands.age_15_64.label,15-64 歲
+districts.central_west.age_bands.age_15_64.count,48641
+districts.central_west.age_bands.age_15_64.male,23335
+districts.central_west.age_bands.age_15_64.female,25306
+districts.central_west.age_bands.age_15_64.pct,63.2
+districts.central_west.age_bands.age_65_up.label,65 歲以上
+districts.central_west.age_bands.age_65_up.count,16913
+districts.central_west.age_bands.age_65_up.male,7617
+districts.central_west.age_bands.age_65_up.female,9296
+districts.central_west.age_bands.age_65_up.pct,22
+age_pyramid.granularity,一級發布區（CODE1）
+age_pyramid.district_label,東區（涵蓋東區的一級發布區聚合，非 10 分圈）
+age_pyramid.note,五歲年齡組資料只發布到一級發布區，無法對到等時圈幾何，退回涵蓋東區的一級發布區聚合並標明（規格 #3 圖 E）
+age_pyramid.n_code1_areas,610
+age_pyramid.total_population,181851
+method_notes.primary_ring,10
+method_notes.ring_use.5,店家分析
+method_notes.ring_use.10,居住人口
+method_notes.ring_use.15,可及性參考
+method_notes.area_weighted_method,每個最小統計區在 EPSG:3826（TWD97）下與等時圈多邊形算交集面積，交集面積 / 統計區總面積 = 權重，人口／戶數／性別／年齡組依權重分配後加總
+method_notes.centroid_method,每個最小統計區取代表點（representative point，保證落在多邊形內部），落在圈內＝整區 100% 算入該圈，不拆分
+method_notes.method_diff_note,兩法在三個圈的差距都在 1% 以內（面積加權法通常比質心法更平滑，因為邊界上的統計區會被拆成一部分而非整區算進或算出）；細節見上方「兩種估計法對照」表格
+method_notes.household_data_caveat,戶數（H_CNT）來自 segis_pop，落地為 VARCHAR（相容既有快照），check_numbers 的 duckdb sum 規則無法對 VARCHAR 欄位重算，本篇戶數相關數字改標 const 並附來源說明，人工抽樣用 duckdb CAST 交叉驗證
+method_notes.age_pyramid_granularity,一級發布區（CODE1）
+method_notes.age_pyramid_note,五歲年齡組資料只發布到一級發布區，無法對到等時圈幾何，退回涵蓋東區的一級發布區聚合並標明（規格 #3 圖 E）
+method_notes.district_prefix_map.中西區,A6737
+method_notes.district_prefix_map.仁德區,A6727
+method_notes.district_prefix_map.北區,A6734
+method_notes.district_prefix_map.南區,A6733
+method_notes.district_prefix_map.安平區,A6736
+method_notes.district_prefix_map.東區,A6732
+method_notes.district_prefix_map.永康區,A6731
+method_notes.data_period,113Y12M
+method_notes.data_version,2026-09-08
+
+# table: meta.centers
+id,name,lat,lon
+tra_rear,台南火車站後站出口,22.9971,120.2135
+ncku_gate,成大光復校區正門,22.9976,120.2138
+nckuh,成大醫院正門,23.0019,120.2183
+
+# table: age_pyramid.bands
+label,total,male,female
+0-4,4494,2341,2153
+5-9,8709,4411,4298
+10-14,11321,5898,5423
+15-19,8298,4291,4007
+20-24,9332,4885,4447
+25-29,11315,5865,5450
+30-34,11317,5673,5644
+35-39,10959,5323,5636
+40-44,14506,6612,7894
+45-49,15094,6876,8218
+50-54,13967,6276,7691
+55-59,14229,6431,7798
+60-64,13833,6241,7592
+65-69,12129,5482,6647
+70-74,9979,4524,5455
+75-79,5652,2531,3121
+80-84,3675,1508,2167
+85-89,1938,738,1200
+90-94,852,316,536
+95-99,230,94,136
+100+,22,8,14

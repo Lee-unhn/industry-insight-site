@@ -1,0 +1,636 @@
+{
+  "meta": {
+    "article_no": 11,
+    "title": "人流：誰在什麼時候來、從哪條路來",
+    "data_date": "2026-09-08",
+    "produced_date": "2026-09-08",
+    "district_id": "ncku",
+    "district_name": "成大商圈",
+    "centers": [
+      {
+        "id": "tra_rear",
+        "name": "台南火車站後站出口",
+        "lat": 22.9971,
+        "lon": 120.2135
+      },
+      {
+        "id": "ncku_gate",
+        "name": "成大光復校區正門",
+        "lat": 22.9976,
+        "lon": 120.2138
+      },
+      {
+        "id": "nckuh",
+        "name": "成大醫院正門",
+        "lat": 23.0019,
+        "lon": 120.2183
+      }
+    ]
+  },
+  "composition": {
+    "items": [
+      {
+        "key": "residents",
+        "label": "住在附近的居民",
+        "kind": "stock",
+        "value": 392469,
+        "unit": "人（10 分圈住戶人口，不是當天出現人次）"
+      },
+      {
+        "key": "students_faculty",
+        "label": "成大學生＋教職員",
+        "kind": "stock",
+        "value": 24778,
+        "unit": "人",
+        "detail": {
+          "students": 23485,
+          "faculty": 1293,
+          "academic_year": "114"
+        }
+      },
+      {
+        "key": "hospital",
+        "label": "成大醫院員工",
+        "kind": "stock",
+        "value": 4871,
+        "unit": "人",
+        "note": "官網公告成大醫院「每日急診超過 200 人次」，門診人次無公開細項數字，僅供量級參考，不落地成可重算數字"
+      },
+      {
+        "key": "tra",
+        "label": "台鐵台南站進出站",
+        "kind": "flow",
+        "value": 50021.6,
+        "unit": "人次/天（日均，借用篇⑧ tra.ytd）"
+      },
+      {
+        "key": "tourism",
+        "label": "周邊景點旅客（僅計入 15 分圈內已定位景點）",
+        "kind": "flow",
+        "value": 34276.1,
+        "unit": "人次/天（日均）"
+      }
+    ],
+    "kind_note": "stock＝這個範圍住/待著多少人的存量（不是當天出現人次）；flow＝有實測的當天平均出現人次；兩種概念量級不能直接相加，並列只是讓你看到量級差距",
+    "by_key": {
+      "residents": {
+        "population": 392469,
+        "households": 171316
+      },
+      "students_faculty": {
+        "students": 23485,
+        "faculty": 1293
+      },
+      "hospital": {
+        "total": 4871
+      },
+      "tra": {
+        "avg_in": 24820.1,
+        "avg_out": 25201.5
+      },
+      "tourism": {
+        "in_ring_total_annual_visits": 12510770,
+        "in_ring_daily_avg": 34276.1
+      }
+    }
+  },
+  "time_dimension": {
+    "tra_seasonal": {
+      "01": {
+        "avg_in": 24866.0,
+        "avg_out": 25106.1,
+        "days": 124,
+        "months_included": [
+          "202301",
+          "202401",
+          "202501",
+          "202601"
+        ],
+        "n_years": 4
+      },
+      "02": {
+        "avg_in": 26813.8,
+        "avg_out": 27485.2,
+        "days": 113,
+        "months_included": [
+          "202302",
+          "202402",
+          "202502",
+          "202602"
+        ],
+        "n_years": 4
+      },
+      "03": {
+        "avg_in": 25930.7,
+        "avg_out": 26303.0,
+        "days": 124,
+        "months_included": [
+          "202303",
+          "202403",
+          "202503",
+          "202603"
+        ],
+        "n_years": 4
+      },
+      "04": {
+        "avg_in": 25765.4,
+        "avg_out": 26290.2,
+        "days": 120,
+        "months_included": [
+          "202304",
+          "202404",
+          "202504",
+          "202604"
+        ],
+        "n_years": 4
+      },
+      "05": {
+        "avg_in": 24971.6,
+        "avg_out": 25390.1,
+        "days": 124,
+        "months_included": [
+          "202305",
+          "202405",
+          "202505",
+          "202605"
+        ],
+        "n_years": 4
+      },
+      "06": {
+        "avg_in": 24068.2,
+        "avg_out": 24460.6,
+        "days": 120,
+        "months_included": [
+          "202306",
+          "202406",
+          "202506",
+          "202606"
+        ],
+        "n_years": 4
+      },
+      "07": {
+        "avg_in": 22469.0,
+        "avg_out": 22813.0,
+        "days": 124,
+        "months_included": [
+          "202307",
+          "202407",
+          "202507",
+          "202607"
+        ],
+        "n_years": 4
+      },
+      "08": {
+        "avg_in": 24148.3,
+        "avg_out": 24606.3,
+        "days": 124,
+        "months_included": [
+          "202308",
+          "202408",
+          "202508",
+          "202608"
+        ],
+        "n_years": 4
+      },
+      "09": {
+        "avg_in": 24105.5,
+        "avg_out": 24617.5,
+        "days": 90,
+        "months_included": [
+          "202309",
+          "202409",
+          "202509"
+        ],
+        "n_years": 3
+      },
+      "10": {
+        "avg_in": 24908.5,
+        "avg_out": 25532.2,
+        "days": 93,
+        "months_included": [
+          "202310",
+          "202410",
+          "202510"
+        ],
+        "n_years": 3
+      },
+      "11": {
+        "avg_in": 25806.6,
+        "avg_out": 26313.0,
+        "days": 90,
+        "months_included": [
+          "202311",
+          "202411",
+          "202511"
+        ],
+        "n_years": 3
+      },
+      "12": {
+        "avg_in": 26782.9,
+        "avg_out": 27500.3,
+        "days": 93,
+        "months_included": [
+          "202312",
+          "202412",
+          "202512"
+        ],
+        "n_years": 3
+      }
+    },
+    "summer_vs_rest": {
+      "summer": {
+        "avg_in": 23308.6,
+        "avg_out": 23709.6,
+        "days": 248
+      },
+      "rest": {
+        "avg_in": 25393.8,
+        "avg_out": 25879.7,
+        "days": 1091
+      },
+      "summer_months_mm": [
+        "07",
+        "08"
+      ],
+      "rest_months_count": 36
+    },
+    "weekday_weekend": {
+      "weekday": {
+        "avg_in": 23052.5,
+        "avg_out": 23575.0,
+        "days": 957
+      },
+      "weekend": {
+        "avg_in": 29873.0,
+        "avg_out": 30213.8,
+        "days": 383
+      }
+    },
+    "calendar": {
+      "latest_academic_year": 114,
+      "in_session_days": 365,
+      "year_span_days": 365,
+      "gap_days": 0,
+      "fall_term": {
+        "start": "2025-08-01",
+        "end": "2026-01-31"
+      },
+      "spring_term": {
+        "start": "2026-02-01",
+        "end": "2026-07-31"
+      },
+      "limitation_note": "ncku_calendar 落地資料的『結束日期』實際是『下一學期起始月的前一天』的推論值（見 pipeline/connectors/ncku_calendar.py 模組說明），上／下學期首尾相接、補集是 0 天——用這份資料完全算不出真正的寒假／暑假天數，本欄位如實呈現這個限制（gap_days 應為 0，不是本篇算錯）；行事曆PDF裡確實有寒假/暑假文字段落，但版面（週次直式網格）目前抽不出逐日日期"
+    },
+    "footfall_index_12mo": [
+      {
+        "month": "01",
+        "tra_index": 0.988,
+        "tourism_index": 1.282,
+        "student_weight": 1.0,
+        "composite_index": 1.09
+      },
+      {
+        "month": "02",
+        "tra_index": 1.073,
+        "tourism_index": 0.981,
+        "student_weight": 1.0,
+        "composite_index": 1.018
+      },
+      {
+        "month": "03",
+        "tra_index": 1.033,
+        "tourism_index": 0.856,
+        "student_weight": 1.0,
+        "composite_index": 0.963
+      },
+      {
+        "month": "04",
+        "tra_index": 1.029,
+        "tourism_index": 1.014,
+        "student_weight": 1.0,
+        "composite_index": 1.014
+      },
+      {
+        "month": "05",
+        "tra_index": 0.996,
+        "tourism_index": 0.929,
+        "student_weight": 1.0,
+        "composite_index": 0.975
+      },
+      {
+        "month": "06",
+        "tra_index": 0.959,
+        "tourism_index": 0.982,
+        "student_weight": 1.0,
+        "composite_index": 0.98
+      },
+      {
+        "month": "07",
+        "tra_index": 0.895,
+        "tourism_index": 1.026,
+        "student_weight": 1.0,
+        "composite_index": 0.974
+      },
+      {
+        "month": "08",
+        "tra_index": 0.964,
+        "tourism_index": 1.025,
+        "student_weight": 1.0,
+        "composite_index": 0.996
+      },
+      {
+        "month": "09",
+        "tra_index": 0.963,
+        "tourism_index": 0.865,
+        "student_weight": 1.0,
+        "composite_index": 0.943
+      },
+      {
+        "month": "10",
+        "tra_index": 0.997,
+        "tourism_index": 0.981,
+        "student_weight": 1.0,
+        "composite_index": 0.993
+      },
+      {
+        "month": "11",
+        "tra_index": 1.03,
+        "tourism_index": 1.005,
+        "student_weight": 1.0,
+        "composite_index": 1.012
+      },
+      {
+        "month": "12",
+        "tra_index": 1.073,
+        "tourism_index": 1.055,
+        "student_weight": 1.0,
+        "composite_index": 1.043
+      }
+    ]
+  },
+  "tourism": {
+    "latest_year": "2023",
+    "in_ring_sites": [
+      {
+        "name": "南紡購物中心",
+        "ring": 10,
+        "lat": 22.9838,
+        "lon": 120.2229,
+        "coord_source": "公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈",
+        "annual_visits": 6367997,
+        "daily_avg": 17446.6
+      },
+      {
+        "name": "藍晒圖文創圈區",
+        "ring": 10,
+        "lat": 22.9908,
+        "lon": 120.1995,
+        "coord_source": "公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈",
+        "annual_visits": 4378903,
+        "daily_avg": 11997.0
+      },
+      {
+        "name": "臺南市美術館",
+        "ring": 5,
+        "lat": 22.9928,
+        "lon": 120.2036,
+        "coord_source": "公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈",
+        "annual_visits": 459705,
+        "daily_avg": 1259.5
+      },
+      {
+        "name": "赤嵌樓",
+        "ring": 5,
+        "lat": 22.9968,
+        "lon": 120.2028,
+        "coord_source": "公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈",
+        "annual_visits": 443622,
+        "daily_avg": 1215.4
+      },
+      {
+        "name": "大天后宮",
+        "ring": 5,
+        "lat": 22.9963,
+        "lon": 120.2036,
+        "coord_source": "公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈",
+        "annual_visits": 354897,
+        "daily_avg": 972.3
+      },
+      {
+        "name": "祀典武廟",
+        "ring": 5,
+        "lat": 22.9958,
+        "lon": 120.2034,
+        "coord_source": "公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈",
+        "annual_visits": 310537,
+        "daily_avg": 850.8
+      },
+      {
+        "name": "臺南孔子廟",
+        "ring": 5,
+        "lat": 22.9912,
+        "lon": 120.2016,
+        "coord_source": "公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈",
+        "annual_visits": 195109,
+        "daily_avg": 534.5
+      }
+    ],
+    "sites_by_name": {
+      "南紡購物中心": {
+        "name": "南紡購物中心",
+        "ring": 10,
+        "lat": 22.9838,
+        "lon": 120.2229,
+        "coord_source": "公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈",
+        "annual_visits": 6367997,
+        "daily_avg": 17446.6
+      },
+      "藍晒圖文創圈區": {
+        "name": "藍晒圖文創圈區",
+        "ring": 10,
+        "lat": 22.9908,
+        "lon": 120.1995,
+        "coord_source": "公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈",
+        "annual_visits": 4378903,
+        "daily_avg": 11997.0
+      },
+      "臺南市美術館": {
+        "name": "臺南市美術館",
+        "ring": 5,
+        "lat": 22.9928,
+        "lon": 120.2036,
+        "coord_source": "公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈",
+        "annual_visits": 459705,
+        "daily_avg": 1259.5
+      },
+      "赤嵌樓": {
+        "name": "赤嵌樓",
+        "ring": 5,
+        "lat": 22.9968,
+        "lon": 120.2028,
+        "coord_source": "公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈",
+        "annual_visits": 443622,
+        "daily_avg": 1215.4
+      },
+      "大天后宮": {
+        "name": "大天后宮",
+        "ring": 5,
+        "lat": 22.9963,
+        "lon": 120.2036,
+        "coord_source": "公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈",
+        "annual_visits": 354897,
+        "daily_avg": 972.3
+      },
+      "祀典武廟": {
+        "name": "祀典武廟",
+        "ring": 5,
+        "lat": 22.9958,
+        "lon": 120.2034,
+        "coord_source": "公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈",
+        "annual_visits": 310537,
+        "daily_avg": 850.8
+      },
+      "臺南孔子廟": {
+        "name": "臺南孔子廟",
+        "ring": 5,
+        "lat": 22.9912,
+        "lon": 120.2016,
+        "coord_source": "公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈",
+        "annual_visits": 195109,
+        "daily_avg": 534.5
+      }
+    },
+    "in_ring_site_names": [
+      "南紡購物中心",
+      "藍晒圖文創圈區",
+      "臺南市美術館",
+      "赤嵌樓",
+      "大天后宮",
+      "祀典武廟",
+      "臺南孔子廟"
+    ],
+    "dropped_candidates_no_data": [
+      "五妃廟",
+      "延平郡王祠"
+    ],
+    "excluded_out_of_ring": [
+      "國立臺灣歷史博物館",
+      "奇美博物館",
+      "安平小鎮"
+    ],
+    "in_ring_total_annual_visits": 12510770,
+    "in_ring_daily_avg": 34276.1,
+    "monthly_totals": {
+      "01": 1336162,
+      "02": 1022670,
+      "03": 892277,
+      "04": 1057106,
+      "05": 968088,
+      "06": 1023673,
+      "07": 1069864,
+      "08": 1068427,
+      "09": 901806,
+      "10": 1022302,
+      "11": 1048253,
+      "12": 1100142
+    },
+    "city_level_reference": {
+      "total_annual_visits": 36558258,
+      "site_row_count": 28,
+      "note": "臺南市全部有列管景點（含商圈外）當年合計人次，僅供對照，不計入本篇商圈人流組成"
+    }
+  },
+  "streets": {
+    "ring5_store_count": 11409,
+    "classified_store_count": 10741,
+    "unclassified_store_count": 668,
+    "unclassified_pct": 5.9,
+    "overall_density_per_km2": 1596.4,
+    "union_buffer_area_km2": 6.728,
+    "tier_order": [
+      "major",
+      "mid",
+      "minor"
+    ],
+    "tiers": {
+      "major": {
+        "label": "臨主要幹道（primary／secondary／trunk）",
+        "length_km": 18.04,
+        "edge_count": 152,
+        "buffer_area_km2": 0.96,
+        "store_count": 2024,
+        "store_pct_of_ring5": 17.7,
+        "density_per_km2": 2108.2,
+        "location_factor": 1.32
+      },
+      "mid": {
+        "label": "臨次要道路（tertiary）",
+        "length_km": 74.2,
+        "edge_count": 679,
+        "buffer_area_km2": 3.432,
+        "store_count": 5780,
+        "store_pct_of_ring5": 50.7,
+        "density_per_km2": 1684.1,
+        "location_factor": 1.05
+      },
+      "minor": {
+        "label": "臨巷弄／小路（residential 等）",
+        "length_km": 110.23,
+        "edge_count": 1264,
+        "buffer_area_km2": 4.279,
+        "store_count": 2937,
+        "store_pct_of_ring5": 25.7,
+        "density_per_km2": 686.4,
+        "location_factor": 0.43
+      }
+    },
+    "buffer_m": 50.0,
+    "method": "5 分圈內道路（tainan_drive.graphml OSMnx 路網）依 highway 標籤分三檔：主要幹道=['primary', 'primary_link', 'secondary', 'secondary_link', 'trunk', 'trunk_link']、次要道路=['tertiary', 'tertiary_link']、巷弄等=['living_street', 'residential', 'service', 'unclassified']（排除 motorway/motorway_link 快速道路，同篇①等時圈路網處理）；每檔道路（clip 到 5 分圈後）在 TWD97(EPSG:3826) 投影下buffer 50 公尺聯集；店家（ring==5）依「優先序 major>mid>minor」指派到第一個涵蓋它的緩衝範圍內（同時臨多檔道路者算最高檔，避免重複計算）；location_factor＝該檔『店數/該檔緩衝區面積』÷『三檔緩衝區聯集內全部已分類店數/聯集面積』（全圈平均密度），即「這檔道路店家密度是全圈平均的幾倍」，作為總評頁位置係數的資料依據（Q46：路口車流量調查不存在，改用此 OSM 道路等級 proxy）"
+  },
+  "stat_tiles": {
+    "tra_daily": {
+      "value": 50021.6,
+      "unit": "人次/天",
+      "label": "台鐵台南站日均進出站"
+    },
+    "students_faculty_total": {
+      "value": 24778,
+      "unit": "人",
+      "label": "成大學生＋教職員合計",
+      "sub": "114 學年度；全年在校日/年度天數 = 365/365（見方法：行事曆資料無法拆出假期空窗）"
+    },
+    "tourism_daily": {
+      "value": 34276.1,
+      "unit": "人次/天",
+      "label": "周邊景點日均旅客（僅計入圈內已定位景點）"
+    },
+    "major_road_location_factor": {
+      "value": 1.32,
+      "unit": "倍（相對全圈平均密度）",
+      "label": "臨主要幹道店家密度是全圈平均的幾倍",
+      "sub": "臨巷弄為 0.43 倍（Q46：路口車流量調查不存在，改用道路等級 proxy）"
+    }
+  },
+  "method_notes": {
+    "not_available": {
+      "intersection_traffic_survey": "路口車流量調查：沒有公開資料集，Q46 已改用 OSM 道路等級（primary/secondary/trunk、tertiary、residential 等三檔）作為位置係數的 proxy，不是直接量測的車流量",
+      "hospital_outpatient_volume": "健保署醫療院所服務量（成大醫院門診件數）：沒有公開細項數字，只能引成大醫院官網「每日急診超過 200 人次」一句話當量級註記（非本篇落地計算，不進 numbers.yaml）",
+      "industrial_census_workforce": "工商普查統計區員工數：沒有公開資料，改用 moe_udb（學生/教師）與 nckuh（醫院員工）兩個可直接落地的來源替代固定客群估計",
+      "polling_footfall": "Q43 裁定：人流不做輪詢（不用桌機排程、不租 VPS），只用一次性公開資料，因此沒有逐時段人流曲線，只有日/週/月的聚合量級"
+    },
+    "calendar_limitation": "ncku_calendar 落地資料的『結束日期』實際是『下一學期起始月的前一天』的推論值（見 pipeline/connectors/ncku_calendar.py 模組說明），上／下學期首尾相接、補集是 0 天——用這份資料完全算不出真正的寒假／暑假天數，本欄位如實呈現這個限制（gap_days 應為 0，不是本篇算錯）；行事曆PDF裡確實有寒假/暑假文字段落，但版面（週次直式網格）目前抽不出逐日日期",
+    "footfall_index_formula": "12 個月人流指數＝(台鐵日均進出站的曆月季節指數 ＋ 周邊景點月度到訪指數 ＋ 學生教職員在校權重指數) ÷ 3；台鐵季節指數＝該曆月『完整月』跨年平均日均進出站 ÷ 12 個曆月的平均值；觀光指數＝該月圈內景點合計人次 ÷ 12 個月平均值（2023 年）；學生權重全年固定為 1.0（見 calendar_limitation，行事曆資料無法辨識假期空窗，不是刻意簡化）；三個子指數各自正規化為「12 個月平均=1.0」再取平均，是相對指數，不是實際人數加總",
+    "summer_vs_rest_note": "以 7-8 月（成大通常認知的暑假月份）對照其餘 10 個完整月的台鐵日均進出站，作為「學期 vs 假期」的實證替代（行事曆資料本身無法給出精確假期起訖，改用台鐵這個真實量測數字的月度落差當佐證，見 calendar_limitation）",
+    "tourism_coord_note": "公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈；候選 12 個地標中，3 個經座標比對落在 15 分圈外（國立臺灣歷史博物館、奇美博物館、安平小鎮），予以排除；另有 2 個候選在 2023 年 tourism_visits 資料已停止列管（五妃廟、延平郡王祠），改列臺南市層級對照（method_notes.not_available 未涵蓋此段落，見 tourism.city_level_reference）",
+    "streets_method": "5 分圈內道路（tainan_drive.graphml OSMnx 路網）依 highway 標籤分三檔：主要幹道=['primary', 'primary_link', 'secondary', 'secondary_link', 'trunk', 'trunk_link']、次要道路=['tertiary', 'tertiary_link']、巷弄等=['living_street', 'residential', 'service', 'unclassified']（排除 motorway/motorway_link 快速道路，同篇①等時圈路網處理）；每檔道路（clip 到 5 分圈後）在 TWD97(EPSG:3826) 投影下buffer 50 公尺聯集；店家（ring==5）依「優先序 major>mid>minor」指派到第一個涵蓋它的緩衝範圍內（同時臨多檔道路者算最高檔，避免重複計算）；location_factor＝該檔『店數/該檔緩衝區面積』÷『三檔緩衝區聯集內全部已分類店數/聯集面積』（全圈平均密度），即「這檔道路店家密度是全圈平均的幾倍」，作為總評頁位置係數的資料依據（Q46：路口車流量調查不存在，改用此 OSM 道路等級 proxy）",
+    "ring_use": {
+      "5": "街道等級三檔與店家位置係數",
+      "10": "居住人口（借用篇⑤）",
+      "15": "觀光景點落點判定"
+    },
+    "isochrone_method": "OSMnx 本機路網計算（機車，剔除快速道路/高架橋），與篇①同一份 data/geo/isochrones.geojson",
+    "reuse_note": "居住人口借用 articles/05_population/data.json（面積加權演算法已驗證，不重算）；台鐵到站量級借用 articles/08_access/data.json 的 tra.ytd（合併/去重/完整月篩選已在篇⑧做過）；地圖底圖與店家密度網格互動頁直接 fetch 篇①的 roads.geojson/density.geojson，不重新產生",
+    "osm_attribution": "地圖底圖（路網/等時圈邊界）與街道分級重用 OpenStreetMap 路網，© OpenStreetMap contributors (ODbL)",
+    "data_version": "2026-09-08"
+  }
+}
