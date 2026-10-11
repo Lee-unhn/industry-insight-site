@@ -1,0 +1,73 @@
+/* ------------------------------------------------------------------
+   motion.css — 全站共用動效（搭配 motion.js）
+   原則：
+   - 只動 transform／opacity（合成層，不觸發排版）。
+   - 頁面在「靜止狀態」一定完整：只有 JS 確認元素在第一屏之外，才會加
+     .mo-reveal 把它先藏起來；沒有 JS、減少動態、列印時全部直接顯示。
+   - 色與陰影只用 tokens.css 的變數。
+   ------------------------------------------------------------------ */
+
+/* ---------- 捲動進場 ---------- */
+.mo-reveal {
+  opacity: 0;
+  transform: translate3d(0, var(--mo-rise, 12px), 0);
+  transition:
+    opacity var(--mo-dur-2, 520ms) var(--mo-ease-out, cubic-bezier(0.22, 1, 0.36, 1)),
+    transform var(--mo-dur-2, 520ms) var(--mo-ease-out, cubic-bezier(0.22, 1, 0.36, 1));
+  transition-delay: var(--mo-delay, 0ms);
+}
+.mo-reveal.mo-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- 數字計數 ---------- */
+.mo-count {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ---------- 閱讀進度條 ---------- */
+.mo-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 1000;
+  pointer-events: none;
+  background: var(--primary, #184f95);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  will-change: transform;
+}
+
+/* ---------- 減少動態：全部直接顯示終值 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .mo-reveal,
+  .mo-reveal.mo-in {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .mo-progress { display: none; }
+}
+
+/* ---------- 列印：關閉動畫、展開摺疊、隱藏導覽與按鈕 ---------- */
+@media print {
+  .mo-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .mo-progress { display: none !important; }
+  details::details-content { content-visibility: visible; display: block; }
+  nav, button, .btn { display: none !important; }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

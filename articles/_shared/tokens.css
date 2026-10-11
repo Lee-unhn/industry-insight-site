@@ -83,4 +83,17 @@
   --radius: 8px;
   --shadow: 0 1px 3px rgba(11, 11, 11, 0.08), 0 8px 20px rgba(11, 11, 11, 0.06);
   --container: 1100px;
+
+  /* ---- 動效與陰影（motion.css／global.css 共用；動畫只動 transform／opacity） ---- */
+  --mo-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --mo-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --mo-dur-1: 180ms; /* hover、按鈕 */
+  --mo-dur-2: 520ms; /* 區塊進場 */
+  --mo-dur-3: 900ms; /* 地圖圈層、圖表 */
+  --mo-rise: 12px; /* 進場上浮距離 */
+  --mo-stagger: 60ms;
+  --shadow-sm: 0 1px 2px rgba(11, 11, 11, 0.06);
+  --shadow-lift: 0 2px 6px rgba(11, 11, 11, 0.06), 0 14px 32px rgba(24, 79, 149, 0.12);
+  --shadow-glow: 0 0 0 4px rgba(42, 120, 214, 0.16), 0 10px 26px rgba(24, 79, 149, 0.3);
+  --glass: rgba(249, 249, 247, 0.78);
 }

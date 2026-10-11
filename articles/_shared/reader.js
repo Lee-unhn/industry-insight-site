@@ -281,11 +281,32 @@
     section.appendChild(headline);
 
     if (Array.isArray(v.facts) && v.facts.length) {
+      // 每條事實排成「數字＋短標籤」：數字取自原句，不改值
       var ul = document.createElement("ul");
-      ul.className = "keyfacts-list";
+      ul.className = "keyfacts-list kf-grid";
       v.facts.slice(0, 3).forEach(function (r) {
+        var p = splitFact(r);
         var li = document.createElement("li");
-        li.textContent = r;
+        li.title = r;
+        var num = document.createElement("span");
+        num.className = "kf-num";
+        if (p.num) {
+          var n = document.createElement("span");
+          n.setAttribute("data-count", "");
+          n.textContent = p.num;
+          num.appendChild(n);
+        }
+        if (p.unit) {
+          var u = document.createElement("small");
+          u.className = "kf-unit";
+          u.textContent = p.unit;
+          num.appendChild(u);
+        }
+        var lab = document.createElement("span");
+        lab.className = "kf-label";
+        lab.textContent = p.label + (p.sub ? "．" + p.sub : "");
+        li.appendChild(num);
+        li.appendChild(lab);
         ul.appendChild(li);
       });
       section.appendChild(ul);
@@ -304,6 +325,17 @@
     section.appendChild(disclaimer);
 
     h1.insertAdjacentElement("afterend", section);
+    // 通知 motion.js 掃描新插入的數字（沒載 motion.js 時無作用）
+    try {
+      document.dispatchEvent(new CustomEvent("motion:scan", { detail: { scope: section } }));
+    } catch (e) {}
+  }
+
+  // 一條事實句拆成主數字／單位／標籤／補述：規則放在 motion.js（Motion.splitFact，
+  // 與站台 site/src/lib/factParts.ts 同一套）；沒載 motion.js 時整句當標籤。
+  function splitFact(fact) {
+    if (window.Motion && typeof window.Motion.splitFact === "function") return window.Motion.splitFact(fact);
+    return { num: "", unit: "", label: fact, sub: "" };
   }
 
   function setupKeyFacts() {

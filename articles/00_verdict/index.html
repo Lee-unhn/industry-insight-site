@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>成大商圈開店數字總覽｜開店分析所</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/6.1.0/echarts.min.js"></script>
+<script src="../_shared/motion.js"></script>
 <style>
   /* ------------------------------------------------------------------
      設計系統 token：與篇①-⑩同一套（淺色專業報告風：白底、深藍主色、灰網格）
@@ -195,6 +196,65 @@
   footer.site-footer { margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--gridline); font-size: 12px; color: var(--text-muted); }
 
   #console-error-badge { display: none; }
+
+  /* ---------------- v4：資訊層級＋動效 ---------------- */
+  .lede { font-size: 17px; font-weight: 600; color: var(--text-primary); text-wrap: balance; }
+  .lede-more { margin: 0 0 10px; font-size: 12.5px; color: var(--text-muted); max-width: 78ch; }
+  .lede-more > summary { cursor: pointer; font-weight: 600; color: var(--text-secondary); }
+  .lede-more > summary:hover { color: var(--series-1); }
+  .lede-more p { margin: 6px 0 0; line-height: 1.7; }
+  .data-only-note { font-size: 12px; color: var(--text-muted); margin: 0 0 6px; }
+  .stat-value { font-size: clamp(22px, 3.2vw, 30px); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .stat-label { color: var(--text-secondary); font-weight: 600; }
+  .dim-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 14px; }
+  .dim-grid > .dim-card { grid-column: span 3; }
+  .dim-grid > .dim-card:nth-child(n + 5) { grid-column: span 4; }
+  @media (max-width: 1000px) {
+    .dim-grid > .dim-card, .dim-grid > .dim-card:nth-child(n + 5) { grid-column: span 6; }
+    .dim-grid > .dim-card:last-child:nth-child(odd) { grid-column: span 12; }
+  }
+  @media (max-width: 560px) {
+    .dim-grid > .dim-card, .dim-grid > .dim-card:nth-child(n + 5), .dim-grid > .dim-card:last-child:nth-child(odd) { grid-column: span 12; }
+  }
+  .dim-card { position: relative; border-left: 1px solid var(--border); border-radius: 10px; background: var(--surface-1); padding: 14px 16px; gap: 10px;
+    transition: transform var(--mo-dur-1, 180ms) var(--mo-ease-out, ease-out), border-color var(--mo-dur-1, 180ms) var(--mo-ease-out, ease-out); }
+  .dim-card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: var(--shadow-lift, 0 10px 24px rgba(11,11,11,0.1));
+    opacity: 0; transition: opacity var(--mo-dur-1, 180ms) var(--mo-ease-out, ease-out); pointer-events: none; }
+  .dim-card:hover { transform: translateY(-3px); border-color: var(--seq-100, #cde2fb); }
+  .dim-card:hover::after { opacity: 1; }
+  .dim-card-head { display: block; padding-bottom: 8px; border-bottom: 1px solid var(--gridline); }
+  .dim-card-head h3 { font-size: 15px; }
+  .dim-card-head .dim-question { margin-top: 2px; }
+  .fact-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; flex: 1; align-content: start; }
+  .fact { display: grid; gap: 1px; min-width: 0; }
+  .fact-num { font-size: 21px; font-weight: 700; line-height: 1.2; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .fact-unit { margin-left: 3px; font-size: 12px; font-weight: 500; color: var(--text-muted); }
+  .fact-label { min-height: 3em; font-size: 12px; line-height: 1.5; color: var(--text-secondary);
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .fact-sub { color: var(--text-muted); }
+  .dim-link { padding-top: 4px; font-size: 13px; }
+  .arrow { display: inline-block; transition: transform var(--mo-dur-1, 180ms) var(--mo-ease-out, ease-out); }
+  a:hover .arrow, a:focus-visible .arrow { transform: translateX(4px); }
+  @property --gap { syntax: "<number>"; inherits: true; initial-value: 0; }
+  .calc-output .row.gap-row .v {
+    color: color-mix(in oklab, var(--text-muted) calc(100% - var(--gap) * 100%), var(--text-primary));
+    transition: --gap 600ms var(--mo-ease-out, ease-out);
+  }
+  .calc-output .row.total .v.neg { color: var(--text-secondary); }
+  .calc-output .row.total .v.pos { color: var(--text-primary); }
+  @media (prefers-reduced-motion: no-preference) {
+    .verdict-table.mo-in tbody tr { animation: vt-row-in 480ms var(--mo-ease-out, ease-out) both; animation-delay: calc(min(var(--i, 0), 18) * 40ms); }
+  }
+  @keyframes vt-row-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .dim-card, .dim-card::after, .arrow, .calc-output .row.gap-row .v { transition: none; }
+  }
+  @media print {
+    .scale-toggle-row, .loc-toggle { display: none !important; }
+    .verdict-table tr.cat-large { display: table-row !important; }
+    .fact-label { -webkit-line-clamp: unset; display: block; min-height: 0; }
+    .dim-card, .stat-tile, .card { break-inside: avoid; }
+  }
 </style>
 </head>
 <body>
@@ -204,18 +264,16 @@
     <div class="kicker">開店分析所 · 數字總覽</div>
     <h1>成大商圈開店數字總覽</h1>
     <p class="lede" id="lede">數字摘要載入中...</p>
-    <p class="data-only-note" id="data-only-note">本站只整理公開資料與分析，不判斷哪裡適不適合開店、賺不賺得到；每個數字怎麼算的都寫在『怎麼算的』，判斷留給你。</p>
+    <details class="lede-more" id="lede-more" hidden><summary>怎麼分組、怎麼算的</summary><p id="lede-full"></p></details>
+    <p class="data-only-note" id="data-only-note">只整理公開資料與算法，不替你判斷；算法寫在各篇。</p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
 
   <section class="stat-row" id="stat-row" aria-label="核心數字"></section>
 
   <section class="card" id="dimension-scorecard-card">
-    <h2>七個面向的資料</h2>
-    <p class="subtitle">
-      13 篇是資料切面，這裡先列出七個常被問到的問題（人流／客流／消費族群／消費能力／交通便利／產業競爭／競品），
-      每個問題附三條數字事實與對應篇章，不打分數、不加總——下面的「數字總覽」是十七個業種小類／情境的損益細節。
-    </p>
+    <h2>七個面向</h2>
+    <p class="subtitle">開店前最常被問的七個問題，各列三個數字；不打分數、不加總，點進去看算法。</p>
     <div class="dim-grid" id="dim-grid"></div>
   </section>
 
@@ -234,8 +292,7 @@
   <section class="card" id="calculator-card">
     <h2>損益試算器</h2>
     <p class="subtitle" id="calc-subtitle">
-      三步驟：① 選業種 ② 選位置（餐飲業態才有——由下而上模型用篇⑪街道係數＋篇⑫進店率反推來客）③ 輸入坪數與客單價／預估營收——
-      全部即時重算，右側同步顯示同業平均對照。
+      選業種 → 選位置（只有餐飲業態有）→ 輸入坪數與客單價或營收，右側即時重算並列出同業平均對照。
     </p>
     <div class="calc-grid">
       <div>
@@ -275,7 +332,7 @@
           </div>
         </div>
         <details class="cost-adjust" id="cost-adjust">
-          <summary>展開調整成本比例（預設值見 assumptions.yaml，可自行改）</summary>
+          <summary>展開調整成本比例（預設為業界常規值，可自行改）</summary>
           <div id="cost-rows"></div>
           <div class="cost-row" style="margin-top:10px;border-top:1px dashed var(--gridline);padding-top:8px">
             <label>租金（元/坪/月，東區店面中位數）</label>
@@ -323,7 +380,7 @@
 
   <footer class="site-footer">
     本站只整理公開資料與分析，不判斷哪裡適不適合開店、賺不賺得到；每個數字怎麼算的都寫在『怎麼算的』，判斷留給你。<br />
-    開店分析所｜本頁彙整篇①-⑩＋⑫已驗收的資料，餐飲改用篇⑫由下而上模型、零售維持篇⑩同業平均法，損益試算器成本假設集中於 <code>assumptions.yaml</code>（業界常規預設值，非本商圈實測，可調整）。
+    開店分析所｜本頁彙整各篇已驗收的資料，餐飲用篇⑫由下而上模型、零售用篇⑩同業平均法；損益試算器的成本假設是業界常規預設值，不是本商圈實測，可自行調整。
     資料來源：財政部全國營業（稅籍）登記資料集、商業/公司設立歇業登記清冊、統計區人口統計、綜稅所得資料、教育部校務資訊公開平臺、成大醫院、臺鐵、內政部實價登錄、財政部營業稅銷售額統計、主計總處家庭收支調查、篇⑫客群消費力與定價（客單價/進店率/位置係數）。
   </footer>
 
@@ -360,10 +417,16 @@
   // ---------------------------------------------------------------
   // 標頭
   // ---------------------------------------------------------------
-  document.getElementById("lede").textContent = data.headline;
+  document.getElementById("lede").textContent = data.summary || data.headline;
+  if (data.summary) {
+    document.getElementById("lede-full").textContent = data.headline;
+    document.getElementById("lede-more").hidden = false;
+  }
+  // 彙整篇數：損益總表用到的篇＋七個面向引用的篇（去重）
+  const usedSlugs = new Set([...(data.meta.source_articles || []), ...((data.dimensions || []).flatMap((d) => d.articles || []))]);
   document.getElementById("meta-line").innerHTML =
     `資料日期 <b>${data.meta.data_date}</b>　·　產出日期 <b>${data.meta.produced_date}</b>　·　` +
-    `彙整篇①-⑩＋⑫共 ${data.meta.source_articles.length} 篇既有分析`;
+    `彙整 ${usedSlugs.size} 篇分析`;
 
   // ---------------------------------------------------------------
   // Stat tiles
@@ -378,7 +441,7 @@
   document.getElementById("stat-row").innerHTML = stats.map((s) => `
     <div class="stat-tile">
       <div class="stat-label">${s.label}</div>
-      <div class="stat-value">${s.value}<span class="unit">${s.unit}</span></div>
+      <div class="stat-value"><span data-count>${s.value}</span><span class="unit">${s.unit}</span></div>
       ${s.sub ? `<div class="stat-sub">${s.sub}</div>` : ""}
     </div>
   `).join("");
@@ -392,18 +455,28 @@
   // /reports/<slug> 是兩套各自獨立的呈現面）。
   // ---------------------------------------------------------------
   const dimensions = data.dimensions || [];
+  // 每條事實排成「數字＋短標籤」（Motion.splitFacts，數字取自原句不改值）
+  const splitFacts = window.Motion && window.Motion.splitFacts
+    ? window.Motion.splitFacts
+    : (facts) => (facts || []).map((f) => ({ num: "", unit: "", label: f, sub: "" }));
+  const esc = (t) => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
   document.getElementById("dim-grid").innerHTML = dimensions.map((d) => {
     const hasLink = Array.isArray(d.articles) && d.articles.length > 0;
     const link = hasLink
-      ? `<a class="dim-link" href="../${d.articles[0]}/index.html">看細節 →</a>`
+      ? `<a class="dim-link" href="../${d.articles[0]}/index.html">看細節 <span class="arrow" aria-hidden="true">→</span></a>`
       : `<span class="dim-link dim-link-disabled">籌備中</span>`;
+    const facts = splitFacts(d.facts || [], d.evidence || []).map((p, i) => `
+      <li class="fact" title="${esc((d.facts || [])[i])}">
+        <span class="fact-num">${p.num ? `<span data-count>${esc(p.num)}</span>` : ""}${p.unit ? `<small class="fact-unit">${esc(p.unit)}</small>` : ""}</span>
+        <span class="fact-label">${esc(p.label)}${p.sub ? `<span class="fact-sub">．${esc(p.sub)}</span>` : ""}</span>
+      </li>`).join("");
     return `
-      <div class="dim-card">
+      <div class="dim-card" data-reveal>
         <div class="dim-card-head">
           <h3>${d.name}</h3>
+          <p class="dim-question">${d.question}</p>
         </div>
-        <p class="dim-question">${d.question}</p>
-        <ul class="dim-facts">${(d.facts || []).map((f) => `<li>${f}</li>`).join("")}</ul>
+        <ul class="fact-list">${facts}</ul>
         ${link}
       </div>
     `;
@@ -453,8 +526,8 @@
       <th>投資回收</th>
     </tr></thead>
     <tbody>
-      ${cats.map((c) => `
-        <tr class="${c.scale === "large" ? "cat-large" : ""}">
+      ${cats.map((c, i) => `
+        <tr class="${c.scale === "large" ? "cat-large" : ""}" style="--i:${i}">
           <td>
             ${c.name}<span class="group-pill ${c.group}">${c.group}</span>
             <span class="method-pill">${c.revenue_bottom_up ? "由下而上" : "同業平均法"}</span>${scalePill(c)}
@@ -470,6 +543,7 @@
     </tbody>
   `;
   verdictTableEl.innerHTML = tableHtml;
+  verdictTableEl.setAttribute("data-reveal", "");
 
   document.getElementById("toggle-large").addEventListener("change", (ev) => {
     verdictTableEl.classList.toggle("show-large", ev.target.checked);
@@ -631,12 +705,51 @@
       <div class="row"><span class="k">變動成本（${fmt1(costPctSum)}% × 營收）</span><span class="v">${fmt0(costAmount)} 元</span></div>
       <div class="row total"><span class="k">月淨利</span><span class="v ${netProfit >= 0 ? "pos" : "neg"}">${fmt0(netProfit)} 元</span></div>
       <div class="row"><span class="k">回本月數（初期投資 ${fmt0(investment)} 元 ÷ 月淨利）</span><span class="v">${paybackMonths === null ? "月淨利不為正，無法回本" : fmt1(paybackMonths) + " 個月"}</span></div>
-      ${deltaPct === null ? "" : `<div class="row"><span class="k">月營收與同業平均的差距（同業 ${fmt0(topDownRef)} 元）</span><span class="v">${deltaPct >= 0 ? "高 " : "低 "}${fmt1(Math.abs(deltaPct))}%</span></div>`}
+      ${deltaPct === null ? "" : `<div class="row gap-row"><span class="k">月營收與同業平均的差距（同業 ${fmt0(topDownRef)} 元）</span><span class="v">${deltaPct >= 0 ? "高 " : "低 "}${fmt1(Math.abs(deltaPct))}%</span></div>`}
       <div class="compare-box">
         <div class="compare-title">同業平均對照（篇⑩，${cat.industry_label}）</div>
         <div class="row"><span class="k">同業全市每店月均營收</span><span class="v">${fmt0(topDownRef)} 元</span></div>
       </div>
     `;
+    animateOutput(deltaPct);
+  }
+
+  // 試算結果：數字從上一個值滾到新值；差距列的字色依差距大小改明度（不用紅綠）。
+  let prevOutput = {};
+  let prevGap = 0;
+  function animateOutput(deltaPct) {
+    const next = {};
+    outputEl.querySelectorAll(".row").forEach((row, idx) => {
+      const v = row.querySelector(".v");
+      const k = row.querySelector(".k");
+      if (!v || !k) return;
+      const key = idx + "|" + k.textContent.replace(/[\d,.]+/g, "#");
+      const node = v.firstChild;
+      if (!node || node.nodeType !== 3) return;
+      const m = /[+\-−]?\d[\d,]*(?:\.\d+)?/.exec(node.nodeValue);
+      if (!m) return;
+      const before = node.nodeValue.slice(0, m.index);
+      const after = node.nodeValue.slice(m.index + m[0].length);
+      const span = document.createElement("span");
+      span.className = "tw";
+      span.textContent = m[0];
+      v.replaceChild(document.createTextNode(after), node);
+      v.insertBefore(span, v.firstChild);
+      v.insertBefore(document.createTextNode(before), span);
+      next[key] = m[0];
+      if (prevOutput[key] !== undefined && prevOutput[key] !== m[0] && window.Motion && !window.Motion.reduced) {
+        span.textContent = prevOutput[key];
+        window.Motion.tween(span, m[0], 480);
+      }
+    });
+    prevOutput = next;
+    const gapRow = outputEl.querySelector(".gap-row");
+    if (gapRow) {
+      const g = deltaPct === null ? 0 : Math.min(1, Math.abs(deltaPct) / 60);
+      gapRow.style.setProperty("--gap", String(prevGap));
+      requestAnimationFrame(() => requestAnimationFrame(() => gapRow.style.setProperty("--gap", g.toFixed(3))));
+      prevGap = g;
+    }
   }
 
   catSelect.addEventListener("change", onCategoryChange);
@@ -734,6 +847,7 @@
   `;
   document.getElementById("honest-note").textContent = mn.scale_source;
   document.getElementById("disclaimer-note").textContent = mn.disclaimer;
+  document.dispatchEvent(new CustomEvent("motion:scan"));
 
 })().catch((err) => {
   console.error("[00_verdict] 載入失敗", err);
