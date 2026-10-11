@@ -83,66 +83,50 @@ details.method > summary:hover { color: var(--series-1, #2a78d6); }
 details.method > dl { margin-top: 12px; }
 details.method > .honest-note { margin-top: 12px; }
 
-/* ---------------- 結論區塊（<section class="verdict">） ---------------- */
-section.verdict {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
+/* ---------------- 重點數字區塊（<section class="keyfacts">） ---------------- */
+section.keyfacts {
   background: var(--surface-1, #fcfcfb);
   border: 1px solid var(--border, rgba(11,11,11,0.10));
-  border-left-width: 5px;
+  border-left: 5px solid var(--series-1, #2a78d6);
   border-radius: 8px;
   padding: 14px 16px;
   margin: 14px 0 20px;
 }
-section.verdict[data-light="green"] { border-left-color: var(--light-green, #1b8a5a); }
-section.verdict[data-light="yellow"] { border-left-color: var(--light-yellow, #a86a00); }
-section.verdict[data-light="red"] { border-left-color: var(--light-red, #b3261e); }
-
-.verdict-dot {
-  flex: none;
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  margin-top: 5px;
-}
-section.verdict[data-light="green"] .verdict-dot { background: var(--light-green, #1b8a5a); }
-section.verdict[data-light="yellow"] .verdict-dot { background: var(--light-yellow, #a86a00); }
-section.verdict[data-light="red"] .verdict-dot { background: var(--light-red, #b3261e); }
-
-.verdict-body { min-width: 0; }
-.verdict-tag {
-  display: inline-block;
+.keyfacts-title {
   font-size: 11.5px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  margin-bottom: 4px;
+  color: var(--series-1, #2a78d6);
+  margin: 0 0 4px;
 }
-section.verdict[data-light="green"] .verdict-tag { color: var(--light-green, #1b8a5a); }
-section.verdict[data-light="yellow"] .verdict-tag { color: var(--light-yellow, #a86a00); }
-section.verdict[data-light="red"] .verdict-tag { color: var(--light-red, #b3261e); }
-
-.verdict-headline {
+.keyfacts-headline {
   font-size: 16px;
   font-weight: 600;
   color: var(--text-primary, #0b0b0b);
   margin: 0 0 8px;
   line-height: 1.4;
 }
-.verdict-reasons {
+.keyfacts-list {
   margin: 0 0 8px;
   padding-left: 18px;
   font-size: 13px;
   color: var(--text-secondary, #52514e);
   line-height: 1.6;
 }
-.verdict-reasons li { margin: 0 0 2px; }
-.verdict-caveat {
+.keyfacts-list li { margin: 0 0 2px; }
+.keyfacts-note {
   font-size: 12px;
   color: var(--text-muted, #898781);
+  margin: 0 0 6px;
+}
+.keyfacts-disclaimer {
+  font-size: 12px;
+  color: var(--text-secondary, #52514e);
   margin: 0;
+  padding-top: 6px;
+  border-top: 1px solid var(--gridline, rgba(11,11,11,0.08));
 }
 
 @media (max-width: 560px) {
-  section.verdict { padding: 12px 14px; }
+  section.keyfacts { padding: 12px 14px; }
 }

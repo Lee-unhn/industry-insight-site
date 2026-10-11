@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>成大商圈開店評估｜開店分析所</title>
+<title>成大商圈開店數字總覽｜開店分析所</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/6.1.0/echarts.min.js"></script>
 <style>
   /* ------------------------------------------------------------------
@@ -27,7 +27,7 @@
     --series-4: #eda100;   /* yellow */
     --series-8: #e34948;   /* red */
 
-    /* 狀態色（燈號專用，不重複給類別使用） */
+    /* 狀態色（只用於負值、標籤，不表示判斷） */
     --status-green:  #1a9c63;
     --status-green-bg: #e7f6ee;
     --status-yellow: #b8860b;
@@ -72,36 +72,24 @@
   .card h2 { font-size: 16px; margin: 0 0 2px; }
   .card .subtitle { font-size: 12.5px; color: var(--text-muted); margin: 0 0 12px; }
 
-  /* ---------------- light dot / badge ---------------- */
-  .light-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: middle; flex: none; }
-  .light-dot.green { background: var(--status-green); }
-  .light-dot.yellow { background: var(--status-yellow); }
-  .light-dot.red { background: var(--status-red); }
-  .light-dot.grey { background: var(--status-grey); }
-  .light-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 12.5px; font-weight: 600; padding: 4px 10px; border-radius: 999px;
+  /* ---------------- 固定說明／標籤 ---------------- */
+  .data-only-note {
+    margin: 10px 0 0; padding: 8px 12px; border-left: 3px solid var(--series-1);
+    background: var(--page-plane); font-size: 12.5px; color: var(--text-secondary); border-radius: 0 6px 6px 0;
   }
-  .light-badge.green { color: var(--status-green); background: var(--status-green-bg); }
-  .light-badge.yellow { color: var(--status-yellow); background: var(--status-yellow-bg); }
-  .light-badge.red { color: var(--status-red); background: var(--status-red-bg); }
-  .light-badge.grey { color: var(--status-grey); background: var(--status-grey-bg); }
-  .light-badge .light-dot { margin-right: 0; }
+  .scale-pill { display: inline-block; font-size: 11px; padding: 1px 8px; border-radius: 999px; margin-left: 6px; background: var(--status-grey-bg); color: var(--status-grey); }
 
-  /* ---------------- 七個問題計分卡（Q48/Q49） ---------------- */
+  /* ---------------- 七個面向的資料 ---------------- */
   .dim-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
   .dim-card {
-    border: 1px solid var(--border); border-left-width: 4px; border-radius: 8px;
+    border: 1px solid var(--border); border-left: 4px solid var(--series-1); border-radius: 8px;
     padding: 12px 14px; background: var(--page-plane); display: flex; flex-direction: column; gap: 6px;
   }
-  .dim-card[data-light="green"] { border-left-color: var(--status-green); }
-  .dim-card[data-light="yellow"] { border-left-color: var(--status-yellow); }
-  .dim-card[data-light="red"] { border-left-color: var(--status-red); }
-  .dim-card[data-light="grey"] { border-left-color: var(--status-grey); }
   .dim-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
   .dim-card-head h3 { margin: 0; font-size: 14px; }
   .dim-question { margin: 0; font-size: 11.5px; color: var(--text-muted); }
-  .dim-one-liner { margin: 0; font-size: 12.5px; color: var(--text-primary); line-height: 1.55; flex: 1; }
+  .dim-facts { margin: 0; padding-left: 16px; font-size: 12.5px; color: var(--text-primary); line-height: 1.55; flex: 1; }
+  .dim-facts li { margin: 0 0 3px; }
   .dim-link { margin-top: 2px; font-size: 12px; font-weight: 600; color: var(--series-1); text-decoration: none; }
   .dim-link:hover { text-decoration: underline; }
   .dim-link.dim-link-disabled { color: var(--text-muted); font-weight: 500; cursor: default; }
@@ -173,7 +161,6 @@
   .calc-output .row.total .v { font-size: 18px; }
   .calc-output .row.total .v.neg { color: var(--status-red); }
   .calc-output .row.total .v.pos { color: var(--status-green); }
-  .calc-light-row { display: flex; justify-content: center; margin-top: 10px; }
   .cap-flag { font-size: 11px; padding: 1px 7px; border-radius: 999px; margin-left: 6px; background: var(--status-yellow-bg); color: var(--status-yellow); }
   .compare-box {
     margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--gridline);
@@ -214,25 +201,26 @@
 <div class="wrap">
 
   <header class="hero">
-    <div class="kicker">開店分析所 · 總評</div>
-    <h1>成大商圈開店評估</h1>
-    <p class="lede" id="lede">結論載入中...</p>
+    <div class="kicker">開店分析所 · 數字總覽</div>
+    <h1>成大商圈開店數字總覽</h1>
+    <p class="lede" id="lede">數字摘要載入中...</p>
+    <p class="data-only-note" id="data-only-note">本站只整理公開資料與分析，不判斷哪裡適不適合開店、賺不賺得到；每個數字怎麼算的都寫在『怎麼算的』，判斷留給你。</p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
 
   <section class="stat-row" id="stat-row" aria-label="核心數字"></section>
 
   <section class="card" id="dimension-scorecard-card">
-    <h2>七個問題計分卡</h2>
+    <h2>七個面向的資料</h2>
     <p class="subtitle">
-      12 篇是資料切面，這裡先回答讀者真正想問的七個問題（人流／客流／消費族群／消費能力／交通便利／產業競爭／競品），
-      各自獨立紅黃綠、不加總——下面的「紅黃綠燈總表」是十七個業種小類／情境的損益細節。
+      13 篇是資料切面，這裡先列出七個常被問到的問題（人流／客流／消費族群／消費能力／交通便利／產業競爭／競品），
+      每個問題附三條數字事實與對應篇章，不打分數、不加總——下面的「數字總覽」是十七個業種小類／情境的損益細節。
     </p>
     <div class="dim-grid" id="dim-grid"></div>
   </section>
 
   <section class="card">
-    <h2>紅黃綠燈總表</h2>
+    <h2>數字總覽</h2>
     <p class="subtitle" id="verdict-subtitle">載入中...</p>
     <div class="scale-toggle-row">
       <input type="checkbox" id="toggle-large" />
@@ -334,6 +322,7 @@
   </section>
 
   <footer class="site-footer">
+    本站只整理公開資料與分析，不判斷哪裡適不適合開店、賺不賺得到；每個數字怎麼算的都寫在『怎麼算的』，判斷留給你。<br />
     開店分析所｜本頁彙整篇①-⑩＋⑫已驗收的資料，餐飲改用篇⑫由下而上模型、零售維持篇⑩同業平均法，損益試算器成本假設集中於 <code>assumptions.yaml</code>（業界常規預設值，非本商圈實測，可調整）。
     資料來源：財政部全國營業（稅籍）登記資料集、商業/公司設立歇業登記清冊、統計區人口統計、綜稅所得資料、教育部校務資訊公開平臺、成大醫院、臺鐵、內政部實價登錄、財政部營業稅銷售額統計、主計總處家庭收支調查、篇⑫客群消費力與定價（客單價/進店率/位置係數）。
   </footer>
@@ -348,15 +337,17 @@
   const fmt0 = (n) => Math.round(Number(n)).toLocaleString("zh-Hant-TW");
   const fmt1 = (n) => Number(n).toLocaleString("zh-Hant-TW", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
-  const LIGHT_LABEL = { green: "綠燈", yellow: "黃燈", red: "紅燈", grey: "灰燈" };
+  // 大型業態：全市平均被少數大型店拉高，一般小店不能直接比，標籤提醒。
+  function scalePill(c) {
+    return c.scale === "large" ? `<span class="scale-pill" title="${c.scale_reason.replace(/"/g, "&quot;")}">大型業態，非小店可比</span>` : "";
+  }
 
-  function lightDot(light) { return `<span class="light-dot ${light}"></span>`; }
-  function lightBadge(light, label) { return `<span class="light-badge ${light}">${lightDot(light)}${label || LIGHT_LABEL[light]}</span>`; }
-  // large 者不管原始 light 算出來是什麼顏色，一律顯示灰燈：大型業態全市平均被少數
-  // 大型店拉高，繼續秀綠燈會誤導小店主（這頁存在的理由就是修這個 bug）。
-  function categoryBadge(c) {
-    if (c.scale === "large") return lightBadge("grey", "灰燈：大型業態，非小店可比");
-    return lightBadge(c.light);
+  function wanText(n) { return (Math.abs(n) / 10000).toLocaleString("zh-Hant-TW", { minimumFractionDigits: 1, maximumFractionDigits: 1 }); }
+  function categoryLine(c) {
+    const net = c.net_profit.mid;
+    const netText = net < 0 ? `月淨利虧 ${wanText(net)} 萬元` : `月淨利約 ${wanText(net)} 萬元`;
+    const payback = c.payback_months === null ? "無法回收" : `約 ${fmt1(c.payback_months)} 個月回本`;
+    return `${netText}，${payback}`;
   }
 
   // ---------------------------------------------------------------
@@ -393,13 +384,12 @@
   `).join("");
 
   // ---------------------------------------------------------------
-  // 七個問題計分卡（Q48/Q49）：人流／客流／消費族群／消費能力／交通便利／
-  // 產業競爭／競品，各自獨立紅黃綠，不加總。data.dimensions[] 由
-  // pipeline/articles/a00_verdict.py#build_dimensions() 產出，門檻見該檔
-  // DIMENSION_RULES；「看細節→」連到對應篇自己的靜態頁（同目錄結構下的
-  // ../<slug>/index.html，跟這頁一樣是 `python -m http.server --directory
-  // articles` 直接看的靜態輸出，跟 Astro 站台 /reports/<slug> 是兩套各自
-  // 獨立的呈現面）。
+  // 七個面向的資料：人流／客流／消費族群／消費能力／交通便利／產業競爭／競品，
+  // 每個面向列出問題與三條數字事實，不打分數、不加總。data.dimensions[] 由
+  // pipeline/articles/a00_verdict.py#build_dimensions() 產出；「看細節→」連到對應篇自己的
+  // 靜態頁（同目錄結構下的 ../<slug>/index.html，跟這頁一樣是
+  // `python -m http.server --directory articles` 直接看的靜態輸出，跟 Astro 站台
+  // /reports/<slug> 是兩套各自獨立的呈現面）。
   // ---------------------------------------------------------------
   const dimensions = data.dimensions || [];
   document.getElementById("dim-grid").innerHTML = dimensions.map((d) => {
@@ -408,22 +398,21 @@
       ? `<a class="dim-link" href="../${d.articles[0]}/index.html">看細節 →</a>`
       : `<span class="dim-link dim-link-disabled">籌備中</span>`;
     return `
-      <div class="dim-card" data-light="${d.light}">
+      <div class="dim-card">
         <div class="dim-card-head">
           <h3>${d.name}</h3>
-          ${lightBadge(d.light)}
         </div>
         <p class="dim-question">${d.question}</p>
-        <p class="dim-one-liner">${d.one_liner}</p>
+        <ul class="dim-facts">${(d.facts || []).map((f) => `<li>${f}</li>`).join("")}</ul>
         ${link}
       </div>
     `;
   }).join("");
 
   // ---------------------------------------------------------------
-  // 燈號總表：預設只顯示 scale=="small"（一般小店可比），large（大型業態）
-  // 預設隱藏、灰燈標示、勾選「顯示大型業態」才展開 -- 假綠燈就是這頁要修的問題，
-  // 不能讓 482/471/484/481 這種被大型店拉高平均的小類混在小店的燈號統計裡。
+  // 數字總覽：預設只顯示 scale=="small"（一般小店可比），large（大型業態）
+  // 預設隱藏、標「大型業態」，勾選「顯示大型業態」才展開 -- 不能讓 482/471/484/481
+  // 這種被大型店拉高平均的小類混在小店的數字裡。
   // ---------------------------------------------------------------
   const cats = data.categories;
   const scaleSummary = data.scale_summary;
@@ -462,22 +451,20 @@
       <th>月租金</th>
       <th>月淨利（中位）</th>
       <th>投資回收</th>
-      <th>燈號</th>
     </tr></thead>
     <tbody>
       ${cats.map((c) => `
         <tr class="${c.scale === "large" ? "cat-large" : ""}">
           <td>
             ${c.name}<span class="group-pill ${c.group}">${c.group}</span>
-            <span class="method-pill">${c.revenue_bottom_up ? "由下而上" : "同業平均法"}</span>
-            <div class="stat-sub">${c.summary || ""}</div>
+            <span class="method-pill">${c.revenue_bottom_up ? "由下而上" : "同業平均法"}</span>${scalePill(c)}
+            <div class="stat-sub">${categoryLine(c)}</div>
           </td>
           <td>${bottomUpRangeCell(c)}</td>
           <td class="topdown-ref-cell">${fmt0(c.revenue.mid)} 元</td>
           <td>${fmt0(c.rent_month)} 元</td>
           <td>${fmt0(c.net_profit.mid)} 元</td>
           <td>${c.payback_months === null ? "無法回收" : fmt1(c.payback_months) + " 個月"}</td>
-          <td title="${c.scale_reason.replace(/"/g, "&quot;")}">${categoryBadge(c)}</td>
         </tr>
       `).join("")}
     </tbody>
@@ -496,7 +483,7 @@
   const borrowHintEl = document.getElementById("borrow-hint");
   // 下拉分三組：餐飲業態（由下而上）／零售小類（同業平均法）／大型業態（參考）--
   // 分組本身就是提醒：選到大型業態代表你在看「全市平均含大型店」的數字，不是一般
-  // 小店的水準（同樣的理由，見上面總表的灰燈）。
+  // 小店的水準（同樣的理由，見上面總表的大型業態標籤）。
   function optionHtml(c, i) { return `<option value="${i}">${c.name}（${c.code}）</option>`; }
   const restaurantOptions = cats.map((c, i) => [c, i]).filter(([c]) => c.scale === "small" && c.revenue_bottom_up).map(([c, i]) => optionHtml(c, i)).join("");
   const retailOptions = cats.map((c, i) => [c, i]).filter(([c]) => c.scale === "small" && !c.revenue_bottom_up).map(([c, i]) => optionHtml(c, i)).join("");
@@ -589,29 +576,6 @@
     recompute();
   }
 
-  const rules = assumptions.verdict_rules;
-  const survivalPct = data.overview_signals.risk.cohort_survival_ring5_pct;
-
-  function evaluateLight(netProfitMid, paybackMonths) {
-    if (
-      netProfitMid < rules.net_profit_threshold_yellow_low_ntd ||
-      paybackMonths === null ||
-      paybackMonths > rules.payback_threshold_yellow_months ||
-      survivalPct < rules.survival_threshold_red_pct
-    ) {
-      return "red";
-    }
-    if (
-      netProfitMid >= rules.net_profit_threshold_green_ntd &&
-      paybackMonths !== null &&
-      paybackMonths <= rules.payback_threshold_green_months &&
-      survivalPct >= rules.survival_threshold_green_pct
-    ) {
-      return "green";
-    }
-    return "yellow";
-  }
-
   // 由下而上：日來客＝單店基準日來客(baseline) × 位置係數(選定位置)；月營收(需求面)＝
   // 日來客 × 30 天 × 客單價；容量上限(座位面)＝(坪數 ÷ 1.5 坪/座) × 翻桌 3 次/天 × 30 天
   // × 客單價；兩者取小，並標示是否被容量卡住（任務規格點 2 的公式）。
@@ -656,7 +620,6 @@
     const costAmount = revenue * (costPctSum / 100);
     const netProfit = revenue - costAmount - rentMonth;
     const paybackMonths = netProfit > 0 ? investment / netProfit : null;
-    const light = evaluateLight(netProfit, paybackMonths);
 
     const topDownRef = cat.revenue.mid;
     const deltaPct = topDownRef > 0 ? ((revenue / topDownRef - 1) * 100) : null;
@@ -667,12 +630,11 @@
       <div class="row"><span class="k">月租金（${fmt0(area)} 坪 × ${fmt0(rentPerPing)} 元/坪）</span><span class="v">${fmt0(rentMonth)} 元</span></div>
       <div class="row"><span class="k">變動成本（${fmt1(costPctSum)}% × 營收）</span><span class="v">${fmt0(costAmount)} 元</span></div>
       <div class="row total"><span class="k">月淨利</span><span class="v ${netProfit >= 0 ? "pos" : "neg"}">${fmt0(netProfit)} 元</span></div>
-      <div class="row"><span class="k">投資回收（初期投資 ${fmt0(investment)} 元）</span><span class="v">${paybackMonths === null ? "無法在合理期間回收" : fmt1(paybackMonths) + " 個月"}</span></div>
-      <div class="calc-light-row">${lightBadge(light)}</div>
+      <div class="row"><span class="k">回本月數（初期投資 ${fmt0(investment)} 元 ÷ 月淨利）</span><span class="v">${paybackMonths === null ? "月淨利不為正，無法回本" : fmt1(paybackMonths) + " 個月"}</span></div>
+      ${deltaPct === null ? "" : `<div class="row"><span class="k">月營收與同業平均的差距（同業 ${fmt0(topDownRef)} 元）</span><span class="v">${deltaPct >= 0 ? "高 " : "低 "}${fmt1(Math.abs(deltaPct))}%</span></div>`}
       <div class="compare-box">
         <div class="compare-title">同業平均對照（篇⑩，${cat.industry_label}）</div>
         <div class="row"><span class="k">同業全市每店月均營收</span><span class="v">${fmt0(topDownRef)} 元</span></div>
-        ${deltaPct === null ? "" : `<div class="row"><span class="k">試算結果 vs 同業平均</span><span class="v">${deltaPct >= 0 ? "+" : ""}${fmt1(deltaPct)}%</span></div>`}
       </div>
     `;
   }
@@ -718,7 +680,7 @@
       label: { show: true, position: "right", color: "#52514e", fontSize: 11, formatter: (p) => p.value.toLocaleString("zh-Hant-TW") },
     }],
   });
-  document.getElementById("chart-customer-note").textContent = `固定客群相當於 5 分圈居住人口的 ${fmt1(cb.fixed_to_resident_ring5_ratio_pct)}%，是疊加而非取代的客源`;
+  document.getElementById("chart-customer-note").textContent = `固定客群相當於 5 分圈居住人口的 ${fmt1(cb.fixed_to_resident_ring5_ratio_pct)}%`;
 
   const chartCompetition = echarts.init(document.getElementById("chart-competition"));
   chartCompetition.setOption({
@@ -735,7 +697,7 @@
       label: { show: true, position: "right", color: "#52514e", fontSize: 11, formatter: (p) => p.value.toLocaleString("zh-Hant-TW") },
     }],
   });
-  document.getElementById("chart-competition-note").textContent = `5 分圈店家密度是全市平均的 ${fmt1(comp.density_ratio_vs_city)} 倍，商圈很擠`;
+  document.getElementById("chart-competition-note").textContent = `5 分圈店家密度是全市平均的 ${fmt1(comp.density_ratio_vs_city)} 倍`;
 
   const chartRisk = echarts.init(document.getElementById("chart-risk"));
   chartRisk.setOption({
@@ -766,12 +728,8 @@
     <dt>由下而上鏈的細節（561/562/563 對照篇⑫業態）</dt><dd>${mn.bottom_up_source}</dd>
     <dt>租金怎麼來</dt><dd>${mn.rent_source}</dd>
     <dt>成本假設</dt><dd>${mn.cost_structure_source}</dd>
-    <dt>存活率門檻</dt><dd>${mn.survival_source}</dd>
-    <dt>燈號判定順序</dt><dd>${assumptions.verdict_rules.evaluation_order}</dd>
-    <dt>綠燈條件</dt><dd>${assumptions.verdict_rules.green}</dd>
-    <dt>黃燈條件</dt><dd>${assumptions.verdict_rules.yellow}</dd>
-    <dt>紅燈條件</dt><dd>${assumptions.verdict_rules.red}</dd>
-    <dt>大型業態（灰燈）判定</dt><dd>${assumptions.scale_rules.description}資料判準：${assumptions.scale_rules.revenue_multiple_rule}篇④資本額中位數門檻 ${fmt(assumptions.scale_rules.capital_median_threshold_ntd)} 元；篇④分店占比門檻 ${assumptions.scale_rules.branch_pct_threshold}%（${assumptions.scale_rules.granularity_note}）</dd>
+    <dt>存活率怎麼來</dt><dd>${mn.survival_source}</dd>
+    <dt>大型業態判定</dt><dd>${assumptions.scale_rules.description}資料判準：${assumptions.scale_rules.revenue_multiple_rule}篇④資本額中位數門檻 ${fmt(assumptions.scale_rules.capital_median_threshold_ntd)} 元；篇④分店占比門檻 ${assumptions.scale_rules.branch_pct_threshold}%（${assumptions.scale_rules.granularity_note}）</dd>
     <dt>本頁列為大型業態</dt><dd>${cats.filter((c) => c.scale === "large").map((c) => `${c.name}（${c.code}）：${c.scale_reason}`).join("／")}</dd>
   `;
   document.getElementById("honest-note").textContent = mn.scale_source;

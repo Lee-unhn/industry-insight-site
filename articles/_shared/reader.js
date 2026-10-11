@@ -4,8 +4,9 @@
        點／hover／focus 顯示白話 tooltip；手機可點；Esc 關閉；一次只開一個。
    (b) 把「方法說明」與「誠實揭露」包成 <details class="method">（HTML 端已改標籤，
        這裡只補：確保各篇原本用 <h2>方法說明</h2> 的殘留頁面也能運作）。
-   (c) 結論契約：讀 ../_shared/verdicts.json，若有本篇 slug 就在 <h1> 下方插入
-       <section class="verdict">；沒有該檔或該 slug 就安靜略過。
+   (c) 重點數字契約：讀 ../_shared/verdicts.json，若有本篇 slug 就在 <h1> 下方插入
+       <section class="keyfacts">（headline + 三條 facts + note + 固定說明）；
+       沒有該檔或該 slug 就安靜略過。
    只在 h1-h4 / p / li / th / td / class 含 "sub" 或 "note" 的元素內找術語；
    不動 canvas / svg / script；同一術語每個區塊只標記第一次。
    ------------------------------------------------------------------ */
@@ -250,7 +251,7 @@
   }
 
   // ---------------------------------------------------------------
-  // 結論契約
+  // 重點數字契約
   // ---------------------------------------------------------------
   function currentSlug() {
     var parts = window.location.pathname.split("/").filter(function (p) {
@@ -259,59 +260,53 @@
     return parts.length ? parts[parts.length - 1] : "";
   }
 
-  var LIGHT_TAG = {
-    green: "綠燈｜條件相對有利",
-    yellow: "黃燈｜好壞參半，要看細節",
-    red: "紅燈｜風險偏高",
-  };
+  // 固定說明：與 site/src/config.ts 的 DATA_ONLY_NOTE 同一句，改字兩邊一起改。
+  var DATA_ONLY_NOTE =
+    "本站只整理公開資料與分析，不判斷哪裡適不適合開店、賺不賺得到；每個數字怎麼算的都寫在『怎麼算的』，判斷留給你。";
 
-  function renderVerdict(v) {
+  function renderKeyFacts(v) {
     var h1 = document.querySelector("h1");
     if (!h1) return;
-    var light = v.light === "green" || v.light === "yellow" || v.light === "red" ? v.light : "yellow";
     var section = document.createElement("section");
-    section.className = "verdict";
-    section.setAttribute("data-light", light);
+    section.className = "keyfacts";
 
-    var dot = document.createElement("span");
-    dot.className = "verdict-dot";
-    dot.setAttribute("aria-hidden", "true");
-    section.appendChild(dot);
-
-    var body = document.createElement("div");
-    body.className = "verdict-body";
-
-    var tag = document.createElement("div");
-    tag.className = "verdict-tag";
-    tag.textContent = LIGHT_TAG[light];
-    body.appendChild(tag);
+    var title = document.createElement("div");
+    title.className = "keyfacts-title";
+    title.textContent = "重點數字";
+    section.appendChild(title);
 
     var headline = document.createElement("p");
-    headline.className = "verdict-headline";
+    headline.className = "keyfacts-headline";
     headline.textContent = v.headline || "";
-    body.appendChild(headline);
+    section.appendChild(headline);
 
-    if (Array.isArray(v.reasons) && v.reasons.length) {
+    if (Array.isArray(v.facts) && v.facts.length) {
       var ul = document.createElement("ul");
-      ul.className = "verdict-reasons";
-      v.reasons.slice(0, 3).forEach(function (r) {
+      ul.className = "keyfacts-list";
+      v.facts.slice(0, 3).forEach(function (r) {
         var li = document.createElement("li");
         li.textContent = r;
         ul.appendChild(li);
       });
-      body.appendChild(ul);
+      section.appendChild(ul);
     }
 
-    var caveat = document.createElement("p");
-    caveat.className = "verdict-caveat";
-    caveat.textContent = v.caveat || "這只是同業平均與公開資料推估，非保證。";
-    body.appendChild(caveat);
+    if (v.note) {
+      var note = document.createElement("p");
+      note.className = "keyfacts-note";
+      note.textContent = "資料限制：" + v.note;
+      section.appendChild(note);
+    }
 
-    section.appendChild(body);
+    var disclaimer = document.createElement("p");
+    disclaimer.className = "keyfacts-disclaimer";
+    disclaimer.textContent = DATA_ONLY_NOTE;
+    section.appendChild(disclaimer);
+
     h1.insertAdjacentElement("afterend", section);
   }
 
-  function setupVerdict() {
+  function setupKeyFacts() {
     var slug = currentSlug();
     if (!slug) return;
     fetch("../_shared/verdicts.json")
@@ -331,7 +326,7 @@
           rec = table[slug] || null;
         }
         if (!rec) return; // 沒有該檔或該 slug，安靜略過
-        renderVerdict(rec);
+        renderKeyFacts(rec);
       })
       .catch(function () {
         /* 沒有 verdicts.json 就安靜略過 */
@@ -343,7 +338,7 @@
   // ---------------------------------------------------------------
   function init() {
     ensureMethodDetails();
-    setupVerdict();
+    setupKeyFacts();
 
     loadGlossary().then(function (glossary) {
       termRegex = buildRegex(glossary);
