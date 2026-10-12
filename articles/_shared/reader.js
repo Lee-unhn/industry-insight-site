@@ -287,7 +287,7 @@
       var ul = document.createElement("ul");
       ul.className = "keyfacts-list kf-grid";
       v.facts.slice(0, 3).forEach(function (r) {
-        var p = splitFact(r);
+        var p = splitFact(r, v.evidence);
         var li = document.createElement("li");
         li.title = r;
         var num = document.createElement("span");
@@ -335,8 +335,11 @@
 
   // 一條事實句拆成主數字／單位／標籤／補述：規則放在 motion.js（Motion.splitFact，
   // 與站台 site/src/lib/factParts.ts 同一套）；沒載 motion.js 時整句當標籤。
-  function splitFact(fact) {
-    if (window.Motion && typeof window.Motion.splitFact === "function") return window.Motion.splitFact(fact);
+  // 主數字配對：先只在「可當主數字」的數字裡找（排除「1 公里圈」「12 個月」這類
+  // 圈名／期間的小整數），配不到再放寬，所以「1.0 …，1 公里圈」取 1.0、不取圈名的 1。
+  // evidence（選填）：佐證欄 [{label, value, unit}]，有就用值去原句找對應數字。
+  function splitFact(fact, evidence) {
+    if (window.Motion && typeof window.Motion.splitFact === "function") return window.Motion.splitFact(fact, evidence || [], {});
     return { num: "", unit: "", label: fact, sub: "" };
   }
 
@@ -374,6 +377,18 @@
     return /^https?:\/\//i.test(u || "") ? u : "";
   }
 
+  // 資料集名稱裡的抓取工具名（程式套件名 OSMnx）讀者用不到，只改顯示、不改 data.json。
+  // 「（OSMnx 抓取，距離圈計算用）」→「（距離圈計算用）」；「（OSMnx）」整段拿掉。
+  // 與 site/src/lib/provenance.ts 同一套。
+  function displayDataset(name) {
+    return String(name || "")
+      .replace(/OSMnx\s*抓取[，,、]?\s*/g, "")
+      .replace(/\s*[（(]\s*OSMnx\s*[）)]/g, "")
+      .replace(/OSMnx\s*[，,、]?\s*/g, "")
+      .replace(/\s*[（(]\s*[）)]/g, "")
+      .trim();
+  }
+
   function renderProvenance(rows) {
     if (!Array.isArray(rows) || !rows.length) return;
     var host = document.querySelector("details.method") || document.querySelector(".method");
@@ -400,7 +415,7 @@
     var tbody = document.createElement("tbody");
     rows.forEach(function (r) {
       var tr = document.createElement("tr");
-      [r.agency || "", r.dataset || "", r.year || ""].forEach(function (t) {
+      [r.agency || "", displayDataset(r.dataset), r.year || ""].forEach(function (t) {
         var td = document.createElement("td");
         td.textContent = t;
         tr.appendChild(td);

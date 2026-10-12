@@ -156,7 +156,8 @@
     if (!tok) return false;
     if (!tok.comma && tok.dec === 0 && tok.abs < 10) return false;
     if (!tok.comma && tok.dec === 0 && tok.abs >= 1900 && tok.abs <= 2100) return false;
-    if (/^\s*(分|年|月|號|篇)/.test(after)) return false;
+    if (/^\s*(分|年|月|號|篇|歲)/.test(after)) return false;
+    if (/^\s*(公尺圈|公里圈)/.test(after)) return false; // 圈名不是值得滾動的主數字
     return true;
   }
 
@@ -563,19 +564,25 @@
     var ev = null;
     evidence = evidence || [];
     used = used || {};
-    for (var ti = 0; ti < toks.length && !ev; ti++) {
-      for (var ei = 0; ei < evidence.length; ei++) {
-        var step = Math.pow(10, -toks[ti].dec);
-        if (!used[ei] && Math.abs(toks[ti].abs - Math.abs(evidence[ei].value)) <= step * 0.51 + 1e-9) {
-          ev = evidence[ei];
-          used[ei] = true;
-          pick = toks[ti];
-          break;
+    // 先只在「可當主數字」的數字裡配對（排除「1 公里圈」的 1 這類圈名，避免跟
+    // 數值剛好是 1.0 的佐證欄配錯），配不到再放寬到全部數字。
+    for (var pass = 0; pass < 2 && !pick; pass++) {
+      var strict = pass === 0;
+      for (var ti = 0; ti < toks.length && !pick; ti++) {
+        if (strict && !factCandidate(fact, toks[ti])) continue;
+        for (var ei = 0; ei < evidence.length; ei++) {
+          var step = Math.pow(10, -toks[ti].dec);
+          if (!used[ei] && Math.abs(toks[ti].abs - Math.abs(evidence[ei].value)) <= step * 0.51 + 1e-9) {
+            ev = evidence[ei];
+            used[ei] = true;
+            pick = toks[ti];
+            break;
+          }
         }
       }
     }
     var clauseStart = 0;
-    for (var i = 0; i <= fact.length && !pick && !ev; i++) {
+    for (var i = 0; i <= fact.length && !pick; i++) {
       if (i === fact.length || /[，、；]/.test(fact.charAt(i))) {
         var inClause = toks.filter(function (t) {
           return t.start >= clauseStart && t.start < i && factCandidate(fact, t);
