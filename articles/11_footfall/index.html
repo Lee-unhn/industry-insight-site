@@ -131,12 +131,12 @@
 <div class="wrap">
 
   <header class="hero">
-    <div class="kicker">開店分析所 · 篇⑪ / 11</div>
+    <div class="kicker">開店分析所 · 篇⑪ / 13</div>
     <h1>人流：誰在什麼時候來、從哪條路來</h1>
     <p class="lede" id="lede">
       不做輪詢、只用一次性公開資料，把成大商圈的人流拆成五個來源（居民、學生教職員、
       醫院員工、台鐵到站、周邊景點旅客），看時間上怎麼波動、街道上怎麼分布。
-      路口車流量調查沒有公開資料，位置係數改用道路等級（臨主要幹道／次要道路／巷弄）當替代。
+      路口車流量調查沒有公開資料，改用道路等級（臨主要幹道／次要道路／巷弄）算店家密度比當替代。
     </p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
@@ -153,8 +153,8 @@
   <div class="chart-grid">
 
     <section class="card">
-      <h2>圖 B · 一年 12 個月人流指數</h2>
-      <p class="subtitle" id="chartB-subtitle">相對指數，不是實際人數</p>
+      <h2>圖 B · 一年 12 個月：台鐵進站與觀光人次的月別指數</h2>
+      <p class="subtitle" id="chartB-subtitle">兩條曲線各自對自己的 12 個月平均（=1.0）算相對值，並列呈現，不相加、不是實際人數</p>
       <div class="echart" id="chartB"></div>
       <button class="table-toggle" data-target="tableB">顯示資料表格</button>
       <table class="data-table" id="tableB"></table>
@@ -162,7 +162,7 @@
 
     <section class="card">
       <h2>圖 C · 平日 vs 假日、暑假 vs 其他月</h2>
-      <p class="subtitle">台鐵台南站日均進出站人次（單位：人次/天）</p>
+      <p class="subtitle">台鐵台南站日均進站人次（單位：人次/天）</p>
       <div class="echart" id="chartC"></div>
       <button class="table-toggle" data-target="tableC">顯示資料表格</button>
       <table class="data-table" id="tableC"></table>
@@ -173,7 +173,7 @@
   <section class="card map-card">
     <div class="map-head">
       <h2>圖 D · 街道等級地圖與三檔店家密度</h2>
-      <p class="subtitle">5 分圈內道路依 highway 等級分三檔上色；灰色網格為篇①店家密度網格（重用，未重算）；右側為三檔緩衝範圍內的店家密度／位置係數。</p>
+      <p class="subtitle" id="chartD-subtitle">店家分析圈內道路依道路等級分三檔上色；灰色網格為篇①店家密度網格（重用，未重算）；右側為三檔道路兩側範圍內的店家密度與店家密度比。</p>
     </div>
     <div class="streets-sub-grid">
       <div style="position:relative;">
@@ -222,6 +222,13 @@
     fetch("./streets.geojson").then((r) => r.json()),
   ]);
 
+  // 圈值一律從 data.json 讀（店家分析／居住人口／可及性三個角色），不寫死
+  const RING = data.meta.ring_roles;
+  const ringName = (m) => `${data.meta.ring_labels[String(m)]}圈`;
+  const ringOf = (f) => Number(f.properties.ring_m ?? f.properties.minutes);
+  document.getElementById("chartD-subtitle").textContent =
+    `${ringName(RING.store)}內道路依道路等級分三檔上色；灰色網格為篇①店家密度網格（重用，未重算）；右側為三檔道路兩側範圍內的店家密度與店家密度比。`;
+
   // ---------------------------------------------------------------
   // 標頭 / meta
   // ---------------------------------------------------------------
@@ -234,7 +241,7 @@
   // ---------------------------------------------------------------
   const st = data.stat_tiles;
   const stats = [
-    { label: st.tra_daily.label, value: fmt(Math.round(st.tra_daily.value)), unit: st.tra_daily.unit, sub: "借用篇⑧ tra.ytd" },
+    { label: st.tra_daily.label, value: fmt(Math.round(st.tra_daily.value)), unit: st.tra_daily.unit, sub: "借用篇⑧（今年至今日均）" },
     { label: st.students_faculty_total.label, value: fmt(st.students_faculty_total.value), unit: st.students_faculty_total.unit, sub: st.students_faculty_total.sub },
     { label: st.tourism_daily.label, value: fmt(Math.round(st.tourism_daily.value)), unit: st.tourism_daily.unit, sub: `${data.tourism.latest_year} 年，${data.tourism.in_ring_sites.length} 處已定位景點` },
     { label: st.major_road_location_factor.label, value: fmt1(st.major_road_location_factor.value), unit: st.major_road_location_factor.unit, sub: st.major_road_location_factor.sub },
@@ -283,9 +290,9 @@
       </tr>`).join("") + `</tbody>`;
 
   // ---------------------------------------------------------------
-  // 圖 B：12 個月人流指數
+  // 圖 B：台鐵進站、觀光兩條月別指數（並列）
   // ---------------------------------------------------------------
-  const idx12 = data.time_dimension.footfall_index_12mo;
+  const idx12 = data.time_dimension.monthly_indexes;
   const monthLabels = idx12.map((r) => `${parseInt(r.month, 10)}月`);
   const chartB = echarts.init(document.getElementById("chartB"));
   chartB.setOption({
@@ -294,15 +301,14 @@
     legend: { top: 0, right: 0, textStyle: { color: "#52514e", fontSize: 12 } },
     tooltip: { trigger: "axis" },
     xAxis: { type: "category", data: monthLabels, axisLine: { lineStyle: { color: "#c3c2b7" } }, axisLabel: { color: "#898781", fontSize: 11 }, axisTick: { show: false } },
-    yAxis: { type: "value", name: "指數（12個月平均=1.0）", nameTextStyle: { color: "#898781", fontSize: 11 }, axisLabel: { color: "#898781", fontSize: 11 }, splitLine: { lineStyle: { color: "#e1e0d9" } } },
+    yAxis: { type: "value", name: "指數（各自 12 個月平均=1.0）", nameTextStyle: { color: "#898781", fontSize: 11 }, axisLabel: { color: "#898781", fontSize: 11 }, splitLine: { lineStyle: { color: "#e1e0d9" } } },
     series: [
-      { name: "綜合指數", type: "line", data: idx12.map((r) => r.composite_index), smooth: true, symbolSize: 6, lineStyle: { width: 2.5, color: "#2a78d6" }, itemStyle: { color: "#2a78d6" } },
-      { name: "台鐵季節指數", type: "line", data: idx12.map((r) => r.tra_index), smooth: true, symbolSize: 4, lineStyle: { width: 1.5, color: "#eb6834", type: "dashed" }, itemStyle: { color: "#eb6834" } },
-      { name: "觀光月度指數", type: "line", data: idx12.map((r) => r.tourism_index), smooth: true, symbolSize: 4, lineStyle: { width: 1.5, color: "#1baf7a", type: "dashed" }, itemStyle: { color: "#1baf7a" } },
+      { name: "台鐵進站月別指數", type: "line", data: idx12.map((r) => r.tra_index), smooth: true, symbolSize: 5, lineStyle: { width: 2.2, color: "#2a78d6" }, itemStyle: { color: "#2a78d6" } },
+      { name: "觀光月別指數", type: "line", data: idx12.map((r) => r.tourism_index), smooth: true, symbolSize: 5, lineStyle: { width: 2.2, color: "#1baf7a" }, itemStyle: { color: "#1baf7a" } },
     ],
   });
-  renderTable("tableB", ["月份", "綜合指數", "台鐵季節指數", "觀光月度指數", "學生權重"], idx12.map((r) => [
-    `${parseInt(r.month, 10)}月`, fmt1(r.composite_index), fmt1(r.tra_index), fmt1(r.tourism_index), fmt1(r.student_weight),
+  renderTable("tableB", ["月份", "台鐵進站月別指數", "觀光月別指數"], idx12.map((r) => [
+    `${parseInt(r.month, 10)}月`, fmt1(r.tra_index), fmt1(r.tourism_index),
   ]));
 
   // ---------------------------------------------------------------
@@ -312,7 +318,6 @@
   const sr = data.time_dimension.summer_vs_rest;
   const cLabels = ["平日", "假日", "暑假(7-8月)", "其他月"];
   const cIn = [wkwe.weekday.avg_in, wkwe.weekend.avg_in, sr.summer.avg_in, sr.rest.avg_in];
-  const cOut = [wkwe.weekday.avg_out, wkwe.weekend.avg_out, sr.summer.avg_out, sr.rest.avg_out];
   const chartC = echarts.init(document.getElementById("chartC"));
   chartC.setOption({
     textStyle: { color: "#52514e", fontFamily: "system-ui, -apple-system, 'Segoe UI', 'Microsoft JhengHei', sans-serif" },
@@ -323,14 +328,13 @@
     yAxis: { type: "value", name: "人次/天", nameTextStyle: { color: "#898781", fontSize: 11 }, axisLabel: { color: "#898781", fontSize: 11 }, splitLine: { lineStyle: { color: "#e1e0d9" } } },
     series: [
       { name: "進站", type: "bar", barMaxWidth: 34, data: cIn, itemStyle: { color: "#2a78d6", borderRadius: [3, 3, 0, 0] } },
-      { name: "出站", type: "bar", barMaxWidth: 34, data: cOut, itemStyle: { color: "#eb6834", borderRadius: [3, 3, 0, 0] } },
     ],
   });
-  renderTable("tableC", ["類別", "日均進站", "日均出站", "天數"], [
-    ["平日", fmt1(wkwe.weekday.avg_in), fmt1(wkwe.weekday.avg_out), fmt(wkwe.weekday.days)],
-    ["假日", fmt1(wkwe.weekend.avg_in), fmt1(wkwe.weekend.avg_out), fmt(wkwe.weekend.days)],
-    ["暑假(7-8月)", fmt1(sr.summer.avg_in), fmt1(sr.summer.avg_out), fmt(sr.summer.days)],
-    ["其他月", fmt1(sr.rest.avg_in), fmt1(sr.rest.avg_out), fmt(sr.rest.days)],
+  renderTable("tableC", ["類別", "日均進站人次", "天數"], [
+    ["平日", fmt1(wkwe.weekday.avg_in), fmt(wkwe.weekday.days)],
+    ["假日", fmt1(wkwe.weekend.avg_in), fmt(wkwe.weekend.days)],
+    ["暑假(7-8月)", fmt1(sr.summer.avg_in), fmt(sr.summer.days)],
+    ["其他月", fmt1(sr.rest.avg_in), fmt(sr.rest.days)],
   ]);
 
   // ---------------------------------------------------------------
@@ -346,7 +350,7 @@
     version: 8,
     sources: {
       density: { type: "geojson", data: density },
-      ring5: { type: "geojson", data: featureFor(isochrones, 5) },
+      ring5: { type: "geojson", data: featureFor(isochrones, RING.store) },
       streetsMajor: { type: "geojson", data: filterTier(streets, "major") },
       streetsMid: { type: "geojson", data: filterTier(streets, "mid") },
       streetsMinor: { type: "geojson", data: filterTier(streets, "minor") },
@@ -364,12 +368,12 @@
   function filterTier(fc, tier) {
     return { type: "FeatureCollection", features: fc.features.filter((f) => f.properties.tier === tier) };
   }
-  function featureFor(fc, minutes) {
-    const f = fc.features.find((x) => x.properties.minutes === minutes);
+  function featureFor(fc, ringM) {
+    const f = fc.features.find((x) => ringOf(x) === ringM);
     return { type: "FeatureCollection", features: f ? [f] : [] };
   }
 
-  const ring5Feature = isochrones.features.find((f) => f.properties.minutes === 5);
+  const ring5Feature = isochrones.features.find((f) => ringOf(f) === RING.store);
   const ring5Coords = (ring5Feature.geometry.type === "Polygon" ? ring5Feature.geometry.coordinates : ring5Feature.geometry.coordinates.flat()).flat();
   const lons = ring5Coords.map((c) => c[0]);
   const lats = ring5Coords.map((c) => c[1]);
@@ -391,12 +395,12 @@
     <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:${TIER_COLOR.major};border-top-style:solid;border-top-width:3.2px"></span>臨主要幹道</div>
     <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:${TIER_COLOR.mid};border-top-style:solid;border-top-width:2px"></span>臨次要道路</div>
     <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:${TIER_COLOR.minor};border-top-style:solid;border-top-width:1px"></span>臨巷弄／小路</div>
-    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#c3c2b7;border-top-style:dashed;border-top-width:1.6px"></span>5 分圈邊界</div>
+    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#c3c2b7;border-top-style:dashed;border-top-width:1.6px"></span>${ringName(RING.store)}邊界</div>
     <div class="legend-row" style="margin-top:4px;">深色網格＝店家密度較高（重用篇①）</div>
   `;
 
   // ---------------------------------------------------------------
-  // 圖 D 附帶：三檔店家密度／位置係數
+  // 圖 D 附帶：三檔店家密度／店家密度比
   // ---------------------------------------------------------------
   const tierOrder = data.streets.tier_order;
   const tiers = data.streets.tiers;
@@ -410,10 +414,10 @@
         const p = params[0];
         const tier = tierOrder[p.dataIndex];
         const t = tiers[tier];
-        return `${t.label}<br/>位置係數 ${fmt1(t.location_factor)} 倍<br/>密度 ${fmt1(t.density_per_km2)}/km²<br/>店數 ${fmt(t.store_count)}（${fmt1(t.store_pct_of_ring5)}%）`;
+        return `${t.label}<br/>店家密度比 ${fmt1(t.location_factor)} 倍<br/>密度 ${fmt1(t.density_per_km2)}/km²<br/>店數 ${fmt(t.store_count)}（${fmt1(t.store_pct_of_ring5)}%）`;
       },
     },
-    xAxis: { type: "value", name: "位置係數（全圈平均=1.0）", nameTextStyle: { color: "#898781", fontSize: 10.5 }, axisLine: { lineStyle: { color: "#c3c2b7" } }, axisLabel: { color: "#898781", fontSize: 11 }, splitLine: { lineStyle: { color: "#e1e0d9" } } },
+    xAxis: { type: "value", name: "店家密度比（全圈平均=1.0）", nameTextStyle: { color: "#898781", fontSize: 10.5 }, axisLine: { lineStyle: { color: "#c3c2b7" } }, axisLabel: { color: "#898781", fontSize: 11 }, splitLine: { lineStyle: { color: "#e1e0d9" } } },
     yAxis: { type: "category", data: tierOrder.map((t) => tiers[t].label), axisLine: { lineStyle: { color: "#c3c2b7" } }, axisLabel: { color: "#52514e", fontSize: 11 }, axisTick: { show: false } },
     series: [{
       type: "bar", barMaxWidth: 26, data: tierOrder.map((t) => tiers[t].location_factor),
@@ -421,7 +425,7 @@
       label: { show: true, position: "right", color: "#52514e", fontSize: 11, formatter: (p) => `${fmt1(p.value)} 倍` },
     }],
   });
-  renderTable("tableD", ["等級", "道路長度(km)", "店數", "占比", "密度(/km²)", "位置係數"], tierOrder.map((t) => {
+  renderTable("tableD", ["等級", "道路長度(km)", "店數", "占比", "密度(/km²)", "店家密度比"], tierOrder.map((t) => {
     const x = tiers[t];
     return [x.label, fmt1(x.length_km), fmt(x.store_count), `${fmt1(x.store_pct_of_ring5)}%`, fmt1(x.density_per_km2), `${fmt1(x.location_factor)} 倍`];
   }));
@@ -449,9 +453,9 @@
   // ---------------------------------------------------------------
   const mn = data.method_notes;
   document.getElementById("method-dl").innerHTML = `
-    <dt>商圈邊界</dt><dd>5 分圈＝街道等級與位置係數；10 分圈＝居住人口（借用篇⑤）；15 分圈＝觀光景點落點判定</dd>
+    <dt>商圈邊界</dt><dd>${ringName(RING.store)}＝街道等級與店家密度比；${ringName(RING.pop)}＝居住人口（借用篇⑤）；${ringName(RING.access)}＝觀光景點落點判定（都是沿實際道路量的距離，不是直線距離）</dd>
     <dt>人流來源</dt><dd>${data.composition.kind_note}</dd>
-    <dt>12個月人流指數</dt><dd>${mn.footfall_index_formula}</dd>
+    <dt>月別指數</dt><dd>${mn.monthly_index_formula}</dd>
     <dt>暑假對照</dt><dd>${mn.summer_vs_rest_note}</dd>
     <dt>觀光景點座標</dt><dd>${mn.tourism_coord_note}</dd>
     <dt>街道等級三檔</dt><dd>${mn.streets_method}</dd>

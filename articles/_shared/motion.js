@@ -552,6 +552,7 @@
     if (k.depth > 0) return false;
     var after = s.slice(k.end);
     if (/^\s*(分|年|月|號|篇|歲|-)/.test(after)) return false;
+    if (/^\s*(公尺圈|公里圈)/.test(after)) return false; // 圈名（500 公尺圈）不是主數字
     if (!k.comma && k.dec === 0 && k.abs < 10) return false;
     if (!k.comma && k.dec === 0 && k.abs >= 1900 && k.abs <= 2100) return false;
     return factUnitAt(after).unit !== "" || k.dec > 0;

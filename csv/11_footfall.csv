@@ -2,18 +2,25 @@
 field,value
 meta.article_no,11
 meta.title,人流：誰在什麼時候來、從哪條路來
-meta.data_date,2026-09-08
-meta.produced_date,2026-09-08
+meta.data_date,2026-10-12
+meta.produced_date,2026-10-12
 meta.district_id,ncku
 meta.district_name,成大商圈
+meta.rings_used,1000; 2000; 3000
+meta.ring_labels.1000,1 公里
+meta.ring_labels.2000,2 公里
+meta.ring_labels.3000,3 公里
+meta.ring_roles.store,1000
+meta.ring_roles.pop,2000
+meta.ring_roles.access,3000
 composition.kind_note,stock＝這個範圍住/待著多少人的存量（不是當天出現人次）；flow＝有實測的當天平均出現人次；兩種概念量級不能直接相加，並列只是讓你看到量級差距
-composition.by_key.residents.population,392469
-composition.by_key.residents.households,171316
+composition.by_key.residents.population,142034
+composition.by_key.residents.households,64097
 composition.by_key.students_faculty.students,23485
 composition.by_key.students_faculty.faculty,1293
 composition.by_key.hospital.total,4871
-composition.by_key.tra.avg_in,24820.1
-composition.by_key.tra.avg_out,25201.5
+composition.by_key.tra.avg_in,24939.4
+composition.by_key.tra.avg_out,25347.9
 composition.by_key.tourism.in_ring_total_annual_visits,12510770
 composition.by_key.tourism.in_ring_daily_avg,34276.1
 time_dimension.tra_seasonal.10.avg_in,24908.5
@@ -71,25 +78,25 @@ time_dimension.tra_seasonal.08.avg_out,24606.3
 time_dimension.tra_seasonal.08.days,124
 time_dimension.tra_seasonal.08.months_included,202308; 202408; 202508; 202608
 time_dimension.tra_seasonal.08.n_years,4
-time_dimension.tra_seasonal.09.avg_in,24105.5
-time_dimension.tra_seasonal.09.avg_out,24617.5
-time_dimension.tra_seasonal.09.days,90
-time_dimension.tra_seasonal.09.months_included,202309; 202409; 202509
-time_dimension.tra_seasonal.09.n_years,3
+time_dimension.tra_seasonal.09.avg_in,24533.2
+time_dimension.tra_seasonal.09.avg_out,25074.6
+time_dimension.tra_seasonal.09.days,120
+time_dimension.tra_seasonal.09.months_included,202309; 202409; 202509; 202609
+time_dimension.tra_seasonal.09.n_years,4
 time_dimension.summer_vs_rest.summer.avg_in,23308.6
 time_dimension.summer_vs_rest.summer.avg_out,23709.6
 time_dimension.summer_vs_rest.summer.days,248
-time_dimension.summer_vs_rest.rest.avg_in,25393.8
-time_dimension.summer_vs_rest.rest.avg_out,25879.7
-time_dimension.summer_vs_rest.rest.days,1091
+time_dimension.summer_vs_rest.rest.avg_in,25405.1
+time_dimension.summer_vs_rest.rest.avg_out,25894.9
+time_dimension.summer_vs_rest.rest.days,1121
 time_dimension.summer_vs_rest.summer_months_mm,07; 08
-time_dimension.summer_vs_rest.rest_months_count,36
-time_dimension.weekday_weekend.weekday.avg_in,23052.5
-time_dimension.weekday_weekend.weekday.avg_out,23575
-time_dimension.weekday_weekend.weekday.days,957
-time_dimension.weekday_weekend.weekend.avg_in,29873
-time_dimension.weekday_weekend.weekend.avg_out,30213.8
-time_dimension.weekday_weekend.weekend.days,383
+time_dimension.summer_vs_rest.rest_months_count,37
+time_dimension.weekday_weekend.weekday.avg_in,23071.7
+time_dimension.weekday_weekend.weekday.avg_out,23597.1
+time_dimension.weekday_weekend.weekday.days,979
+time_dimension.weekday_weekend.weekend.avg_in,29904.6
+time_dimension.weekday_weekend.weekend.avg_out,30249.9
+time_dimension.weekday_weekend.weekend.days,391
 time_dimension.calendar.latest_academic_year,114
 time_dimension.calendar.in_session_days,365
 time_dimension.calendar.year_span_days,365
@@ -98,55 +105,55 @@ time_dimension.calendar.fall_term.start,2025-08-01
 time_dimension.calendar.fall_term.end,2026-01-31
 time_dimension.calendar.spring_term.start,2026-02-01
 time_dimension.calendar.spring_term.end,2026-07-31
-time_dimension.calendar.limitation_note,ncku_calendar 落地資料的『結束日期』實際是『下一學期起始月的前一天』的推論值（見 pipeline/connectors/ncku_calendar.py 模組說明），上／下學期首尾相接、補集是 0 天——用這份資料完全算不出真正的寒假／暑假天數，本欄位如實呈現這個限制（gap_days 應為 0，不是本篇算錯）；行事曆PDF裡確實有寒假/暑假文字段落，但版面（週次直式網格）目前抽不出逐日日期
+time_dimension.calendar.limitation_note,成大行事曆資料的『結束日期』實際是『下一學期起始月的前一天』的推論值，上／下學期首尾相接、補集是 0 天——用這份資料完全算不出真正的寒假／暑假天數，本欄位如實呈現這個限制（空窗天數為 0 是資料限制，不是計算錯誤）；行事曆PDF裡確實有寒假/暑假文字段落，但版面（週次直式網格）目前抽不出逐日日期
 tourism.latest_year,2023
 tourism.sites_by_name.南紡購物中心.name,南紡購物中心
-tourism.sites_by_name.南紡購物中心.ring,10
+tourism.sites_by_name.南紡購物中心.ring,3000
 tourism.sites_by_name.南紡購物中心.lat,22.9838
 tourism.sites_by_name.南紡購物中心.lon,120.2229
-tourism.sites_by_name.南紡購物中心.coord_source,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈
+tourism.sites_by_name.南紡購物中心.coord_source,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入沿道路 3 公里範圍
 tourism.sites_by_name.南紡購物中心.annual_visits,6367997
 tourism.sites_by_name.南紡購物中心.daily_avg,17446.6
 tourism.sites_by_name.藍晒圖文創圈區.name,藍晒圖文創圈區
-tourism.sites_by_name.藍晒圖文創圈區.ring,10
+tourism.sites_by_name.藍晒圖文創圈區.ring,2000
 tourism.sites_by_name.藍晒圖文創圈區.lat,22.9908
 tourism.sites_by_name.藍晒圖文創圈區.lon,120.1995
-tourism.sites_by_name.藍晒圖文創圈區.coord_source,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈
+tourism.sites_by_name.藍晒圖文創圈區.coord_source,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入沿道路 3 公里範圍
 tourism.sites_by_name.藍晒圖文創圈區.annual_visits,4378903
 tourism.sites_by_name.藍晒圖文創圈區.daily_avg,11997
 tourism.sites_by_name.臺南市美術館.name,臺南市美術館
-tourism.sites_by_name.臺南市美術館.ring,5
+tourism.sites_by_name.臺南市美術館.ring,2000
 tourism.sites_by_name.臺南市美術館.lat,22.9928
 tourism.sites_by_name.臺南市美術館.lon,120.2036
-tourism.sites_by_name.臺南市美術館.coord_source,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈
+tourism.sites_by_name.臺南市美術館.coord_source,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入沿道路 3 公里範圍
 tourism.sites_by_name.臺南市美術館.annual_visits,459705
 tourism.sites_by_name.臺南市美術館.daily_avg,1259.5
 tourism.sites_by_name.赤嵌樓.name,赤嵌樓
-tourism.sites_by_name.赤嵌樓.ring,5
+tourism.sites_by_name.赤嵌樓.ring,2000
 tourism.sites_by_name.赤嵌樓.lat,22.9968
 tourism.sites_by_name.赤嵌樓.lon,120.2028
-tourism.sites_by_name.赤嵌樓.coord_source,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈
+tourism.sites_by_name.赤嵌樓.coord_source,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入沿道路 3 公里範圍
 tourism.sites_by_name.赤嵌樓.annual_visits,443622
 tourism.sites_by_name.赤嵌樓.daily_avg,1215.4
 tourism.sites_by_name.大天后宮.name,大天后宮
-tourism.sites_by_name.大天后宮.ring,5
+tourism.sites_by_name.大天后宮.ring,2000
 tourism.sites_by_name.大天后宮.lat,22.9963
 tourism.sites_by_name.大天后宮.lon,120.2036
-tourism.sites_by_name.大天后宮.coord_source,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈
+tourism.sites_by_name.大天后宮.coord_source,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入沿道路 3 公里範圍
 tourism.sites_by_name.大天后宮.annual_visits,354897
 tourism.sites_by_name.大天后宮.daily_avg,972.3
 tourism.sites_by_name.祀典武廟.name,祀典武廟
-tourism.sites_by_name.祀典武廟.ring,5
+tourism.sites_by_name.祀典武廟.ring,2000
 tourism.sites_by_name.祀典武廟.lat,22.9958
 tourism.sites_by_name.祀典武廟.lon,120.2034
-tourism.sites_by_name.祀典武廟.coord_source,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈
+tourism.sites_by_name.祀典武廟.coord_source,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入沿道路 3 公里範圍
 tourism.sites_by_name.祀典武廟.annual_visits,310537
 tourism.sites_by_name.祀典武廟.daily_avg,850.8
 tourism.sites_by_name.臺南孔子廟.name,臺南孔子廟
-tourism.sites_by_name.臺南孔子廟.ring,5
+tourism.sites_by_name.臺南孔子廟.ring,2000
 tourism.sites_by_name.臺南孔子廟.lat,22.9912
 tourism.sites_by_name.臺南孔子廟.lon,120.2016
-tourism.sites_by_name.臺南孔子廟.coord_source,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈
+tourism.sites_by_name.臺南孔子廟.coord_source,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入沿道路 3 公里範圍
 tourism.sites_by_name.臺南孔子廟.annual_visits,195109
 tourism.sites_by_name.臺南孔子廟.daily_avg,534.5
 tourism.in_ring_site_names,南紡購物中心; 藍晒圖文創圈區; 臺南市美術館; 赤嵌樓; 大天后宮; 祀典武廟; 臺南孔子廟
@@ -169,42 +176,42 @@ tourism.monthly_totals.09,901806
 tourism.city_level_reference.total_annual_visits,36558258
 tourism.city_level_reference.site_row_count,28
 tourism.city_level_reference.note,臺南市全部有列管景點（含商圈外）當年合計人次，僅供對照，不計入本篇商圈人流組成
-streets.ring5_store_count,11409
-streets.classified_store_count,10741
-streets.unclassified_store_count,668
-streets.unclassified_pct,5.9
-streets.overall_density_per_km2,1596.4
-streets.union_buffer_area_km2,6.728
+streets.ring5_store_count,3318
+streets.classified_store_count,3081
+streets.unclassified_store_count,237
+streets.unclassified_pct,7.1
+streets.overall_density_per_km2,1352.2
+streets.union_buffer_area_km2,2.279
 streets.tier_order,major; mid; minor
 streets.tiers.major.label,臨主要幹道（primary／secondary／trunk）
-streets.tiers.major.length_km,18.04
-streets.tiers.major.edge_count,152
-streets.tiers.major.buffer_area_km2,0.96
-streets.tiers.major.store_count,2024
-streets.tiers.major.store_pct_of_ring5,17.7
-streets.tiers.major.density_per_km2,2108.2
-streets.tiers.major.location_factor,1.32
+streets.tiers.major.length_km,9.78
+streets.tiers.major.edge_count,71
+streets.tiers.major.buffer_area_km2,0.527
+streets.tiers.major.store_count,847
+streets.tiers.major.store_pct_of_ring5,25.5
+streets.tiers.major.density_per_km2,1606.1
+streets.tiers.major.location_factor,1.19
 streets.tiers.mid.label,臨次要道路（tertiary）
-streets.tiers.mid.length_km,74.2
-streets.tiers.mid.edge_count,679
-streets.tiers.mid.buffer_area_km2,3.432
-streets.tiers.mid.store_count,5780
-streets.tiers.mid.store_pct_of_ring5,50.7
-streets.tiers.mid.density_per_km2,1684.1
-streets.tiers.mid.location_factor,1.05
+streets.tiers.mid.length_km,30.78
+streets.tiers.mid.edge_count,259
+streets.tiers.mid.buffer_area_km2,1.434
+streets.tiers.mid.store_count,1494
+streets.tiers.mid.store_pct_of_ring5,45
+streets.tiers.mid.density_per_km2,1042.1
+streets.tiers.mid.location_factor,0.77
 streets.tiers.minor.label,臨巷弄／小路（residential 等）
-streets.tiers.minor.length_km,110.23
-streets.tiers.minor.edge_count,1264
-streets.tiers.minor.buffer_area_km2,4.279
-streets.tiers.minor.store_count,2937
-streets.tiers.minor.store_pct_of_ring5,25.7
-streets.tiers.minor.density_per_km2,686.4
-streets.tiers.minor.location_factor,0.43
+streets.tiers.minor.length_km,20.09
+streets.tiers.minor.edge_count,232
+streets.tiers.minor.buffer_area_km2,0.97
+streets.tiers.minor.store_count,740
+streets.tiers.minor.store_pct_of_ring5,22.3
+streets.tiers.minor.density_per_km2,763.2
+streets.tiers.minor.location_factor,0.56
 streets.buffer_m,50
-streets.method,"5 分圈內道路（tainan_drive.graphml OSMnx 路網）依 highway 標籤分三檔：主要幹道=['primary', 'primary_link', 'secondary', 'secondary_link', 'trunk', 'trunk_link']、次要道路=['tertiary', 'tertiary_link']、巷弄等=['living_street', 'residential', 'service', 'unclassified']（排除 motorway/motorway_link 快速道路，同篇①等時圈路網處理）；每檔道路（clip 到 5 分圈後）在 TWD97(EPSG:3826) 投影下buffer 50 公尺聯集；店家（ring==5）依「優先序 major>mid>minor」指派到第一個涵蓋它的緩衝範圍內（同時臨多檔道路者算最高檔，避免重複計算）；location_factor＝該檔『店數/該檔緩衝區面積』÷『三檔緩衝區聯集內全部已分類店數/聯集面積』（全圈平均密度），即「這檔道路店家密度是全圈平均的幾倍」，作為總評頁位置係數的資料依據（Q46：路口車流量調查不存在，改用此 OSM 道路等級 proxy）"
-stat_tiles.tra_daily.value,50021.6
+streets.method,"1 公里圈內道路（tainan_drive.graphml OpenStreetMap 道路網）依 highway 標籤分三檔：主要幹道=['primary', 'primary_link', 'secondary', 'secondary_link', 'trunk', 'trunk_link']、次要道路=['tertiary', 'tertiary_link']、巷弄等=['living_street', 'residential', 'service', 'unclassified']（排除 motorway/motorway_link 快速道路，同篇①距離圈路網處理）；每檔道路（clip 到 1 公里圈後）在 TWD97(EPSG:3826) 投影下buffer 50 公尺聯集；店家（ring==1000）依「優先序 major>mid>minor」指派到第一個涵蓋它的緩衝範圍內（同時臨多檔道路者算最高檔，避免重複計算）；店家密度比＝該檔『店數/該檔緩衝區面積』÷『三檔緩衝區聯集內全部已分類店數/聯集面積』（全圈平均密度），即「這檔道路店家密度是全圈平均的幾倍」，作為總覽頁的資料依據（路口車流量調查沒有公開資料，改用此 OpenStreetMap 道路等級代替）"
+stat_tiles.tra_daily.value,24939.4
 stat_tiles.tra_daily.unit,人次/天
-stat_tiles.tra_daily.label,台鐵台南站日均進出站
+stat_tiles.tra_daily.label,台鐵台南站日均進站
 stat_tiles.students_faculty_total.value,24778
 stat_tiles.students_faculty_total.unit,人
 stat_tiles.students_faculty_total.label,成大學生＋教職員合計
@@ -212,26 +219,26 @@ stat_tiles.students_faculty_total.sub,114 學年度；全年在校日/年度天�
 stat_tiles.tourism_daily.value,34276.1
 stat_tiles.tourism_daily.unit,人次/天
 stat_tiles.tourism_daily.label,周邊景點日均旅客（僅計入圈內已定位景點）
-stat_tiles.major_road_location_factor.value,1.32
+stat_tiles.major_road_location_factor.value,1.19
 stat_tiles.major_road_location_factor.unit,倍（相對全圈平均密度）
 stat_tiles.major_road_location_factor.label,臨主要幹道店家密度是全圈平均的幾倍
-stat_tiles.major_road_location_factor.sub,臨巷弄為 0.43 倍（Q46：路口車流量調查不存在，改用道路等級 proxy）
-method_notes.not_available.intersection_traffic_survey,路口車流量調查：沒有公開資料集，Q46 已改用 OSM 道路等級（primary/secondary/trunk、tertiary、residential 等三檔）作為位置係數的 proxy，不是直接量測的車流量
+stat_tiles.major_road_location_factor.sub,臨巷弄為 0.56 倍（路口車流量調查沒有公開資料，改用道路等級計算）
+method_notes.not_available.intersection_traffic_survey,路口車流量調查：沒有公開資料集，改用 OpenStreetMap 道路等級（primary/secondary/trunk、tertiary、residential 等三檔）算店家密度比，不是直接量測的車流量
 method_notes.not_available.hospital_outpatient_volume,健保署醫療院所服務量（成大醫院門診件數）：沒有公開細項數字，只能引成大醫院官網「每日急診超過 200 人次」一句話當量級註記（非本篇落地計算，不進 numbers.yaml）
-method_notes.not_available.industrial_census_workforce,工商普查統計區員工數：沒有公開資料，改用 moe_udb（學生/教師）與 nckuh（醫院員工）兩個可直接落地的來源替代固定客群估計
-method_notes.not_available.polling_footfall,Q43 裁定：人流不做輪詢（不用桌機排程、不租 VPS），只用一次性公開資料，因此沒有逐時段人流曲線，只有日/週/月的聚合量級
-method_notes.calendar_limitation,ncku_calendar 落地資料的『結束日期』實際是『下一學期起始月的前一天』的推論值（見 pipeline/connectors/ncku_calendar.py 模組說明），上／下學期首尾相接、補集是 0 天——用這份資料完全算不出真正的寒假／暑假天數，本欄位如實呈現這個限制（gap_days 應為 0，不是本篇算錯）；行事曆PDF裡確實有寒假/暑假文字段落，但版面（週次直式網格）目前抽不出逐日日期
-method_notes.footfall_index_formula,12 個月人流指數＝(台鐵日均進出站的曆月季節指數 ＋ 周邊景點月度到訪指數 ＋ 學生教職員在校權重指數) ÷ 3；台鐵季節指數＝該曆月『完整月』跨年平均日均進出站 ÷ 12 個曆月的平均值；觀光指數＝該月圈內景點合計人次 ÷ 12 個月平均值（2023 年）；學生權重全年固定為 1.0（見 calendar_limitation，行事曆資料無法辨識假期空窗，不是刻意簡化）；三個子指數各自正規化為「12 個月平均=1.0」再取平均，是相對指數，不是實際人數加總
-method_notes.summer_vs_rest_note,以 7-8 月（成大通常認知的暑假月份）對照其餘 10 個完整月的台鐵日均進出站，作為「學期 vs 假期」的實證替代（行事曆資料本身無法給出精確假期起訖，改用台鐵這個真實量測數字的月度落差當佐證，見 calendar_limitation）
-method_notes.tourism_coord_note,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈；候選 12 個地標中，3 個經座標比對落在 15 分圈外（國立臺灣歷史博物館、奇美博物館、安平小鎮），予以排除；另有 2 個候選在 2023 年 tourism_visits 資料已停止列管（五妃廟、延平郡王祠），改列臺南市層級對照（method_notes.not_available 未涵蓋此段落，見 tourism.city_level_reference）
-method_notes.streets_method,"5 分圈內道路（tainan_drive.graphml OSMnx 路網）依 highway 標籤分三檔：主要幹道=['primary', 'primary_link', 'secondary', 'secondary_link', 'trunk', 'trunk_link']、次要道路=['tertiary', 'tertiary_link']、巷弄等=['living_street', 'residential', 'service', 'unclassified']（排除 motorway/motorway_link 快速道路，同篇①等時圈路網處理）；每檔道路（clip 到 5 分圈後）在 TWD97(EPSG:3826) 投影下buffer 50 公尺聯集；店家（ring==5）依「優先序 major>mid>minor」指派到第一個涵蓋它的緩衝範圍內（同時臨多檔道路者算最高檔，避免重複計算）；location_factor＝該檔『店數/該檔緩衝區面積』÷『三檔緩衝區聯集內全部已分類店數/聯集面積』（全圈平均密度），即「這檔道路店家密度是全圈平均的幾倍」，作為總評頁位置係數的資料依據（Q46：路口車流量調查不存在，改用此 OSM 道路等級 proxy）"
-method_notes.ring_use.5,街道等級三檔與店家位置係數
-method_notes.ring_use.10,居住人口（借用篇⑤）
-method_notes.ring_use.15,觀光景點落點判定
-method_notes.isochrone_method,OSMnx 本機路網計算（機車，剔除快速道路/高架橋），與篇①同一份 data/geo/isochrones.geojson
+method_notes.not_available.industrial_census_workforce,工商普查統計區員工數：沒有公開資料，改用教育部校務資訊公開平臺（學生/教師）與成大醫院組織規模頁（醫院員工）兩個可直接取得的來源
+method_notes.not_available.polling_footfall,人流不做輪詢（不用桌機排程、不租 VPS），只用一次性公開資料，因此沒有逐時段人流曲線，只有日/週/月的聚合量級
+method_notes.calendar_limitation,成大行事曆資料的『結束日期』實際是『下一學期起始月的前一天』的推論值，上／下學期首尾相接、補集是 0 天——用這份資料完全算不出真正的寒假／暑假天數，本欄位如實呈現這個限制（空窗天數為 0 是資料限制，不是計算錯誤）；行事曆PDF裡確實有寒假/暑假文字段落，但版面（週次直式網格）目前抽不出逐日日期
+method_notes.monthly_index_formula,月別指數有兩條，各自計算、並列呈現，不相加、不加權：台鐵指數＝該曆月『完整月』跨年平均日均進站人次 ÷ 12 個曆月的平均值（只計進站）；觀光指數＝該月圈內景點合計人次 ÷ 12 個月平均值（2023 年）；兩條都是「12 個月平均=1.0」的相對指數，不是實際人數
+method_notes.summer_vs_rest_note,以 7-8 月（成大通常認知的暑假月份）對照其餘 10 個完整月的台鐵日均進站與出站，作為「學期 vs 假期」的實證替代（行事曆資料本身無法給出精確假期起訖，改用台鐵這個真實量測數字的月度落差當佐證，見 calendar_limitation）
+method_notes.tourism_coord_note,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入沿道路 3 公里範圍；候選 12 個地標中，3 個經座標比對落在 3 公里圈外（國立臺灣歷史博物館、奇美博物館、安平小鎮），予以排除；另有 2 個候選在 2023 年 tourism_visits 資料已停止列管（五妃廟、延平郡王祠），改列臺南市層級對照（method_notes.not_available 未涵蓋此段落，見 tourism.city_level_reference）
+method_notes.streets_method,"1 公里圈內道路（tainan_drive.graphml OpenStreetMap 道路網）依 highway 標籤分三檔：主要幹道=['primary', 'primary_link', 'secondary', 'secondary_link', 'trunk', 'trunk_link']、次要道路=['tertiary', 'tertiary_link']、巷弄等=['living_street', 'residential', 'service', 'unclassified']（排除 motorway/motorway_link 快速道路，同篇①距離圈路網處理）；每檔道路（clip 到 1 公里圈後）在 TWD97(EPSG:3826) 投影下buffer 50 公尺聯集；店家（ring==1000）依「優先序 major>mid>minor」指派到第一個涵蓋它的緩衝範圍內（同時臨多檔道路者算最高檔，避免重複計算）；店家密度比＝該檔『店數/該檔緩衝區面積』÷『三檔緩衝區聯集內全部已分類店數/聯集面積』（全圈平均密度），即「這檔道路店家密度是全圈平均的幾倍」，作為總覽頁的資料依據（路口車流量調查沒有公開資料，改用此 OpenStreetMap 道路等級代替）"
+method_notes.ring_use.1000,街道等級三檔與店家密度比
+method_notes.ring_use.2000,居住人口（借用篇⑤）
+method_notes.ring_use.3000,觀光景點落點判定
+method_notes.isochrone_method,沿實際道路量的距離（不是直線距離），剔除機車不能行駛的快速道路／高架橋；OpenStreetMap 道路網，與篇①同一份 data/geo/isochrones.geojson
 method_notes.reuse_note,居住人口借用 articles/05_population/data.json（面積加權演算法已驗證，不重算）；台鐵到站量級借用 articles/08_access/data.json 的 tra.ytd（合併/去重/完整月篩選已在篇⑧做過）；地圖底圖與店家密度網格互動頁直接 fetch 篇①的 roads.geojson/density.geojson，不重新產生
-method_notes.osm_attribution,地圖底圖（路網/等時圈邊界）與街道分級重用 OpenStreetMap 路網，© OpenStreetMap contributors (ODbL)
-method_notes.data_version,2026-09-08
+method_notes.osm_attribution,地圖底圖（路網/距離圈邊界）與街道分級重用 OpenStreetMap 路網，© OpenStreetMap contributors (ODbL)
+method_notes.data_version,2026-10-12
 
 # table: meta.centers
 id,name,lat,lon
@@ -241,33 +248,46 @@ nckuh,成大醫院正門,23.0019,120.2183
 
 # table: composition.items
 key,label,kind,value,unit,detail,note
-residents,住在附近的居民,stock,392469,人（10 分圈住戶人口，不是當天出現人次）,,
+residents,住在附近的居民,stock,142034,人（2 公里圈住戶人口，不是當天出現人次）,,
 students_faculty,成大學生＋教職員,stock,24778,人,"{""students"":23485,""faculty"":1293,""academic_year"":""114""}",
 hospital,成大醫院員工,stock,4871,人,,官網公告成大醫院「每日急診超過 200 人次」，門診人次無公開細項數字，僅供量級參考，不落地成可重算數字
-tra,台鐵台南站進出站,flow,50021.6,人次/天（日均，借用篇⑧ tra.ytd）,,
-tourism,周邊景點旅客（僅計入 15 分圈內已定位景點）,flow,34276.1,人次/天（日均）,,
+tra,台鐵台南站進站,flow,24939.4,人次/天（日均進站，借用篇⑧）,,
+tourism,周邊景點旅客（僅計入 3 公里圈內已定位景點）,flow,34276.1,人次/天（日均）,,
 
-# table: time_dimension.footfall_index_12mo
-month,tra_index,tourism_index,student_weight,composite_index
-01,0.988,1.282,1,1.09
-02,1.073,0.981,1,1.018
-03,1.033,0.856,1,0.963
-04,1.029,1.014,1,1.014
-05,0.996,0.929,1,0.975
-06,0.959,0.982,1,0.98
-07,0.895,1.026,1,0.974
-08,0.964,1.025,1,0.996
-09,0.963,0.865,1,0.943
-10,0.997,0.981,1,0.993
-11,1.03,1.005,1,1.012
-12,1.073,1.055,1,1.043
+# table: time_dimension.monthly_indexes
+month,tra_index,tourism_index
+01,0.991,1.282
+02,1.069,0.981
+03,1.034,0.856
+04,1.027,1.014
+05,0.995,0.929
+06,0.959,0.982
+07,0.896,1.026
+08,0.963,1.025
+09,0.978,0.865
+10,0.993,0.981
+11,1.029,1.005
+12,1.068,1.055
 
 # table: tourism.in_ring_sites
 name,ring,lat,lon,coord_source,annual_visits,daily_avg
-南紡購物中心,10,22.9838,120.2229,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈,6367997,17446.6
-藍晒圖文創圈區,10,22.9908,120.1995,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈,4378903,11997
-臺南市美術館,5,22.9928,120.2036,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈,459705,1259.5
-赤嵌樓,5,22.9968,120.2028,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈,443622,1215.4
-大天后宮,5,22.9963,120.2036,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈,354897,972.3
-祀典武廟,5,22.9958,120.2034,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈,310537,850.8
-臺南孔子廟,5,22.9912,120.2016,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入 15 分鐘機車等時圈,195109,534.5
+南紡購物中心,3000,22.9838,120.2229,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入沿道路 3 公里範圍,6367997,17446.6
+藍晒圖文創圈區,2000,22.9908,120.1995,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入沿道路 3 公里範圍,4378903,11997
+臺南市美術館,2000,22.9928,120.2036,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入沿道路 3 公里範圍,459705,1259.5
+赤嵌樓,2000,22.9968,120.2028,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入沿道路 3 公里範圍,443622,1215.4
+大天后宮,2000,22.9963,120.2036,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入沿道路 3 公里範圍,354897,972.3
+祀典武廟,2000,22.9958,120.2034,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入沿道路 3 公里範圍,310537,850.8
+臺南孔子廟,2000,22.9912,120.2016,公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入沿道路 3 公里範圍,195109,534.5
+
+# table: provenance
+id,agency,dataset,year,url,licence
+tra,國營臺灣鐵路股份有限公司,臺鐵每日各站點進出站人數,擷取 2026-10-12,https://data.gov.tw/dataset/8792,政府資料開放授權條款-第1版
+moe_udb,教育部,教育部大專校院校務資訊公開平臺（成大學生數／教師數）,擷取 2026-10-12,https://udb.moe.edu.tw/udata/index,待查
+nckuh,國立成功大學醫學院附設醫院,成大醫院組織規模,擷取 2026-10-12,https://nckuh.hosp.ncku.edu.tw/p/412-1000-29536.php,公開頁引用
+tourism_visits,交通部觀光署,歷年國內主要觀光遊憩據點遊客人數月別統計,擷取 2026-10-12,https://data.gov.tw/dataset/8116,政府資料開放授權條款-第1版
+ncku_calendar,國立成功大學,成功大學行事曆（學期起訖與寒暑假）,擷取 2026-10-12,https://web.ncku.edu.tw/p/412-1000-6149.php?Lang=zh-tw,待查
+segis_pop,內政部（社會經濟資料服務平臺）,統計區人口統計（最小統計區）,擷取 2026-10-12,https://data.gov.tw/dataset/18681,政府資料開放授權條款-第1版
+osm_network,OpenStreetMap 貢獻者,OpenStreetMap 台南路網（OSMnx 抓取，距離圈計算用）,,https://www.openstreetmap.org/copyright,ODbL
+tax_reg,財政部財政資訊中心,全國營業(稅籍)登記資料集,擷取 2026-10-12,https://data.gov.tw/dataset/9400,政府資料開放授權條款-第1版
+addr_points,臺南市政府,臺南市門牌坐標資料-僅供參考,擷取 2026-10-12,https://data.gov.tw/dataset/120044,政府資料開放授權條款-第1版
+industry_codes,財政部,稅務行業標準分類,擷取 2026-10-12,https://data.gov.tw/dataset/28483,政府資料開放授權條款-第1版

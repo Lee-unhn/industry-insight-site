@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>成大商圈輪廓：機車等時圈、店家總量與分布｜開店分析所</title>
+<title>成大商圈輪廓：路網距離圈、店家總量與分布｜開店分析所</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/5.24.0/maplibre-gl.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/5.24.0/maplibre-gl.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/6.1.0/echarts.min.js"></script>
@@ -31,9 +31,9 @@
     --series-8: #e34948;   /* red -- 中心點標記，與藍色序列明顯區隔 */
 
     /* 三圈邊界：色相＋線寬＋虛實三重編碼，黑白列印也能分辨 */
-    --ring-5:  #184f95;   /* 5 分：深藍、實線、最粗 */
-    --ring-10: #2a78d6;   /* 10 分：中藍、實線、中等 */
-    --ring-15: #86b6ef;   /* 15 分：淺藍、虛線、最細 */
+    --ring-5:  #184f95;   /* 最內圈（店家分析）：深藍、實線、最粗 */
+    --ring-10: #2a78d6;   /* 中圈（居住人口）：中藍、實線、中等 */
+    --ring-15: #86b6ef;   /* 最外圈（可及性參考）：淺藍、虛線、最細 */
 
     /* 密度序列色階（單一藍色調，淺→深） */
     --seq-100: #cde2fb;
@@ -280,12 +280,12 @@
 <div class="wrap">
 
   <header class="hero">
-    <div class="kicker">開店分析所 · 篇① / 10</div>
-    <h1>成大商圈輪廓：機車等時圈、店家總量與分布</h1>
+    <div class="kicker">開店分析所 · 篇① / 13</div>
+    <h1>成大商圈輪廓：路網距離圈、店家總量與分布</h1>
     <p class="lede" id="lede">
-      以台南火車站後站、成大光復校區正門、成大醫院正門三個核心點的機車 5／10／15
-      分鐘等時圈聯集，界定成大商圈範圍，統計圈內店家總量、業種結構與店家密度，
-      作為之後 9 篇細部分析的地理骨架。
+      以台南火車站後站、成大光復校區正門、成大醫院正門三個核心點，沿道路 <span id="lede-rings">1 公里／2 公里／3 公里</span>
+      的距離圈聯集，界定成大商圈範圍，統計圈內店家總量、業種結構與店家密度，
+      作為之後各篇細部分析的地理骨架。
     </p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
@@ -297,7 +297,7 @@
   <section class="card map-card">
     <div class="map-head">
       <h2>地圖 · 商圈範圍與店家分布</h2>
-      <p class="subtitle">底圖是自行計算的道路網（沒有用外部地圖圖磚）；三層等時圈用顏色、線的粗細、虛線實線三種方式區分，黑白列印也看得出差異。</p>
+      <p class="subtitle">底圖是自行計算的道路網（沒有用外部地圖圖磚）；三層距離圈用顏色、線的粗細、虛線實線三種方式區分，黑白列印也看得出差異。</p>
     </div>
     <div id="map">
       <div class="map-legend" id="map-legend"></div>
@@ -309,7 +309,7 @@
 
     <section class="card">
       <h2>圖 A · 三個範圍各有多少店</h2>
-      <p class="subtitle">單圈＝只算剛好落在這一圈的店；累計＝加上更小圈的店，等於騎到這裡為止會經過的店家總數（單位：家）</p>
+      <p class="subtitle">單圈＝只算剛好落在這一圈的店；累計＝加上更小圈的店，等於這一圈範圍內的店家總數（單位：家）</p>
       <div class="echart" id="chartA"></div>
       <button class="table-toggle" data-target="tableA">顯示資料表格</button>
       <table class="data-table" id="tableA"></table>
@@ -372,6 +372,18 @@
   ]);
 
   // ---------------------------------------------------------------
+  // 圈值與圈名一律讀 data.json（meta.rings_used／ring_labels／ring_roles），不寫死
+  // ---------------------------------------------------------------
+  const RINGS_M = data.meta.rings_used;
+  const RL = data.meta.ring_labels;
+  const ringLabels = RINGS_M.map((m) => RL[String(m)]);
+  const K_STORE = String(data.meta.ring_roles.store);
+  const K_ACCESS = String(data.meta.ring_roles.access);
+  const L_STORE = RL[K_STORE];
+  const L_ACCESS = RL[K_ACCESS];
+  document.getElementById("lede-rings").textContent = ringLabels.join("／");
+
+  // ---------------------------------------------------------------
   // 標頭 / meta
   // ---------------------------------------------------------------
   document.getElementById("meta-line").innerHTML =
@@ -381,13 +393,13 @@
   // ---------------------------------------------------------------
   // Stat tiles
   // ---------------------------------------------------------------
-  const s5 = data.store_counts.single["5"];
-  const rr5 = data.restaurant_retail.single["5"];
+  const s5 = data.store_counts.single[K_STORE];
+  const rr5 = data.restaurant_retail.single[K_STORE];
   const dens = data.density;
   const stats = [
-    { label: "商圈核心店數", value: fmt(s5), unit: "家", sub: "機車 5 分鐘內範圍" },
-    { label: "餐飲家數", value: fmt(rr5.restaurant), unit: "家", sub: `機車 5 分鐘內範圍，占 ${fmt1(rr5.restaurant_pct)}%` },
-    { label: "零售家數", value: fmt(rr5.retail), unit: "家", sub: `機車 5 分鐘內範圍，占 ${fmt1(rr5.retail_pct)}%` },
+    { label: "商圈核心店數", value: fmt(s5), unit: "家", sub: `沿道路 ${L_STORE}內範圍` },
+    { label: "餐飲家數", value: fmt(rr5.restaurant), unit: "家", sub: `沿道路 ${L_STORE}內範圍，占 ${fmt1(rr5.restaurant_pct)}%` },
+    { label: "零售家數", value: fmt(rr5.retail), unit: "家", sub: `沿道路 ${L_STORE}內範圍，占 ${fmt1(rr5.retail_pct)}%` },
     { label: "店家密度是全市平均的幾倍", value: fmt1(dens.density_ratio_vs_city), unit: "倍", sub: `${fmt1(dens.ring5_density_per_km2)} 家/km²（全市 ${fmt1(dens.city_density_per_km2)}）` },
   ];
   document.getElementById("stat-row").innerHTML = stats.map((s) => `
@@ -406,9 +418,9 @@
     sources: {
       roads: { type: "geojson", data: roads },
       density: { type: "geojson", data: density },
-      ring15: { type: "geojson", data: featureFor(isochrones, 15) },
-      ring10: { type: "geojson", data: featureFor(isochrones, 10) },
-      ring5: { type: "geojson", data: featureFor(isochrones, 5) },
+      ring15: { type: "geojson", data: featureFor(isochrones, RINGS_M[2]) },
+      ring10: { type: "geojson", data: featureFor(isochrones, RINGS_M[1]) },
+      ring5: { type: "geojson", data: featureFor(isochrones, RINGS_M[0]) },
     },
     layers: [
       { id: "bg", type: "background", paint: { "background-color": "#fcfcfb" } },
@@ -438,8 +450,8 @@
     ],
   };
 
-  function featureFor(fc, minutes) {
-    const f = fc.features.find((x) => x.properties.minutes === minutes);
+  function featureFor(fc, ringM) {
+    const f = fc.features.find((x) => x.properties.ring_m === ringM);
     return { type: "FeatureCollection", features: f ? [f] : [] };
   }
 
@@ -505,9 +517,9 @@
 
   document.getElementById("map-legend").innerHTML = `
     <h4>圖例</h4>
-    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#184f95;border-top-style:solid;border-top-width:3px"></span>5 分（店家分析）</div>
-    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#2a78d6;border-top-style:solid;border-top-width:2.4px"></span>10 分（居住人口）</div>
-    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#86b6ef;border-top-style:dashed;border-top-width:1.6px"></span>15 分（可及性參考）</div>
+    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#184f95;border-top-style:solid;border-top-width:3px"></span>${ringLabels[0]}（${data.method_notes.ring_use[String(RINGS_M[0])]}）</div>
+    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#2a78d6;border-top-style:solid;border-top-width:2.4px"></span>${ringLabels[1]}（${data.method_notes.ring_use[String(RINGS_M[1])]}）</div>
+    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#86b6ef;border-top-style:dashed;border-top-width:1.6px"></span>${ringLabels[2]}（${data.method_notes.ring_use[String(RINGS_M[2])]}）</div>
     <div class="legend-row"><svg class="center-star" viewBox="0 0 24 24" fill="#e34948" stroke="#0b0b0b" stroke-width="1"><path d="M12 1.8l2.9 6.9 7.4.6-5.7 4.9 1.8 7.3L12 17.6 5.6 21.5l1.8-7.3-5.7-4.9 7.4-.6z"/></svg>三個商圈核心點</div>
     <div class="legend-ramp"></div>
     <div class="legend-ramp-labels"><span>0 家/150m格</span><span>密度高</span></div>
@@ -527,9 +539,8 @@
   }
 
   // ---- 圖 A：各圈店數（單圈 vs 累計） ----
-  const ringLabels = ["5 分", "10 分", "15 分"];
-  const singleVals = [5, 10, 15].map((m) => data.store_counts.single[String(m)]);
-  const cumVals = [5, 10, 15].map((m) => data.store_counts.cumulative[String(m)]);
+  const singleVals = RINGS_M.map((m) => data.store_counts.single[String(m)]);
+  const cumVals = RINGS_M.map((m) => data.store_counts.cumulative[String(m)]);
 
   const chartA = echarts.init(document.getElementById("chartA"));
   chartA.setOption({
@@ -552,11 +563,11 @@
       },
     ],
   });
-  renderTable("tableA", ["圈", "單圈家數", "累計家數"], [5, 10, 15].map((m) => [
-    `${m} 分`, fmt(data.store_counts.single[String(m)]), fmt(data.store_counts.cumulative[String(m)]),
+  renderTable("tableA", ["圈", "單圈家數", "累計家數"], RINGS_M.map((m, i) => [
+    ringLabels[i], fmt(data.store_counts.single[String(m)]), fmt(data.store_counts.cumulative[String(m)]),
   ]));
 
-  // ---- 圖 B：5 分圈前 12 業種（橫條） ----
+  // ---- 圖 B：核心圈（店家分析圈）前 12 業種（橫條） ----
   const top12 = data.top12_industry_mid_ring5.slice().reverse(); // 由下到上遞增，最大值在最上面
   const chartB = echarts.init(document.getElementById("chartB"));
   chartB.setOption({
@@ -576,12 +587,12 @@
       label: { show: true, position: "right", color: "#52514e", fontSize: 11, formatter: (p) => p.value.toLocaleString("zh-Hant-TW") },
     }],
   });
-  renderTable("tableB", ["業種（代碼）", "5 分圈家數"], data.top12_industry_mid_ring5.map((d) => [
+  renderTable("tableB", ["業種（代碼）", `${L_STORE}圈家數`], data.top12_industry_mid_ring5.map((d) => [
     `${d.name}（${d.code}）`, fmt(d.count),
   ]));
 
   // ---- 圖 C：餐飲／零售／其他占比（100% 堆疊） ----
-  const rrSingle = [5, 10, 15].map((m) => data.restaurant_retail.single[String(m)]);
+  const rrSingle = RINGS_M.map((m) => data.restaurant_retail.single[String(m)]);
   const otherPct = rrSingle.map((d) => Math.max(0, 100 - d.restaurant_pct - d.retail_pct));
   const chartC = echarts.init(document.getElementById("chartC"));
   chartC.setOption({
@@ -612,14 +623,14 @@
       },
     ],
   });
-  renderTable("tableC", ["圈", "餐飲 %", "零售 %", "其他 %"], [5, 10, 15].map((m, i) => [
-    `${m} 分`, fmt1(rrSingle[i].restaurant_pct), fmt1(rrSingle[i].retail_pct), fmt1(otherPct[i]),
+  renderTable("tableC", ["圈", "餐飲 %", "零售 %", "其他 %"], RINGS_M.map((m, i) => [
+    ringLabels[i], fmt1(rrSingle[i].restaurant_pct), fmt1(rrSingle[i].retail_pct), fmt1(otherPct[i]),
   ]));
 
   // ---- 圖 D：組織別分布（100% 堆疊） ----
   const orgOrder = ["公司", "有限公司", "獨資", "其他"];
   const orgColors = { "公司": "#2a78d6", "有限公司": "#eb6834", "獨資": "#1baf7a", "其他": "#eda100" };
-  const orgByRing = [5, 10, 15].map((m) => data.org_type_by_ring[String(m)]);
+  const orgByRing = RINGS_M.map((m) => data.org_type_by_ring[String(m)]);
   const chartD = echarts.init(document.getElementById("chartD"));
   chartD.setOption({
     textStyle: CHART_TEXT,
@@ -636,7 +647,7 @@
     })),
   });
   renderTable("tableD", ["圈", ...orgOrder.map((k) => `${k} %`)], orgByRing.map((r, i) => [
-    `${[5, 10, 15][i]} 分`, ...orgOrder.map((k) => fmt1(r[k].pct)),
+    ringLabels[i], ...orgOrder.map((k) => fmt1(r[k].pct)),
   ]));
 
   window.addEventListener("resize", () => {
@@ -663,9 +674,9 @@
   const mn = data.method_notes;
   const centersHtml = data.meta.centers.map((c) => c.name).join("、");
   document.getElementById("method-dl").innerHTML = `
-    <dt>商圈邊界假設</dt><dd>機車均速 ${mn.scooter_speed_kmh} km/h，OSMnx 本機路網計算等時圈，剔除機車不可行駛的快速道路／高架橋</dd>
-    <dt>三個核心點</dt><dd>${centersHtml}（等時圈取三核心聯集）</dd>
-    <dt>圈的用途</dt><dd>5 分＝${mn.ring_use["5"]}；10 分＝${mn.ring_use["10"]}；15 分＝${mn.ring_use["15"]}</dd>
+    <dt>商圈邊界定義</dt><dd>在 OpenStreetMap 道路網上，沿實際道路量的距離（不是直線距離），剔除機車不能行駛的快速道路與高架橋</dd>
+    <dt>三個核心點</dt><dd>${centersHtml}（距離圈取三核心聯集）</dd>
+    <dt>圈的用途</dt><dd>${RINGS_M.map((m) => `${RL[String(m)]}＝${mn.ring_use[String(m)]}`).join("；")}</dd>
     <dt>店家落點方法</dt><dd>${mn.join_method}</dd>
     <dt>join 率</dt><dd>${fmt1(mn.join_rate_pct)}%；未落點 ${fmt1(mn.unmatched_pct)}%（${mn.unmatched_note}）</dd>
     <dt>資料版本</dt><dd>${mn.data_version}</dd>
@@ -673,7 +684,7 @@
   `;
   document.getElementById("honest-note").textContent =
     `誠實揭露：全市 ${fmt(data.join.total_count)} 家稅籍店家中，${fmt(data.join.unmatched_count)} 家（${fmt1(data.join.unmatched_pct)}%）` +
-    `因地址比對不到門牌坐標而未落點，未計入本頁地圖與任何依圈分組的統計；密度網格僅涵蓋 15 分圈範圍，公開頁不顯示逐店店名或點位。`;
+    `因地址比對不到門牌坐標而未落點，未計入本頁地圖與任何依圈分組的統計；密度網格僅涵蓋 ${L_ACCESS}圈範圍，公開頁不顯示逐店店名或點位。`;
 
 })().catch((err) => {
   console.error("[index] 載入失敗", err);

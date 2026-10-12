@@ -108,12 +108,12 @@
 <div class="wrap">
 
   <header class="hero">
-    <div class="kicker">開店分析所 · 篇② / 10</div>
+    <div class="kicker">開店分析所 · 篇② / 13</div>
     <h1>業種結構：餐飲／零售細分行業占比</h1>
     <p class="lede" id="lede">
-      在 5 分鐘機車等時圈（核心商圈）內，把餐飲、零售拆到「稅務行業標準分類」4 碼細類，
+      在沿道路 <span class="js-core">1 公里</span>內的範圍（核心商圈，<span class="js-core">1 公里</span>圈）內，把餐飲、零售拆到「稅務行業標準分類」4 碼細類，
       看這裡實際是什麼店最多；再用區位商數（LQ）跟臺南市全市平均比較，找出哪些細類在
-      這裡「相對集中」、哪些「相對稀少」，作為選址與業種定位的參考。
+      這裡「相對集中」、哪些「相對稀少」，作為觀察業種結構的參考。
     </p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
@@ -142,7 +142,7 @@
     <div class="legend-inline">
       <span class="row"><span class="swatch" style="background:var(--series-1)"></span>餐飲細類</span>
       <span class="row"><span class="swatch" style="background:var(--series-2)"></span>零售細類</span>
-      <span class="row">&gt; 1.3 相對集中　·　&lt; 0.7 相對稀少</span>
+      <span class="row">&gt; 1.3 相對集中　·　&lt; 0.7 相對稀少　·　家數少於 5 家不計算</span>
     </div>
     <div class="echart" id="chartC"></div>
     <button class="table-toggle" data-target="tableC">顯示資料表格</button>
@@ -151,7 +151,7 @@
 
   <section class="card">
     <h2>圖 D · 範圍變大，餐飲小類結構會不會變</h2>
-    <p class="subtitle">比較 5／10／15 分鐘三個範圍內，各餐飲小類各占多少比例（占該範圍餐飲總家數比）</p>
+    <p class="subtitle">比較 <span id="rings-all">1 公里／2 公里／3 公里</span>三個範圍內，各餐飲小類各占多少比例（占該範圍餐飲總家數比）</p>
     <div class="echart" id="chartD"></div>
     <button class="table-toggle" data-target="tableD">顯示資料表格</button>
     <div class="table-wrap"><table class="data-table" id="tableD"></table></div>
@@ -179,9 +179,17 @@
 
   const data = await fetch("./data.json").then((r) => r.json());
 
+  // 圈值與圈名一律讀 data.json（meta.rings_used／primary_ring／ring_labels），不寫死
+  const RINGS_M = data.meta.rings_used;
+  const RL = data.meta.ring_labels;
+  const ringLabels = RINGS_M.map((m) => RL[String(m)]);
+  const L_STORE = RL[String(data.meta.primary_ring)];
+  document.querySelectorAll(".js-core").forEach((el) => { el.textContent = L_STORE; });
+  document.getElementById("rings-all").textContent = ringLabels.join("／");
+
   document.getElementById("meta-line").innerHTML =
     `資料日期 <b>${data.meta.data_date}</b>　·　產出日期 <b>${data.meta.produced_date}</b>　·　` +
-    `5 分圈總店數 <b>${fmt(data.scope.ring5_total_stores)}</b> 家`;
+    `${L_STORE}圈總店數 <b>${fmt(data.scope.ring5_total_stores)}</b> 家`;
 
   // ---------------------------------------------------------------
   // Stat tiles
@@ -189,10 +197,10 @@
   const mc = data.lq.most_concentrated;
   const ms = data.lq.most_scarce;
   const stats = [
-    { label: "餐飲家數", value: fmt(data.scope.restaurant_count_ring5), unit: "家", sub: `機車 5 分鐘內範圍，占 ${fmt1(data.scope.restaurant_pct_of_ring5)}%` },
-    { label: "零售家數", value: fmt(data.scope.retail_count_ring5), unit: "家", sub: `機車 5 分鐘內範圍，占 ${fmt1(data.scope.retail_pct_of_ring5)}%` },
-    { label: "這裡特別多的店", value: mc ? mc.name : "–", unit: "", sub: mc ? `${mc.code}　LQ=${fmt1(mc.lq)}倍　比全市集中` : "" },
-    { label: "這裡特別少的店", value: ms ? ms.name : "–", unit: "", sub: ms ? `${ms.code}　LQ=${fmt1(ms.lq)}倍　比全市稀少` : "" },
+    { label: "餐飲家數", value: fmt(data.scope.restaurant_count_ring5), unit: "家", sub: `沿道路 ${L_STORE}內，占 ${fmt1(data.scope.restaurant_pct_of_ring5)}%` },
+    { label: "零售家數", value: fmt(data.scope.retail_count_ring5), unit: "家", sub: `沿道路 ${L_STORE}內，占 ${fmt1(data.scope.retail_pct_of_ring5)}%` },
+    { label: "這裡特別多的店", value: mc ? mc.name : "–", unit: "", sub: mc ? `${mc.code}　LQ=${fmt1(mc.lq)}倍　圈內 ${fmt(mc.ring5_count)} 家，比全市集中` : "" },
+    { label: "這裡特別少的店", value: ms ? ms.name : "–", unit: "", sub: ms ? `${ms.code}　LQ=${fmt1(ms.lq)}倍　圈內 ${fmt(ms.ring5_count)} 家，比全市稀少` : "" },
   ];
   document.getElementById("stat-row").innerHTML = stats.map((s) => `
     <div class="stat-tile">
@@ -281,7 +289,7 @@
     tooltip: { trigger: "item", formatter: (p) => {
       const row = lqRows[p.dataIndex];
       if (!row) return "";
-      return `${row.name}（${row.code}，${row.group}）<br/>LQ ${fmt1(row.lq)}　5分圈占比 ${fmt1(row.ring5_share_pct)}%　全市占比 ${fmt1(row.city_share_pct)}%<br/>${row.label}`;
+      return `${row.name}（${row.code}，${row.group}）<br/>LQ ${fmt1(row.lq)}　${L_STORE}圈占比 ${fmt1(row.ring5_share_pct)}%（${fmt(row.ring5_count)} 家）　全市占比 ${fmt1(row.city_share_pct)}%（${fmt(row.city_count)} 家）<br/>${row.label}`;
     } },
     xAxis: {
       type: "value", name: "LQ（區位商數）", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE,
@@ -305,8 +313,8 @@
       },
     ],
   });
-  renderTable("tableC", ["業種（代碼）", "大類", "5 分圈占比", "全市占比", "LQ", "標示"], lqAll.map((d) => [
-    `${d.name}（${d.code}）`, d.group, `${fmt1(d.ring5_share_pct)}%`, `${fmt1(d.city_share_pct)}%`, fmt1(d.lq),
+  renderTable("tableC", ["業種（代碼）", "大類", `${L_STORE}圈家數`, `${L_STORE}圈占比`, "全市家數", "全市占比", "LQ", "標示"], lqAll.map((d) => [
+    `${d.name}（${d.code}）`, d.group, fmt(d.ring5_count), `${fmt1(d.ring5_share_pct)}%`, fmt(d.city_count), `${fmt1(d.city_share_pct)}%`, fmt1(d.lq),
     `<span class="badge ${d.lq > data.lq.threshold_concentrated ? "badge-concentrated" : d.lq < data.lq.threshold_scarce ? "badge-scarce" : "badge-normal"}">${d.label}</span>`,
   ]));
 
@@ -320,14 +328,13 @@
     tooltip: { trigger: "axis", axisPointer: { type: "shadow" }, valueFormatter: (v) => `${v}%` },
     xAxis: { type: "category", data: topRows.map((d) => d.name), axisLine: AXIS_LINE, axisLabel: { ...AXIS_LABEL, interval: 0, fontSize: 11 }, axisTick: { show: false } },
     yAxis: { type: "value", name: "%（占該圈餐飲比）", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
-    series: [
-      { name: "5 分", type: "bar", data: topRows.map((d) => d.pct_5), barMaxWidth: 18, itemStyle: { color: "#184f95" } },
-      { name: "10 分", type: "bar", data: topRows.map((d) => d.pct_10), barMaxWidth: 18, itemStyle: { color: "#2a78d6" } },
-      { name: "15 分", type: "bar", data: topRows.map((d) => d.pct_15), barMaxWidth: 18, itemStyle: { color: "#86b6ef" } },
-    ],
+    series: RINGS_M.map((m, i) => ({
+      name: ringLabels[i], type: "bar", data: topRows.map((d) => d[`pct_${m}`]), barMaxWidth: 18,
+      itemStyle: { color: ["#184f95", "#2a78d6", "#86b6ef"][i] },
+    })),
   });
-  renderTable("tableD", ["業種（代碼）", "5 分家數", "5 分占比", "10 分家數", "10 分占比", "15 分家數", "15 分占比"], topRows.map((d) => [
-    `${d.name}（${d.code}）`, fmt(d.count_5), `${fmt1(d.pct_5)}%`, fmt(d.count_10), `${fmt1(d.pct_10)}%`, fmt(d.count_15), `${fmt1(d.pct_15)}%`,
+  renderTable("tableD", ["業種（代碼）", ...RINGS_M.flatMap((m, i) => [`${ringLabels[i]}家數`, `${ringLabels[i]}占比`])], topRows.map((d) => [
+    `${d.name}（${d.code}）`, ...RINGS_M.flatMap((m) => [fmt(d[`count_${m}`]), `${fmt1(d[`pct_${m}`])}%`]),
   ]));
   if (data.top_ring_compare_restaurant.truncated_note) {
     document.querySelector("#chartD").closest(".card").querySelector(".subtitle").insertAdjacentHTML(
@@ -353,12 +360,15 @@
     <dt>統計範圍</dt><dd>${mn.ring_scope}</dd>
     <dt>細類定義</dt><dd>${mn.mid_level_definition}</dd>
     <dt>LQ 公式</dt><dd>${mn.lq_formula}</dd>
-    <dt>LQ 門檻</dt><dd>${mn.lq_threshold_concentrated}；${mn.lq_threshold_scarce}；${mn.lq_threshold_normal}</dd>
+    <dt>LQ 分組規則</dt><dd>${mn.lq_threshold_concentrated}；${mn.lq_threshold_scarce}；${mn.lq_threshold_normal}；${mn.lq_min_count}</dd>
     <dt>三圈對照表</dt><dd>${mn.top_ring_compare_note || "無需截斷"}</dd>
     <dt>資料版本</dt><dd>${mn.data_version}</dd>
   `;
+  const retailSmall = data.retail_mid_ring5.filter((d) => d.count < 10).length;
   document.getElementById("honest-note").textContent =
-    `誠實揭露：餐飲細類（4 碼）全市僅 5 種，5 分圈全部收錄，故「三圈前 8 名對照表」實際等於全部列出；` +
+    `誠實揭露：${L_STORE}圈共 ${fmt(data.scope.ring5_total_stores)} 家，其中餐飲 ${fmt(data.scope.restaurant_count_ring5)} 家、零售 ${fmt(data.scope.retail_count_ring5)} 家；` +
+    `零售 ${data.retail_mid_ring5.length} 種細類中有 ${retailSmall} 種圈內不到 10 家，家數少時 LQ 會因為多 1、2 家就大幅變動，所以圈內不足 ${data.lq.min_count} 家的細類不計算 LQ（共 ${data.lq.n_not_computed} 種，只在圖 A、圖 B 列出家數），圖 C 表格同列各細類實際家數。` +
+    `餐飲細類（4 碼）全市僅 ${data.restaurant_mid_ring5.length} 種，${L_STORE}圈全部收錄，故「三圈前 8 名對照表」實際等於全部列出；` +
     `LQ 使用同一大類（餐飲或零售）內部占比相除，反映「結構差異」而非「整體密度差異」，兩者是不同問題，不要混讀。`;
 
 })().catch((err) => {

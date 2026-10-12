@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>客群消費力與定價｜開店分析所</title>
+<title>同業營收與位置差異｜開店分析所</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/6.1.0/echarts.min.js"></script>
 <script src="../_shared/motion.js"></script>
 <style>
@@ -120,16 +120,24 @@
   footer.site-footer { margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--gridline); font-size: 12px; color: var(--text-muted); }
 </style>
 <link rel="stylesheet" href="../_shared/reader.css" />
+<style>
+  .anchor-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 6px; }
+  .anchor-table th, .anchor-table td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--gridline); vertical-align: top; }
+  .anchor-table td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .anchor-table thead th { color: var(--text-secondary); font-weight: 600; border-bottom: 1px solid var(--baseline); }
+  .anchor-table a { color: var(--series-1); word-break: break-all; }
+  .table-scroll { overflow-x: auto; }
+</style>
 </head>
 <body>
 <div class="wrap">
 
   <header class="hero">
-    <div class="kicker">開店分析所 · 篇⑫ / 12</div>
-    <h1>客群消費力與定價：這裡的人付得起什麼價位、你一個月能做多少</h1>
+    <div class="kicker">開店分析所 · 篇⑫ / 13</div>
+    <h1 id="page-title">同業營收與位置差異</h1>
     <p class="lede" id="lede">
-      由下而上算一次：這裡住著/來著什麼樣的客群、他們每個月願意花多少錢在外食上、不同業態大概該賣什麼價位、
-      隱含進店率有多少、最後一家店一個月大概能做多少營收——並跟篇⑩「同業全市平均」互相對照。
+      同業一家店一個月做多少（財政部營業稅銷售額）、同一個商圈裡不同位置的店家密度差多少（OpenStreetMap 道路分級），
+      以及附近居民每個月的外食預算有多少（家庭收支調查、國健署外食次數）。每個數字都附出處。
     </p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
@@ -137,89 +145,60 @@
   <section class="stat-row" id="stat-row" aria-label="核心數字"></section>
 
   <section class="card">
-    <h2>圖 A · 各客群人數 × 月外食預算</h2>
-    <p class="subtitle" id="chartA-subtitle">固定客群（居民依所得分 4 組＋學生＋教職員＋醫院員工）；台鐵/景點旅客另列，不計入固定客群加總</p>
+    <h2>圖 A · 同業每店月均營收 × 位置店家密度比</h2>
+    <p class="subtitle" id="chartA-subtitle"></p>
     <div class="echart tall" id="chartA"></div>
-    <div class="flow-callout" id="flow-callout"></div>
     <button class="table-toggle" data-target="tableA">顯示資料表格</button>
     <table class="data-table" id="tableA"></table>
   </section>
 
-  <section class="card">
-    <h2>圖 B · 各業態推估客單價三檔 vs 客群負擔上限</h2>
-    <p class="subtitle" id="chartB-subtitle">灰色低-高區間＋橘色中價點；紅色虛線＝商圈固定客群負擔上限</p>
-    <div class="echart tall" id="chartB"></div>
-    <button class="table-toggle" data-target="tableB">顯示資料表格</button>
-    <table class="data-table" id="tableB"></table>
-  </section>
-
-  <section class="card">
-    <h2>圖 C0 · 有效日人流組成（進店率分母）</h2>
-    <p class="subtitle" id="chartFootfall-subtitle">存量客群（居民/學生教職員/醫院員工）× 每日外出活動比例 ＋ 流量客群（台鐵/觀光）× 停留消費比例；存量客群不算進來會嚴重低估分母</p>
-    <div class="echart" id="chartFootfall"></div>
-    <button class="table-toggle" data-target="tableFootfall">顯示資料表格</button>
-    <table class="data-table" id="tableFootfall"></table>
-  </section>
-
   <div class="chart-grid">
+    <section class="card">
+      <h2>圖 B · 居民餐飲預算分到每家店 vs 同業每店月均</h2>
+      <p class="subtitle" id="chartB-subtitle"></p>
+      <div class="echart" id="chartB"></div>
+      <button class="table-toggle" data-target="tableB">顯示資料表格</button>
+      <table class="data-table" id="tableB"></table>
+    </section>
 
     <section class="card">
-      <h2>圖 C · 基準來客 vs 需求上限 vs 供給上限</h2>
-      <p class="subtitle" id="chartC-subtitle">基準來客＝同業校準（篇⑩每店月均營收÷客單價÷30，經驗校準，不是獨立驗證）；需求上限／供給上限是地理一致（都用 5 分圈）的兩個獨立上界，只用來檢查基準來客合不合理</p>
+      <h2>圖 C · 國人每週外食次數（19 歲以上）</h2>
+      <p class="subtitle" id="chartC-subtitle"></p>
       <div class="echart" id="chartC"></div>
       <button class="table-toggle" data-target="tableC">顯示資料表格</button>
       <table class="data-table" id="tableC"></table>
     </section>
-
-    <section class="card">
-      <h2>圖 D · 三情境營收 vs 同業平均</h2>
-      <p class="subtitle">低/中/高三情境（位置係數×價格彈性修正，與供給上限取小）並列同業全市月均（篇⑩，對照用，不進任何計算）</p>
-      <div class="echart" id="chartD"></div>
-      <button class="table-toggle" data-target="tableD">顯示資料表格</button>
-      <table class="data-table" id="tableD"></table>
-    </section>
-
   </div>
 
-  <section class="card" id="calculator-card">
-    <h2>你一個月能做多少：試算器</h2>
-    <p class="subtitle">選業態、位置、坪數，即時看月營收區間與座位容量上限（純前端計算，用本頁已算好的數字）</p>
-    <div class="calc-grid">
-      <div>
-        <div class="field">
-          <label for="calc-category">業態</label>
-          <select id="calc-category"></select>
-        </div>
-        <div class="field">
-          <label for="calc-location">位置</label>
-          <select id="calc-location"></select>
-        </div>
-        <div class="field">
-          <label for="calc-area">店面坪數（坪）</label>
-          <input type="number" id="calc-area" min="1" step="1" />
-        </div>
-      </div>
-      <div class="calc-output" id="calc-output"></div>
-    </div>
+  <section class="card">
+    <h2>圖 D · 每人每月外食預算與每次外食預算範圍</h2>
+    <p class="subtitle" id="chartD-subtitle"></p>
+    <div class="echart" id="chartD"></div>
+    <button class="table-toggle" data-target="tableD">顯示資料表格</button>
+    <table class="data-table" id="tableD"></table>
+  </section>
+
+  <section class="card">
+    <h2>客群人數</h2>
+    <p class="subtitle" id="segments-subtitle"></p>
+    <div class="table-scroll"><table class="anchor-table" id="table-segments"></table></div>
+  </section>
+
+  <section class="card">
+    <h2>客單價公開錨點（原樣列出）</h2>
+    <p class="subtitle">全國或其他縣市的品牌定價、政府調查摘要，逐筆列出處；不是本商圈的價格，本頁不換算</p>
+    <div class="table-scroll"><table class="anchor-table" id="table-anchors"></table></div>
   </section>
 
   <details class="card method">
     <summary>怎麼算的（方法與資料限制）</summary>
     <dl id="method-dl"></dl>
-    <div class="honest-note" id="honest-note-1"></div>
-    <div class="honest-note" id="honest-note-2"></div>
-    <div class="honest-note" id="honest-note-3"></div>
-    <div class="honest-note" id="honest-note-4"></div>
-    <div class="honest-note" id="honest-note-5"></div>
-    <div class="honest-note" id="honest-note-6"></div>
-    <div class="honest-note" id="honest-note-7"></div>
   </details>
 
-  <footer class="site-footer">
-    開店分析所｜資料來源：主計總處家庭收支調查按所得五等分位（hh_survey_quintile）、家庭收支調查消費型態（hh_survey_structure）、
-    公開客單價錨點彙整（unit_price_anchors，法人說明會/媒體報導/官方案例，逐筆標出處）、經濟部餐飲業經營實況調查
-    （moea_catering_survey）、主計總處外食費指數（cpi_food_away）、財政部稅籍登記（stores_geo）；客群/位置係數/台鐵/觀光
-    借用篇⑤⑥⑧⑩⑪已驗證的數字。互動圖與海報由同一份資料腳本產出。
+  <footer class="site-footer" id="site-footer">
+    開店分析所｜資料來源：財政部營業稅銷售額與稅籍登記、OpenStreetMap 道路、內政部統計區人口、主計總處家庭收支調查、
+    衛福部國民健康署國民營養健康狀況變遷調查、經濟部批發零售及餐飲業經營實況調查、品牌公開資料（逐筆出處見本頁）。
+    本站只整理公開資料與計算方法，不對任何地點或業種下結論。
   </footer>
 
 </div>
@@ -231,6 +210,7 @@
   const fmt = (n) => Number(n).toLocaleString("zh-Hant-TW");
   const fmt0 = (n) => Math.round(Number(n)).toLocaleString("zh-Hant-TW");
   const fmt1 = (n) => Number(n).toLocaleString("zh-Hant-TW", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
   const data = await fetch("./data.json").then((r) => r.json());
 
@@ -239,22 +219,32 @@
   const AXIS_LABEL = { color: "#898781", fontSize: 11 };
   const SPLIT_LINE = { lineStyle: { color: "#e1e0d9" } };
 
-  // ---------------------------------------------------------------
-  // 標頭 / meta
-  // ---------------------------------------------------------------
+  const STORE_RING = `${data.meta.store_ring_label}圈`;
+  const POP_RING = `${data.meta.pop_ring_label}圈`;
+  const loc = data.location_revenue;
+  const pool = data.budget_pool;
+  const seg = data.segments;
+  const dfq = data.dining_frequency;
+  const mb = dfq.modal_bucket;
+
+  document.getElementById("page-title").textContent = data.meta.title;
   document.getElementById("meta-line").innerHTML =
     `資料日期 <b>${data.meta.data_date}</b>　·　產出日期 <b>${data.meta.produced_date}</b>　·　` +
-    `家庭收支調查年份 <b>${data.meta.quintile_year}</b>　·　最新外食費指數 <b>${data.cpi.latest.period}=${data.cpi.latest.value}</b>`;
+    `營業稅銷售額 <b>民國 ${loc.vat_year_roc} 年</b>　·　家庭收支調查 <b>${seg.quintile_year} 年</b>　·　外食次數調查 <b>民國 ${dfq.survey_years} 年</b>`;
 
-  // ---------------------------------------------------------------
-  // Stat tiles
-  // ---------------------------------------------------------------
+  function renderTable(id, headers, rows) {
+    const el = document.getElementById(id);
+    el.innerHTML = `<thead><tr>${headers.map((h) => `<th>${h}</th>`).join("")}</tr></thead>` +
+      `<tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody>`;
+  }
+
+  // ---------------- stat tiles ----------------
   const st = data.stat_tiles;
   const stats = [
-    { label: st.stock_pool_monthly.label, value: fmt0(st.stock_pool_monthly.value / 1e8) + " 億", unit: st.stock_pool_monthly.unit.replace("元/月","（元/月）"), sub: st.stock_pool_monthly.sub },
-    { label: st.restaurant_mid_price.label, value: fmt1(st.restaurant_mid_price.value), unit: st.restaurant_mid_price.unit, sub: st.restaurant_mid_price.sub },
-    { label: st.restaurant_capture_baseline.label, value: fmt1(st.restaurant_capture_baseline.value), unit: st.restaurant_capture_baseline.unit, sub: st.restaurant_capture_baseline.sub },
-    { label: st.restaurant_revenue_mid.label, value: fmt0(st.restaurant_revenue_mid.value), unit: st.restaurant_revenue_mid.unit, sub: st.restaurant_revenue_mid.sub },
+    { label: st.peer_561.label, value: fmt0(st.peer_561.value), unit: st.peer_561.unit, sub: st.peer_561.sub },
+    { label: st.location_spread.label, value: fmt(st.location_spread.value), unit: st.location_spread.unit, sub: st.location_spread.sub },
+    { label: st.budget_per_store.label, value: fmt0(st.budget_per_store.value), unit: st.budget_per_store.unit, sub: st.budget_per_store.sub },
+    { label: st.per_occasion.label, value: `${fmt0(st.per_occasion.value)}～${fmt0(st.per_occasion.value_high)}`, unit: st.per_occasion.unit, sub: st.per_occasion.sub },
   ];
   document.getElementById("stat-row").innerHTML = stats.map((s) => `
     <div class="stat-tile">
@@ -264,222 +254,120 @@
     </div>
   `).join("");
 
-  // ---------------------------------------------------------------
-  // 圖 A：客群人數 × 月外食預算
-  // ---------------------------------------------------------------
-  const stockItems = data.segments.items.filter((i) => i.kind === "stock");
-  const flowItems = data.segments.items.filter((i) => i.kind === "flow");
-
+  // ---------------- 圖 A ----------------
+  const tiers = loc.tiers;
+  document.getElementById("chartA-subtitle").textContent =
+    `灰色＝全市每店月均（民國 ${loc.vat_year_roc} 年營業稅銷售額 ÷ 稅籍店數）；藍色＝乘上 ${STORE_RING}內各位置的店家密度比（` +
+    tiers.map((t) => `${t.label} ${t.density_ratio}`).join("／") + "）";
+  const seriesDefs = [{ name: "全市每店月均", color: "#c3c2b7", get: (p) => p.per_store_monthly_ntd }].concat(
+    tiers.map((t, i) => ({ name: t.label, color: ["#184f95", "#2a78d6", "#9ec5f4"][i], get: (p) => p.by_location[t.key] }))
+  );
   const chartA = echarts.init(document.getElementById("chartA"));
   chartA.setOption({
     textStyle: CHART_TEXT,
-    grid: { left: 8, right: 70, top: 10, bottom: 8, containLabel: true },
-    tooltip: {
-      trigger: "axis", axisPointer: { type: "shadow" },
-      formatter: (params) => {
-        const p = params[0];
-        const item = stockItems[p.dataIndex];
-        return `${item.label}<br/>人數 ${fmt(item.population)} 人<br/>每人每月預算 ${fmt1(item.monthly_budget_ntd)} 元<br/>月消費池 ${fmt0(item.monthly_pool_ntd)} 元`;
-      },
-    },
-    xAxis: { type: "value", name: "月消費池（元）", nameTextStyle: AXIS_LABEL, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
-    yAxis: { type: "category", data: stockItems.map((i) => i.label), axisLine: AXIS_LINE, axisLabel: { color: "#52514e", fontSize: 11.5 }, axisTick: { show: false } },
-    series: [{
-      type: "bar", barMaxWidth: 22, data: stockItems.map((i) => i.monthly_pool_ntd),
-      itemStyle: { color: "#2a78d6", borderRadius: [0, 4, 4, 0] },
-      label: { show: true, position: "right", color: "#52514e", fontSize: 10.5, formatter: (p) => `${fmt0(p.value / 10000)} 萬` },
-    }],
+    legend: { top: 0, textStyle: { color: "#52514e", fontSize: 11.5 } },
+    grid: { left: 8, right: 16, top: 36, bottom: 8, containLabel: true },
+    tooltip: { trigger: "axis", axisPointer: { type: "shadow" }, valueFormatter: (v) => `${fmt0(v)} 元/月` },
+    xAxis: { type: "category", data: loc.peers.map((p) => `${p.code} ${p.name}`), axisLine: AXIS_LINE, axisLabel: { color: "#52514e", fontSize: 11.5 } },
+    yAxis: { type: "value", name: "元/月", nameTextStyle: AXIS_LABEL, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    series: seriesDefs.map((s) => ({
+      name: s.name, type: "bar", barMaxWidth: 28, data: loc.peers.map(s.get),
+      itemStyle: { color: s.color, borderRadius: [3, 3, 0, 0] },
+      label: { show: true, position: "top", color: "#52514e", fontSize: 10, formatter: (p) => `${fmt1(p.value / 10000)}萬` },
+    })),
   });
+  renderTable("tableA", ["稅籍小類", "全市店數", "全市每店月均"].concat(tiers.map((t) => `${t.label}（× ${t.density_ratio}）`)),
+    loc.peers.map((p) => [`${p.code} ${p.name}`, fmt(p.city_store_count), `${fmt0(p.per_store_monthly_ntd)} 元`].concat(tiers.map((t) => `${fmt0(p.by_location[t.key])} 元`))));
 
-  document.getElementById("flow-callout").innerHTML = flowItems.map((i) => `
-    <div class="item">${i.label}（日均 ${fmt0(i.daily_flow)} 人次 × 每人每日 ${fmt1(i.daily_budget_ntd)} 元）
-      <b>${fmt0(i.monthly_pool_ntd_upper_bound / 1e8)} 億元/月（量級上界，非可直接攔截的消費池，見方法說明）</b>
-    </div>
-  `).join("");
-
-  renderTable("tableA", ["客群", "人數/日均人次", "每人每月/每日預算", "月消費池"], data.segments.items.map((i) => [
-    i.label,
-    i.kind === "stock" ? `${fmt(i.population)} 人` : `${fmt0(i.daily_flow)} 人次/天`,
-    i.kind === "stock" ? `${fmt1(i.monthly_budget_ntd)} 元/月` : `${fmt1(i.daily_budget_ntd)} 元/日`,
-    i.kind === "stock" ? `${fmt0(i.monthly_pool_ntd)} 元` : `${fmt0(i.monthly_pool_ntd_upper_bound)} 元（上界）`,
-  ]));
-
-  // ---------------------------------------------------------------
-  // 圖 B：業態客單價三檔 vs 負擔上限
-  // ---------------------------------------------------------------
-  const catOrder = ["小吃", "簡餐", "火鍋", "餐館", "咖啡", "速食", "自助餐", "飲料店"];
-  const up = data.unit_price.categories;
-  const affordabilityCap = up["餐館"].affordability_cap;
-
+  // ---------------- 圖 B ----------------
+  document.getElementById("chartB-subtitle").textContent =
+    `${STORE_RING}居民 ${fmt(pool.households)} 戶 × 每戶年餐飲支出 ${fmt0(pool.household_annual_dining_ntd)} 元 ÷ 12 ÷ 圈內 ${fmt(pool.restaurant_store_count)} 家餐飲店；對照全市餐飲業每店月均`;
   const chartB = echarts.init(document.getElementById("chartB"));
   chartB.setOption({
     textStyle: CHART_TEXT,
-    grid: { left: 8, right: 40, top: 10, bottom: 8, containLabel: true },
-    tooltip: {
-      trigger: "axis", axisPointer: { type: "shadow" },
-      formatter: (params) => {
-        const cat = catOrder[params[0].dataIndex];
-        const e = up[cat];
-        return `${cat}<br/>低 ${fmt1(e.low)}／中 ${fmt1(e.mid)}／高 ${fmt1(e.high)} 元`;
-      },
-    },
-    xAxis: { type: "value", name: "推估客單價（元）", nameTextStyle: AXIS_LABEL, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
-    yAxis: { type: "category", data: catOrder, axisLine: AXIS_LINE, axisLabel: { color: "#52514e", fontSize: 11.5 }, axisTick: { show: false } },
-    series: [
-      {
-        name: "低-高區間", type: "bar", barMaxWidth: 16, stack: "range",
-        data: catOrder.map((c) => up[c].low),
-        itemStyle: { color: "transparent" },
-        tooltip: { show: false }, silent: true,
-      },
-      {
-        name: "低-高區間", type: "bar", barMaxWidth: 16, stack: "range",
-        data: catOrder.map((c) => up[c].high - up[c].low),
-        itemStyle: { color: "#c3c2b7", borderRadius: 3 },
-      },
-      {
-        name: "中價", type: "scatter", symbolSize: 12,
-        data: catOrder.map((c) => up[c].mid),
-        itemStyle: { color: "#eb6834", borderColor: "#0b0b0b", borderWidth: 1 },
-      },
-      {
-        name: "負擔上限", type: "line", data: catOrder.map(() => affordabilityCap),
-        lineStyle: { color: "#e34948", type: "dashed", width: 1.5 }, symbol: "none",
-      },
-    ],
-    legend: { top: 0, right: 0, data: ["中價", "負擔上限"], textStyle: { color: "#52514e", fontSize: 11.5 } },
-  });
-  document.getElementById("chartB-subtitle").textContent =
-    `灰色低-高區間＋橘色中價點；紅色虛線＝商圈固定客群負擔上限（${fmt1(affordabilityCap)} 元/次，每人每月預算÷假設外食次數）`;
-
-  renderTable("tableB", ["業態", "低檔", "中檔", "高檔", "負擔上限", "備註"], catOrder.map((c) => {
-    const e = up[c];
-    return [c, `${fmt1(e.low)} 元`, `${fmt1(e.mid)} 元`, `${fmt1(e.high)} 元`, `${fmt1(e.affordability_cap)} 元`, e.band_note];
-  }));
-
-  // ---------------------------------------------------------------
-  // 圖 C0：有效日人流組成（進店率分母）
-  // ---------------------------------------------------------------
-  const ef = data.effective_footfall;
-  const efKeys = ["residents", "students_faculty", "hospital", "tra_visitors", "tourism_visitors"];
-  const efLabels = { residents: "居民", students_faculty: "學生教職員", hospital: "醫院員工", tra_visitors: "台鐵旅客", tourism_visitors: "周邊景點旅客" };
-
-  const chartFootfall = echarts.init(document.getElementById("chartFootfall"));
-  chartFootfall.setOption({
-    textStyle: CHART_TEXT,
-    grid: { left: 8, right: 70, top: 10, bottom: 8, containLabel: true },
-    tooltip: {
-      trigger: "axis", axisPointer: { type: "shadow" },
-      formatter: (params) => {
-        const key = efKeys[params[0].dataIndex];
-        const item = ef.contributions[key];
-        const base = item.kind === "stock" ? `人數 ${fmt(item.population)} 人` : `日均人次 ${fmt0(item.daily_flow)}`;
-        return `${efLabels[key]}<br/>${base}<br/>比例 × ${item.ratio}<br/>有效日人流貢獻 ${fmt0(item.effective_daily)}`;
-      },
-    },
-    xAxis: { type: "value", name: "有效日人流貢獻", nameTextStyle: AXIS_LABEL, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
-    yAxis: { type: "category", data: efKeys.map((k) => efLabels[k]), axisLine: AXIS_LINE, axisLabel: { color: "#52514e", fontSize: 11.5 }, axisTick: { show: false } },
+    grid: { left: 8, right: 16, top: 24, bottom: 8, containLabel: true },
+    tooltip: { trigger: "axis", axisPointer: { type: "shadow" }, valueFormatter: (v) => `${fmt0(v)} 元/月` },
+    xAxis: { type: "category", data: ["居民預算 ÷ 圈內店數", "全市餐飲業每店月均"], axisLine: AXIS_LINE, axisLabel: { color: "#52514e", fontSize: 11.5 } },
+    yAxis: { type: "value", name: "元/月", nameTextStyle: AXIS_LABEL, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
     series: [{
-      type: "bar", barMaxWidth: 22, data: efKeys.map((k) => ef.contributions[k].effective_daily),
-      itemStyle: { color: "#1baf7a", borderRadius: [0, 4, 4, 0] },
-      label: { show: true, position: "right", color: "#52514e", fontSize: 10.5, formatter: (p) => fmt0(p.value) },
+      type: "bar", barMaxWidth: 60,
+      data: [{ value: pool.per_store_budget_monthly_ntd, itemStyle: { color: "#2a78d6" } }, { value: pool.peer_per_store_monthly_ntd, itemStyle: { color: "#c3c2b7" } }],
+      label: { show: true, position: "top", color: "#52514e", fontSize: 11, formatter: (p) => `${fmt0(p.value)} 元` },
     }],
   });
-  document.getElementById("chartFootfall-subtitle").textContent =
-    `有效日人流合計 ${fmt0(ef.daily_effective_footfall)} 人次/天（若只算台鐵＋觀光流量＝${fmt0(ef.old_denominator_daily_footfall)}，少算了居民/學生/教職員/醫院員工這些存量客群）`;
-  renderTable("tableFootfall", ["來源", "人數/日均人次", "比例", "有效日人流貢獻"], efKeys.map((k) => {
-    const item = ef.contributions[k];
-    return [
-      efLabels[k],
-      item.kind === "stock" ? `${fmt(item.population)} 人` : `${fmt0(item.daily_flow)} 人次/天`,
-      `× ${item.ratio}（${item.ratio_kind === "activity_ratio" ? "外出/在校活動比例" : "停留消費比例"}）`,
-      `${fmt0(item.effective_daily)}`,
-    ];
-  }));
+  renderTable("tableB", ["項目", "數值"], [
+    [`${STORE_RING}居民戶數`, `${fmt(pool.households)} 戶`],
+    ["臺南每戶年餐飲支出", `${fmt0(pool.household_annual_dining_ntd)} 元`],
+    ["居民月餐飲預算池", `${fmt0(pool.pool_monthly_ntd)} 元/月`],
+    [`${STORE_RING}餐飲店數（稅籍中類 56）`, `${fmt(pool.restaurant_store_count)} 家`],
+    ["每店可分到的月預算", `${fmt0(pool.per_store_budget_monthly_ntd)} 元/月`],
+    ["全市餐飲業每店月均營收", `${fmt0(pool.peer_per_store_monthly_ntd)} 元/月`],
+    ["前者占後者", `${pool.budget_to_peer_pct}%`],
+  ]);
 
-  // ---------------------------------------------------------------
-  // 圖 C：基準來客（同業校準） vs 需求上限 vs 供給上限
-  // ---------------------------------------------------------------
-  const storeCats = ["餐館", "小吃", "飲料店"];
-  const cr = data.capture_rate.categories;
-  const tierKeys = ["alley", "secondary", "main_road"];
-  const tierLabels = { alley: "巷弄", secondary: "次要道路", main_road: "主幹道" };
-
+  // ---------------- 圖 C ----------------
+  document.getElementById("chartC-subtitle").textContent =
+    `衛福部國民健康署國民營養健康狀況變遷調查（民國 ${dfq.survey_years} 年，19 歲以上 ${fmt(dfq.row_used.n)} 人，含外帶）；人數最多的區間是「${mb.label}」（${mb.pct}%）`;
   const chartC = echarts.init(document.getElementById("chartC"));
   chartC.setOption({
     textStyle: CHART_TEXT,
-    grid: { left: 8, right: 18, top: 30, bottom: 8, containLabel: true },
-    legend: { top: 0, right: 0, textStyle: { color: "#52514e", fontSize: 11.5 } },
-    tooltip: {
-      trigger: "axis", axisPointer: { type: "shadow" },
-      formatter: (params) => {
-        const c = storeCats[params[0].dataIndex];
-        const flag = cr[c].calibration_flag;
-        const flagTxt = flag.flag ? `<br/><span style="color:#e34948">⚠ ${flag.reason}</span>` : "";
-        return `${c}<br/>基準來客 ${fmt1(cr[c].base_customers_per_store_day)} 人/店/天<br/>需求上限 ${fmt1(cr[c].demand_cap_per_store_day)}<br/>供給上限 ${fmt1(cr[c].supply_cap_per_store_day)}<br/>隱含進店率 ${fmt1(cr[c].implied_capture_rate)}%${flagTxt}`;
-      },
-    },
-    xAxis: { type: "category", data: storeCats, axisLine: AXIS_LINE, axisLabel: { color: "#52514e", fontSize: 11.5 }, axisTick: { show: false } },
-    yAxis: { type: "value", name: "人/店/天", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
-    series: [
-      { name: "基準來客（同業校準）", type: "bar", barMaxWidth: 22, data: storeCats.map((c) => cr[c].base_customers_per_store_day), itemStyle: { color: "#eda100", borderRadius: [3, 3, 0, 0] } },
-      { name: "需求上限", type: "bar", barMaxWidth: 22, data: storeCats.map((c) => cr[c].demand_cap_per_store_day), itemStyle: { color: "#eb6834", borderRadius: [3, 3, 0, 0] } },
-      { name: "供給上限", type: "bar", barMaxWidth: 22, data: storeCats.map((c) => cr[c].supply_cap_per_store_day), itemStyle: { color: "#2a78d6", borderRadius: [3, 3, 0, 0] } },
-    ],
+    grid: { left: 8, right: 40, top: 10, bottom: 8, containLabel: true },
+    tooltip: { trigger: "axis", axisPointer: { type: "shadow" }, valueFormatter: (v) => `${fmt1(v)}%` },
+    xAxis: { type: "value", name: "%", nameTextStyle: AXIS_LABEL, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    yAxis: { type: "category", inverse: true, data: dfq.buckets.map((b) => b.label), axisLine: AXIS_LINE, axisLabel: { color: "#52514e", fontSize: 11.5 }, axisTick: { show: false } },
+    series: [{
+      type: "bar", barMaxWidth: 22,
+      data: dfq.buckets.map((b) => ({ value: b.pct, itemStyle: { color: b.key === mb.key ? "#2a78d6" : "#c3c2b7" } })),
+      label: { show: true, position: "right", color: "#52514e", fontSize: 10.5, formatter: (p) => `${fmt1(p.value)}%` },
+    }],
   });
-  renderTable(
-    "tableC",
-    ["業態", "基準來客(人/店/天)", "需求上限", "供給上限", "落在上下界內？", "隱含進店率", "主幹道", "次要道路", "巷弄"],
-    storeCats.map((c) => [
-      c,
-      `${fmt1(cr[c].base_customers_per_store_day)}`,
-      `${fmt1(cr[c].demand_cap_per_store_day)}`,
-      `${fmt1(cr[c].supply_cap_per_store_day)}`,
-      cr[c].calibration_flag.flag ? `否（${cr[c].calibration_flag.reason}）` : "是",
-      `${fmt1(cr[c].implied_capture_rate)}%`,
-      `${fmt1(cr[c].main_road)}%`, `${fmt1(cr[c].secondary)}%`, `${fmt1(cr[c].alley)}%`,
-    ])
-  );
+  const BK = dfq.buckets.map((b) => b.key);
+  renderTable("tableC", ["年齡層（全體）", "人數"].concat(dfq.buckets.map((b) => b.label)),
+    dfq.by_age_all.map((r) => [r.age_group, fmt(r.n)].concat(BK.map((k) => `${fmt1(r[k])}%`))));
 
-  // ---------------------------------------------------------------
-  // 圖 D：三情境營收 vs 同業平均
-  // ---------------------------------------------------------------
-  const rb = data.revenue_bottom_up;
+  // ---------------- 圖 D ----------------
+  document.getElementById("chartD-subtitle").textContent =
+    `每人每月外食預算＝每戶月餐飲支出 ÷ ${POP_RING}平均每戶 ${seg.household_size} 人；每次外食預算＝每人每月 ÷ 每月 ${mb.monthly_lo}～${mb.monthly_hi} 次（每週 ${mb.weekly_lo}～未滿 ${mb.weekly_hi} 次 × 52 ÷ 12）`;
+  const rowsD = seg.quintiles.map((q) => ({ label: `全國${q.group}`, perPerson: q.per_person_monthly_dining_ntd, occ: dfq.per_occasion_budget.quintiles[q.group] }))
+    .concat([{ label: "臺南市平均", perPerson: seg.tainan.per_person_monthly_dining_ntd, occ: dfq.per_occasion_budget.tainan_avg }]);
   const chartD = echarts.init(document.getElementById("chartD"));
   chartD.setOption({
     textStyle: CHART_TEXT,
-    grid: { left: 8, right: 18, top: 30, bottom: 8, containLabel: true },
-    legend: { top: 0, right: 0, textStyle: { color: "#52514e", fontSize: 11.5 } },
-    tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
-    xAxis: { type: "category", data: storeCats, axisLine: AXIS_LINE, axisLabel: { color: "#52514e", fontSize: 11.5 }, axisTick: { show: false } },
-    yAxis: { type: "value", name: "月營收（元）", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
-    series: [
-      { name: "低檔（巷弄）", type: "bar", barMaxWidth: 20, data: storeCats.map((c) => rb[c].low), itemStyle: { color: "#9ec5f4", borderRadius: [3, 3, 0, 0] } },
-      { name: "中檔（次要道路）", type: "bar", barMaxWidth: 20, data: storeCats.map((c) => rb[c].mid), itemStyle: { color: "#2a78d6", borderRadius: [3, 3, 0, 0] } },
-      { name: "高檔（主幹道）", type: "bar", barMaxWidth: 20, data: storeCats.map((c) => rb[c].high), itemStyle: { color: "#184f95", borderRadius: [3, 3, 0, 0] } },
-      { name: "同業全市月均（篇⑩，對照用）", type: "bar", barMaxWidth: 20, data: storeCats.map((c) => rb[c].top_down_reference_monthly_ntd), itemStyle: { color: "#c3c2b7", borderRadius: [3, 3, 0, 0] } },
-    ],
+    grid: { left: 8, right: 60, top: 10, bottom: 8, containLabel: true },
+    tooltip: {
+      trigger: "axis", axisPointer: { type: "shadow" },
+      formatter: (ps) => { const r = rowsD[ps[0].dataIndex]; return `${r.label}<br/>每人每月 ${fmt0(r.perPerson)} 元<br/>每次 ${fmt0(r.occ.low)}～${fmt0(r.occ.high)} 元`; },
+    },
+    xAxis: { type: "value", name: "元/月", nameTextStyle: AXIS_LABEL, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    yAxis: { type: "category", inverse: true, data: rowsD.map((r) => r.label), axisLine: AXIS_LINE, axisLabel: { color: "#52514e", fontSize: 11.5 }, axisTick: { show: false } },
+    series: [{
+      type: "bar", barMaxWidth: 20,
+      data: rowsD.map((r, i) => ({ value: r.perPerson, itemStyle: { color: i === rowsD.length - 1 ? "#184f95" : "#2a78d6" } })),
+      label: { show: true, position: "right", color: "#52514e", fontSize: 10.5, formatter: (p) => `${fmt0(p.value)} 元` },
+    }],
   });
-  renderTable(
-    "tableD",
-    ["業態", "低檔(巷弄)", "中檔(次要道路)", "高檔(主幹道)", "同業全市月均", "中檔/同業"],
-    storeCats.map((c) => [
-      c,
-      `${fmt0(rb[c].low)} 元`,
-      `${fmt0(rb[c].mid)} 元`,
-      `${fmt0(rb[c].high)} 元`,
-      `${fmt0(rb[c].top_down_reference_monthly_ntd)} 元`,
-      `${fmt1(rb[c].vs_top_down_pct)}%`,
-    ])
-  );
+  renderTable("tableD", ["組別", "每戶年消費支出", "每戶月餐飲支出", "每人每月外食預算", "每次外食預算範圍"],
+    seg.quintiles.map((q) => [`全國${q.group}`, `${fmt0(q.household_annual_spending_ntd)} 元`, `${fmt0(q.household_monthly_dining_ntd)} 元`, `${fmt0(q.per_person_monthly_dining_ntd)} 元`,
+      `${fmt0(dfq.per_occasion_budget.quintiles[q.group].low)}～${fmt0(dfq.per_occasion_budget.quintiles[q.group].high)} 元`])
+      .concat([["臺南市平均", `${fmt0(seg.tainan.household_annual_spending_ntd)} 元`, `${fmt0(seg.tainan.household_monthly_dining_ntd)} 元`, `${fmt0(seg.tainan.per_person_monthly_dining_ntd)} 元`,
+        `${fmt0(dfq.per_occasion_budget.tainan_avg.low)}～${fmt0(dfq.per_occasion_budget.tainan_avg.high)} 元`]]));
 
-  window.addEventListener("resize", () => { chartA.resize(); chartB.resize(); chartFootfall.resize(); chartC.resize(); chartD.resize(); });
+  // ---------------- 客群人數 ----------------
+  document.getElementById("segments-subtitle").textContent = `居民取${POP_RING}（統計區面積加權）；學生、教職員、醫院員工是全校／全院人數，不拆距離圈`;
+  const tSeg = document.getElementById("table-segments");
+  tSeg.innerHTML = `<thead><tr><th>客群</th><th>人數</th><th>出處</th></tr></thead><tbody>` + [
+    [`${POP_RING}居民`, `${fmt(seg.residents_population)} 人（${fmt(seg.residents_households)} 戶）`, "內政部統計區人口"],
+    ["成大學生", `${fmt(seg.students)} 人`, "教育部大專校院校務資訊公開平臺"],
+    ["成大教職員", `${fmt(seg.faculty)} 人`, "教育部大專校院校務資訊公開平臺"],
+    ["成大醫院員工", `${fmt(seg.hospital_staff)} 人`, "成大醫院組織規模公開頁"],
+  ].map((r) => `<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td>${r[2]}</td></tr>`).join("") + "</tbody>";
 
-  function renderTable(id, headers, rows) {
-    const el = document.getElementById(id);
-    el.innerHTML = `<thead><tr>${headers.map((h) => `<th>${h}</th>`).join("")}</tr></thead>` +
-      `<tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody>`;
-  }
+  // ---------------- 客單價錨點 ----------------
+  const tA = document.getElementById("table-anchors");
+  tA.innerHTML = `<thead><tr><th>類別</th><th>品牌／樣本</th><th>金額</th><th>價格類型</th><th>年度</th><th>地區</th><th>出處</th></tr></thead><tbody>` +
+    data.anchors.map((a) => `<tr><td>${esc(a.category)}</td><td>${esc(a.brand_or_sample)}</td><td class="num">${fmt0(a.price_ntd)} 元</td><td>${esc(a.price_type)}</td><td class="num">${a.year}</td><td>${esc(a.region)}</td>` +
+      `<td>${esc(a.source_name)}${a.source_page ? `（${esc(a.source_page)}）` : ""}<br/><a href="${esc(a.source_url)}" target="_blank" rel="noopener">${esc(a.source_url)}</a></td></tr>`).join("") + "</tbody>";
+
   document.querySelectorAll(".table-toggle").forEach((btn) => {
     btn.addEventListener("click", () => {
       const table = document.getElementById(btn.dataset.target);
@@ -488,97 +376,19 @@
     });
   });
 
-  // ---------------------------------------------------------------
-  // 試算器：選業態 + 位置 + 坪數 -> 即時月營收區間（純前端算術，用 data.json 的數字）
-  // ---------------------------------------------------------------
-  const calcCategorySel = document.getElementById("calc-category");
-  const calcLocationSel = document.getElementById("calc-location");
-  const calcAreaInput = document.getElementById("calc-area");
-  const calcOutputEl = document.getElementById("calc-output");
-
-  calcCategorySel.innerHTML = storeCats.map((c) => `<option value="${c}">${c}</option>`).join("");
-  const locationOrder = [
-    { key: "alley", tier: "low", label: "巷弄" },
-    { key: "secondary", tier: "mid", label: "次要道路" },
-    { key: "main_road", tier: "high", label: "主幹道" },
-  ];
-  calcLocationSel.innerHTML = locationOrder.map((l) => `<option value="${l.key}">${l.label}</option>`).join("");
-  calcLocationSel.value = "secondary";
-
-  const SEAT_PER_PING = 1.5; // 任務規格：1.5 坪/座
-
-  function recomputeCalc() {
-    const cat = calcCategorySel.value;
-    const locKey = calcLocationSel.value;
-    const loc = locationOrder.find((l) => l.key === locKey);
-    const area = Number(calcAreaInput.value) || 0;
-
-    const scenario = rb[cat].scenarios_detail[loc.tier];
-    const seats = Math.floor(area / SEAT_PER_PING);
-    const capacityTotal = seats * rb[cat].capacity_cap_per_seat;
-    const finalRevenue = Math.min(scenario.monthly_revenue_ntd, capacityTotal > 0 ? capacityTotal : Infinity);
-    const capped = capacityTotal > 0 && capacityTotal < scenario.monthly_revenue_ntd;
-
-    calcOutputEl.innerHTML = `
-      <div class="row"><span class="k">業態 / 位置</span><span class="v">${cat} · ${loc.label}</span></div>
-      <div class="row"><span class="k">客單價（${loc.label}對應檔）</span><span class="v">${fmt1(scenario.unit_price)} 元</span></div>
-      <div class="row"><span class="k">單店日均來客（位置校正後）</span><span class="v">${fmt1(scenario.daily_customers)} 人/天</span></div>
-      <div class="row"><span class="k">位置隱含進店率</span><span class="v">${fmt1(cr[cat][locKey])}%</span></div>
-      <div class="row"><span class="k">座位數（${fmt0(area)} 坪 ÷ ${SEAT_PER_PING} 坪/座）</span><span class="v">${seats} 座</span></div>
-      <div class="row"><span class="k">座位容量上限（翻桌率估算）</span><span class="v">${seats > 0 ? fmt0(capacityTotal) + " 元" : "－（未輸入坪數）"}</span></div>
-      <div class="row total"><span class="k">推估月營收</span><span class="v">${fmt0(finalRevenue)} 元${capped ? "（受座位容量限制）" : ""}</span></div>
-    `;
-  }
-  function onCategoryChange() {
-    calcAreaInput.value = rb[calcCategorySel.value].default_area_ping;
-    recomputeCalc();
-  }
-  calcCategorySel.addEventListener("change", onCategoryChange);
-  calcLocationSel.addEventListener("change", recomputeCalc);
-  calcAreaInput.addEventListener("input", recomputeCalc);
-  calcAreaInput.value = rb["餐館"].default_area_ping;
-  recomputeCalc();
-
-  // ---------------------------------------------------------------
-  // 方法說明
-  // ---------------------------------------------------------------
+  // ---------------- 方法說明 ----------------
   const mn = data.method_notes;
   document.getElementById("method-dl").innerHTML = `
-    <dt>商圈範圍</dt><dd>10 分圈＝客群人口與消費池（Q33 腹地）；5 分圈＝進店率校準用店數（同篇⑩/篇⑪）</dd>
-    <dt>客群分組方式</dt><dd>${mn.segment_mapping}</dd>
-    <dt>每人每月餐飲預算公式</dt><dd>${mn.budget_formula}</dd>
-    <dt>台鐵/景點旅客量級</dt><dd>${mn.flow_visitor_caveat}</dd>
-    <dt>與篇⑩交叉比對</dt><dd>${mn.cross_check_note}</dd>
-    <dt>CPI 換算</dt><dd>${mn.cpi_adjustment}</dd>
-    <dt>錨點區間定義</dt><dd>${mn.anchor_band_note}</dd>
-    <dt>商圈校正係數</dt><dd>${mn.local_adjustment}</dd>
-    <dt>手搖飲反推法</dt><dd>${mn.drink_reverse_note}</dd>
-    <dt>餐館/小吃共用營收輸入</dt><dd>${mn.revenue_proxy_note}</dd>
-    <dt>有效日人流（進店率分母）</dt><dd>${mn.capture_rate_denominator_fix}</dd>
-    <dt>基準來客／進店率算法（同業校準）</dt><dd>${mn.calibration_note}</dd>
-    <dt>需求上限／供給上限（地理一致上下界）</dt><dd>${mn.demand_supply_bounds_note}</dd>
-    <dt>情境營收公式</dt><dd>${mn.revenue_scenario_formula}</dd>
-    <dt>座位容量上限</dt><dd>${mn.capacity_cap_note}</dd>
-    <dt>負擔上限定義</dt><dd>${mn.affordability_note}</dd>
-    <dt>業界獲利率參考</dt><dd>${mn.industry_profitability_note}</dd>
-    <dt>本頁自訂假設</dt><dd>
-      每月外食次數 ${mn.assumptions_local.monthly_dining_frequency} 次；1 坪＝${mn.assumptions_local.seat_per_ping} 座；
-      翻桌率 ${mn.assumptions_local.turnover_per_day} 次/天/座；單一錨點區間 ±${mn.assumptions_local.single_anchor_band_pct * 100}%；
-      居民每日外出活動比例 ${mn.assumptions_local.resident_activity_ratio}；學生教職員在校日出現比例 ${mn.assumptions_local.student_faculty_activity_ratio}；
-      醫院員工值班出現比例 ${mn.assumptions_local.hospital_activity_ratio}；台鐵/觀光流量客群停留消費比例 ${mn.assumptions_local.flow_spend_ratio}；
-      供給端代表性店面 ${mn.assumptions_local.supply_store_area_ping} 坪；座位/產能使用率 ${mn.assumptions_local.capacity_utilization}；
-      飲料店每店每日產能 ${mn.assumptions_local.drink_daily_capacity_cups} 杯（${mn.assumptions_local.note}）
-    </dd>
+    <dt>商圈範圍</dt><dd>${POP_RING}＝客群人數；${STORE_RING}＝店家密度比、居民預算池與店數；都是沿實際道路量的距離</dd>
+    <dt>同業每店月均營收</dt><dd>${mn.peer_revenue}</dd>
+    <dt>各位置參考營收</dt><dd>${mn.location_revenue}</dd>
+    <dt>每店可分到的月預算</dt><dd>${mn.budget_pool}</dd>
+    <dt>每人每月外食預算</dt><dd>${mn.per_person_budget}</dd>
+    <dt>每週外食次數</dt><dd>${mn.dining_frequency}</dd>
+    <dt>客單價公開錨點</dt><dd>${mn.anchors}</dd>
+    <dt>經濟部成本率</dt><dd>${mn.industry_profitability}</dd>
     <dt>資料版本</dt><dd>${mn.data_version}</dd>
   `;
-  document.getElementById("honest-note-1").textContent = `誠實揭露（進店率分母修正，存量改用 5 分圈）：${mn.capture_rate_denominator_fix}`;
-  document.getElementById("honest-note-2").textContent = `誠實揭露（基準來客改用同業校準）：${mn.calibration_note}`;
-  document.getElementById("honest-note-3").textContent = `誠實揭露（需求上限／供給上限只是檢查用的上下界）：${mn.demand_supply_bounds_note}`;
-  document.getElementById("honest-note-4").textContent = `誠實揭露（流動客群上界）：${mn.flow_visitor_caveat}`;
-  document.getElementById("honest-note-5").textContent = `誠實揭露（客單價非在地實測）：${mn.cpi_adjustment}`;
-  document.getElementById("honest-note-6").textContent = `誠實揭露（客群分組簡化）：${mn.segment_mapping}`;
-  document.getElementById("honest-note-7").textContent = `誠實揭露（餐館/小吃共用營收輸入）：${mn.revenue_proxy_note}`;
-
 })().catch((err) => {
   console.error("[index] 載入失敗", err);
   document.querySelector(".wrap").insertAdjacentHTML(

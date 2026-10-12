@@ -2,26 +2,31 @@
   "meta": {
     "article_no": 2,
     "title": "業種結構：餐飲／零售細分行業占比",
-    "data_date": "2026-09-08",
-    "produced_date": "2026-09-08",
+    "data_date": "2026-10-12",
+    "produced_date": "2026-10-12",
     "rings_used": [
-      5,
-      10,
-      15
+      1000,
+      2000,
+      3000
     ],
-    "primary_ring": 5,
+    "primary_ring": 1000,
+    "ring_labels": {
+      "1000": "1 公里",
+      "2000": "2 公里",
+      "3000": "3 公里"
+    },
     "district_id": "ncku",
     "district_name": "成大商圈"
   },
   "scope": {
-    "ring5_total_stores": 11409,
-    "city_total_stores": 135577,
-    "restaurant_count_ring5": 2185,
-    "retail_count_ring5": 2948,
-    "restaurant_count_city": 17614,
-    "retail_count_city": 34443,
-    "restaurant_pct_of_ring5": 19.2,
-    "retail_pct_of_ring5": 25.8,
+    "ring5_total_stores": 3318,
+    "city_total_stores": 135626,
+    "restaurant_count_ring5": 642,
+    "retail_count_ring5": 973,
+    "restaurant_count_city": 17606,
+    "retail_count_city": 34425,
+    "restaurant_pct_of_ring5": 19.3,
+    "retail_pct_of_ring5": 29.3,
     "industry_labels": {
       "56": "餐飲業",
       "47-48": "零售業"
@@ -31,813 +36,815 @@
     {
       "code": "5611",
       "name": "餐館",
-      "count": 1456,
-      "pct_of_category": 66.6,
-      "per_1000_stores": 127.62
+      "count": 440,
+      "pct_of_category": 68.5,
+      "per_1000_stores": 132.61
     },
     {
       "code": "5631",
       "name": "飲料店",
-      "count": 604,
-      "pct_of_category": 27.6,
-      "per_1000_stores": 52.94
+      "count": 171,
+      "pct_of_category": 26.6,
+      "per_1000_stores": 51.54
     },
     {
       "code": "5612",
       "name": "餐食攤販",
-      "count": 102,
-      "pct_of_category": 4.7,
-      "per_1000_stores": 8.94
+      "count": 25,
+      "pct_of_category": 3.9,
+      "per_1000_stores": 7.53
     },
     {
       "code": "5632",
       "name": "飲料攤販",
-      "count": 12,
-      "pct_of_category": 0.5,
-      "per_1000_stores": 1.05
+      "count": 5,
+      "pct_of_category": 0.8,
+      "per_1000_stores": 1.51
     },
     {
       "code": "5620",
       "name": "外燴及團膳承包業",
-      "count": 11,
-      "pct_of_category": 0.5,
-      "per_1000_stores": 0.96
+      "count": 1,
+      "pct_of_category": 0.2,
+      "per_1000_stores": 0.3
     }
   ],
   "retail_mid_ring5": [
     {
+      "code": "4732",
+      "name": "服裝及其配件零售業",
+      "count": 163,
+      "pct_of_category": 16.8,
+      "per_1000_stores": 49.13
+    },
+    {
       "code": "4871",
       "name": "電子購物及郵購業",
-      "count": 422,
-      "pct_of_category": 14.3,
-      "per_1000_stores": 36.99
+      "count": 142,
+      "pct_of_category": 14.6,
+      "per_1000_stores": 42.8
     },
     {
       "code": "4729",
       "name": "其他食品、飲料及菸草製品零售業",
-      "count": 408,
-      "pct_of_category": 13.8,
-      "per_1000_stores": 35.76
-    },
-    {
-      "code": "4732",
-      "name": "服裝及其配件零售業",
-      "count": 334,
-      "pct_of_category": 11.3,
-      "per_1000_stores": 29.28
+      "count": 112,
+      "pct_of_category": 11.5,
+      "per_1000_stores": 33.76
     },
     {
       "code": "4852",
       "name": "其他全新商品零售業",
-      "count": 176,
-      "pct_of_category": 6.0,
-      "per_1000_stores": 15.43
+      "count": 52,
+      "pct_of_category": 5.3,
+      "per_1000_stores": 15.67
     },
     {
       "code": "4751",
       "name": "藥品及醫療用品零售業",
-      "count": 157,
-      "pct_of_category": 5.3,
-      "per_1000_stores": 13.76
-    },
-    {
-      "code": "4749",
-      "name": "其他家用器具及用品零售業",
-      "count": 105,
-      "pct_of_category": 3.6,
-      "per_1000_stores": 9.2
-    },
-    {
-      "code": "4711",
-      "name": "連鎖便利商店",
-      "count": 97,
-      "pct_of_category": 3.3,
-      "per_1000_stores": 8.5
-    },
-    {
-      "code": "4761",
-      "name": "書籍及文具零售業",
-      "count": 86,
-      "pct_of_category": 2.9,
-      "per_1000_stores": 7.54
-    },
-    {
-      "code": "4763",
-      "name": "玩具及娛樂用品零售業",
-      "count": 77,
-      "pct_of_category": 2.6,
-      "per_1000_stores": 6.75
+      "count": 43,
+      "pct_of_category": 4.4,
+      "per_1000_stores": 12.96
     },
     {
       "code": "4719",
       "name": "其他綜合商品零售業",
-      "count": 76,
-      "pct_of_category": 2.6,
-      "per_1000_stores": 6.66
+      "count": 33,
+      "pct_of_category": 3.4,
+      "per_1000_stores": 9.95
     },
     {
-      "code": "4745",
-      "name": "珠寶及貴金屬製品零售業",
-      "count": 71,
-      "pct_of_category": 2.4,
-      "per_1000_stores": 6.22
+      "code": "4763",
+      "name": "玩具及娛樂用品零售業",
+      "count": 33,
+      "pct_of_category": 3.4,
+      "per_1000_stores": 9.95
     },
     {
-      "code": "4744",
-      "name": "鐘錶及眼鏡零售業",
-      "count": 67,
-      "pct_of_category": 2.3,
-      "per_1000_stores": 5.87
-    },
-    {
-      "code": "4741",
-      "name": "家用電器零售業",
-      "count": 66,
-      "pct_of_category": 2.2,
-      "per_1000_stores": 5.78
-    },
-    {
-      "code": "4842",
-      "name": "機車零售業",
-      "count": 65,
-      "pct_of_category": 2.2,
-      "per_1000_stores": 5.7
-    },
-    {
-      "code": "4832",
-      "name": "通訊設備零售業",
-      "count": 64,
-      "pct_of_category": 2.2,
-      "per_1000_stores": 5.61
-    },
-    {
-      "code": "4752",
-      "name": "化粧品零售業",
-      "count": 62,
-      "pct_of_category": 2.1,
-      "per_1000_stores": 5.43
-    },
-    {
-      "code": "4810",
-      "name": "建材零售業",
-      "count": 61,
-      "pct_of_category": 2.1,
-      "per_1000_stores": 5.35
+      "code": "4761",
+      "name": "書籍及文具零售業",
+      "count": 31,
+      "pct_of_category": 3.2,
+      "per_1000_stores": 9.34
     },
     {
       "code": "4831",
       "name": "電腦及其週邊設備、軟體零售業",
-      "count": 58,
-      "pct_of_category": 2.0,
-      "per_1000_stores": 5.08
+      "count": 30,
+      "pct_of_category": 3.1,
+      "per_1000_stores": 9.04
     },
     {
-      "code": "4843",
-      "name": "汽機車零配件及用品零售業",
-      "count": 57,
-      "pct_of_category": 1.9,
-      "per_1000_stores": 5.0
+      "code": "4711",
+      "name": "連鎖便利商店",
+      "count": 27,
+      "pct_of_category": 2.8,
+      "per_1000_stores": 8.14
     },
     {
-      "code": "4851",
-      "name": "花卉零售業",
-      "count": 55,
-      "pct_of_category": 1.9,
-      "per_1000_stores": 4.82
-    },
-    {
-      "code": "4721",
-      "name": "蔬果零售業",
-      "count": 54,
-      "pct_of_category": 1.8,
-      "per_1000_stores": 4.73
-    },
-    {
-      "code": "4739",
-      "name": "其他服飾品零售業",
-      "count": 47,
-      "pct_of_category": 1.6,
-      "per_1000_stores": 4.12
+      "code": "4832",
+      "name": "通訊設備零售業",
+      "count": 24,
+      "pct_of_category": 2.5,
+      "per_1000_stores": 7.23
     },
     {
       "code": "4722",
       "name": "肉品零售業",
-      "count": 46,
+      "count": 23,
+      "pct_of_category": 2.4,
+      "per_1000_stores": 6.93
+    },
+    {
+      "code": "4739",
+      "name": "其他服飾品零售業",
+      "count": 23,
+      "pct_of_category": 2.4,
+      "per_1000_stores": 6.93
+    },
+    {
+      "code": "4744",
+      "name": "鐘錶及眼鏡零售業",
+      "count": 21,
+      "pct_of_category": 2.2,
+      "per_1000_stores": 6.33
+    },
+    {
+      "code": "4749",
+      "name": "其他家用器具及用品零售業",
+      "count": 20,
+      "pct_of_category": 2.1,
+      "per_1000_stores": 6.03
+    },
+    {
+      "code": "4752",
+      "name": "化粧品零售業",
+      "count": 20,
+      "pct_of_category": 2.1,
+      "per_1000_stores": 6.03
+    },
+    {
+      "code": "4741",
+      "name": "家用電器零售業",
+      "count": 18,
+      "pct_of_category": 1.8,
+      "per_1000_stores": 5.42
+    },
+    {
+      "code": "4721",
+      "name": "蔬果零售業",
+      "count": 16,
       "pct_of_category": 1.6,
-      "per_1000_stores": 4.03
+      "per_1000_stores": 4.82
     },
     {
       "code": "4733",
       "name": "鞋類零售業",
-      "count": 31,
-      "pct_of_category": 1.1,
-      "per_1000_stores": 2.72
+      "count": 16,
+      "pct_of_category": 1.6,
+      "per_1000_stores": 4.82
     },
     {
-      "code": "4723",
-      "name": "水產品零售業",
-      "count": 25,
-      "pct_of_category": 0.8,
-      "per_1000_stores": 2.19
+      "code": "4745",
+      "name": "珠寶及貴金屬製品零售業",
+      "count": 16,
+      "pct_of_category": 1.6,
+      "per_1000_stores": 4.82
     },
     {
-      "code": "4762",
-      "name": "運動用品及器材零售業",
-      "count": 24,
-      "pct_of_category": 0.8,
-      "per_1000_stores": 2.1
+      "code": "4842",
+      "name": "機車零售業",
+      "count": 15,
+      "pct_of_category": 1.5,
+      "per_1000_stores": 4.52
     },
     {
-      "code": "4743",
-      "name": "家飾品零售業",
-      "count": 23,
-      "pct_of_category": 0.8,
-      "per_1000_stores": 2.02
+      "code": "4851",
+      "name": "花卉零售業",
+      "count": 15,
+      "pct_of_category": 1.5,
+      "per_1000_stores": 4.52
     },
     {
-      "code": "4829",
-      "name": "其他燃料及相關產品零售業",
-      "count": 21,
-      "pct_of_category": 0.7,
-      "per_1000_stores": 1.84
+      "code": "4843",
+      "name": "汽機車零配件及用品零售業",
+      "count": 14,
+      "pct_of_category": 1.4,
+      "per_1000_stores": 4.22
+    },
+    {
+      "code": "4810",
+      "name": "建材零售業",
+      "count": 10,
+      "pct_of_category": 1.0,
+      "per_1000_stores": 3.01
     },
     {
       "code": "4712",
       "name": "百貨公司",
-      "count": 17,
-      "pct_of_category": 0.6,
-      "per_1000_stores": 1.49
+      "count": 7,
+      "pct_of_category": 0.7,
+      "per_1000_stores": 2.11
+    },
+    {
+      "code": "4762",
+      "name": "運動用品及器材零售業",
+      "count": 7,
+      "pct_of_category": 0.7,
+      "per_1000_stores": 2.11
+    },
+    {
+      "code": "4829",
+      "name": "其他燃料及相關產品零售業",
+      "count": 7,
+      "pct_of_category": 0.7,
+      "per_1000_stores": 2.11
+    },
+    {
+      "code": "4723",
+      "name": "水產品零售業",
+      "count": 4,
+      "pct_of_category": 0.4,
+      "per_1000_stores": 1.21
     },
     {
       "code": "4742",
       "name": "家具零售業",
-      "count": 17,
-      "pct_of_category": 0.6,
-      "per_1000_stores": 1.49
+      "count": 4,
+      "pct_of_category": 0.4,
+      "per_1000_stores": 1.21
     },
     {
-      "code": "4731",
-      "name": "布疋零售業",
-      "count": 13,
+      "code": "4743",
+      "name": "家飾品零售業",
+      "count": 4,
       "pct_of_category": 0.4,
-      "per_1000_stores": 1.14
+      "per_1000_stores": 1.21
     },
     {
       "code": "4872",
       "name": "直銷業",
-      "count": 13,
+      "count": 4,
       "pct_of_category": 0.4,
-      "per_1000_stores": 1.14
+      "per_1000_stores": 1.21
     },
     {
-      "code": "4853",
-      "name": "中古商品零售業",
-      "count": 12,
-      "pct_of_category": 0.4,
-      "per_1000_stores": 1.05
-    },
-    {
-      "code": "4821",
-      "name": "加油及加氣站",
-      "count": 7,
-      "pct_of_category": 0.2,
-      "per_1000_stores": 0.61
+      "code": "4731",
+      "name": "布疋零售業",
+      "count": 3,
+      "pct_of_category": 0.3,
+      "per_1000_stores": 0.9
     },
     {
       "code": "4833",
       "name": "視聽設備零售業",
-      "count": 7,
-      "pct_of_category": 0.2,
-      "per_1000_stores": 0.61
+      "count": 3,
+      "pct_of_category": 0.3,
+      "per_1000_stores": 0.9
     },
     {
-      "code": "4879",
-      "name": "未分類其他非店面零售業",
-      "count": 7,
-      "pct_of_category": 0.2,
-      "per_1000_stores": 0.61
-    },
-    {
-      "code": "4841",
-      "name": "汽車零售業",
-      "count": 6,
-      "pct_of_category": 0.2,
-      "per_1000_stores": 0.53
-    },
-    {
-      "code": "4861",
-      "name": "食品、飲料及菸草製品之零售攤販",
-      "count": 5,
-      "pct_of_category": 0.2,
-      "per_1000_stores": 0.44
-    },
-    {
-      "code": "4862",
-      "name": "紡織品、服裝及鞋類之零售攤販",
-      "count": 4,
-      "pct_of_category": 0.1,
-      "per_1000_stores": 0.35
+      "code": "4853",
+      "name": "中古商品零售業",
+      "count": 3,
+      "pct_of_category": 0.3,
+      "per_1000_stores": 0.9
     },
     {
       "code": "4764",
       "name": "影音光碟零售業",
-      "count": 3,
+      "count": 2,
+      "pct_of_category": 0.2,
+      "per_1000_stores": 0.6
+    },
+    {
+      "code": "4821",
+      "name": "加油及加氣站",
+      "count": 2,
+      "pct_of_category": 0.2,
+      "per_1000_stores": 0.6
+    },
+    {
+      "code": "4841",
+      "name": "汽車零售業",
+      "count": 2,
+      "pct_of_category": 0.2,
+      "per_1000_stores": 0.6
+    },
+    {
+      "code": "4861",
+      "name": "食品、飲料及菸草製品之零售攤販",
+      "count": 1,
       "pct_of_category": 0.1,
-      "per_1000_stores": 0.26
+      "per_1000_stores": 0.3
+    },
+    {
+      "code": "4862",
+      "name": "紡織品、服裝及鞋類之零售攤販",
+      "count": 1,
+      "pct_of_category": 0.1,
+      "per_1000_stores": 0.3
     },
     {
       "code": "4869",
       "name": "其他零售攤販",
-      "count": 2,
+      "count": 1,
       "pct_of_category": 0.1,
-      "per_1000_stores": 0.18
+      "per_1000_stores": 0.3
+    },
+    {
+      "code": "4879",
+      "name": "未分類其他非店面零售業",
+      "count": 1,
+      "pct_of_category": 0.1,
+      "per_1000_stores": 0.3
     }
   ],
   "lq": {
     "threshold_concentrated": 1.3,
     "threshold_scarce": 0.7,
+    "min_count": 5,
+    "n_not_computed": 15,
     "restaurant": [
+      {
+        "code": "5632",
+        "name": "飲料攤販",
+        "ring5_count": 5,
+        "city_count": 106,
+        "ring5_share_pct": 0.779,
+        "city_share_pct": 0.602,
+        "lq": 1.29,
+        "label": "接近全市平均"
+      },
       {
         "code": "5631",
         "name": "飲料店",
-        "ring5_count": 604,
-        "city_count": 3917,
-        "ring5_share_pct": 27.643,
-        "city_share_pct": 22.238,
-        "lq": 1.24,
+        "ring5_count": 171,
+        "city_count": 3900,
+        "ring5_share_pct": 26.636,
+        "city_share_pct": 22.152,
+        "lq": 1.2,
         "label": "接近全市平均"
       },
       {
         "code": "5611",
         "name": "餐館",
-        "ring5_count": 1456,
-        "city_count": 12031,
-        "ring5_share_pct": 66.636,
-        "city_share_pct": 68.304,
-        "lq": 0.98,
-        "label": "接近全市平均"
-      },
-      {
-        "code": "5632",
-        "name": "飲料攤販",
-        "ring5_count": 12,
-        "city_count": 106,
-        "ring5_share_pct": 0.549,
-        "city_share_pct": 0.602,
-        "lq": 0.91,
+        "ring5_count": 440,
+        "city_count": 12041,
+        "ring5_share_pct": 68.536,
+        "city_share_pct": 68.391,
+        "lq": 1.0,
         "label": "接近全市平均"
       },
       {
         "code": "5612",
         "name": "餐食攤販",
-        "ring5_count": 102,
-        "city_count": 1256,
-        "ring5_share_pct": 4.668,
-        "city_share_pct": 7.131,
-        "lq": 0.65,
+        "ring5_count": 25,
+        "city_count": 1255,
+        "ring5_share_pct": 3.894,
+        "city_share_pct": 7.128,
+        "lq": 0.55,
         "label": "相對稀少"
       },
       {
         "code": "5620",
         "name": "外燴及團膳承包業",
-        "ring5_count": 11,
+        "ring5_count": 1,
         "city_count": 304,
-        "ring5_share_pct": 0.503,
-        "city_share_pct": 1.726,
-        "lq": 0.29,
-        "label": "相對稀少"
+        "ring5_share_pct": 0.156,
+        "city_share_pct": 1.727,
+        "lq": null,
+        "label": "圈內不足 5 家（不計算區位商數）"
       }
     ],
     "retail": [
       {
         "code": "4712",
         "name": "百貨公司",
-        "ring5_count": 17,
+        "ring5_count": 7,
         "city_count": 68,
-        "ring5_share_pct": 0.577,
-        "city_share_pct": 0.197,
-        "lq": 2.92,
-        "label": "相對集中"
-      },
-      {
-        "code": "4763",
-        "name": "玩具及娛樂用品零售業",
-        "ring5_count": 77,
-        "city_count": 386,
-        "ring5_share_pct": 2.612,
-        "city_share_pct": 1.121,
-        "lq": 2.33,
-        "label": "相對集中"
-      },
-      {
-        "code": "4745",
-        "name": "珠寶及貴金屬製品零售業",
-        "ring5_count": 71,
-        "city_count": 363,
-        "ring5_share_pct": 2.408,
-        "city_share_pct": 1.054,
-        "lq": 2.29,
+        "ring5_share_pct": 0.719,
+        "city_share_pct": 0.198,
+        "lq": 3.64,
         "label": "相對集中"
       },
       {
         "code": "4732",
         "name": "服裝及其配件零售業",
-        "ring5_count": 334,
-        "city_count": 1720,
-        "ring5_share_pct": 11.33,
-        "city_share_pct": 4.994,
-        "lq": 2.27,
+        "ring5_count": 163,
+        "city_count": 1711,
+        "ring5_share_pct": 16.752,
+        "city_share_pct": 4.97,
+        "lq": 3.37,
         "label": "相對集中"
       },
       {
-        "code": "4833",
-        "name": "視聽設備零售業",
-        "ring5_count": 7,
-        "city_count": 41,
-        "ring5_share_pct": 0.237,
-        "city_share_pct": 0.119,
-        "lq": 1.99,
-        "label": "相對集中"
-      },
-      {
-        "code": "4764",
-        "name": "影音光碟零售業",
-        "ring5_count": 3,
-        "city_count": 19,
-        "ring5_share_pct": 0.102,
-        "city_share_pct": 0.055,
-        "lq": 1.84,
-        "label": "相對集中"
-      },
-      {
-        "code": "4761",
-        "name": "書籍及文具零售業",
-        "ring5_count": 86,
-        "city_count": 564,
-        "ring5_share_pct": 2.917,
-        "city_share_pct": 1.637,
-        "lq": 1.78,
+        "code": "4763",
+        "name": "玩具及娛樂用品零售業",
+        "ring5_count": 33,
+        "city_count": 393,
+        "ring5_share_pct": 3.392,
+        "city_share_pct": 1.142,
+        "lq": 2.97,
         "label": "相對集中"
       },
       {
         "code": "4831",
         "name": "電腦及其週邊設備、軟體零售業",
-        "ring5_count": 58,
-        "city_count": 406,
-        "ring5_share_pct": 1.967,
-        "city_share_pct": 1.179,
-        "lq": 1.67,
-        "label": "相對集中"
-      },
-      {
-        "code": "4853",
-        "name": "中古商品零售業",
-        "ring5_count": 12,
-        "city_count": 94,
-        "ring5_share_pct": 0.407,
-        "city_share_pct": 0.273,
-        "lq": 1.49,
+        "ring5_count": 30,
+        "city_count": 407,
+        "ring5_share_pct": 3.083,
+        "city_share_pct": 1.182,
+        "lq": 2.61,
         "label": "相對集中"
       },
       {
         "code": "4733",
         "name": "鞋類零售業",
-        "ring5_count": 31,
+        "ring5_count": 16,
         "city_count": 246,
-        "ring5_share_pct": 1.052,
-        "city_share_pct": 0.714,
-        "lq": 1.47,
+        "ring5_share_pct": 1.644,
+        "city_share_pct": 0.715,
+        "lq": 2.3,
         "label": "相對集中"
       },
       {
-        "code": "4842",
-        "name": "機車零售業",
-        "ring5_count": 65,
-        "city_count": 548,
-        "ring5_share_pct": 2.205,
-        "city_share_pct": 1.591,
-        "lq": 1.39,
-        "label": "相對集中"
-      },
-      {
-        "code": "4744",
-        "name": "鐘錶及眼鏡零售業",
-        "ring5_count": 67,
-        "city_count": 571,
-        "ring5_share_pct": 2.273,
-        "city_share_pct": 1.658,
-        "lq": 1.37,
-        "label": "相對集中"
-      },
-      {
-        "code": "4832",
-        "name": "通訊設備零售業",
-        "ring5_count": 64,
-        "city_count": 560,
-        "ring5_share_pct": 2.171,
-        "city_share_pct": 1.626,
-        "lq": 1.34,
+        "code": "4761",
+        "name": "書籍及文具零售業",
+        "ring5_count": 31,
+        "city_count": 563,
+        "ring5_share_pct": 3.186,
+        "city_share_pct": 1.635,
+        "lq": 1.95,
         "label": "相對集中"
       },
       {
         "code": "4739",
         "name": "其他服飾品零售業",
-        "ring5_count": 47,
+        "ring5_count": 23,
         "city_count": 429,
-        "ring5_share_pct": 1.594,
+        "ring5_share_pct": 2.364,
         "city_share_pct": 1.246,
-        "lq": 1.28,
-        "label": "接近全市平均"
+        "lq": 1.9,
+        "label": "相對集中"
       },
       {
-        "code": "4752",
-        "name": "化粧品零售業",
-        "ring5_count": 62,
-        "city_count": 638,
-        "ring5_share_pct": 2.103,
-        "city_share_pct": 1.852,
-        "lq": 1.14,
-        "label": "接近全市平均"
+        "code": "4745",
+        "name": "珠寶及貴金屬製品零售業",
+        "ring5_count": 16,
+        "city_count": 364,
+        "ring5_share_pct": 1.644,
+        "city_share_pct": 1.057,
+        "lq": 1.56,
+        "label": "相對集中"
       },
       {
-        "code": "4851",
-        "name": "花卉零售業",
-        "ring5_count": 55,
-        "city_count": 564,
-        "ring5_share_pct": 1.866,
-        "city_share_pct": 1.637,
-        "lq": 1.14,
-        "label": "接近全市平均"
-      },
-      {
-        "code": "4751",
-        "name": "藥品及醫療用品零售業",
-        "ring5_count": 157,
-        "city_count": 1657,
-        "ring5_share_pct": 5.326,
-        "city_share_pct": 4.811,
-        "lq": 1.11,
-        "label": "接近全市平均"
-      },
-      {
-        "code": "4852",
-        "name": "其他全新商品零售業",
-        "ring5_count": 176,
-        "city_count": 2078,
-        "ring5_share_pct": 5.97,
-        "city_share_pct": 6.033,
-        "lq": 0.99,
-        "label": "接近全市平均"
-      },
-      {
-        "code": "4871",
-        "name": "電子購物及郵購業",
-        "ring5_count": 422,
-        "city_count": 5270,
-        "ring5_share_pct": 14.315,
-        "city_share_pct": 15.301,
-        "lq": 0.94,
-        "label": "接近全市平均"
-      },
-      {
-        "code": "4729",
-        "name": "其他食品、飲料及菸草製品零售業",
-        "ring5_count": 408,
-        "city_count": 5316,
-        "ring5_share_pct": 13.84,
-        "city_share_pct": 15.434,
-        "lq": 0.9,
-        "label": "接近全市平均"
-      },
-      {
-        "code": "4762",
-        "name": "運動用品及器材零售業",
+        "code": "4832",
+        "name": "通訊設備零售業",
         "ring5_count": 24,
-        "city_count": 310,
-        "ring5_share_pct": 0.814,
-        "city_share_pct": 0.9,
-        "lq": 0.9,
-        "label": "接近全市平均"
+        "city_count": 555,
+        "ring5_share_pct": 2.467,
+        "city_share_pct": 1.612,
+        "lq": 1.53,
+        "label": "相對集中"
       },
       {
-        "code": "4731",
-        "name": "布疋零售業",
-        "ring5_count": 13,
-        "city_count": 171,
-        "ring5_share_pct": 0.441,
-        "city_share_pct": 0.496,
-        "lq": 0.89,
+        "code": "4744",
+        "name": "鐘錶及眼鏡零售業",
+        "ring5_count": 21,
+        "city_count": 566,
+        "ring5_share_pct": 2.158,
+        "city_share_pct": 1.644,
+        "lq": 1.31,
+        "label": "相對集中"
+      },
+      {
+        "code": "4722",
+        "name": "肉品零售業",
+        "ring5_count": 23,
+        "city_count": 672,
+        "ring5_share_pct": 2.364,
+        "city_share_pct": 1.952,
+        "lq": 1.21,
         "label": "接近全市平均"
       },
       {
         "code": "4719",
         "name": "其他綜合商品零售業",
-        "ring5_count": 76,
-        "city_count": 1026,
-        "ring5_share_pct": 2.578,
-        "city_share_pct": 2.979,
-        "lq": 0.87,
+        "ring5_count": 33,
+        "city_count": 1028,
+        "ring5_share_pct": 3.392,
+        "city_share_pct": 2.986,
+        "lq": 1.14,
         "label": "接近全市平均"
       },
       {
-        "code": "4810",
-        "name": "建材零售業",
-        "ring5_count": 61,
-        "city_count": 837,
-        "ring5_share_pct": 2.069,
-        "city_share_pct": 2.43,
-        "lq": 0.85,
+        "code": "4752",
+        "name": "化粧品零售業",
+        "ring5_count": 20,
+        "city_count": 637,
+        "ring5_share_pct": 2.055,
+        "city_share_pct": 1.85,
+        "lq": 1.11,
+        "label": "接近全市平均"
+      },
+      {
+        "code": "4842",
+        "name": "機車零售業",
+        "ring5_count": 15,
+        "city_count": 547,
+        "ring5_share_pct": 1.542,
+        "city_share_pct": 1.589,
+        "lq": 0.97,
+        "label": "接近全市平均"
+      },
+      {
+        "code": "4851",
+        "name": "花卉零售業",
+        "ring5_count": 15,
+        "city_count": 561,
+        "ring5_share_pct": 1.542,
+        "city_share_pct": 1.63,
+        "lq": 0.95,
+        "label": "接近全市平均"
+      },
+      {
+        "code": "4871",
+        "name": "電子購物及郵購業",
+        "ring5_count": 142,
+        "city_count": 5285,
+        "ring5_share_pct": 14.594,
+        "city_share_pct": 15.352,
+        "lq": 0.95,
+        "label": "接近全市平均"
+      },
+      {
+        "code": "4751",
+        "name": "藥品及醫療用品零售業",
+        "ring5_count": 43,
+        "city_count": 1651,
+        "ring5_share_pct": 4.419,
+        "city_share_pct": 4.796,
+        "lq": 0.92,
+        "label": "接近全市平均"
+      },
+      {
+        "code": "4852",
+        "name": "其他全新商品零售業",
+        "ring5_count": 52,
+        "city_count": 2080,
+        "ring5_share_pct": 5.344,
+        "city_share_pct": 6.042,
+        "lq": 0.88,
         "label": "接近全市平均"
       },
       {
         "code": "4829",
         "name": "其他燃料及相關產品零售業",
-        "ring5_count": 21,
+        "ring5_count": 7,
         "city_count": 287,
-        "ring5_share_pct": 0.712,
-        "city_share_pct": 0.833,
-        "lq": 0.85,
+        "ring5_share_pct": 0.719,
+        "city_share_pct": 0.834,
+        "lq": 0.86,
+        "label": "接近全市平均"
+      },
+      {
+        "code": "4762",
+        "name": "運動用品及器材零售業",
+        "ring5_count": 7,
+        "city_count": 311,
+        "ring5_share_pct": 0.719,
+        "city_share_pct": 0.903,
+        "lq": 0.8,
+        "label": "接近全市平均"
+      },
+      {
+        "code": "4729",
+        "name": "其他食品、飲料及菸草製品零售業",
+        "ring5_count": 112,
+        "city_count": 5309,
+        "ring5_share_pct": 11.511,
+        "city_share_pct": 15.422,
+        "lq": 0.75,
         "label": "接近全市平均"
       },
       {
         "code": "4741",
         "name": "家用電器零售業",
-        "ring5_count": 66,
-        "city_count": 930,
-        "ring5_share_pct": 2.239,
-        "city_share_pct": 2.7,
-        "lq": 0.83,
-        "label": "接近全市平均"
-      },
-      {
-        "code": "4743",
-        "name": "家飾品零售業",
-        "ring5_count": 23,
-        "city_count": 329,
-        "ring5_share_pct": 0.78,
-        "city_share_pct": 0.955,
-        "lq": 0.82,
-        "label": "接近全市平均"
-      },
-      {
-        "code": "4722",
-        "name": "肉品零售業",
-        "ring5_count": 46,
-        "city_count": 679,
-        "ring5_share_pct": 1.56,
-        "city_share_pct": 1.971,
-        "lq": 0.79,
-        "label": "接近全市平均"
-      },
-      {
-        "code": "4749",
-        "name": "其他家用器具及用品零售業",
-        "ring5_count": 105,
-        "city_count": 1642,
-        "ring5_share_pct": 3.562,
-        "city_share_pct": 4.767,
-        "lq": 0.75,
-        "label": "接近全市平均"
-      },
-      {
-        "code": "4872",
-        "name": "直銷業",
-        "ring5_count": 13,
-        "city_count": 226,
-        "ring5_share_pct": 0.441,
-        "city_share_pct": 0.656,
-        "lq": 0.67,
+        "ring5_count": 18,
+        "city_count": 935,
+        "ring5_share_pct": 1.85,
+        "city_share_pct": 2.716,
+        "lq": 0.68,
         "label": "相對稀少"
       },
       {
         "code": "4711",
         "name": "連鎖便利商店",
-        "ring5_count": 97,
-        "city_count": 1707,
-        "ring5_share_pct": 3.29,
-        "city_share_pct": 4.956,
-        "lq": 0.66,
+        "ring5_count": 27,
+        "city_count": 1709,
+        "ring5_share_pct": 2.775,
+        "city_share_pct": 4.964,
+        "lq": 0.56,
         "label": "相對稀少"
       },
       {
-        "code": "4862",
-        "name": "紡織品、服裝及鞋類之零售攤販",
-        "ring5_count": 4,
-        "city_count": 72,
-        "ring5_share_pct": 0.136,
-        "city_share_pct": 0.209,
-        "lq": 0.65,
+        "code": "4749",
+        "name": "其他家用器具及用品零售業",
+        "ring5_count": 20,
+        "city_count": 1639,
+        "ring5_share_pct": 2.055,
+        "city_share_pct": 4.761,
+        "lq": 0.43,
         "label": "相對稀少"
       },
       {
-        "code": "4879",
-        "name": "未分類其他非店面零售業",
-        "ring5_count": 7,
-        "city_count": 142,
-        "ring5_share_pct": 0.237,
-        "city_share_pct": 0.412,
-        "lq": 0.58,
-        "label": "相對稀少"
-      },
-      {
-        "code": "4742",
-        "name": "家具零售業",
-        "ring5_count": 17,
-        "city_count": 358,
-        "ring5_share_pct": 0.577,
-        "city_share_pct": 1.039,
-        "lq": 0.55,
-        "label": "相對稀少"
-      },
-      {
-        "code": "4843",
-        "name": "汽機車零配件及用品零售業",
-        "ring5_count": 57,
-        "city_count": 1261,
-        "ring5_share_pct": 1.934,
-        "city_share_pct": 3.661,
-        "lq": 0.53,
-        "label": "相對稀少"
-      },
-      {
-        "code": "4723",
-        "name": "水產品零售業",
-        "ring5_count": 25,
-        "city_count": 594,
-        "ring5_share_pct": 0.848,
-        "city_share_pct": 1.725,
-        "lq": 0.49,
+        "code": "4810",
+        "name": "建材零售業",
+        "ring5_count": 10,
+        "city_count": 835,
+        "ring5_share_pct": 1.028,
+        "city_share_pct": 2.426,
+        "lq": 0.42,
         "label": "相對稀少"
       },
       {
         "code": "4721",
         "name": "蔬果零售業",
-        "ring5_count": 54,
+        "ring5_count": 16,
         "city_count": 1407,
-        "ring5_share_pct": 1.832,
-        "city_share_pct": 4.085,
-        "lq": 0.45,
+        "ring5_share_pct": 1.644,
+        "city_share_pct": 4.087,
+        "lq": 0.4,
         "label": "相對稀少"
       },
       {
-        "code": "4861",
-        "name": "食品、飲料及菸草製品之零售攤販",
-        "ring5_count": 5,
-        "city_count": 141,
-        "ring5_share_pct": 0.17,
-        "city_share_pct": 0.409,
-        "lq": 0.41,
+        "code": "4843",
+        "name": "汽機車零配件及用品零售業",
+        "ring5_count": 14,
+        "city_count": 1262,
+        "ring5_share_pct": 1.439,
+        "city_share_pct": 3.666,
+        "lq": 0.39,
         "label": "相對稀少"
+      },
+      {
+        "code": "4723",
+        "name": "水產品零售業",
+        "ring5_count": 4,
+        "city_count": 591,
+        "ring5_share_pct": 0.411,
+        "city_share_pct": 1.717,
+        "lq": null,
+        "label": "圈內不足 5 家（不計算區位商數）"
+      },
+      {
+        "code": "4731",
+        "name": "布疋零售業",
+        "ring5_count": 3,
+        "city_count": 171,
+        "ring5_share_pct": 0.308,
+        "city_share_pct": 0.497,
+        "lq": null,
+        "label": "圈內不足 5 家（不計算區位商數）"
+      },
+      {
+        "code": "4742",
+        "name": "家具零售業",
+        "ring5_count": 4,
+        "city_count": 356,
+        "ring5_share_pct": 0.411,
+        "city_share_pct": 1.034,
+        "lq": null,
+        "label": "圈內不足 5 家（不計算區位商數）"
+      },
+      {
+        "code": "4743",
+        "name": "家飾品零售業",
+        "ring5_count": 4,
+        "city_count": 329,
+        "ring5_share_pct": 0.411,
+        "city_share_pct": 0.956,
+        "lq": null,
+        "label": "圈內不足 5 家（不計算區位商數）"
+      },
+      {
+        "code": "4764",
+        "name": "影音光碟零售業",
+        "ring5_count": 2,
+        "city_count": 19,
+        "ring5_share_pct": 0.206,
+        "city_share_pct": 0.055,
+        "lq": null,
+        "label": "圈內不足 5 家（不計算區位商數）"
       },
       {
         "code": "4821",
         "name": "加油及加氣站",
-        "ring5_count": 7,
+        "ring5_count": 2,
         "city_count": 286,
-        "ring5_share_pct": 0.237,
-        "city_share_pct": 0.83,
-        "lq": 0.29,
-        "label": "相對稀少"
+        "ring5_share_pct": 0.206,
+        "city_share_pct": 0.831,
+        "lq": null,
+        "label": "圈內不足 5 家（不計算區位商數）"
       },
       {
-        "code": "4869",
-        "name": "其他零售攤販",
-        "ring5_count": 2,
-        "city_count": 99,
-        "ring5_share_pct": 0.068,
-        "city_share_pct": 0.287,
-        "lq": 0.24,
-        "label": "相對稀少"
+        "code": "4833",
+        "name": "視聽設備零售業",
+        "ring5_count": 3,
+        "city_count": 41,
+        "ring5_share_pct": 0.308,
+        "city_share_pct": 0.119,
+        "lq": null,
+        "label": "圈內不足 5 家（不計算區位商數）"
       },
       {
         "code": "4841",
         "name": "汽車零售業",
-        "ring5_count": 6,
+        "ring5_count": 2,
         "city_count": 401,
-        "ring5_share_pct": 0.204,
-        "city_share_pct": 1.164,
-        "lq": 0.17,
-        "label": "相對稀少"
+        "ring5_share_pct": 0.206,
+        "city_share_pct": 1.165,
+        "lq": null,
+        "label": "圈內不足 5 家（不計算區位商數）"
+      },
+      {
+        "code": "4853",
+        "name": "中古商品零售業",
+        "ring5_count": 3,
+        "city_count": 94,
+        "ring5_share_pct": 0.308,
+        "city_share_pct": 0.273,
+        "lq": null,
+        "label": "圈內不足 5 家（不計算區位商數）"
+      },
+      {
+        "code": "4861",
+        "name": "食品、飲料及菸草製品之零售攤販",
+        "ring5_count": 1,
+        "city_count": 141,
+        "ring5_share_pct": 0.103,
+        "city_share_pct": 0.41,
+        "lq": null,
+        "label": "圈內不足 5 家（不計算區位商數）"
+      },
+      {
+        "code": "4862",
+        "name": "紡織品、服裝及鞋類之零售攤販",
+        "ring5_count": 1,
+        "city_count": 74,
+        "ring5_share_pct": 0.103,
+        "city_share_pct": 0.215,
+        "lq": null,
+        "label": "圈內不足 5 家（不計算區位商數）"
+      },
+      {
+        "code": "4869",
+        "name": "其他零售攤販",
+        "ring5_count": 1,
+        "city_count": 99,
+        "ring5_share_pct": 0.103,
+        "city_share_pct": 0.288,
+        "lq": null,
+        "label": "圈內不足 5 家（不計算區位商數）"
+      },
+      {
+        "code": "4872",
+        "name": "直銷業",
+        "ring5_count": 4,
+        "city_count": 225,
+        "ring5_share_pct": 0.411,
+        "city_share_pct": 0.654,
+        "lq": null,
+        "label": "圈內不足 5 家（不計算區位商數）"
+      },
+      {
+        "code": "4879",
+        "name": "未分類其他非店面零售業",
+        "ring5_count": 1,
+        "city_count": 141,
+        "ring5_share_pct": 0.103,
+        "city_share_pct": 0.41,
+        "lq": null,
+        "label": "圈內不足 5 家（不計算區位商數）"
       }
     ],
     "most_concentrated": {
       "code": "4712",
       "name": "百貨公司",
-      "ring5_count": 17,
+      "ring5_count": 7,
       "city_count": 68,
-      "ring5_share_pct": 0.577,
-      "city_share_pct": 0.197,
-      "lq": 2.92,
+      "ring5_share_pct": 0.719,
+      "city_share_pct": 0.198,
+      "lq": 3.64,
       "label": "相對集中"
     },
     "most_scarce": {
-      "code": "4841",
-      "name": "汽車零售業",
-      "ring5_count": 6,
-      "city_count": 401,
-      "ring5_share_pct": 0.204,
-      "city_share_pct": 1.164,
-      "lq": 0.17,
+      "code": "4843",
+      "name": "汽機車零配件及用品零售業",
+      "ring5_count": 14,
+      "city_count": 1262,
+      "ring5_share_pct": 1.439,
+      "city_share_pct": 3.666,
+      "lq": 0.39,
       "label": "相對稀少"
     }
   },
@@ -846,71 +853,98 @@
       {
         "code": "5611",
         "name": "餐館",
-        "count_5": 1456,
-        "pct_5": 66.6,
-        "count_10": 2801,
-        "pct_10": 70.6,
-        "count_15": 1772,
-        "pct_15": 71.5
+        "count_1000": 440,
+        "pct_1000": 68.5,
+        "count_2000": 1441,
+        "pct_2000": 67.1,
+        "count_3000": 1776,
+        "pct_3000": 70.4
       },
       {
         "code": "5631",
         "name": "飲料店",
-        "count_5": 604,
-        "pct_5": 27.6,
-        "count_10": 912,
-        "pct_10": 23.0,
-        "count_15": 545,
-        "pct_15": 22.0
+        "count_1000": 171,
+        "pct_1000": 26.6,
+        "count_2000": 580,
+        "pct_2000": 27.0,
+        "count_3000": 592,
+        "pct_3000": 23.5
       },
       {
         "code": "5612",
         "name": "餐食攤販",
-        "count_5": 102,
-        "pct_5": 4.7,
-        "count_10": 197,
-        "pct_10": 5.0,
-        "count_15": 114,
-        "pct_15": 4.6
+        "count_1000": 25,
+        "pct_1000": 3.9,
+        "count_2000": 104,
+        "pct_2000": 4.8,
+        "count_3000": 120,
+        "pct_3000": 4.8
       },
       {
         "code": "5632",
         "name": "飲料攤販",
-        "count_5": 12,
-        "pct_5": 0.5,
-        "count_10": 17,
-        "pct_10": 0.4,
-        "count_15": 6,
-        "pct_15": 0.2
+        "count_1000": 5,
+        "pct_1000": 0.8,
+        "count_2000": 8,
+        "pct_2000": 0.4,
+        "count_3000": 11,
+        "pct_3000": 0.4
       },
       {
         "code": "5620",
         "name": "外燴及團膳承包業",
-        "count_5": 11,
-        "pct_5": 0.5,
-        "count_10": 42,
-        "pct_10": 1.1,
-        "count_15": 40,
-        "pct_15": 1.6
+        "count_1000": 1,
+        "pct_1000": 0.2,
+        "count_2000": 13,
+        "pct_2000": 0.6,
+        "count_3000": 25,
+        "pct_3000": 1.0
       }
     ],
     "n_requested": 8,
     "n_available": 5,
     "truncated_note": "此細類全部只有 5 種 4 碼分類，故「前 8 名」實際列出全部 5 種",
     "ring_totals": {
-      "5": 2185,
-      "10": 3969,
-      "15": 2477
+      "1000": 642,
+      "2000": 2146,
+      "3000": 2524
     }
   },
   "method_notes": {
-    "ring_scope": "細類家數表／LQ 用 5 分圈；三圈對照表額外列 10／15 分供參考",
+    "ring_scope": "細類家數表／LQ 用 1 公里圈（沿道路量的距離）；三圈對照表額外列 2 公里／3 公里圈供參考",
     "mid_level_definition": "稅務行業標準分類「細」類（4 碼），即 industry_mid",
-    "lq_formula": "LQ = (該細類在 5 分圈的家數占比) ÷ (該細類在臺南市全市的家數占比)；占比＝該細類家數 ÷ 同一大類（餐飲或零售）在該範圍的家數，與「占餐飲比／占零售比」欄位算法相同，只是分別在 5 分圈與全市各算一次再相除",
+    "lq_formula": "LQ = (該細類在 1 公里圈的家數占比) ÷ (該細類在臺南市全市的家數占比)；占比＝該細類家數 ÷ 同一大類（餐飲或零售）在該範圍的家數，與「占餐飲比／占零售比」欄位算法相同，只是分別在 1 公里圈與全市各算一次再相除",
     "lq_threshold_concentrated": "LQ > 1.3 標示為「相對集中」",
     "lq_threshold_scarce": "LQ < 0.7 標示為「相對稀少」",
     "lq_threshold_normal": "0.7 ≤ LQ ≤ 1.3 標示為「接近全市平均」",
+    "lq_min_count": "家數少於 5 家的業種不計算區位商數（1 公里圈內該細類家數 < 5），與上列 1.3／0.7 門檻並列為分組規則",
     "top_ring_compare_note": "此細類全部只有 5 種 4 碼分類，故「前 8 名」實際列出全部 5 種",
-    "data_version": "2026-09-08"
-  }
+    "data_version": "2026-10-12"
+  },
+  "provenance": [
+    {
+      "id": "tax_reg",
+      "agency": "財政部財政資訊中心",
+      "dataset": "全國營業(稅籍)登記資料集",
+      "year": "擷取 2026-10-12",
+      "url": "https://data.gov.tw/dataset/9400",
+      "licence": "政府資料開放授權條款-第1版"
+    },
+    {
+      "id": "addr_points",
+      "agency": "臺南市政府",
+      "dataset": "臺南市門牌坐標資料-僅供參考",
+      "year": "擷取 2026-10-12",
+      "url": "https://data.gov.tw/dataset/120044",
+      "licence": "政府資料開放授權條款-第1版"
+    },
+    {
+      "id": "industry_codes",
+      "agency": "財政部",
+      "dataset": "稅務行業標準分類",
+      "year": "擷取 2026-10-12",
+      "url": "https://data.gov.tw/dataset/28483",
+      "licence": "政府資料開放授權條款-第1版"
+    }
+  ]
 }

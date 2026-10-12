@@ -30,9 +30,9 @@
     --series-4: #eda100;   /* yellow -- 假日 */
     --series-8: #e34948;   /* red -- 中心點 / 台南站標記 */
 
-    --ring-5:  #184f95;
-    --ring-10: #2a78d6;
-    --ring-15: #86b6ef;
+    --ring-store:  #184f95;   /* 店家分析圈（最內圈） */
+    --ring-pop:    #2a78d6;   /* 居住人口圈 */
+    --ring-access: #86b6ef;   /* 可及性參考圈（最外圈，本篇主要圈） */
 
     --parking-paid: #2a78d6;
     --parking-free: #86b6ef;
@@ -132,12 +132,12 @@
 <div class="wrap">
 
   <header class="hero">
-    <div class="kicker">開店分析所 · 篇⑧ / 10</div>
+    <div class="kicker">開店分析所 · 篇⑧ / 13</div>
     <h1>到達人流：台鐵、公車站、YouBike、停車場</h1>
     <p class="lede" id="lede">
-      以成大商圈 15 分鐘機車等時圈為主要範圍（5／10 分鐘只作對照），統計台南站進出站量、
+      以成大商圈沿道路 <span id="lede-primary">最外圈</span>為主要範圍（<span id="lede-others">內側兩圈</span>只作對照），統計台南站進出站量、
       公有停車場車位、YouBike 站點與車位，衡量顧客「怎麼到這裡、停哪裡」。公車站牌座標
-      需 TDX 金鑰，屬人類關卡，本篇暫不含公車，方法說明明講。
+      需申請 TDX 金鑰，本篇暫不含公車，方法說明明講。
     </p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
@@ -175,7 +175,7 @@
 
     <section class="card">
       <h2>圖 C · 三個範圍各有多少停車位</h2>
-      <p class="subtitle">累計到這個時間範圍內的全部車位數（單位：位／格）</p>
+      <p class="subtitle">累計到這個距離範圍內的全部車位數（單位：位／格）</p>
       <div class="echart" id="chartC"></div>
       <button class="table-toggle" data-target="tableC">顯示資料表格</button>
       <table class="data-table" id="tableC"></table>
@@ -225,7 +225,20 @@
   ]);
 
   const months36 = Object.keys(data.tra.monthly_36);
-  const RING_LABELS = { "5": "5 分圈", "10": "10 分圈（累計）", "15": "15 分圈（累計）" };
+  // 圈值與圈名一律讀 data.json（meta.rings_used／primary_ring／ring_labels），不寫死
+  const ringKeys = data.meta.rings_used.map(String);
+  const PRIMARY_KEY = String(data.meta.primary_ring);
+  const PRIMARY_LABEL = data.meta.ring_labels[PRIMARY_KEY];
+  const RING_LABELS = Object.fromEntries(ringKeys.map((k, i) => [k, `${data.meta.ring_labels[k]}圈${i > 0 ? "（累計）" : ""}`]));
+  // 由內到外：店家分析圈／居住人口圈／可及性參考圈
+  const RING_STYLES = [
+    { color: "#184f95", width: 3.2, dash: null },
+    { color: "#2a78d6", width: 2.4, dash: null },
+    { color: "#86b6ef", width: 1.6, dash: [2, 1.6] },
+  ];
+  document.getElementById("lede-primary").textContent = `${PRIMARY_LABEL}圈`;
+  document.getElementById("lede-others").textContent =
+    ringKeys.filter((k) => k !== PRIMARY_KEY).map((k) => data.meta.ring_labels[k]).join("／");
 
   // ---------------------------------------------------------------
   // 標頭 / meta
@@ -244,8 +257,8 @@
   const changeIn = Math.round((r12.ratio_pct.avg_in - 100) * 10) / 10;
   const changeOut = Math.round((r12.ratio_pct.avg_out - 100) * 10) / 10;
   const signed = (n) => `${n >= 0 ? "+" : ""}${fmt1(n)}`;
-  const parkC15 = data.parking.by_ring.cumulative["15"];
-  const bikeC15 = data.youbike.by_ring.cumulative["15"];
+  const parkC15 = data.parking.by_ring.cumulative[PRIMARY_KEY];
+  const bikeC15 = data.youbike.by_ring.cumulative[PRIMARY_KEY];
   const distVals = Object.values(data.tra.distance_to_centers_m);
   const distMin = Math.min(...distVals), distMax = Math.max(...distVals);
 
@@ -264,12 +277,12 @@
     {
       label: "附近有幾座公有停車場",
       value: fmt(parkC15.facility_count), unit: "處",
-      sub: `機車 15 分鐘範圍；汽車位 ${fmt(parkC15.car_spaces)}＋機車位 ${fmt(parkC15.moto_spaces)}（一般車位，累計）`,
+      sub: `沿道路 ${PRIMARY_LABEL}內；汽車位 ${fmt(parkC15.car_spaces)}＋機車位 ${fmt(parkC15.moto_spaces)}（一般車位，累計）`,
     },
     {
       label: "附近有幾個 YouBike 站",
       value: fmt(bikeC15.station_count), unit: "站",
-      sub: `機車 15 分鐘範圍；車柱數合計 ${fmt(bikeC15.dock_count)}（在營運站點，累計）`,
+      sub: `沿道路 ${PRIMARY_LABEL}內；車柱數合計 ${fmt(bikeC15.dock_count)}（在營運站點，累計）`,
     },
     {
       label: "三核心點到台南站距離",
@@ -292,18 +305,18 @@
     version: 8,
     sources: {
       roads: { type: "geojson", data: roads },
-      ring15: { type: "geojson", data: featureFor(isochrones, 15) },
-      ring10: { type: "geojson", data: featureFor(isochrones, 10) },
-      ring5: { type: "geojson", data: featureFor(isochrones, 5) },
+      ...Object.fromEntries(ringKeys.map((k) => [`ring${k}`, { type: "geojson", data: featureFor(isochrones, Number(k)) }])),
       parking: { type: "geojson", data: parking },
       youbike: { type: "geojson", data: youbike },
     },
     layers: [
       { id: "bg", type: "background", paint: { "background-color": "#fcfcfb" } },
       { id: "roads-line", type: "line", source: "roads", paint: { "line-color": "#c3c2b7", "line-width": 0.8, "line-opacity": 0.9 } },
-      { id: "ring15-line", type: "line", source: "ring15", paint: { "line-color": "#86b6ef", "line-width": 1.6, "line-dasharray": [2, 1.6] } },
-      { id: "ring10-line", type: "line", source: "ring10", paint: { "line-color": "#2a78d6", "line-width": 2.4 } },
-      { id: "ring5-line", type: "line", source: "ring5", paint: { "line-color": "#184f95", "line-width": 3.2 } },
+      // 外圈先畫、內圈後畫（內圈線壓在上面）
+      ...ringKeys.map((k, i) => ({ k, st: RING_STYLES[i] })).reverse().map(({ k, st }) => ({
+        id: `ring${k}-line`, type: "line", source: `ring${k}`,
+        paint: { "line-color": st.color, "line-width": st.width, ...(st.dash ? { "line-dasharray": st.dash } : {}) },
+      })),
       {
         id: "parking-pt", type: "circle", source: "parking",
         paint: {
@@ -319,8 +332,8 @@
     ],
   };
 
-  function featureFor(fc, minutes) {
-    const f = fc.features.find((x) => x.properties.minutes === minutes);
+  function featureFor(fc, ringM) {
+    const f = fc.features.find((x) => (x.properties.ring_m ?? x.properties.minutes) === ringM);
     return { type: "FeatureCollection", features: f ? [f] : [] };
   }
 
@@ -399,9 +412,7 @@
     <div class="legend-row"><span class="legend-swatch-dot" style="background:#1baf7a"></span>YouBike 站（在營運）</div>
     ${centerLegendRows}
     <div class="legend-row"><svg class="center-star" viewBox="0 0 24 24" fill="#7a1f1f" stroke="#0b0b0b" stroke-width="1"><path d="M12 1.8l2.9 6.9 7.4.6-5.7 4.9 1.8 7.3L12 17.6 5.6 21.5l1.8-7.3-5.7-4.9 7.4-.6z"/></svg>台南站</div>
-    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#184f95;border-top-style:solid;border-top-width:3px"></span>5 分圈</div>
-    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#2a78d6;border-top-style:solid;border-top-width:2.4px"></span>10 分圈</div>
-    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#86b6ef;border-top-style:dashed;border-top-width:1.6px"></span>15 分圈</div>
+    ${ringKeys.map((k, i) => `<div class="legend-row"><span class="legend-swatch-line" style="border-top-color:${RING_STYLES[i].color};border-top-style:${RING_STYLES[i].dash ? "dashed" : "solid"};border-top-width:${RING_STYLES[i].width}px"></span>${data.meta.ring_labels[k]}圈</div>`).join("")}
   `;
 
   // ---------------------------------------------------------------
@@ -420,7 +431,10 @@
 
   document.getElementById("chartA-subtitle").textContent =
     `日均進站／出站人次（單位：人次／天）；涵蓋 ${monthLabels[0]} ～ ${monthLabels[monthLabels.length - 1]}` +
-    `（${data.tra.monthly_36_range.count} 個完整月；只取「該月落地天數＝該月日曆天數」的整月，2026-09 因僅 1 天不列入）`;
+    `（${data.tra.monthly_36_range.count} 個完整月；只取「該月落地天數＝該月日曆天數」的整月` +
+    (data.meta.tra_partial_months.length
+      ? `，${data.meta.tra_partial_months.map((m) => `${m.slice(0,4)}-${m.slice(4,6)}`).join("、")} 未滿整月不列入）`
+      : "）");
 
   const chartA = echarts.init(document.getElementById("chartA"));
   chartA.setOption({
@@ -471,7 +485,6 @@
   }));
 
   // ---- 圖 C：三圈車位供給（累計） ----
-  const ringKeys = ["5", "10", "15"];
   const carVals = ringKeys.map((m) => data.parking.by_ring.cumulative[m].car_spaces);
   const motoVals = ringKeys.map((m) => data.parking.by_ring.cumulative[m].moto_spaces);
   const bikeVals = ringKeys.map((m) => data.youbike.by_ring.cumulative[m].dock_count);
@@ -534,7 +547,7 @@
   // ---------------------------------------------------------------
   const mn = data.method_notes;
   document.getElementById("method-dl").innerHTML = `
-    <dt>商圈邊界</dt><dd>與篇①同一份 15 分鐘機車等時圈（三核心點聯集），5／10 分只作對照</dd>
+    <dt>商圈邊界</dt><dd>與篇①同一份沿道路 ${PRIMARY_LABEL}圈（三核心點聯集），${ringKeys.filter((k) => k !== PRIMARY_KEY).map((k) => data.meta.ring_labels[k]).join("／")}圈只作對照；距離沿實際道路量（不是直線距離），剔除機車不能行駛的快速道路／高架橋</dd>
     <dt>台鐵資料涵蓋</dt><dd>${data.tra.data_coverage.min_date} ～ ${data.tra.data_coverage.max_date}（${data.tra.data_coverage.days_count} 天、${data.tra.data_coverage.years_covered} 個年度）</dd>
     <dt>台鐵資料與方法</dt><dd>${mn.tra_note}</dd>
     <dt>公車</dt><dd>${mn.bus_note}</dd>

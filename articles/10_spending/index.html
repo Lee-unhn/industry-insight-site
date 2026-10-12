@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>消費金流推斷：兩法交叉｜開店分析所</title>
+<title>消費金流：同業營收與居民消費｜開店分析所</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/6.1.0/echarts.min.js"></script>
 <script src="../_shared/motion.js"></script>
 <style>
@@ -253,12 +253,12 @@
 <div class="wrap">
 
   <header class="hero">
-    <div class="kicker">開店分析所 · 篇⑩ / 10</div>
-    <h1>消費金流推斷：兩法交叉</h1>
+    <div class="kicker">開店分析所 · 篇⑩ / 13</div>
+    <h1>消費金流：同業營收與居民消費</h1>
     <p class="lede" id="lede">
-      用兩種各自獨立的方法估算成大商圈 10 分鐘等時圈的餐飲／零售消費金流：法一（供給端）用臺南市全市營業稅銷售額
-      除以全市店數，推得每店平均營收再套用到 10 分圈店數；法二（需求端）用臺南市每戶消費支出乘上全國消費結構占比，
-      再乘 10 分圈戶數。兩法交叉呈現，差距不代表誰對誰錯，只是兩種獨立算法在同一件事上給出的不同數字（Q32 裁定）。
+      兩組各自獨立的公開資料數字：法一（供給端）用臺南市全市營業稅銷售額除以全市稅籍店數，得各行業的每店月均銷售額（全市層級）；
+      法二（需求端）用臺南市每戶消費支出乘上全國消費結構占比，再乘成大商圈沿道路 <span class="ring-primary">居住人口圈</span>圈戶數，得居民一年的餐飲／零售消費額。
+      兩組數字並列呈現，不互相換算、不互相比較。
     </p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
@@ -278,25 +278,18 @@
     </section>
 
     <section class="card">
-      <h2>圖 B · 附近住戶一年花多少錢（推估）</h2>
-      <p class="subtitle">用全市每戶年消費支出 × 全國消費結構占比 × 這裡的戶數估算（統計上稱法二），依類別堆疊呈現（單位：億元／年）</p>
+      <h2>圖 B · 附近住戶一年花多少錢（換算）</h2>
+      <p class="subtitle">用全市每戶年消費支出 × 全國消費結構占比 × 這裡的戶數換算（統計上稱法二），依類別堆疊呈現（單位：億元／年）</p>
       <div class="echart" id="chartB"></div>
       <button class="table-toggle" data-target="tableB">顯示資料表格</button>
       <table class="data-table" id="tableB"></table>
     </section>
 
     <section class="card">
-      <h2>圖 C · 兩種算法，數字差多少</h2>
-      <p class="subtitle">從店家角度算出來的供給額（法一）vs 從住戶角度算出來的消費池（法二），差距只列事實，不代表哪一種「正確」（單位：億元／年）</p>
-      <div class="echart" id="chartC"></div>
-      <div class="gap-badges" id="gap-badges"></div>
-    </section>
-
-    <section class="card">
-      <h2>圖 D · 你的業種在此商圈的推估月營收區間</h2>
+      <h2>圖 C · 各業種每店月均銷售額區間（全市）</h2>
       <p class="subtitle">
         每一列是一個細分行業在全市的每店月均銷售額（法一）；P25、P75 顯示同大類（餐飲／零售）其他細分行業的落差範圍，
-        只能參考同業間的差異，不是在預測任何一家店會賺多少（見下方誠實揭露）。點欄位名稱可以排序。
+        呈現的是同業間的差異，不是在預測任何一家店會賺多少（見下方誠實揭露）。點欄位名稱可以排序。
       </p>
       <div class="sort-table-wrap">
         <table class="sort-table" id="tableD"></table>
@@ -316,7 +309,7 @@
 
   <footer class="site-footer">
     開店分析所｜資料來源：財政部營業稅銷售額（按地區別及稅務行業別分）、主計總處家庭收支調查（平均每戶消費支出／消費支出結構）、
-    財政部全國營業（稅籍）登記資料集、稅務行業標準分類；10 分圈戶數引用篇⑤居住人口結構。互動圖與海報由同一份資料腳本產出。
+    財政部全國營業（稅籍）登記資料集、稅務行業標準分類；<span class="ring-primary">居住人口圈</span>圈戶數引用篇⑤居住人口結構。互動圖與海報由同一份資料腳本產出。
   </footer>
 
 </div>
@@ -335,6 +328,9 @@
   // 標頭 / meta
   // ---------------------------------------------------------------
   const m = data.meta;
+  // 圈名一律讀 data.json（meta.primary_ring／secondary_ring／ring_labels），不寫死圈值
+  const PRIMARY_LABEL = m.ring_labels[String(m.primary_ring)];
+  document.querySelectorAll(".ring-primary").forEach((el) => { el.textContent = PRIMARY_LABEL; });
   document.getElementById("meta-line").innerHTML =
     `法一銷售額資料年 <b>民國${m.vat_sales_year_roc}年（${m.vat_sales_year_ce}）</b>　·　` +
     `法二消費支出/結構資料年 <b>${m.hh_survey_year}</b>　·　` +
@@ -345,21 +341,20 @@
   // ---------------------------------------------------------------
   const maj56 = data.method1_supply.majors["56"];
   const maj4748 = data.method1_supply.majors["47-48"];
-  const cross56 = data.cross["56"];
-  const cross4748 = data.cross["47-48"];
+  const md0 = data.method2_demand;
 
   const stats = [
     { label: "餐飲店每月平均賣多少（全市）", value: fmt(maj56.per_store_monthly_ntd), unit: "元" },
     { label: "零售店每月平均賣多少（全市）", value: fmt(maj4748.per_store_monthly_ntd), unit: "元" },
     {
-      label: "餐飲：住戶消費力 vs 店家供給量",
-      value: fmt1(cross56.demand_to_supply_ratio_pct), unit: "%",
-      sub: `機車 10 分鐘範圍；消費池為供給額的比例，差距 ${cross56.gap_pct >= 0 ? "+" : ""}${fmt1(cross56.gap_pct)}%（${cross56.bigger_side === "demand" ? "消費池較大" : "供給額較大"}）`,
+      label: "附近住戶一年的餐飲消費額",
+      value: fmtYi(md0.ring10_demand_pool_restaurant_annual_ntd), unit: "億元",
+      sub: `沿道路 ${PRIMARY_LABEL}範圍；${fmt(md0.ring10_households)} 戶 × 每戶年餐飲支出 ${fmt(md0.per_household_annual_restaurant_ntd)} 元`,
     },
     {
-      label: "零售：住戶消費力 vs 店家供給量",
-      value: fmt1(cross4748.demand_to_supply_ratio_pct), unit: "%",
-      sub: `機車 10 分鐘範圍；消費池為供給額的比例，差距 ${cross4748.gap_pct >= 0 ? "+" : ""}${fmt1(cross4748.gap_pct)}%（${cross4748.bigger_side === "demand" ? "消費池較大" : "供給額較大"}）`,
+      label: "附近住戶一年的零售消費額",
+      value: fmtYi(md0.ring10_demand_pool_retail_annual_ntd), unit: "億元",
+      sub: `沿道路 ${PRIMARY_LABEL}範圍；${fmt(md0.ring10_households)} 戶 × 每戶年零售支出 ${fmt(md0.per_household_annual_retail_ntd)} 元`,
     },
   ];
   document.getElementById("stat-row").innerHTML = stats.map((s) => `
@@ -448,44 +443,7 @@
     ...retailComponents.map((c) => [c.key + "（歸零售）", "零售消費池", fmt(c.amount), fmtYi(c.amount)]),
   ]);
 
-  // ---- 圖 C：兩法交叉（分組長條） ----
-  const crossCats = ["餐飲", "零售"];
-  const supplyVals = [maj56.ring10_supply_annual_ntd, maj4748.ring10_supply_annual_ntd];
-  const demandVals = [md.ring10_demand_pool_restaurant_annual_ntd, md.ring10_demand_pool_retail_annual_ntd];
-  const chartC = echarts.init(document.getElementById("chartC"));
-  chartC.setOption({
-    textStyle: CHART_TEXT,
-    grid: baseGrid(),
-    legend: { top: 0, right: 0, textStyle: { color: "#52514e", fontSize: 12 } },
-    tooltip: { trigger: "axis", axisPointer: { type: "shadow" }, valueFormatter: (v) => `${fmtYi(v)} 億元` },
-    xAxis: { type: "category", data: crossCats, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, axisTick: { show: false } },
-    yAxis: { type: "value", name: "億元／年", nameTextStyle: AXIS_LABEL, axisLabel: { ...AXIS_LABEL, formatter: (v) => fmtYi(v) }, splitLine: SPLIT_LINE },
-    series: [
-      {
-        name: "法一供給額（10 分圈）", type: "bar", data: supplyVals, barMaxWidth: 46,
-        itemStyle: { color: "#2a78d6", borderRadius: [4, 4, 0, 0] },
-        label: { show: true, position: "top", color: "#52514e", fontSize: 11, formatter: (p) => fmtYi(p.value) },
-      },
-      {
-        name: "法二消費池（10 分圈）", type: "bar", data: demandVals, barMaxWidth: 46,
-        itemStyle: { color: "#eb6834", borderRadius: [4, 4, 0, 0] },
-        label: { show: true, position: "top", color: "#52514e", fontSize: 11, formatter: (p) => fmtYi(p.value) },
-      },
-    ],
-  });
-  const crossInfo = [
-    { name: "餐飲", c: cross56, hint: "消費池 > 供給額 → 可能為外溢消費（外地／通勤客貢獻）或供給端低估" },
-    { name: "零售", c: cross4748, hint: "供給額 > 消費池 → 可能為零售店服務範圍超出住戶消費（如批發、跨區採購客），或家庭收支調查採用的四類低估實際零售支出" },
-  ];
-  document.getElementById("gap-badges").innerHTML = crossInfo.map((x) => `
-    <div class="gap-badge">
-      <b>${x.name}</b>：供給 ${fmtYi(x.c.supply_annual_ntd)} 億元 vs 消費池 ${fmtYi(x.c.demand_annual_ntd)} 億元
-      <span class="tag ${x.c.bigger_side}">${x.c.bigger_side === "demand" ? "消費池較大" : "供給額較大"}</span>
-      <div style="margin-top:4px">差距 ${x.c.gap_pct >= 0 ? "+" : ""}${fmt1(x.c.gap_pct)}%（${fmt(Math.abs(x.c.gap_ntd))} 元）。${x.hint}（僅列可能解讀，非結論）。</div>
-    </div>
-  `).join("");
-
-  window.addEventListener("resize", () => { chartA.resize(); chartB.resize(); chartC.resize(); });
+  window.addEventListener("resize", () => { chartA.resize(); chartB.resize(); });
 
   function renderTable(id, headers, rows) {
     const el = document.getElementById(id);
@@ -501,7 +459,7 @@
   });
 
   // ---------------------------------------------------------------
-  // 圖 D：可排序表格（業種月營收區間）
+  // 圖 C：可排序表格（業種月營收區間）
   // ---------------------------------------------------------------
   const bandRows = [];
   for (const group of ["餐飲", "零售"]) {
@@ -566,15 +524,15 @@
   // ---------------------------------------------------------------
   const mn = data.method_notes;
   document.getElementById("method-dl").innerHTML = `
-    <dt>邊界（Q33）</dt><dd>主要用 10 分鐘機車等時圈（腹地人口／店數），5 分圈另列供對照</dd>
-    <dt>法一（供給端）</dt><dd>臺南市全市（56 餐飲業／47-48 零售業）年銷售額 ÷ 全市稅籍店數 = 每店年均，套用到 10 分圈店數</dd>
-    <dt>法二（需求端）</dt><dd>臺南市每戶年消費支出 × 全國消費型態占比 × 10 分圈戶數（戶數引用篇⑤，${data.population_ref.method}）</dd>
+    <dt>邊界</dt><dd>法二用沿實際道路量的 ${PRIMARY_LABEL}圈（不是直線距離，剔除機車不能行駛的快速道路／高架橋；居住人口與戶數）；法一是全市數字，不分圈</dd>
+    <dt>法一（供給端）</dt><dd>臺南市全市（56 餐飲業／47-48 零售業）年銷售額 ÷ 全市稅籍店數 = 每店年均，再 ÷ 12 得每店月均；不乘到圈內店數</dd>
+    <dt>法二（需求端）</dt><dd>臺南市每戶年消費支出 × 全國消費型態占比 × ${PRIMARY_LABEL}圈戶數（戶數引用篇⑤，${data.population_ref.method}）</dd>
     <dt>零售採用類別</dt><dd>${mn.retail_categories_included.join("、")}（排除：${mn.retail_categories_excluded.join("、")}）</dd>
     <dt>行業對照層級</dt><dd>${mn.mid_level_note}</dd>
     <dt>資料版本</dt><dd>${mn.data_version}</dd>
   `;
-  document.getElementById("honest-note-1").textContent = `誠實揭露（單位假設）：${mn.unit_assumption}`;
-  document.getElementById("honest-note-2").textContent = `誠實揭露（粒度＝全市，D1）：${mn.granularity} 誠實揭露（推算性質，D2）：${mn.structure_caveat}`;
+  document.getElementById("honest-note-1").textContent = `銷售額單位判讀：${mn.unit_basis}`;
+  document.getElementById("honest-note-2").textContent = `誠實揭露（粒度＝全市）：${mn.granularity} 誠實揭露（推算性質）：${mn.structure_caveat}`;
   document.getElementById("honest-note-3").textContent = `誠實揭露（年份錯位）：${mn.year_mismatch} 稅基備註：${mn.tax_basis}`;
   document.getElementById("honest-note-4").textContent = `誠實揭露（讀者工具）：${mn.revenue_band_note}`;
 

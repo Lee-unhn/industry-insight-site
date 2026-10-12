@@ -22,8 +22,8 @@
     --baseline:       #c3c2b7;
     --border:         rgba(11,11,11,0.10);
 
-    --series-1: #2a78d6;   /* blue -- 餐飲 5 分圈 */
-    --series-2: #eb6834;   /* orange -- 零售 5 分圈 */
+    --series-1: #2a78d6;   /* blue -- 餐飲（店家分析圈） */
+    --series-2: #eb6834;   /* orange -- 零售（店家分析圈） */
     --series-3: #1baf7a;   /* aqua -- 公司 */
     --series-4: #eda100;   /* yellow -- 其他 */
 
@@ -98,10 +98,10 @@
 <div class="wrap">
 
   <header class="hero">
-    <div class="kicker">開店分析所 · 篇④ / 10</div>
+    <div class="kicker">開店分析所 · 篇④ / 13</div>
     <h1>店家規模：資本額、組織別、連鎖 vs 獨立</h1>
     <p class="lede" id="lede">
-      在 5 分鐘機車核心商圈裡，對手多半是登記資本額幾萬元的獨資小店，還是有資本規模的
+      在沿道路 <span class="js-ring-primary">1 公里</span>內的核心商圈裡，對手多半是登記資本額幾萬元的獨資小店，還是有資本規模的
       連鎖分店？從登記資本額分布、組織型態、分店占比與新開店年份四個角度，回答「這裡的
       競爭對手長什麼樣子」。
     </p>
@@ -169,22 +169,28 @@
 
   const data = await fetch("./data.json").then((r) => r.json());
 
+  // 圈值與圈名一律讀 data.json（meta.rings_used／primary_ring／ring_labels），頁面不寫死圈值
+  const RING_LABELS = data.meta.ring_labels;
+  const P = String(data.meta.primary_ring);
+  const PL = RING_LABELS[P];
+  document.querySelectorAll(".js-ring-primary").forEach((el) => { el.textContent = PL; });
+
   document.getElementById("meta-line").innerHTML =
     `資料日期 <b>${data.meta.data_date}</b>　·　產出日期 <b>${data.meta.produced_date}</b>　·　` +
-    `5 分圈總店數 <b>${fmt(data.scope.ring5_total_stores)}</b> 家`;
+    `${PL}圈總店數 <b>${fmt(data.scope.ring5_total_stores)}</b> 家（餐飲 ${fmt(data.scope.restaurant_count_ring5)}、零售 ${fmt(data.scope.retail_count_ring5)}）`;
 
   // ---------------------------------------------------------------
   // Stat tiles
   // ---------------------------------------------------------------
   const capRest = data.capital.restaurant_ring5, capRestC = data.capital.restaurant_city;
   const capRet = data.capital.retail_ring5, capRetC = data.capital.retail_city;
-  const branchRest5 = data.branch.restaurant_by_ring["5"], branchRet5 = data.branch.retail_by_ring["5"];
+  const branchRest5 = data.branch.restaurant_by_ring[P], branchRet5 = data.branch.retail_by_ring[P];
   const foundRest5 = data.founding_year.restaurant_ring5, foundRet5 = data.founding_year.retail_ring5;
   const stats = [
-    { label: "餐飲店登記資本額中位數", value: fmt0(capRest.median_registered_capital), unit: "元", sub: `機車 5 分鐘內範圍；全市 ${fmt0(capRestC.median_registered_capital)} 元` },
-    { label: "零售店登記資本額中位數", value: fmt0(capRet.median_registered_capital), unit: "元", sub: `機車 5 分鐘內範圍；全市 ${fmt0(capRetC.median_registered_capital)} 元` },
-    { label: "這裡有多少是連鎖分店", value: fmt1(data.combined_ring5.branch_pct), unit: "%", sub: `餐飲 ${fmt1(branchRest5.branch_pct)}%　零售 ${fmt1(branchRet5.branch_pct)}%` },
-    { label: "最近 5 年新開的店占多少", value: fmt1(data.combined_ring5.recent5_pct), unit: "%", sub: `餐飲 ${fmt1(foundRest5.recent_pct)}%　零售 ${fmt1(foundRet5.recent_pct)}%` },
+    { label: "餐飲店登記資本額中位數", value: fmt0(capRest.median_registered_capital), unit: "元", sub: `沿道路 ${PL}內（${fmt(capRest.registered_count)} 家有登記）；全市 ${fmt0(capRestC.median_registered_capital)} 元` },
+    { label: "零售店登記資本額中位數", value: fmt0(capRet.median_registered_capital), unit: "元", sub: `沿道路 ${PL}內（${fmt(capRet.registered_count)} 家有登記）；全市 ${fmt0(capRetC.median_registered_capital)} 元` },
+    { label: "這裡有多少是連鎖分店", value: fmt1(data.combined_ring5.branch_pct), unit: "%", sub: `餐飲 ${fmt1(branchRest5.branch_pct)}%（${fmt(branchRest5.branch_count)}／${fmt(branchRest5.total)} 家）　零售 ${fmt1(branchRet5.branch_pct)}%（${fmt(branchRet5.branch_count)}／${fmt(branchRet5.total)} 家）` },
+    { label: "最近 5 年新開的店占多少", value: fmt1(data.combined_ring5.recent5_pct), unit: "%", sub: `餐飲 ${fmt1(foundRest5.recent_pct)}%（${fmt(foundRest5.recent_count)} 家）　零售 ${fmt1(foundRet5.recent_pct)}%（${fmt(foundRet5.recent_count)} 家）` },
   ];
   document.getElementById("stat-row").innerHTML = stats.map((s) => `
     <div class="stat-tile">
@@ -209,11 +215,11 @@
       `<tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody>`;
   }
 
-  // ---- 圖 A：資本額分箱（4 組：餐飲/零售 × 5分圈/全市） ----
+  // ---- 圖 A：資本額分箱（4 組：餐飲/零售 × 店家分析圈/全市） ----
   const bucketLabels = capRest.buckets.map((b) => b.label);
   const capSeriesDef = [
-    { key: "restaurant_ring5", name: "餐飲（5 分圈）", color: "#184f95" },
-    { key: "retail_ring5", name: "零售（5 分圈）", color: "#eb6834" },
+    { key: "restaurant_ring5", name: `餐飲（${PL}圈）`, color: "#184f95" },
+    { key: "retail_ring5", name: `零售（${PL}圈）`, color: "#eb6834" },
     { key: "restaurant_city", name: "餐飲（全市）", color: "#86b6ef" },
     { key: "retail_city", name: "零售（全市）", color: "#f5b98c" },
   ];
@@ -257,14 +263,15 @@
   ]));
 
   // ---- 圖 C：分店占比三圈對照 ----
-  const rings = ["5", "10", "15"];
+  const rings = data.meta.rings_used.map(String);
+  const ringName = RING_LABELS;
   const chartC = echarts.init(document.getElementById("chartC"));
   chartC.setOption({
     textStyle: CHART_TEXT,
     grid: baseGrid(),
     legend: { top: 0, right: 0, textStyle: { color: "#52514e", fontSize: 12 } },
     tooltip: { trigger: "axis", axisPointer: { type: "shadow" }, valueFormatter: (v) => `${v}%` },
-    xAxis: { type: "category", data: rings.map((r) => `${r} 分`), axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, axisTick: { show: false } },
+    xAxis: { type: "category", data: rings.map((r) => ringName[r]), axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, axisTick: { show: false } },
     yAxis: { type: "value", name: "% 分店占比", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
     series: [
       { name: "餐飲", type: "bar", barMaxWidth: 26, data: rings.map((r) => data.branch.restaurant_by_ring[r].branch_pct), itemStyle: { color: "#184f95", borderRadius: [4, 4, 0, 0] },
@@ -273,12 +280,12 @@
         label: { show: true, position: "top", color: "#52514e", fontSize: 11, formatter: (p) => `${p.value}%` } },
     ],
   });
-  renderTable("tableC", ["圈", "餐飲分店數", "餐飲分店比", "零售分店數", "零售分店比"], rings.map((r) => [
-    `${r} 分`, fmt(data.branch.restaurant_by_ring[r].branch_count), `${fmt1(data.branch.restaurant_by_ring[r].branch_pct)}%`,
-    fmt(data.branch.retail_by_ring[r].branch_count), `${fmt1(data.branch.retail_by_ring[r].branch_pct)}%`,
+  renderTable("tableC", ["圈", "餐飲店數", "餐飲分店數", "餐飲分店比", "零售店數", "零售分店數", "零售分店比"], rings.map((r) => [
+    ringName[r], fmt(data.branch.restaurant_by_ring[r].total), fmt(data.branch.restaurant_by_ring[r].branch_count), `${fmt1(data.branch.restaurant_by_ring[r].branch_pct)}%`,
+    fmt(data.branch.retail_by_ring[r].total), fmt(data.branch.retail_by_ring[r].branch_count), `${fmt1(data.branch.retail_by_ring[r].branch_pct)}%`,
   ]));
 
-  // ---- 圖 D：設立年份分布（5 分圈，含「更早」） ----
+  // ---- 圖 D：設立年份分布（店家分析圈，含「更早」） ----
   const histR = data.founding_year.histogram_ring5.restaurant;
   const histT = data.founding_year.histogram_ring5.retail;
   const yearLabels = ["更早", ...histR.years.map((y) => String(y))];
@@ -321,15 +328,19 @@
     <dt>未登記說明</dt><dd>${mn.capital_unregistered_note}</dd>
     <dt>組織別桶法</dt><dd>${mn.org_type_buckets}</dd>
     <dt>分店判準</dt><dd>${mn.branch_definition}</dd>
-    <dt>同名商號估計</dt><dd>${mn.same_name_chain_definition}；5 分圈餐飲 ${sameRest.n_groups} 組（合計 ${sameRest.stores_in_groups} 家）、零售 ${sameRet.n_groups} 組（合計 ${sameRet.stores_in_groups} 家）；全市對照：餐飲 ${sameRestC.n_groups} 組（${sameRestC.stores_in_groups} 家，占 ${fmt1(sameRestC.pct_of_total)}%）、零售 ${sameRetC.n_groups} 組（${sameRetC.stores_in_groups} 家，占 ${fmt1(sameRetC.pct_of_total)}%）</dd>
+    <dt>同名商號估計</dt><dd>${mn.same_name_chain_definition}；${PL}圈餐飲 ${sameRest.n_groups} 組（合計 ${sameRest.stores_in_groups} 家）、零售 ${sameRet.n_groups} 組（合計 ${sameRet.stores_in_groups} 家）；全市對照：餐飲 ${sameRestC.n_groups} 組（${sameRestC.stores_in_groups} 家，占 ${fmt1(sameRestC.pct_of_total)}%）、零售 ${sameRetC.n_groups} 組（${sameRetC.stores_in_groups} 家，占 ${fmt1(sameRetC.pct_of_total)}%）</dd>
     <dt>設立年份定義</dt><dd>${mn.founding_year_definition}</dd>
     <dt>近 5 年定義</dt><dd>${mn.recent_years_definition}</dd>
     <dt>資料版本</dt><dd>${mn.data_version}</dd>
   `;
+  const sameNone = sameRest.n_groups === 0 && sameRet.n_groups === 0;
   document.getElementById("honest-note").textContent =
-    `誠實揭露：分支機構登記資本額多數為 0（資本歸總公司），未登記比例本身就是分店占比的另一種訊號，不是資料缺失；` +
-    `5 分圈範圍小，同名商號 ≥3 家的近似連鎖估計在此範圍內為 0（全市層級才看得到這種群聚），` +
-    `代表核心商圈目前看不到「未走總公司登記路徑」的同名連鎖群聚，這點只用聚合計數呈現，不輸出任何商號名稱。`;
+    `誠實揭露：${PL}圈內餐飲 ${fmt(data.scope.restaurant_count_ring5)} 家、零售 ${fmt(data.scope.retail_count_ring5)} 家，` +
+    `分店占比與設立年份拆到每一格後家數就變少（例如餐飲分店 ${fmt(branchRest5.branch_count)} 家、零售分店 ${fmt(branchRet5.branch_count)} 家），讀百分比時請同時看家數；` +
+    `分支機構登記資本額多數為 0（資本歸總公司），未登記比例本身就是分店占比的另一種訊號，不是資料缺失；` +
+    (sameNone
+      ? `${PL}圈內同名商號 ≥3 家的近似連鎖估計為 0（全市層級才看得到這種群聚），代表核心商圈目前看不到「未走總公司登記路徑」的同名連鎖群聚，這點只用聚合計數呈現，不輸出任何商號名稱。`
+      : `同名商號 ≥3 家的近似連鎖估計只用聚合計數呈現，不輸出任何商號名稱。`);
 
 })().catch((err) => {
   console.error("[index] 載入失敗", err);

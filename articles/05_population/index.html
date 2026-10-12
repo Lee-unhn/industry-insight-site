@@ -137,10 +137,10 @@
 <div class="wrap">
 
   <header class="hero">
-    <div class="kicker">開店分析所 · 篇⑤ / 10</div>
+    <div class="kicker">開店分析所 · 篇⑤ / 13</div>
     <h1>居住人口結構：年齡、性別、戶數</h1>
     <p class="lede" id="lede">
-      以機車 10 分鐘等時圈作為居住人口腹地（5／15 分只做對照），用最小統計區人口統計
+      以沿道路 <span data-ring="pop">2 公里</span>圈作為居住人口腹地（<span data-ring="store">1 公里</span>／<span data-ring="access">3 公里</span>只做對照），用最小統計區人口統計
       算出圈內人口、戶數、性別與三段年齡結構；同時比對「面積加權分配」與「整區質心
       落圈」兩種估計法的差距，並與東區、北區、中西區及臺南市全市對照。
     </p>
@@ -163,7 +163,7 @@
   <div class="chart-grid">
     <section class="card">
       <h2>圖 A · 三個範圍各住多少人、多少戶</h2>
-      <p class="subtitle">5／10／15 分鐘範圍，用面積加權法估計（單位：人／戶）</p>
+      <p class="subtitle"><span data-ring="store">1 公里</span>／<span data-ring="pop">2 公里</span>／<span data-ring="access">3 公里</span>範圍，用面積加權法估計（單位：人／戶）</p>
       <div class="echart" id="chartA"></div>
       <button class="table-toggle" data-target="tableA">顯示資料表格</button>
       <table class="data-table" id="tableA"></table>
@@ -171,7 +171,7 @@
 
     <section class="card">
       <h2>圖 B · 年齡結構跟東區、全市比起來如何</h2>
-      <p class="subtitle">腹地（機車 10 分鐘範圍）vs 東區 vs 臺南市全市，三個年齡層加起來是 100%（單位：% 人口占比）</p>
+      <p class="subtitle">腹地（沿道路 <span data-ring="pop">2 公里</span>範圍）vs 東區 vs 臺南市全市，三個年齡層加起來是 100%（單位：% 人口占比）</p>
       <div class="echart" id="chartB"></div>
       <button class="table-toggle" data-target="tableB">顯示資料表格</button>
       <table class="data-table" id="tableB"></table>
@@ -226,6 +226,7 @@
   "use strict";
 
   const fmt = (n) => Number(n).toLocaleString("zh-Hant-TW");
+  const ringText = (m) => (m >= 1000 ? `${m / 1000} 公里` : `${m} 公尺`);
   const fmt1 = (n) => Number(n).toLocaleString("zh-Hant-TW", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
   const fmt2 = (n) => Number(n).toLocaleString("zh-Hant-TW", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const signed1 = (n) => `${n > 0 ? "+" : ""}${fmt1(n)}`;
@@ -240,18 +241,25 @@
     fetch("./minstat_density.geojson").then((r) => r.json()),
   ]);
 
+  // 圈值與圈名一律讀 data.json（sources.yaml → 腳本輸出），頁面不寫死圈值
+  const RING_M = data.meta.ring_m;
+  const ROLE = data.meta.ring_roles;
+  const RL = (m) => (data.meta.ring_labels && data.meta.ring_labels[String(m)]) || ringText(m);
+  const RP = ROLE.pop;
+  document.querySelectorAll("[data-ring]").forEach((el) => { el.textContent = RL(ROLE[el.dataset.ring]); });
+
   document.getElementById("meta-line").innerHTML =
     `資料時間 <b>民國${data.meta.census_period}</b>　·　資料快照 <b>${data.meta.data_date}</b>　·　產出日期 <b>${data.meta.produced_date}</b>　·　` +
-    `腹地圈 <b>${data.meta.primary_ring} 分鐘</b>`;
+    `腹地圈 <b>${ringText(data.meta.primary_ring)}</b>`;
 
   // ---------------------------------------------------------------
   // Stat tiles
   // ---------------------------------------------------------------
-  const r10w = data.rings["10"].area_weighted;
-  const diff10 = data.rings["10"].diff;
+  const r10w = data.rings[String(RP)].area_weighted;
+  const diff10 = data.rings[String(RP)].diff;
   const stats = [
-    { label: "腹地居住人口", value: fmt(r10w.population), unit: "人", sub: `機車 10 分鐘範圍，涵蓋 ${fmt(r10w.minstat_count)} 個最小統計區` },
-    { label: "腹地戶數", value: fmt(r10w.households), unit: "戶", sub: `機車 10 分鐘範圍，平均每戶 ${fmt2(r10w.avg_household_size)} 人` },
+    { label: "腹地居住人口", value: fmt(r10w.population), unit: "人", sub: `沿道路 ${RL(RP)}範圍，涵蓋 ${fmt(r10w.minstat_count)} 個最小統計區` },
+    { label: "腹地戶數", value: fmt(r10w.households), unit: "戶", sub: `沿道路 ${RL(RP)}範圍，平均每戶 ${fmt2(r10w.avg_household_size)} 人` },
     { label: "65 歲以上老年人口占比", value: fmt1(r10w.age_bands.age_65_up.pct), unit: "%", sub: `全市 ${fmt1(data.districts.city.age_bands.age_65_up.pct)}%` },
     { label: "兩種算法差多少", value: signed1(diff10.population_diff_pct), unit: "%", sub: "面積加權法 vs 質心落圈法，人口估計差距，見下方方法說明" },
   ];
@@ -266,8 +274,8 @@
   // ---------------------------------------------------------------
   // 地圖（MapLibre，無外部圖磚；roads/isochrones 重用篇①，density 本篇自產）
   // ---------------------------------------------------------------
-  function featureFor(fc, minutes) {
-    const f = fc.features.find((x) => x.properties.minutes === minutes);
+  function featureFor(fc, ringM) {
+    const f = fc.features.find((x) => x.properties.ring_m === ringM);
     return { type: "FeatureCollection", features: f ? [f] : [] };
   }
 
@@ -288,29 +296,29 @@
     sources: {
       roads: { type: "geojson", data: roads },
       density: { type: "geojson", data: density },
-      ring15: { type: "geojson", data: featureFor(isochrones, 15) },
-      ring10: { type: "geojson", data: featureFor(isochrones, 10) },
-      ring5: { type: "geojson", data: featureFor(isochrones, 5) },
+      ringAccess: { type: "geojson", data: featureFor(isochrones, ROLE.access) },
+      ringPop: { type: "geojson", data: featureFor(isochrones, ROLE.pop) },
+      ringStore: { type: "geojson", data: featureFor(isochrones, ROLE.store) },
     },
     layers: [
       { id: "bg", type: "background", paint: { "background-color": "#fcfcfb" } },
       { id: "roads-line", type: "line", source: "roads", paint: { "line-color": "#c3c2b7", "line-width": 0.8, "line-opacity": 0.7 } },
       { id: "density-fill", type: "fill", source: "density", paint: { "fill-color": densityColorExpr, "fill-opacity": 0.85 } },
       { id: "density-outline", type: "line", source: "density", paint: { "line-color": "#fcfcfb", "line-width": 0.3, "line-opacity": 0.5 } },
-      { id: "ring15-line", type: "line", source: "ring15", paint: { "line-color": "#86b6ef", "line-width": 1.6, "line-dasharray": [2, 1.6] } },
-      { id: "ring10-line", type: "line", source: "ring10", paint: { "line-color": "#2a78d6", "line-width": 2.6 } },
-      { id: "ring5-line", type: "line", source: "ring5", paint: { "line-color": "#184f95", "line-width": 1.6, "line-dasharray": [1, 1] } },
+      { id: "ringAccess-line", type: "line", source: "ringAccess", paint: { "line-color": "#86b6ef", "line-width": 1.6, "line-dasharray": [2, 1.6] } },
+      { id: "ringPop-line", type: "line", source: "ringPop", paint: { "line-color": "#2a78d6", "line-width": 2.6 } },
+      { id: "ringStore-line", type: "line", source: "ringStore", paint: { "line-color": "#184f95", "line-width": 1.6, "line-dasharray": [1, 1] } },
     ],
   };
 
-  const ring10Coords = (() => {
-    const f = isochrones.features.find((x) => x.properties.minutes === 10);
+  const ring1000Coords = (() => {
+    const f = isochrones.features.find((x) => x.properties.ring_m === RP);
     const g = f.geometry;
     const rings = g.type === "Polygon" ? g.coordinates : g.coordinates.flat();
     return rings.flat();
   })();
-  const lons = ring10Coords.map((c) => c[0]);
-  const lats = ring10Coords.map((c) => c[1]);
+  const lons = ring1000Coords.map((c) => c[0]);
+  const lats = ring1000Coords.map((c) => c[1]);
   const bounds = [[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]];
 
   const map = new maplibregl.Map({
@@ -350,9 +358,9 @@
 
   document.getElementById("map-legend").innerHTML = `
     <h4>圖例</h4>
-    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#184f95;border-top-style:dashed;border-top-width:1.6px"></span>5 分</div>
-    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#2a78d6;border-top-style:solid;border-top-width:2.6px"></span>10 分（腹地）</div>
-    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#86b6ef;border-top-style:dashed;border-top-width:1.6px"></span>15 分</div>
+    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#184f95;border-top-style:dashed;border-top-width:1.6px"></span>${RL(ROLE.store)}</div>
+    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#2a78d6;border-top-style:solid;border-top-width:2.6px"></span>${RL(ROLE.pop)}（腹地）</div>
+    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#86b6ef;border-top-style:dashed;border-top-width:1.6px"></span>${RL(ROLE.access)}</div>
     <div class="legend-row"><svg class="center-star" viewBox="0 0 24 24" fill="#e34948" stroke="#0b0b0b" stroke-width="1"><path d="M12 1.8l2.9 6.9 7.4.6-5.7 4.9 1.8 7.3L12 17.6 5.6 21.5l1.8-7.3-5.7-4.9 7.4-.6z"/></svg>三個商圈核心點</div>
     <div class="legend-ramp"></div>
     <div class="legend-ramp-labels"><span>0 人/km²</span><span>密度高</span></div>
@@ -368,8 +376,8 @@
   const SPLIT_LINE = { lineStyle: { color: "#e1e0d9", width: 1, type: "solid" } };
   function baseGrid() { return { left: 8, right: 18, top: 30, bottom: 8, containLabel: true }; }
 
-  const ringLabels = ["5 分", "10 分", "15 分"];
-  const ringsW = [5, 10, 15].map((m) => data.rings[String(m)].area_weighted);
+  const ringLabels = RING_M.map(RL);
+  const ringsW = RING_M.map((m) => data.rings[String(m)].area_weighted);
 
   // ---- 圖 A：三圈人口／戶數（面積加權）----
   const chartA = echarts.init(document.getElementById("chartA"));
@@ -392,12 +400,12 @@
     ringLabels[i], fmt(r.population), fmt(r.households), fmt2(r.avg_household_size),
   ]));
 
-  // ---- 圖 B：三段年齡組占比對照（10 分圈 vs 東區 vs 全市）----
+  // ---- 圖 B：三段年齡組占比對照（居住人口圈 vs 東區 vs 全市）----
   const bandKeys = ["age_0_14", "age_15_64", "age_65_up"];
-  const bandLabelOf = (k) => data.rings["10"].area_weighted.age_bands[k].label;
+  const bandLabelOf = (k) => data.rings[String(RP)].area_weighted.age_bands[k].label;
   const bandColors = { age_0_14: "#2a78d6", age_15_64: "#1baf7a", age_65_up: "#eda100" };
   const compareGroups = [
-    { label: "10 分圈（腹地）", bands: data.rings["10"].area_weighted.age_bands },
+    { label: `${RL(RP)}圈（腹地）`, bands: data.rings[String(RP)].area_weighted.age_bands },
     { label: "東區", bands: data.districts.east.age_bands },
     { label: "全市", bands: data.districts.city.age_bands },
   ];
@@ -496,12 +504,12 @@
   // ---------------------------------------------------------------
   // 兩法對照表
   // ---------------------------------------------------------------
-  const methodRows = [5, 10, 15].map((m) => {
+  const methodRows = RING_M.map((m) => {
     const rw = data.rings[String(m)].area_weighted;
     const rc = data.rings[String(m)].centroid;
     const d = data.rings[String(m)].diff;
     return [
-      `${m} 分`,
+      RL(m),
       fmt(rw.population), fmt(rc.population), signed1(d.population_diff_pct),
       fmt(rw.households), fmt(rc.households), signed1(d.households_diff_pct),
     ];
@@ -515,7 +523,7 @@
   // ---------------------------------------------------------------
   const mn = data.method_notes;
   document.getElementById("method-dl").innerHTML = `
-    <dt>腹地圈</dt><dd>${mn.primary_ring} 分鐘（Q33 裁定；5／15 分只做對照，用途：5 分＝${mn.ring_use["5"]}、10 分＝${mn.ring_use["10"]}、15 分＝${mn.ring_use["15"]}）</dd>
+    <dt>腹地圈</dt><dd>${RL(mn.primary_ring)}（沿實際道路量的距離，不是直線距離，剔除機車不能行駛的快速道路／高架橋；${RING_M.filter((m) => m !== mn.primary_ring).map(RL).join("／")}只做對照，用途：${RING_M.map((m) => `${RL(m)}＝${mn.ring_use[String(m)]}`).join("、")}）</dd>
     <dt>面積加權法</dt><dd>${mn.area_weighted_method}</dd>
     <dt>整區質心落圈法</dt><dd>${mn.centroid_method}</dd>
     <dt>兩法差距</dt><dd>${mn.method_diff_note}</dd>
@@ -525,8 +533,8 @@
   `;
   document.getElementById("honest-note").textContent =
     `誠實揭露：本頁人口／戶數數字為統計估計，不是實際普查逐戶計數——面積加權法把每個最小統計區依「與圈的交集面積比例」拆分計入，` +
-    `整區質心落圈法則是整區 100% 算入或算出，兩法在三個圈的差距都在 0.5% 以內（見上表）；圖 E 年齡金字塔受限於資料只發布到` +
-    `一級發布區的粒度，無法直接對應到等時圈，改用涵蓋東區的一級發布區聚合代表，人口總數已與東區（最小統計區三段年齡組）交叉核對相符。`;
+    `整區質心落圈法則是整區 100% 算入或算出，兩法差距見上表（${mn.method_diff_note}）；圖 E 年齡金字塔受限於資料只發布到` +
+    `一級發布區的粒度，無法直接對應到距離圈，改用涵蓋東區的一級發布區聚合代表，人口總數已與東區（最小統計區三段年齡組）交叉核對相符。`;
 
 })().catch((err) => {
   console.error("[index] 載入失敗", err);

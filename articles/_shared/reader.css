@@ -177,3 +177,12 @@ section.keyfacts {
   .kf-label { -webkit-line-clamp: unset; display: block; }
 }
 
+
+/* 資料出處表（reader.js renderProvenance） */
+.provenance { margin-top: 14px; }
+.provenance-title { font-size: 14px; margin: 0 0 6px; color: var(--text-primary, #0b0b0b); }
+.provenance-scroll { overflow-x: auto; }
+.provenance-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.provenance-table th, .provenance-table td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--gridline, #e1e0d9); vertical-align: top; }
+.provenance-table th { color: var(--text-secondary, #52514e); font-weight: 600; white-space: nowrap; }
+.provenance-table a { color: var(--series-1, #2a78d6); word-break: break-all; }

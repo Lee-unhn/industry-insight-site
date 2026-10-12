@@ -1,821 +1,703 @@
 {
   "meta": {
     "article_no": 12,
-    "title": "客群消費力與定價：這裡的人付得起什麼價位、你一個月能做多少",
-    "data_date": "2026-09-08",
-    "produced_date": "2026-09-09",
-    "primary_ring": 10,
-    "secondary_ring": 5,
+    "title": "同業營收與位置差異",
+    "subtitle": "同業一家店一個月做多少、不同位置差多少、附近居民的外食預算有多少",
+    "data_date": "2026-10-12",
+    "produced_date": "2026-10-12",
+    "rings_used": [
+      1000,
+      2000
+    ],
+    "ring_labels": {
+      "1000": "1 公里",
+      "2000": "2 公里",
+      "3000": "3 公里"
+    },
+    "store_ring_label": "1 公里",
+    "pop_ring_label": "2 公里",
+    "density_ratio_label": "店家密度比",
     "district_id": "ncku",
-    "district_name": "成大商圈",
-    "quintile_year": "2024",
-    "structure_year": "2024"
+    "district_name": "成大商圈"
   },
   "segments": {
-    "items": [
+    "pop_ring": 2000,
+    "residents_population": 142034,
+    "residents_households": 64097,
+    "household_size": 2.216,
+    "students": 23485,
+    "faculty": 1293,
+    "hospital_staff": 4871,
+    "restaurant_pct": 14.19,
+    "structure_year": "2025",
+    "quintile_year": "2025",
+    "quintiles": [
       {
-        "key": "resident_q1",
-        "label": "居民（所得後 25%）",
-        "kind": "stock",
-        "population": 98117,
-        "quintile_used": "最低所得組",
-        "monthly_budget_ntd": 2009.9,
-        "monthly_pool_ntd": 197205358.0
+        "group": "最低所得組",
+        "household_annual_spending_ntd": 414894.0,
+        "household_monthly_dining_ntd": 4906.0,
+        "per_person_monthly_dining_ntd": 2214.0
       },
       {
-        "key": "resident_q2",
-        "label": "居民（所得 25-50%）",
-        "kind": "stock",
-        "population": 98117,
-        "quintile_used": "次低所得組",
-        "monthly_budget_ntd": 3224.8,
-        "monthly_pool_ntd": 316407702.0
+        "group": "次低所得組",
+        "household_annual_spending_ntd": 668118.0,
+        "household_monthly_dining_ntd": 7900.0,
+        "per_person_monthly_dining_ntd": 3565.0
       },
       {
-        "key": "resident_q3",
-        "label": "居民（所得 50-75%）",
-        "kind": "stock",
-        "population": 98117,
-        "quintile_used": "中間所得組",
-        "monthly_budget_ntd": 4239.8,
-        "monthly_pool_ntd": 415996457.0
+        "group": "中間所得組",
+        "household_annual_spending_ntd": 883399.0,
+        "household_monthly_dining_ntd": 10446.0,
+        "per_person_monthly_dining_ntd": 4714.0
       },
       {
-        "key": "resident_q4",
-        "label": "居民（所得前 25%）",
-        "kind": "stock",
-        "population": 98118,
-        "quintile_used": "次高＋最高所得組平均",
-        "monthly_budget_ntd": 6367.1,
-        "monthly_pool_ntd": 624727118.0
+        "group": "次高所得組",
+        "household_annual_spending_ntd": 1111196.0,
+        "household_monthly_dining_ntd": 13140.0,
+        "per_person_monthly_dining_ntd": 5930.0
       },
       {
-        "key": "students",
-        "label": "成大學生",
-        "kind": "stock",
-        "population": 23485,
-        "quintile_used": "最低所得組（近似）",
-        "monthly_budget_ntd": 2009.9,
-        "monthly_pool_ntd": 47202502.0
-      },
-      {
-        "key": "faculty",
-        "label": "成大教職員",
-        "kind": "stock",
-        "population": 1293,
-        "quintile_used": "次高所得組（近似）",
-        "monthly_budget_ntd": 5375.9,
-        "monthly_pool_ntd": 6951039.0
-      },
-      {
-        "key": "hospital",
-        "label": "成大醫院員工",
-        "kind": "stock",
-        "population": 4871,
-        "quintile_used": "次高所得組（近似）",
-        "monthly_budget_ntd": 5375.9,
-        "monthly_pool_ntd": 26186009.0
-      },
-      {
-        "key": "tra_visitors",
-        "label": "台鐵到站旅客",
-        "kind": "flow",
-        "daily_flow": 50021.6,
-        "daily_budget_ntd": 1283.4,
-        "monthly_pool_ntd_upper_bound": 1925931643.0
-      },
-      {
-        "key": "tourism_visitors",
-        "label": "周邊景點旅客",
-        "kind": "flow",
-        "daily_flow": 34276.1,
-        "daily_budget_ntd": 1283.4,
-        "monthly_pool_ntd_upper_bound": 1319698402.0
+        "group": "最高所得組",
+        "household_annual_spending_ntd": 1524378.0,
+        "household_monthly_dining_ntd": 18026.0,
+        "per_person_monthly_dining_ntd": 8135.0
       }
     ],
-    "household_size": 2.291,
-    "restaurant_pct": 13.74,
-    "quintile_year": "2024",
-    "structure_year": "2024",
-    "quintile_inputs": {
-      "最低所得組": {
-        "household_annual_ntd": 402142.0
-      },
-      "次低所得組": {
-        "household_annual_ntd": 645207.0
-      },
-      "中間所得組": {
-        "household_annual_ntd": 848290.0
-      },
-      "次高所得組": {
-        "household_annual_ntd": 1075600.0
-      },
-      "最高所得組": {
-        "household_annual_ntd": 1472254.0
-      }
-    },
-    "quintile_budget": {
-      "最低所得組": 2009.9,
-      "次低所得組": 3224.8,
-      "中間所得組": 4239.8,
-      "次高所得組": 5375.9,
-      "最高所得組": 7358.4
-    },
-    "q4_budget_avg": 6367.1,
-    "stock_total_population": 422118,
-    "stock_pool_monthly_ntd": 1634676185.0,
-    "blended_budget_per_person_ntd": 3872.6,
-    "tourism_daily_budget_ntd": 1283.4,
-    "cpi_tourism": {
-      "latest_period": "2026M08",
-      "latest_value": 121.77,
-      "year2024_avg": 113.761,
-      "factor": 1.0704
-    },
-    "cross_check": {
-      "method2_monthly_ntd": 1523710870.0,
-      "stock_pool_monthly_ntd": 1634676185.0,
-      "ratio_pct": 107.3,
-      "note": "本頁固定客群消費池（居民＋學生＋教職員＋醫院員工，皆用『人數×每人每月預算』算）與篇⑩法二（10分圈戶數×每戶支出）方法接近，可直接交叉比對；差距主要來自本頁多算了學生/教職員/醫院員工（篇⑩法二只算居住戶數）"
-    },
-    "income_position_index": 1.1906,
-    "student_share": 0.0556,
-    "borrowed": {
-      "population": 392469,
-      "households": 171316,
-      "students": 23485,
-      "faculty": 1293,
-      "hospital": 4871,
-      "tra_avg_in": 24820.1,
-      "tra_avg_out": 25201.5,
-      "tourism_daily_avg": 34276.1,
-      "income_ring10_median_of_median": 546.5,
-      "income_city_median_of_median": 459.0
+    "tainan": {
+      "region_year": "2025",
+      "household_annual_spending_ntd": 811229.0,
+      "household_annual_dining_ntd": 115113.0,
+      "household_monthly_dining_ntd": 9593.0,
+      "per_person_monthly_dining_ntd": 4329.0
     }
   },
-  "cpi": {
-    "latest": {
-      "period": "2026M08",
-      "value": 121.77
+  "dining_frequency": {
+    "row_used": {
+      "sex": "全體",
+      "age_group": "19歲以上",
+      "n": 6593
     },
-    "year_avg": {
-      "2020": {
-        "sum12": 1189.62,
-        "avg": 99.135,
-        "factor": 1.2283
-      },
-      "2021": {
-        "sum12": 1200.0,
-        "avg": 100.0,
-        "factor": 1.2177
-      },
-      "2024": {
-        "sum12": 1365.13,
-        "avg": 113.761,
-        "factor": 1.0704
-      },
-      "2025": {
-        "sum12": 1411.41,
-        "avg": 117.618,
-        "factor": 1.0353
-      }
-    }
-  },
-  "unit_price": {
-    "categories": {
-      "小吃": {
-        "anchors": [
-          {
-            "anchor_id": "doufu_entry_2025",
-            "brand_or_sample": "豆府集團－韓式鍋物／五星麻辣味／百年越式河粉價格帶",
-            "price_raw": 250.0,
-            "year": 2025,
-            "cpi_factor": 1.0353,
-            "price_2026": 258.8
-          }
-        ],
-        "low": 220.0,
-        "mid": 269.1,
-        "high": 297.6,
-        "base_mid_before_correction": 258.8,
-        "band_note": "僅 1 筆錨點，低/高以 ±15% 代表可能區間，非統計分布",
-        "derivation": "anchor",
-        "affordability_cap": 387.3
-      },
-      "簡餐": {
-        "anchors": [
-          {
-            "anchor_id": "doufu_setmeal_2025",
-            "brand_or_sample": "豆府集團－精緻韓式定食／日式拉麵專門店(樂麵屋)價格帶",
-            "price_raw": 350.0,
-            "year": 2025,
-            "cpi_factor": 1.0353,
-            "price_2026": 362.4
-          }
-        ],
-        "low": 308.0,
-        "mid": 376.8,
-        "high": 416.8,
-        "base_mid_before_correction": 362.4,
-        "band_note": "僅 1 筆錨點，低/高以 ±15% 代表可能區間，非統計分布",
-        "derivation": "anchor",
-        "affordability_cap": 387.3
-      },
-      "火鍋": {
-        "anchors": [
-          {
-            "anchor_id": "doufu_hotpot_2025",
-            "brand_or_sample": "豆府集團－北村豆腐家（韓式豆腐煲專門店）",
-            "price_raw": 450.0,
-            "year": 2025,
-            "cpi_factor": 1.0353,
-            "price_2026": 465.9
-          }
-        ],
-        "low": 396.0,
-        "mid": 484.4,
-        "high": 535.8,
-        "base_mid_before_correction": 465.9,
-        "band_note": "僅 1 筆錨點，低/高以 ±15% 代表可能區間，非統計分布",
-        "derivation": "anchor",
-        "affordability_cap": 387.3
-      },
-      "餐館": {
-        "anchors": [
-          {
-            "anchor_id": "doufu_midtier_2025",
-            "brand_or_sample": "豆府集團－精緻韓式料理／米其林泰式餐廳(帕泰家)價格帶",
-            "price_raw": 550.0,
-            "year": 2025,
-            "cpi_factor": 1.0353,
-            "price_2026": 569.4
-          },
-          {
-            "anchor_id": "doufu_jiangmantang_2025",
-            "brand_or_sample": "豆府餐飲集團－姜滿堂（韓國正宗直火燒肉）",
-            "price_raw": 600.0,
-            "year": 2025,
-            "cpi_factor": 1.0353,
-            "price_2026": 621.2
-          },
-          {
-            "anchor_id": "wowprime_steak_2025",
-            "brand_or_sample": "王品集團－西堤牛排／陶板屋 單人套餐",
-            "price_raw": 698.0,
-            "year": 2025,
-            "cpi_factor": 1.0353,
-            "price_2026": 722.6
-          }
-        ],
-        "low": 569.4,
-        "mid": 645.9,
-        "high": 722.6,
-        "base_mid_before_correction": 621.2,
-        "band_note": "3 筆錨點，低/高＝CPI 換算後的最小值/最大值，中＝中位數",
-        "derivation": "anchor",
-        "affordability_cap": 387.3
-      },
-      "咖啡": {
-        "anchors": [
-          {
-            "anchor_id": "louisa_coffee_2021",
-            "brand_or_sample": "路易莎咖啡",
-            "price_raw": 100.0,
-            "year": 2021,
-            "cpi_factor": 1.2177,
-            "price_2026": 121.8
-          },
-          {
-            "anchor_id": "ichef_case_shouzi_2025",
-            "brand_or_sample": "瘦子咖啡 Skinny Cafe（彰化，iCHEF客戶案例）",
-            "price_raw": 247.0,
-            "year": 2025,
-            "cpi_factor": 1.0353,
-            "price_2026": 255.7
-          }
-        ],
-        "low": 121.8,
-        "mid": 196.3,
-        "high": 255.7,
-        "base_mid_before_correction": 188.8,
-        "band_note": "2 筆錨點，低/高＝CPI 換算後的最小值/最大值，中＝中位數",
-        "derivation": "anchor",
-        "affordability_cap": 387.3
-      },
-      "速食": {
-        "anchors": [
-          {
-            "anchor_id": "mwd_breakfast_2020",
-            "brand_or_sample": "麥味登（早餐店，品牌升級後）",
-            "price_raw": 165.0,
-            "year": 2020,
-            "cpi_factor": 1.2283,
-            "price_2026": 202.7
-          }
-        ],
-        "low": 172.3,
-        "mid": 210.7,
-        "high": 233.1,
-        "base_mid_before_correction": 202.7,
-        "band_note": "僅 1 筆錨點，低/高以 ±15% 代表可能區間，非統計分布",
-        "derivation": "anchor",
-        "affordability_cap": 387.3
-      },
-      "自助餐": {
-        "anchors": [
-          {
-            "anchor_id": "hilai_haigang_2025",
-            "brand_or_sample": "漢來美食－漢來海港（吃到飽自助餐）",
-            "price_raw": 960.0,
-            "year": 2025,
-            "cpi_factor": 1.0353,
-            "price_2026": 993.9
-          },
-          {
-            "anchor_id": "hilai_daoyu_2025",
-            "brand_or_sample": "漢來美食－島語（升級版自助餐）",
-            "price_raw": 1470.0,
-            "year": 2025,
-            "cpi_factor": 1.0353,
-            "price_2026": 1521.9
-          }
-        ],
-        "low": 993.9,
-        "mid": 1307.8,
-        "high": 1521.9,
-        "base_mid_before_correction": 1257.9,
-        "band_note": "2 筆錨點，低/高＝CPI 換算後的最小值/最大值，中＝中位數",
-        "derivation": "anchor",
-        "affordability_cap": 387.3
-      },
-      "飲料店": {
-        "derivation": "reverse",
-        "revenue_proxy_monthly_ntd": 208697.0,
-        "assumed_daily_customers": 100.0,
-        "low": 59.2,
-        "mid": 72.4,
-        "high": 80.0,
-        "base_mid_before_correction": 69.6,
-        "band_note": "無 unit_price_anchors 錨點，用篇⑩ 563 飲料業每店月均營收 ÷ 假設每日產能反推出基準價（每店每日產能 200 杯 × 使用率 0.5 ＝ 100 杯/天，與 capture_rate 供給端錨點同一組假設），低/高比照單一錨點業態規則以 ±15% 代表可能區間，非統計分布",
-        "affordability_cap": 387.3
-      }
-    },
-    "adjustment_factor": 1.0397,
-    "adjustment_formula": "校正係數＝1 ＋ 0.5×(商圈所得位階-1) － 1.0×學生占比；商圈所得位階＝篇⑥ 10 分圈村里所得中位數的中位數 ÷ 全市同值＝1.1906；學生占比＝學生數 ÷（居民＋學生＋教職員＋醫院員工）＝0.0556；算出 1.0397，只用來把「中價」在錨點低/高區間內移動（所得位階高→偏高價，學生占比高→偏低價），不影響低/高兩端（那是錨點本身的區間）",
-    "affordability_frequency_per_month": 10,
-    "latest_cpi_period": "2026M08",
-    "latest_cpi_value": 121.77
-  },
-  "effective_footfall": {
-    "contributions": {
-      "residents": {
-        "kind": "stock",
-        "population": 106770,
-        "ratio_kind": "activity_ratio",
-        "ratio": 0.6,
-        "effective_daily": 64062.0
-      },
-      "students_faculty": {
-        "kind": "stock",
-        "population": 24778,
-        "ratio_kind": "activity_ratio",
-        "ratio": 0.9,
-        "effective_daily": 22300.2
-      },
-      "hospital": {
-        "kind": "stock",
-        "population": 4871,
-        "ratio_kind": "activity_ratio",
-        "ratio": 1.0,
-        "effective_daily": 4871.0
-      },
-      "tra_visitors": {
-        "kind": "flow",
-        "daily_flow": 50021.6,
-        "ratio_kind": "spend_ratio",
-        "ratio": 0.3,
-        "effective_daily": 15006.5
-      },
-      "tourism_visitors": {
-        "kind": "flow",
-        "daily_flow": 34276.1,
-        "ratio_kind": "spend_ratio",
-        "ratio": 0.3,
-        "effective_daily": 10282.8
-      }
-    },
-    "daily_effective_footfall": 116522.5,
-    "activity_ratios": {
-      "resident": 0.6,
-      "student_faculty": 0.9,
-      "hospital": 1.0
-    },
-    "flow_spend_ratio": 0.3,
-    "old_denominator_daily_footfall": 84297.7,
-    "resident_ring_used": 5,
-    "formula": "有效日人流＝居民 5 分圈 106,770 人（借用篇⑤ rings.5.area_weighted，跟供給端店數同一個地理範圍，不再用 Step1 客群消費池那個 10 分圈 392,469 人）× 0.6（每日外出活動比例）＋ 學生教職員 24,778 人 × 0.9（在校日出現比例，全算、不拆圈）＋醫院員工 4,871 人 × 1.0（值班出現比例，全算、不拆圈）＋（台鐵進出站＋周邊景點）日均人次 × 0.3（停留消費比例）；最早版本的分母只加總台鐵＋觀光兩個實測流量項目，漏了居民/學生/教職員/醫院員工這些占分母絕大多數的存量客群；2026-09-09 再修正「地理不一致」：居民存量改用跟供給端店數同一個 5 分圈，不是 10 分圈（見 method_notes.capture_rate_denominator_fix）"
-  },
-  "segments_ring5": {
-    "ring": 5,
-    "population": 106770,
-    "resident_items": [
+    "buckets": [
       {
-        "key": "resident_ring5_q1",
-        "label": "居民（所得後 25%，5 分圈）",
-        "population": 26692,
-        "quintile_used": "最低所得組",
-        "monthly_budget_ntd": 2009.9,
-        "monthly_pool_ntd": 53648251.0
+        "key": "none_pct",
+        "label": "皆無外食",
+        "pct": 11.4,
+        "weekly_lo": 0,
+        "weekly_hi": 0
       },
       {
-        "key": "resident_ring5_q2",
-        "label": "居民（所得 25-50%，5 分圈）",
-        "population": 26692,
-        "quintile_used": "次低所得組",
-        "monthly_budget_ntd": 3224.8,
-        "monthly_pool_ntd": 86076362.0
+        "key": "lt7_pct",
+        "label": "每週未滿 7 次",
+        "pct": 20.6,
+        "weekly_lo": 0,
+        "weekly_hi": 7
       },
       {
-        "key": "resident_ring5_q3",
-        "label": "居民（所得 50-75%，5 分圈）",
-        "population": 26692,
-        "quintile_used": "中間所得組",
-        "monthly_budget_ntd": 4239.8,
-        "monthly_pool_ntd": 113168742.0
+        "key": "w7_14_pct",
+        "label": "每週 7～未滿 14 次",
+        "pct": 34.8,
+        "weekly_lo": 7,
+        "weekly_hi": 14
       },
       {
-        "key": "resident_ring5_q4",
-        "label": "居民（所得前 25%，5 分圈）",
-        "population": 26694,
-        "quintile_used": "次高＋最高所得組平均",
-        "monthly_budget_ntd": 6367.1,
-        "monthly_pool_ntd": 169963367.0
+        "key": "w14_21_pct",
+        "label": "每週 14～未滿 21 次",
+        "pct": 27.2,
+        "weekly_lo": 14,
+        "weekly_hi": 21
+      },
+      {
+        "key": "ge21_pct",
+        "label": "每週 21 次以上",
+        "pct": 6.0,
+        "weekly_lo": 21,
+        "weekly_hi": null
       }
     ],
-    "resident_pool_monthly_ntd": 422856722.0,
-    "fixed_pool_monthly_ntd": 80339550.0,
-    "fixed_pool_keys": [
-      "students",
-      "faculty",
-      "hospital"
+    "by_age_all": [
+      {
+        "age_group": "7-12歲",
+        "n": 1744,
+        "none_pct": 0.7,
+        "lt7_pct": 10.8,
+        "w7_14_pct": 45.4,
+        "w14_21_pct": 36.7,
+        "ge21_pct": 6.4
+      },
+      {
+        "age_group": "13-15歲",
+        "n": 856,
+        "none_pct": 1.3,
+        "lt7_pct": 10.3,
+        "w7_14_pct": 42.0,
+        "w14_21_pct": 40.2,
+        "ge21_pct": 6.2
+      },
+      {
+        "age_group": "16-18歲",
+        "n": 761,
+        "none_pct": 1.4,
+        "lt7_pct": 10.2,
+        "w7_14_pct": 46.5,
+        "w14_21_pct": 38.0,
+        "ge21_pct": 3.9
+      },
+      {
+        "age_group": "19-44歲",
+        "n": 1760,
+        "none_pct": 2.7,
+        "lt7_pct": 13.6,
+        "w7_14_pct": 38.2,
+        "w14_21_pct": 37.6,
+        "ge21_pct": 7.9
+      },
+      {
+        "age_group": "45-64歲",
+        "n": 1842,
+        "none_pct": 9.7,
+        "lt7_pct": 26.3,
+        "w7_14_pct": 35.6,
+        "w14_21_pct": 23.2,
+        "ge21_pct": 5.2
+      },
+      {
+        "age_group": "65-74歲",
+        "n": 1934,
+        "none_pct": 31.3,
+        "lt7_pct": 29.7,
+        "w7_14_pct": 27.2,
+        "w14_21_pct": 9.1,
+        "ge21_pct": 2.7
+      },
+      {
+        "age_group": "75歲以上",
+        "n": 1057,
+        "none_pct": 45.0,
+        "lt7_pct": 22.8,
+        "w7_14_pct": 20.4,
+        "w14_21_pct": 8.0,
+        "ge21_pct": 3.8
+      },
+      {
+        "age_group": "7-18歲",
+        "n": 3361,
+        "none_pct": 1.0,
+        "lt7_pct": 10.5,
+        "w7_14_pct": 44.9,
+        "w14_21_pct": 38.0,
+        "ge21_pct": 5.6
+      },
+      {
+        "age_group": "19歲以上",
+        "n": 6593,
+        "none_pct": 11.4,
+        "lt7_pct": 20.6,
+        "w7_14_pct": 34.8,
+        "w14_21_pct": 27.2,
+        "ge21_pct": 6.0
+      }
     ],
-    "total_pool_monthly_ntd": 503196272.0,
-    "note": "5 分圈客群月餐飲預算池＝居民 5 分圈人口依人數平分 4 組（同 Step1 手法，改用篇⑤ rings.5.area_weighted 人口）× Step1 已驗證的所得分位每人每月預算 ＋ 固定客群（學生/教職員/醫院員工，人數不隨圈變動，沿用 Step1 的月消費池）；只用於 Step4 需求上限，跟 Step1 10 分圈消費池（用於跟篇⑩法二交叉比對）是兩件事，不可互相替代"
-  },
-  "capture_rate": {
-    "categories": {
-      "餐館": {
-        "ring5_store_count": 1456,
-        "ring5_dining_share": 0.6697,
-        "mid_price_used": 645.9,
-        "top_down_reference_monthly_ntd": 211658.0,
-        "top_down_reference_code": "561",
-        "base_customers_per_store_day": 10.92,
-        "demand_cap_per_store_day": 11.95,
-        "supply_cap_per_store_day": 25.0,
-        "supply_capacity_formula": "25 坪 ÷ 1.5 坪/座 × 翻桌率 3.0 次/天 ＝ 50.00 人次/天（理論座位容量）",
-        "supply_capacity_unit": "人/天",
-        "supply_capacity_utilization": 0.5,
-        "calibration_flag": {
-          "flag": true,
-          "lower_bound": 11.95,
-          "upper_bound": 25.0,
-          "base": 10.92,
-          "reason": "基準來客 10.92 落在需求上限/供給上限區間 [11.95, 25.0] 之外（低於下界，差距 8.6%）：如實標記，不調整任何假設常數硬塞進區間；見 method_notes.calibration_note"
-        },
-        "implied_capture_rate": 13.65,
-        "per_store_daily_customers_baseline": 10.92,
-        "main_road": 18.02,
-        "secondary": 14.33,
-        "alley": 5.87
+    "modal_bucket": {
+      "key": "w7_14_pct",
+      "label": "每週 7～未滿 14 次",
+      "pct": 34.8,
+      "weekly_lo": 7,
+      "weekly_hi": 14,
+      "monthly_lo": 30.3,
+      "monthly_hi": 60.7
+    },
+    "per_occasion_budget": {
+      "tainan_avg": {
+        "low": 71.0,
+        "high": 143.0
       },
-      "小吃": {
-        "ring5_store_count": 102,
-        "ring5_dining_share": 0.0469,
-        "mid_price_used": 269.1,
-        "top_down_reference_monthly_ntd": 211658.0,
-        "top_down_reference_code": "561",
-        "base_customers_per_store_day": 26.22,
-        "demand_cap_per_store_day": 28.67,
-        "supply_cap_per_store_day": 25.0,
-        "supply_capacity_formula": "25 坪 ÷ 1.5 坪/座 × 翻桌率 3.0 次/天 ＝ 50.00 人次/天（理論座位容量）",
-        "supply_capacity_unit": "人/天",
-        "supply_capacity_utilization": 0.5,
-        "calibration_flag": {
-          "flag": false,
-          "lower_bound": 25.0,
-          "upper_bound": 28.67,
-          "base": 26.22,
-          "reason": "基準來客落在需求上限與供給上限之間，同業校準跟兩個獨立上限一致，無需調整"
+      "quintiles": {
+        "最低所得組": {
+          "low": 36.0,
+          "high": 73.0
         },
-        "implied_capture_rate": 2.3,
-        "per_store_daily_customers_baseline": 26.22,
-        "main_road": 3.04,
-        "secondary": 2.42,
-        "alley": 0.99
-      },
-      "飲料店": {
-        "ring5_store_count": 616,
-        "ring5_dining_share": 0.2833,
-        "mid_price_used": 72.4,
-        "top_down_reference_monthly_ntd": 208697.0,
-        "top_down_reference_code": "563",
-        "base_customers_per_store_day": 96.09,
-        "demand_cap_per_store_day": 106.57,
-        "supply_cap_per_store_day": 100.0,
-        "supply_capacity_formula": "每店每日產能 200 杯",
-        "supply_capacity_unit": "杯/天",
-        "supply_capacity_utilization": 0.5,
-        "calibration_flag": {
-          "flag": true,
-          "lower_bound": 100.0,
-          "upper_bound": 106.57,
-          "base": 96.09,
-          "reason": "基準來客 96.09 落在需求上限/供給上限區間 [100.0, 106.57] 之外（低於下界，差距 3.9%）：如實標記，不調整任何假設常數硬塞進區間；見 method_notes.calibration_note"
+        "次低所得組": {
+          "low": 59.0,
+          "high": 118.0
         },
-        "implied_capture_rate": 50.8,
-        "per_store_daily_customers_baseline": 96.09,
-        "main_road": 67.06,
-        "secondary": 53.34,
-        "alley": 21.84
+        "中間所得組": {
+          "low": 78.0,
+          "high": 156.0
+        },
+        "次高所得組": {
+          "low": 98.0,
+          "high": 196.0
+        },
+        "最高所得組": {
+          "low": 134.0,
+          "high": 268.0
+        }
       }
     },
-    "daily_effective_footfall": 116522.5,
-    "location_factor": {
-      "main_road": 1.32,
-      "secondary": 1.05,
-      "alley": 0.43
-    },
-    "ring5_total_dining_stores": 2174,
-    "ring5_demand_pool_monthly_ntd": 503196272.0,
-    "top_down_note": "篇⑩同業全市月均用來校準 base_customers_per_store_day（同業校準：只用來校準基準來客，不用來驗證由下而上算出的結果），並留在圖 D 當對照",
-    "demand_supply_bounds_note": "需求上限／供給上限是地理一致（都用 5 分圈）的兩個獨立上界，只用來檢查同業校準出的基準來客合不合理；業態占餐飲總預算的份額用 5 分圈該業態店數占三業態（餐館/小吃/飲料店）總店數比例當proxy，是簡化假設，不是實測消費占比，見 method_notes.demand_supply_bounds_note"
-  },
-  "revenue_bounds": {
-    "餐館": {
-      "demand_cap": 11.95,
-      "supply_cap": 25.0
-    },
-    "小吃": {
-      "demand_cap": 28.67,
-      "supply_cap": 25.0
-    },
-    "飲料店": {
-      "demand_cap": 106.57,
-      "supply_cap": 100.0
+    "survey_years": "106-109",
+    "source": {
+      "agency": "衛生福利部國民健康署",
+      "dataset": "國民營養健康狀況變遷調查（106-109 年）成果報告 表3.9.1 國人每週外食次數",
+      "table": "表3.9.1 民國106-109年國人每週外食次數（n=9954，SUDAAN 加權）",
+      "url": "https://crc.sfaa.gov.tw/Uploadfile/StatiscsKnowledge/34_20220629145208_2497642.pdf",
+      "pdf_page": "172"
     }
   },
-  "base_customers_per_store_day": {
-    "餐館": 10.92,
-    "小吃": 26.22,
-    "飲料店": 96.09
-  },
-  "implied_capture_rate": {
-    "餐館": 13.65,
-    "小吃": 2.3,
-    "飲料店": 50.8
-  },
-  "calibration_flag": {
-    "餐館": {
-      "flag": true,
-      "lower_bound": 11.95,
-      "upper_bound": 25.0,
-      "base": 10.92,
-      "reason": "基準來客 10.92 落在需求上限/供給上限區間 [11.95, 25.0] 之外（低於下界，差距 8.6%）：如實標記，不調整任何假設常數硬塞進區間；見 method_notes.calibration_note"
+  "anchors": [
+    {
+      "anchor_id": "doufu_jiangmantang_2025",
+      "category": "餐館",
+      "brand_or_sample": "豆府餐飲集團－姜滿堂（韓國正宗直火燒肉）",
+      "price_ntd": 600.0,
+      "price_type": "客單價",
+      "year": 2025,
+      "region": "全國（豆府集團尚無臺南門市，多集中北中部商場）",
+      "source_name": "豆府股份有限公司(2752) 法人說明會簡報 2025-11-26",
+      "source_url": "https://mopsov.twse.com.tw/nas/STR/275220251126M001.pdf",
+      "source_page": "p.5 品牌定位布局（價格分佈金字塔圖）"
     },
-    "小吃": {
-      "flag": false,
-      "lower_bound": 25.0,
-      "upper_bound": 28.67,
-      "base": 26.22,
-      "reason": "基準來客落在需求上限與供給上限之間，同業校準跟兩個獨立上限一致，無需調整"
+    {
+      "anchor_id": "doufu_midtier_2025",
+      "category": "餐館",
+      "brand_or_sample": "豆府集團－精緻韓式料理／米其林泰式餐廳(帕泰家)價格帶",
+      "price_ntd": 550.0,
+      "price_type": "客單價",
+      "year": 2025,
+      "region": "全國",
+      "source_name": "豆府股份有限公司(2752) 法人說明會簡報 2025-11-26",
+      "source_url": "https://mopsov.twse.com.tw/nas/STR/275220251126M001.pdf",
+      "source_page": "p.5 品牌定位布局（價格分佈金字塔圖）"
     },
-    "飲料店": {
-      "flag": true,
-      "lower_bound": 100.0,
-      "upper_bound": 106.57,
-      "base": 96.09,
-      "reason": "基準來客 96.09 落在需求上限/供給上限區間 [100.0, 106.57] 之外（低於下界，差距 3.9%）：如實標記，不調整任何假設常數硬塞進區間；見 method_notes.calibration_note"
+    {
+      "anchor_id": "doufu_hotpot_2025",
+      "category": "火鍋",
+      "brand_or_sample": "豆府集團－北村豆腐家（韓式豆腐煲專門店）",
+      "price_ntd": 450.0,
+      "price_type": "客單價",
+      "year": 2025,
+      "region": "全國",
+      "source_name": "豆府股份有限公司(2752) 法人說明會簡報 2025-11-26",
+      "source_url": "https://mopsov.twse.com.tw/nas/STR/275220251126M001.pdf",
+      "source_page": "p.5 品牌定位布局（價格分佈金字塔圖）"
+    },
+    {
+      "anchor_id": "doufu_setmeal_2025",
+      "category": "簡餐",
+      "brand_or_sample": "豆府集團－精緻韓式定食／日式拉麵專門店(樂麵屋)價格帶",
+      "price_ntd": 350.0,
+      "price_type": "客單價",
+      "year": 2025,
+      "region": "全國",
+      "source_name": "豆府股份有限公司(2752) 法人說明會簡報 2025-11-26",
+      "source_url": "https://mopsov.twse.com.tw/nas/STR/275220251126M001.pdf",
+      "source_page": "p.5 品牌定位布局（價格分佈金字塔圖）"
+    },
+    {
+      "anchor_id": "doufu_entry_2025",
+      "category": "小吃",
+      "brand_or_sample": "豆府集團－韓式鍋物／五星麻辣味／百年越式河粉價格帶",
+      "price_ntd": 250.0,
+      "price_type": "客單價",
+      "year": 2025,
+      "region": "全國",
+      "source_name": "豆府股份有限公司(2752) 法人說明會簡報 2025-11-26",
+      "source_url": "https://mopsov.twse.com.tw/nas/STR/275220251126M001.pdf",
+      "source_page": "p.5 品牌定位布局（價格分佈金字塔圖）"
+    },
+    {
+      "anchor_id": "hilai_haigang_2025",
+      "category": "其他",
+      "brand_or_sample": "漢來美食－漢來海港（吃到飽自助餐）",
+      "price_ntd": 960.0,
+      "price_type": "客單價",
+      "year": 2025,
+      "region": "高雄（漢來美食總部及主力門市所在地，屬南部）",
+      "source_name": "漢來美食官方統計，轉引自鉅亨網報導《拚自助餐市占！漢來美食確定要開4家島語 客單價較海港高逾5成》",
+      "source_url": "https://news.cnyes.com/news/id/6007773",
+      "source_page": "全文（網頁新聞，無頁碼）"
+    },
+    {
+      "anchor_id": "hilai_daoyu_2025",
+      "category": "其他",
+      "brand_or_sample": "漢來美食－島語（升級版自助餐）",
+      "price_ntd": 1470.0,
+      "price_type": "客單價",
+      "year": 2025,
+      "region": "高雄",
+      "source_name": "漢來美食官方統計，轉引自鉅亨網報導《拚自助餐市占！漢來美食確定要開4家島語 客單價較海港高逾5成》",
+      "source_url": "https://news.cnyes.com/news/id/6007773",
+      "source_page": "全文（網頁新聞，無頁碼）"
+    },
+    {
+      "anchor_id": "mwd_breakfast_2020",
+      "category": "速食",
+      "brand_or_sample": "麥味登（早餐店，品牌升級後）",
+      "price_ntd": 165.0,
+      "price_type": "客單價",
+      "year": 2020,
+      "region": "全國",
+      "source_name": "今周刊《賣早餐賣到拚上櫃！38歲的他如何靠「數位腦」讓麥味登客單價一舉翻倍》",
+      "source_url": "https://www.businesstoday.com.tw/article/category/183016/post/202010280005/",
+      "source_page": "全文（網頁報導，無頁碼）"
+    },
+    {
+      "anchor_id": "louisa_coffee_2021",
+      "category": "咖啡",
+      "brand_or_sample": "路易莎咖啡",
+      "price_ntd": 100.0,
+      "price_type": "客單價",
+      "year": 2021,
+      "region": "全國",
+      "source_name": "數位時代《一張圖看懂路易莎公開說明書，500分店數擊敗星巴克登冠，背後秘密是什麼？》",
+      "source_url": "https://www.bnext.com.tw/article/61113/louisa-cafe",
+      "source_page": "全文（網頁報導，無頁碼）"
+    },
+    {
+      "anchor_id": "ichef_case_shouzi_2025",
+      "category": "咖啡",
+      "brand_or_sample": "瘦子咖啡 Skinny Cafe（彰化，iCHEF客戶案例）",
+      "price_ntd": 247.0,
+      "price_type": "客單價",
+      "year": 2025,
+      "region": "彰化（中部，非臺南，作跨區交叉參考）",
+      "source_name": "iCHEF 官方部落格《漲客單案例｜每月600元投資，客單價成長23%》",
+      "source_url": "https://blog.ichefpos.com/ichef-%E6%BC%B2%E5%AE%A2%E5%96%AE%E6%A1%88%E4%BE%8B%EF%BD%9C%E3%80%8C%E5%A6%82%E6%9E%9C%E8%83%BD%E8%B3%BA%E6%9B%B4%E5%A4%9A%EF%BC%8C%E6%88%91%E4%B9%9F%E6%83%B3%E5%B9%AB%E5%A4%A5%E4%BC%B4%E5%8A%A0/",
+      "source_page": "全文（網頁報導，無頁碼）"
+    },
+    {
+      "anchor_id": "tourism_diningout_2024",
+      "category": "其他",
+      "brand_or_sample": "來臺旅客（全體）旅館外餐飲支出",
+      "price_ntd": 1199.0,
+      "price_type": "每人平均消費",
+      "year": 2024,
+      "region": "全國（來臺旅客整體，非分區）",
+      "source_name": "交通部觀光署《中華民國113年來臺旅客消費及動向調查》摘要",
+      "source_url": "https://admin.taiwan.net.tw/fapi/AttFile?type=AttFile&id=38415",
+      "source_page": "第15頁"
+    },
+    {
+      "anchor_id": "wowprime_steak_2025",
+      "category": "餐館",
+      "brand_or_sample": "王品集團－西堤牛排／陶板屋 單人套餐",
+      "price_ntd": 698.0,
+      "price_type": "客單價",
+      "year": 2025,
+      "region": "全國",
+      "source_name": "中央社《王品因應成本提升 西堤、陶板屋套餐漲30元調幅4.5%》",
+      "source_url": "https://www.cna.com.tw/news/ahel/202502050205.aspx",
+      "source_page": "全文（網頁報導，無頁碼）"
     }
+  ],
+  "location_revenue": {
+    "store_ring": 1000,
+    "overall_density_per_km2": 1352.2,
+    "tiers": [
+      {
+        "key": "major",
+        "label": "臨主要幹道",
+        "density_ratio": 1.19,
+        "store_count": 847,
+        "density_per_km2": 1606.1
+      },
+      {
+        "key": "mid",
+        "label": "臨次要道路",
+        "density_ratio": 0.77,
+        "store_count": 1494,
+        "density_per_km2": 1042.1
+      },
+      {
+        "key": "minor",
+        "label": "巷弄",
+        "density_ratio": 0.56,
+        "store_count": 740,
+        "density_per_km2": 763.2
+      }
+    ],
+    "peers": [
+      {
+        "code": "561",
+        "name": "餐食業",
+        "city_store_count": 13296,
+        "per_store_monthly_ntd": 211514.0,
+        "by_location": {
+          "major": 251702.0,
+          "mid": 162866.0,
+          "minor": 118448.0
+        }
+      },
+      {
+        "code": "562",
+        "name": "外燴及團膳承包業",
+        "city_store_count": 304,
+        "per_store_monthly_ntd": 466953.0,
+        "by_location": {
+          "major": 555674.0,
+          "mid": 359554.0,
+          "minor": 261494.0
+        }
+      },
+      {
+        "code": "563",
+        "name": "飲料業",
+        "city_store_count": 4006,
+        "per_store_monthly_ntd": 209583.0,
+        "by_location": {
+          "major": 249404.0,
+          "mid": 161379.0,
+          "minor": 117366.0
+        }
+      }
+    ],
+    "vat_year_roc": "111",
+    "vat_year_ce": 2022
   },
-  "revenue_bottom_up": {
-    "餐館": {
-      "low": 84898.0,
-      "mid": 222254.0,
-      "high": 293954.0,
-      "capacity_cap_per_seat": 58131.0,
-      "scenarios_detail": {
-        "low": {
-          "location_tier": "alley",
-          "location_factor": 0.43,
-          "unit_price": 569.4,
-          "elasticity_factor": 1.0592,
-          "daily_customers_uncapped": 4.97,
-          "daily_customers": 4.97,
-          "capped_by_supply": false,
-          "monthly_revenue_ntd": 84898.0
-        },
-        "mid": {
-          "location_tier": "secondary",
-          "location_factor": 1.05,
-          "unit_price": 645.9,
-          "elasticity_factor": 1.0,
-          "daily_customers_uncapped": 11.47,
-          "daily_customers": 11.47,
-          "capped_by_supply": false,
-          "monthly_revenue_ntd": 222254.0
-        },
-        "high": {
-          "location_tier": "main_road",
-          "location_factor": 1.32,
-          "unit_price": 722.6,
-          "elasticity_factor": 0.9406,
-          "daily_customers_uncapped": 13.56,
-          "daily_customers": 13.56,
-          "capped_by_supply": false,
-          "monthly_revenue_ntd": 293954.0
-        }
-      },
-      "top_down_reference_monthly_ntd": 211658.0,
-      "top_down_reference_code": "561",
-      "vs_top_down_pct": 105.0,
-      "default_area_ping": 25
-    },
-    "小吃": {
-      "low": 81180.0,
-      "mid": 201825.0,
-      "high": 223200.0,
-      "capacity_cap_per_seat": 24219.0,
-      "scenarios_detail": {
-        "low": {
-          "location_tier": "alley",
-          "location_factor": 0.43,
-          "unit_price": 220.0,
-          "elasticity_factor": 1.0912,
-          "daily_customers_uncapped": 12.3,
-          "daily_customers": 12.3,
-          "capped_by_supply": false,
-          "monthly_revenue_ntd": 81180.0
-        },
-        "mid": {
-          "location_tier": "secondary",
-          "location_factor": 1.05,
-          "unit_price": 269.1,
-          "elasticity_factor": 1.0,
-          "daily_customers_uncapped": 27.53,
-          "daily_customers": 25.0,
-          "capped_by_supply": true,
-          "monthly_revenue_ntd": 201825.0
-        },
-        "high": {
-          "location_tier": "main_road",
-          "location_factor": 1.32,
-          "unit_price": 297.6,
-          "elasticity_factor": 0.947,
-          "daily_customers_uncapped": 32.78,
-          "daily_customers": 25.0,
-          "capped_by_supply": true,
-          "monthly_revenue_ntd": 223200.0
-        }
-      },
-      "top_down_reference_monthly_ntd": 211658.0,
-      "top_down_reference_code": "561",
-      "vs_top_down_pct": 95.4,
-      "default_area_ping": 15
-    },
-    "飲料店": {
-      "low": 80080.0,
-      "mid": 217200.0,
-      "high": 240000.0,
-      "capacity_cap_per_seat": 6516.0,
-      "scenarios_detail": {
-        "low": {
-          "location_tier": "alley",
-          "location_factor": 0.43,
-          "unit_price": 59.2,
-          "elasticity_factor": 1.0912,
-          "daily_customers_uncapped": 45.09,
-          "daily_customers": 45.09,
-          "capped_by_supply": false,
-          "monthly_revenue_ntd": 80080.0
-        },
-        "mid": {
-          "location_tier": "secondary",
-          "location_factor": 1.05,
-          "unit_price": 72.4,
-          "elasticity_factor": 1.0,
-          "daily_customers_uncapped": 100.89,
-          "daily_customers": 100.0,
-          "capped_by_supply": true,
-          "monthly_revenue_ntd": 217200.0
-        },
-        "high": {
-          "location_tier": "main_road",
-          "location_factor": 1.32,
-          "unit_price": 80.0,
-          "elasticity_factor": 0.9475,
-          "daily_customers_uncapped": 120.18,
-          "daily_customers": 100.0,
-          "capped_by_supply": true,
-          "monthly_revenue_ntd": 240000.0
-        }
-      },
-      "top_down_reference_monthly_ntd": 208697.0,
-      "top_down_reference_code": "563",
-      "vs_top_down_pct": 104.1,
-      "default_area_ping": 8
-    }
+  "budget_pool": {
+    "ring": 1000,
+    "households": 9561,
+    "population": 20108,
+    "household_annual_dining_ntd": 115113.0,
+    "pool_monthly_ntd": 91716283.0,
+    "restaurant_store_count": 642,
+    "per_store_budget_monthly_ntd": 142860.0,
+    "peer_per_store_monthly_ntd": 215486.0,
+    "budget_to_peer_pct": 66.3
   },
   "industry_profitability": {
     "year_roc": "113",
     "by_code": {
       "56": {
         "name": "餐飲業",
+        "revenue_mn": 1037770.0,
+        "opex_mn": 874218.0,
+        "cost_rate_pct": 84.2,
         "operating_margin_pct": 15.8
       },
       "5611": {
         "name": "餐館",
+        "revenue_mn": 838746.0,
+        "opex_mn": 704217.0,
+        "cost_rate_pct": 84.0,
         "operating_margin_pct": 16.0
       },
       "5620": {
         "name": "外燴及團膳承包業",
+        "revenue_mn": 65893.0,
+        "opex_mn": 56081.0,
+        "cost_rate_pct": 85.1,
         "operating_margin_pct": 14.9
       },
       "5631": {
         "name": "飲料店",
+        "revenue_mn": 133130.0,
+        "opex_mn": 113920.0,
+        "cost_rate_pct": 85.6,
         "operating_margin_pct": 14.4
       }
-    },
-    "source": "經濟部『餐飲業經營實況調查』（moea_catering_survey），無客單價欄，僅供毛利率交叉參考，不進本頁客單價/營收推估鏈"
+    }
   },
   "stat_tiles": {
-    "stock_pool_monthly": {
-      "value": 1634676185.0,
+    "peer_561": {
+      "value": 211514.0,
       "unit": "元/月",
-      "label": "固定客群月餐飲消費池（10 分圈）",
-      "sub": "是篇⑩法二的 107.3%（多算了學生/教職員/醫院員工）"
+      "label": "全市餐食業每店月均營收",
+      "sub": "民國 111 年營業稅銷售額 ÷ 稅籍店數"
     },
-    "restaurant_mid_price": {
-      "value": 645.9,
-      "unit": "元/客",
-      "label": "餐館推估客單價（中檔）",
-      "sub": "區間 569.4～722.6 元"
+    "location_spread": {
+      "value": 1.19,
+      "unit": "倍",
+      "label": "臨主要幹道店家密度比",
+      "sub": "巷弄 0.56 倍；1 公里三檔合計密度＝1"
     },
-    "restaurant_capture_baseline": {
-      "value": 13.65,
-      "unit": "%",
-      "label": "餐館隱含進店率（同業校準）",
-      "sub": "基準來客 10.92 人/店/天（需求上限 11.95／供給上限 25.0）；主幹道 18.02%／巷弄 5.87%"
-    },
-    "restaurant_revenue_mid": {
-      "value": 222254.0,
+    "budget_per_store": {
+      "value": 142860.0,
       "unit": "元/月",
-      "label": "餐館情境營收（次要道路、中檔客單價）",
-      "sub": "同業（篇⑩）月均 211,658.0 元，本頁估算為其 105.0%"
+      "label": "1 公里居民餐飲預算÷圈內餐飲店數",
+      "sub": "同業每店月均 215,486 元，為其 66.3%"
+    },
+    "per_occasion": {
+      "value": 71.0,
+      "value_high": 143.0,
+      "unit": "元/次",
+      "label": "每次外食預算範圍（臺南平均）",
+      "sub": "每人每月 4,329 元 ÷ 每月 30.3～60.7 次"
     }
   },
   "method_notes": {
-    "segment_mapping": "10 分圈居民依人數平分成 4 組（Q1～Q4，每組約 25%）對映到全國家庭收支調查五等分位：Q1→最低所得組、Q2→次低所得組、Q3→中間所得組、Q4→次高與最高所得組平均（4 分無法剛好對到 5 分，取最高 25% 對應全國最高40% 所得群、以平均代表）。誠實揭露：篇⑥只有村里所得中位數的四分位（村里數而非人口數的四分位），本頁無法取得每個村里落在圈內的人口權重，因此改用「圈內人口直接平分四等分」近似，不是依實際所得分布加權——這是簡化，不是精確的所得排序。學生用最低所得組近似（多數學生無固定薪資收入）；教職員／醫院員工用次高所得組近似（受雇者穩定收入，任務規格明示）。",
-    "budget_formula": "每人每月餐飲支出＝該分位每戶年消費支出 × 全國『餐廳及住宿』占比 ÷ 商圈平均每戶人數 ÷ 12；『餐廳及住宿』同時含餐廳外食與住宿支出，可能高估外食部分（同篇⑩已知限制）",
-    "flow_visitor_caveat": "台鐵到站旅客與周邊景點旅客用觀光署『旅客餐飲每人每日支出』錨點（來臺旅客整體，非臺南/南部分區數字）×日均人次×30 天算出的『流動客群消費量級』是刻意寫成『上界』：公式假設這些旅客當天的全部餐飲預算都花在本商圈範圍內，實際上台鐵旅客與景點遊客的餐飲支出會分散在台南市各處，不是只在這個 5-10 分鐘商圈——因此本頁只把它當『量級對照』展示（見 segments.items 的 flow 項目），不併入可直接與篇⑩法二比較的『固定客群消費池』（那個池只加總 stock 性質的居民/學生/教職員/醫院員工）。",
-    "cross_check_note": "本頁固定客群消費池（居民＋學生＋教職員＋醫院員工，皆用『人數×每人每月預算』算）與篇⑩法二（10分圈戶數×每戶支出）方法接近，可直接交叉比對；差距主要來自本頁多算了學生/教職員/醫院員工（篇⑩法二只算居住戶數）",
-    "cpi_adjustment": "unit_price_anchors 全部是非臺南在地錨點（多數為全國品牌法說會/媒體報導數字），用全國外食費 CPI（cpi_food_away，無臺南分項）換算到最新可得月份（2026M08=121.77）：換算後價格＝錨點原始價格 × (最新月指數 ÷ 錨點所屬年度平均指數)",
-    "anchor_band_note": "多筆錨點的業態：低/高＝CPI 換算後的最小值/最大值，中＝中位數；只有 1 筆錨點的業態（火鍋/簡餐/小吃/速食）用 ±15% 代表可能區間，這不是統計上下界，只是給讀者一個粗略的可能範圍",
-    "local_adjustment": "校正係數＝1 ＋ 0.5×(商圈所得位階-1) － 1.0×學生占比；商圈所得位階＝篇⑥ 10 分圈村里所得中位數的中位數 ÷ 全市同值＝1.1906；學生占比＝學生數 ÷（居民＋學生＋教職員＋醫院員工）＝0.0556；算出 1.0397，只用來把「中價」在錨點低/高區間內移動（所得位階高→偏高價，學生占比高→偏低價），不影響低/高兩端（那是錨點本身的區間）",
-    "drink_reverse_note": "手搖飲（飲料店）沒有 unit_price_anchors 錨點：用篇⑩ 563 飲料業全市每店月均營收 ÷ 假設每日產能反推出基準客單價（每店每日產能 200 杯 × 使用率 0.5 ＝ 100 杯/天），低/高比照其他單一錨點業態規則用 ±15% 代表可能區間；只用同一組物理產能假設，這組假設同時也是 capture_rate 供給端錨點的輸入",
-    "revenue_proxy_note": "餐館與小吃共用同一個『同業平均月營收』輸入（篇⑩法一 561 餐食業，5611 餐館＋5612 餐食攤販合併）：財政部vat_sales 開放資料只公布到稅務行業標準分類『小』類（3 碼），沒有再拆到餐館(5611)/餐食攤販(5612)個別的銷售額，本頁只能借用同一個合併平均值當『同業平均月營收』的輸入，兩者的差異全部來自客單價（見unit_price.categories）——這是資料粒度限制，不是計算錯誤。這個同業平均只用在revenue_bottom_up.top_down_reference_monthly_ntd（圖D對照用），不再進入進店率或由下而上營收的計算鏈。",
-    "calibration_note": "校準邏輯：同業平均只用來校準基準來客；需求端與供給端是上下界。避免兩個陷阱——(a) 需求端把『10 分圈全部消費池』除給『5 分圈的店』，地理不一致；(b) 供給端與需求端一高一低，幾何平均只是把錯誤平均掉，不是真的互相驗證。因此採『同業校準』：base_customers_per_store_day（基準來客）＝篇⑩同業每店月均營收 ÷ 篇⑫中檔客單價 ÷ 30——這是經驗校準，同業平均只用來校準基準來客，不用來驗證由下而上算出的情境營收結果；implied_capture_rate＝基準來客 × 5 分圈該業態店數 ÷ 有效日人流（存量改用 5 分圈，跟店數同一個地理範圍，見 capture_rate_denominator_fix），再乘篇⑪街道三檔位置係數。需求上限／供給上限改列為地理一致的『上下界』，只用來檢查基準來客合不合理，不參與基準來客本身的計算：基準來客應落在 [min(需求上限,供給上限), max(需求上限,供給上限)] 之間，落外面就在 calibration_flag 標記、如實揭露，不調整任何假設常數硬塞進區間，見各業態 calibration_flag.reason（三業態裡有落在區間外的，如實列出，不是本頁算錯，是誠實呈現同業校準跟兩個獨立上限打架的地方）。",
-    "demand_supply_bounds_note": "需求上限／供給上限是地理一致（都用 5 分圈）的兩個獨立上界，只用來檢查同業校準出的基準來客合不合理；業態占餐飲總預算的份額用 5 分圈該業態店數占三業態（餐館/小吃/飲料店）總店數比例當proxy，是簡化假設，不是實測消費占比，見 method_notes.demand_supply_bounds_note",
-    "capture_rate_denominator_fix": "有效日人流＝居民 5 分圈 106,770 人（借用篇⑤ rings.5.area_weighted，跟供給端店數同一個地理範圍，不再用 Step1 客群消費池那個 10 分圈 392,469 人）× 0.6（每日外出活動比例）＋ 學生教職員 24,778 人 × 0.9（在校日出現比例，全算、不拆圈）＋醫院員工 4,871 人 × 1.0（值班出現比例，全算、不拆圈）＋（台鐵進出站＋周邊景點）日均人次 × 0.3（停留消費比例）；最早版本的分母只加總台鐵＋觀光兩個實測流量項目，漏了居民/學生/教職員/醫院員工這些占分母絕大多數的存量客群；2026-09-09 再修正「地理不一致」：居民存量改用跟供給端店數同一個 5 分圈，不是 10 分圈（見 method_notes.capture_rate_denominator_fix）",
-    "revenue_scenario_formula": "月營收＝來客 × 客單價 × 30 天；來客＝基準來客（同業校準，見 calibration_note）× 位置係數（篇⑪街道三檔：主幹道 1.32／次要道路 1.05／巷弄 0.43） × 價格彈性修正（客單價相對中檔每高 10%，來客減 5%，PRICE_ELASTICITY_PER_10PCT，線性、常數假設，非本商圈實測，可調），算出來再跟供給上限（capture_rate.categories.<業態>.supply_cap_per_store_day）取小（不能超過單店物理容量）；低檔配巷弄＋低價、中檔配次要道路＋中價、高檔配主幹道＋高價——中檔情境的位置係數(1.05)×價格彈性修正(客單價=中價，修正量=0)，所以中檔月營收約為同業平均的 105%（除非被供給上限限制住，見 revenue_bottom_up.<業態>.scenarios_detail.mid.capped_by_supply）；低/高兩檔用位置係數與價格彈性把區間拉開，不是重新估計需求曲線",
-    "capacity_cap_note": "每座位月營收上限＝假設翻桌率 3.0 次/天/座 × 30 天 × 客單價中檔；1 坪＝1.5 座（任務規格），試算器用『坪數÷1.5』取得座位數再乘這個上限，是物理容量天花板，不代表一定能達到（與 capture_rate 供給上限用的 25 坪代表性店面假設是兩件事：這裡是讀者自己輸入的實際坪數，那裡是估算商圈整體供給上限用的固定假設）",
-    "affordability_note": "負擔上限＝商圈固定客群加權平均每人每月餐飲預算 ÷ 假設每月外食次數（10 次，業界常見估計、非本商圈實測，可調）；同一個負擔上限套用到全部業態，方便在圖 B 一次對照",
-    "industry_profitability_note": "經濟部『餐飲業經營實況調查』（moea_catering_survey），無客單價欄，僅供毛利率交叉參考，不進本頁客單價/營收推估鏈",
-    "assumptions_local": {
-      "monthly_dining_frequency": 10,
-      "seat_per_ping": 1.5,
-      "turnover_per_day": 3.0,
-      "single_anchor_band_pct": 0.15,
-      "default_area_ping": {
-        "餐館": 25,
-        "小吃": 15,
-        "飲料店": 8
-      },
-      "resident_activity_ratio": 0.6,
-      "student_faculty_activity_ratio": 0.9,
-      "hospital_activity_ratio": 1.0,
-      "flow_spend_ratio": 0.3,
-      "supply_store_area_ping": 25.0,
-      "capacity_utilization": 0.5,
-      "drink_daily_capacity_cups": 200.0,
-      "price_elasticity_per_10pct": 0.05,
-      "note": "以上皆為本頁自訂的業界常規估計，非本商圈實測，也不在 assumptions.yaml（那份檔案是 00_verdict 損益試算器的成本結構，範圍不同）；改這些值要改本檔常數再重跑"
-    },
+    "peer_revenue": "同業每店月均營收取自篇⑩：財政部營業稅銷售額（民國 111 年，臺南市全市，3 碼小類）÷ 稅籍店數 ÷ 12。561 餐食業同時包含餐館與餐食攤販，稅籍資料沒有再細分。",
+    "location_revenue": "各位置參考營收＝同業每店月均 × 店家密度比。店家密度比＝1 公里範圍內臨主要幹道／次要道路／巷弄（依 OpenStreetMap 道路分級、道路兩側 50 公尺）每平方公里店家數 ÷ 三檔合計的每平方公里店家數。店家密度比只描述店家分布，不是營收實測；兩個數字相乘的結果是「同業平均依店家密度比例換算」的參考值。",
+    "budget_pool": "每店可分到的月預算＝1 公里居民戶數（篇⑤，統計區面積加權）× 臺南每戶年餐飲支出（篇⑩：主計總處家庭收支調查臺南市平均每戶消費支出 × 全國『餐廳及住宿』占比）÷ 12 ÷ 圈內餐飲店數（稅籍，中類 56）。只算圈內居民，不含學生、教職員、醫院員工與外來旅客（這幾群人的餐飲支出沒有公開統計）；『餐廳及住宿』同時含住宿支出。",
+    "dining_frequency": "每週外食次數取自衛福部國民健康署國民營養健康狀況變遷調查（106-109 年）表3.9.1，19 歲以上全體；調查問「一週有幾天是外食／外帶」，早、午、晚三餐分開問再加總，含外帶。每月次數＝每週次數 × 52 ÷ 12，只用人數占比最高的區間（每週 7～未滿 14 次，占 34.8%）的上下界換算，不取區間中點。",
+    "per_person_budget": "每人每月外食預算＝每戶月餐飲支出 ÷ 2 公里範圍平均每戶人數（2.216 人）。五等分位是全國家庭收支調查（按可支配所得排序的五組戶數），臺南平均是臺南市平均每戶消費支出；兩者都乘全國『餐廳及住宿』占比。",
+    "anchors": "客單價公開錨點原樣列出：品牌、價格、價格類型、年度、地區、出處頁碼。這些是全國或其他縣市的品牌定價，不是本商圈的價格；本頁不把錨點換算成本商圈客單價。",
+    "industry_profitability": "經濟部統計處批發、零售及餐飲業經營實況調查（民國 113 年，全國）：成本率＝營業支出（營業成本＋營業費用）÷ 營業收入；營業利益率由調查直接發布。",
     "ring_use": {
-      "10": "Step1 客群人口與消費池（Q33 腹地，跟篇⑩法二交叉比對用）",
-      "5": "Step3 有效日人流存量／Step3b 需求上限消費池／Step4 供給端與 implied_capture_rate 店數（三者同一個地理範圍，2026-09-09 修正地理不一致）"
+      "2000": "客群人數（居民、戶數、平均每戶人數）",
+      "1000": "店家密度比、居民餐飲預算池、圈內餐飲店數"
     },
-    "reuse_note": "居住人口（10 分圈）/學生教職員/醫院員工/台鐵/觀光日均借用 articles/11_footfall/data.json；居住人口（5 分圈）直接借用 articles/05_population/data.json 的 rings.5.area_weighted；街道三檔位置係數借用篇⑪ streets.tiers；商圈所得位階借用 articles/06_income/data.json；篇⑩法一每店月均營收與法二消費池借用 articles/10_spending/data.json",
-    "data_version": "2026-09-08"
-  }
+    "data_version": "2026-10-12"
+  },
+  "provenance": [
+    {
+      "id": "hh_survey_quintile",
+      "agency": "行政院主計總處",
+      "dataset": "主計總處家庭收支調查（戶數五等分位組之平均每戶消費支出）",
+      "year": "2025 年",
+      "url": "https://data.gov.tw/dataset/6565",
+      "licence": "政府資料開放授權條款-第1版"
+    },
+    {
+      "id": "hh_survey_structure",
+      "agency": "行政院主計總處",
+      "dataset": "主計總處家庭收支調查（消費支出結構占比，全國）",
+      "year": "2025 年",
+      "url": "https://www.stat.gov.tw/",
+      "licence": "政府資料開放授權條款-第1版"
+    },
+    {
+      "id": "hh_survey_region",
+      "agency": "行政院主計總處",
+      "dataset": "主計總處家庭收支調查（平均每戶消費支出，按縣市）",
+      "year": "2025 年",
+      "url": "https://www.stat.gov.tw/",
+      "licence": "政府資料開放授權條款-第1版"
+    },
+    {
+      "id": "dining_out_frequency",
+      "agency": "衛生福利部國民健康署",
+      "dataset": "國民營養健康狀況變遷調查（106-109 年）成果報告 表3.9.1 國人每週外食次數",
+      "year": "民國 106-109 年",
+      "url": "https://crc.sfaa.gov.tw/Uploadfile/StatiscsKnowledge/34_20220629145208_2497642.pdf",
+      "licence": "政府機關公開發布之調查報告，僅引用統計數字並標明出處，不重製報告全文"
+    },
+    {
+      "id": "moea_catering_survey",
+      "agency": "經濟部統計處",
+      "dataset": "批發、零售及餐飲業經營實況調查（餐飲業部分）",
+      "year": "民國 113 年",
+      "url": "https://www.moea.gov.tw/Mns/dos/content/ContentLink.aspx?menu_id=9431",
+      "licence": "待查"
+    },
+    {
+      "id": "vat_sales",
+      "agency": "財政部",
+      "dataset": "財政部營業稅銷售額（行業×臺南市全市）",
+      "year": "民國 111 年",
+      "url": "https://www.fia.gov.tw/",
+      "licence": "政府資料開放授權條款-第1版"
+    },
+    {
+      "id": "tax_reg",
+      "agency": "財政部財政資訊中心",
+      "dataset": "全國營業(稅籍)登記資料集",
+      "year": "擷取 2026-10-12",
+      "url": "https://data.gov.tw/dataset/9400",
+      "licence": "政府資料開放授權條款-第1版"
+    },
+    {
+      "id": "addr_points",
+      "agency": "臺南市政府",
+      "dataset": "臺南市門牌坐標資料-僅供參考",
+      "year": "擷取 2026-10-12",
+      "url": "https://data.gov.tw/dataset/120044",
+      "licence": "政府資料開放授權條款-第1版"
+    },
+    {
+      "id": "industry_codes",
+      "agency": "財政部",
+      "dataset": "稅務行業標準分類",
+      "year": "擷取 2026-10-12",
+      "url": "https://data.gov.tw/dataset/28483",
+      "licence": "政府資料開放授權條款-第1版"
+    },
+    {
+      "id": "osm_network",
+      "agency": "OpenStreetMap 貢獻者",
+      "dataset": "OpenStreetMap 台南路網（OSMnx 抓取，距離圈計算用）",
+      "year": "",
+      "url": "https://www.openstreetmap.org/copyright",
+      "licence": "ODbL"
+    },
+    {
+      "id": "segis_pop",
+      "agency": "內政部（社會經濟資料服務平臺）",
+      "dataset": "統計區人口統計（最小統計區）",
+      "year": "擷取 2026-10-12",
+      "url": "https://data.gov.tw/dataset/18681",
+      "licence": "政府資料開放授權條款-第1版"
+    },
+    {
+      "id": "moe_udb",
+      "agency": "教育部",
+      "dataset": "教育部大專校院校務資訊公開平臺（成大學生數／教師數）",
+      "year": "擷取 2026-10-12",
+      "url": "https://udb.moe.edu.tw/udata/index",
+      "licence": "待查"
+    },
+    {
+      "id": "nckuh",
+      "agency": "國立成功大學醫學院附設醫院",
+      "dataset": "成大醫院組織規模",
+      "year": "擷取 2026-10-12",
+      "url": "https://nckuh.hosp.ncku.edu.tw/p/412-1000-29536.php",
+      "licence": "公開頁引用"
+    },
+    {
+      "id": "unit_price_anchors",
+      "agency": "豆府股份有限公司(2752) 法人說明會簡報 2025-11-26",
+      "dataset": "客單價錨點：豆府餐飲集團－姜滿堂（韓國正宗直火燒肉）",
+      "year": "2025",
+      "url": "https://mopsov.twse.com.tw/nas/STR/275220251126M001.pdf",
+      "licence": "摘引數字並標明出處"
+    },
+    {
+      "id": "unit_price_anchors",
+      "agency": "漢來美食官方統計，轉引自鉅亨網報導《拚自助餐市占！漢來美食確定要開4家島語 客單價較海港高逾5成》",
+      "dataset": "客單價錨點：漢來美食－漢來海港（吃到飽自助餐）",
+      "year": "2025",
+      "url": "https://news.cnyes.com/news/id/6007773",
+      "licence": "摘引數字並標明出處"
+    },
+    {
+      "id": "unit_price_anchors",
+      "agency": "今周刊《賣早餐賣到拚上櫃！38歲的他如何靠「數位腦」讓麥味登客單價一舉翻倍》",
+      "dataset": "客單價錨點：麥味登（早餐店，品牌升級後）",
+      "year": "2020",
+      "url": "https://www.businesstoday.com.tw/article/category/183016/post/202010280005/",
+      "licence": "摘引數字並標明出處"
+    },
+    {
+      "id": "unit_price_anchors",
+      "agency": "數位時代《一張圖看懂路易莎公開說明書，500分店數擊敗星巴克登冠，背後秘密是什麼？》",
+      "dataset": "客單價錨點：路易莎咖啡",
+      "year": "2021",
+      "url": "https://www.bnext.com.tw/article/61113/louisa-cafe",
+      "licence": "摘引數字並標明出處"
+    },
+    {
+      "id": "unit_price_anchors",
+      "agency": "iCHEF 官方部落格《漲客單案例｜每月600元投資，客單價成長23%》",
+      "dataset": "客單價錨點：瘦子咖啡 Skinny Cafe（彰化，iCHEF客戶案例）",
+      "year": "2025",
+      "url": "https://blog.ichefpos.com/ichef-%E6%BC%B2%E5%AE%A2%E5%96%AE%E6%A1%88%E4%BE%8B%EF%BD%9C%E3%80%8C%E5%A6%82%E6%9E%9C%E8%83%BD%E8%B3%BA%E6%9B%B4%E5%A4%9A%EF%BC%8C%E6%88%91%E4%B9%9F%E6%83%B3%E5%B9%AB%E5%A4%A5%E4%BC%B4%E5%8A%A0/",
+      "licence": "摘引數字並標明出處"
+    },
+    {
+      "id": "unit_price_anchors",
+      "agency": "交通部觀光署《中華民國113年來臺旅客消費及動向調查》摘要",
+      "dataset": "客單價錨點：來臺旅客（全體）旅館外餐飲支出",
+      "year": "2024",
+      "url": "https://admin.taiwan.net.tw/fapi/AttFile?type=AttFile&id=38415",
+      "licence": "摘引數字並標明出處"
+    },
+    {
+      "id": "unit_price_anchors",
+      "agency": "中央社《王品因應成本提升 西堤、陶板屋套餐漲30元調幅4.5%》",
+      "dataset": "客單價錨點：王品集團－西堤牛排／陶板屋 單人套餐",
+      "year": "2025",
+      "url": "https://www.cna.com.tw/news/ahel/202502050205.aspx",
+      "licence": "摘引數字並標明出處"
+    }
+  ]
 }

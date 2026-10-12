@@ -2,146 +2,165 @@
 field,value
 meta.article_no,0
 meta.title,成大商圈開店數字總覽
-meta.data_date,2026-09-08
-meta.produced_date,2026-10-11
+meta.data_date,2026-10-12
+meta.produced_date,2026-10-12
 meta.district_id,ncku
 meta.district_name,成大商圈
-meta.source_articles,01_outline; 02_industry; 03_survival; 04_scale; 05_population; 07_campus; 08_access; 09_property; 10_spending; 12_pricing
+meta.source_articles,01_outline; 02_industry; 03_survival; 04_scale; 05_population; 06_income; 07_campus; 08_access; 09_property; 10_spending; 11_footfall; 12_pricing
 meta.cohort_year_for_4yr_survival,2022
-summary,13 個小店小類：中位月淨利從虧 0.8 萬元到 9.5 萬元，回本 8.5 個月到回不了本
-headline,分析 17 個業種小類／情境：餐飲 4 個情境用由下而上模型（客群消費預算→推估客單價→進店率×位置係數→來客數→營收），同業全市平均只留作對照；零售 13 個小類沿用同業平均月營收。扣掉 4 個大型業態（量販／百貨、建材量販、加油站、汽機車經銷，全市平均被少數大型店拉高），剩下 13 個一般小店可比的小類／情境：餐飲 4 個中位月淨利3.4～4.9 萬元，零售 9 個中位月淨利從虧 0.8 萬元到 9.5 萬元，其中 1 個小類月淨利為負；資訊及通訊設備零售業回本 8.5 個月，是所有小店小類中最短，零售攤販回不了本。表中的營收、租金、成本與淨利都是這些假設下的算術結果，可以自己套上位置與坪數重算。
+meta.rings_used,1000; 2000
+meta.ring_m,1000; 2000; 3000
+meta.ring_labels.store,1 公里圈
+meta.ring_labels.pop,2 公里圈
+meta.ring_labels.access,3 公里圈
+meta.cost_rate_year_roc,113
+meta.vat_year_roc,111
+summary,12 個一般小店小類：同業月營收 6.9～75.9 萬元，月淨利 0.4～7.0 萬元
+headline,16 個業種小類（餐飲 3、零售 13），另列 4 個大型業態（量販／百貨、建材量販、加油站、汽機車經銷）。一般小店小類中，餐飲同業月營收 21.0～46.7 萬元、月淨利 3.0～7.0 萬元；零售同業月營收 6.9～75.9 萬元、月淨利 0.4～5.1 萬元。月淨利＝同業月營收 ×（1－經濟部調查成本率），成本率已含租金。
 scale_summary.revenue_multiple_threshold,3
-scale_summary.median_revenue_all_categories_ntd,339019
-scale_summary.revenue_threshold_ntd,1017057
-scale_summary.small_count,13
+scale_summary.median_revenue_all_categories_ntd,403583
+scale_summary.revenue_threshold_ntd,1210749
+scale_summary.small_count,12
 scale_summary.large_count,4
 scale_summary.large_codes,471; 481; 482; 484
 scale_summary.large_names,綜合商品零售業; 建材零售業; 燃料及相關產品零售業; 汽機車及其零配件、用品零售業
 scale_summary.large_short_labels,量販／百貨; 建材量販; 加油站; 汽機車經銷
-overview_signals.customer_base.resident_population_ring10,392469
-overview_signals.customer_base.resident_households_ring10,171316
-overview_signals.customer_base.resident_population_ring5,106770
+reference_values.rent_per_ping_month,1236.4
+reference_values.area_ping_median,33.61
+reference_values.n,22
+reference_values.layer,臺南市東區店面租賃（實價登錄）
+reference_values.period,內政部實價登錄僅發布最新一季（單季揭露，非累積）；租賃日期 115/05/11～115/08/10；買賣交易日期 73.1% 落在民國 115 年
+reference_values.source,articles/09_property/data.json#rent_shop.dist_east
+reference_values.ring_n.store,0
+reference_values.ring_n.pop,1
+reader_inputs.monthly_revenue.label,月營收
+reader_inputs.monthly_revenue.unit,元/月
+reader_inputs.monthly_revenue.description,讀者自己的月營收。沒填時頁面顯示同業全市每店月均營收（篇⑩，財政部營業稅銷售額 ÷ 稅籍店數）當參考值。
+reader_inputs.monthly_revenue.provenance_required,參考值必須附資料年度與出處（篇⑩ data.json 的來源）；讀者自填的值不需出處。
+reader_inputs.cost_rate.label,成本率
+reader_inputs.cost_rate.unit,%
+reader_inputs.cost_rate.description,（營業成本＋營業費用）÷ 營業收入，已含進貨、薪資、租金、折舊與其他營業支出， 租金不另外扣。頁面預帶經濟部統計處批發、零售及餐飲業經營實況調查各業別的數字，讀者可改。
+reader_inputs.cost_rate.provenance_required,預帶值必須附調查名稱、年度、表號與來源欄位（營業收入、營業支出）。
+reader_inputs.area_ping.label,店面坪數
+reader_inputs.area_ping.unit,坪
+reader_inputs.area_ping.description,讀者自己的店面坪數，只用來換算月租金參考（坪數 × 東區店面每坪月租中位數），不參與月淨利計算（租金已含在成本率裡）。
+reader_inputs.area_ping.provenance_required,頁面另列東區店面租賃面積中位數當參考值，附樣本數與實價登錄出處。
+reader_inputs.investment.label,初期投資
+reader_inputs.investment.unit,元
+reader_inputs.investment.description,讀者自己的裝潢、設備等初期投資。沒有公開統計，不預填、不預算；讀者填了才顯示「投資額 ÷ 月淨利＝N 個月」。
+reader_inputs.investment.provenance_required,讀者自填，不需出處。
+overview_signals.customer_base.resident_population_ring10,142034
+overview_signals.customer_base.resident_households_ring10,64097
+overview_signals.customer_base.resident_population_ring5,20108
 overview_signals.customer_base.fixed_population_total,29649
 overview_signals.customer_base.fixed_population_students,23485
 overview_signals.customer_base.fixed_population_faculty,1293
 overview_signals.customer_base.fixed_population_hospital,4871
-overview_signals.customer_base.fixed_to_resident_ring5_ratio_pct,27.8
-overview_signals.competition.ring5_store_count,11409
-overview_signals.competition.ring5_density_per_km2,1457.1
-overview_signals.competition.city_density_per_km2,61.85
-overview_signals.competition.density_ratio_vs_city,23.6
+overview_signals.customer_base.fixed_to_resident_ring5_ratio_pct,147.4
+overview_signals.competition.ring5_store_count,3318
+overview_signals.competition.ring5_density_per_km2,1230.5
+overview_signals.competition.city_density_per_km2,61.87
+overview_signals.competition.density_ratio_vs_city,19.9
 overview_signals.competition.restaurant_lq_5611.code,5611
 overview_signals.competition.restaurant_lq_5611.name,餐館
-overview_signals.competition.restaurant_lq_5611.lq,0.98
+overview_signals.competition.restaurant_lq_5611.lq,1
 overview_signals.competition.restaurant_lq_5611.label,接近全市平均
 overview_signals.competition.retail_lq_top.code,4712
 overview_signals.competition.retail_lq_top.name,百貨公司
-overview_signals.competition.retail_lq_top.lq,2.92
+overview_signals.competition.retail_lq_top.lq,3.64
 overview_signals.competition.retail_lq_top.label,相對集中
-overview_signals.risk.cohort_year,2022
-overview_signals.risk.cohort_survival_ring5_pct,63
-overview_signals.risk.recent12_open,684
-overview_signals.risk.recent12_close,511
-overview_signals.risk.close_org_type_solo_pct,78.9
-overview_signals.access.tra_daily_avg_in_2026,24820.1
-overview_signals.access.parking_ring5_facility_count,35
-overview_signals.access.parking_ring5_car_spaces,2253
-overview_signals.access.parking_ring5_moto_spaces,1797
-overview_signals.access.youbike_ring5_station_count,66
-overview_signals.access.youbike_ring5_dock_count,2118
-overview_signals.rent.dist_east_per_ping_median,942.1
-overview_signals.rent.dist_east_n,34
-assumptions_snapshot.version,1
-assumptions_snapshot.note,成本結構為「業界常規預設值」，不是成大商圈的實測數字；開店前應以實際報價與現場 談定的租金取代。每個數值都附 note 說明來源／推論依據。Owner 可直接改這個檔案、 重跑 `uv run python -m pipeline.articles.a00_verdict` 讓總評頁與試算器套用新值 （R3 裁定：articles/00_verdict/「成大商圈開店評估」損益試算器的預設輸入）。
-assumptions_snapshot.cost_structure.餐飲.food_pct.value,33
-assumptions_snapshot.cost_structure.餐飲.food_pct.unit,%
-assumptions_snapshot.cost_structure.餐飲.food_pct.note,業界常規預設：食材成本占營收比例，餐飲業常見範圍約 28-35%，本檔取中間偏高值；非本商圈實測。
-assumptions_snapshot.cost_structure.餐飲.labor_pct.value,30
-assumptions_snapshot.cost_structure.餐飲.labor_pct.unit,%
-assumptions_snapshot.cost_structure.餐飲.labor_pct.note,業界常規預設：人事成本（含排班兼職）占營收比例，餐飲業常見範圍約 25-35%；非本商圈實測。
-assumptions_snapshot.cost_structure.餐飲.utility_pct.value,6
-assumptions_snapshot.cost_structure.餐飲.utility_pct.unit,%
-assumptions_snapshot.cost_structure.餐飲.utility_pct.note,業界常規預設：水電雜支占營收比例；非本商圈實測。
-assumptions_snapshot.cost_structure.餐飲.other_pct.value,5
-assumptions_snapshot.cost_structure.餐飲.other_pct.unit,%
-assumptions_snapshot.cost_structure.餐飲.other_pct.note,業界常規預設：行銷／耗材／稅費等其他固定支出占營收比例；非本商圈實測。
-assumptions_snapshot.cost_structure.零售.goods_pct.value,62
-assumptions_snapshot.cost_structure.零售.goods_pct.unit,%
-assumptions_snapshot.cost_structure.零售.goods_pct.note,業界常規預設：進貨成本占營收比例（等於毛利率約 38%），零售業毛利率常見範圍約 30-45%；非本商圈實測。
-assumptions_snapshot.cost_structure.零售.labor_pct.value,15
-assumptions_snapshot.cost_structure.零售.labor_pct.unit,%
-assumptions_snapshot.cost_structure.零售.labor_pct.note,業界常規預設：人事成本占營收比例，零售業人力密度通常低於餐飲；非本商圈實測。
-assumptions_snapshot.cost_structure.零售.utility_pct.value,4
-assumptions_snapshot.cost_structure.零售.utility_pct.unit,%
-assumptions_snapshot.cost_structure.零售.utility_pct.note,業界常規預設：水電雜支占營收比例；非本商圈實測。
-assumptions_snapshot.cost_structure.零售.other_pct.value,4
-assumptions_snapshot.cost_structure.零售.other_pct.unit,%
-assumptions_snapshot.cost_structure.零售.other_pct.note,業界常規預設：行銷／耗材／稅費等其他固定支出占營收比例；非本商圈實測。
-assumptions_snapshot.rent.source_article,articles/09_property/data.json
-assumptions_snapshot.rent.source_path,rent_shop.dist_east.per_ping.median
-assumptions_snapshot.rent.value_ntd_per_ping_month,942.1
-assumptions_snapshot.rent.fallback_rule,5 分圈／10 分圈實價登錄店面租賃樣本數 n<5（見 articles/09_property/data.json 的 rent_shop.ring5.n=1、rent_shop.ring10.n=3，皆 stats_available=false）， 依 Q29 裁定樣本數少時只列筆數、不做統計；本頁租金因此改用東區（dist_east） 全區店面租金中位數 942.1 元/坪/月替代，並在頁面上標明「以東區全區中位數替代」。
-assumptions_snapshot.rent.default_area_ping.餐飲.value,25
-assumptions_snapshot.rent.default_area_ping.餐飲.unit,坪
-assumptions_snapshot.rent.default_area_ping.餐飲.note,業界常規預設：中小型餐飲店面常見坪數，可於試算器調整；非本商圈實測。
-assumptions_snapshot.rent.default_area_ping.零售.value,20
-assumptions_snapshot.rent.default_area_ping.零售.unit,坪
-assumptions_snapshot.rent.default_area_ping.零售.note,業界常規預設：中小型零售店面常見坪數，可於試算器調整；非本商圈實測。
-assumptions_snapshot.investment.餐飲.value,1500000
-assumptions_snapshot.investment.餐飲.unit,元
-assumptions_snapshot.investment.餐飲.note,業界常規預設：中小型餐飲裝潢＋廚房設備初期投資；實際依店型（有無內用、廚房大小）差異極大，非本商圈實測。
-assumptions_snapshot.investment.零售.value,800000
-assumptions_snapshot.investment.零售.unit,元
-assumptions_snapshot.investment.零售.note,業界常規預設：中小型零售裝潢＋陳列設備初期投資；實際依店型差異極大，非本商圈實測。
-assumptions_snapshot.scale_rules.description,判定 00_verdict 16 個業種小類裡哪些是「大型業態」（規模不是一般小店主能複製， 燈號會誤導）。用資料判準（下列三條，任一成立＝large）加上人工手動覆蓋 （manual_overrides）兩層：資料判準負責可重算、可稽核；manual_overrides 負責補資料判準因粒度不足而漏接的已知案例（見 granularity_note）。
-assumptions_snapshot.scale_rules.revenue_multiple_threshold,3
-assumptions_snapshot.scale_rules.revenue_multiple_rule,該小類全市每店月均銷售額（篇⑩法一 per_store_monthly_ntd）> 全體 16 小類 月均銷售額中位數的 3 倍，即為 large。中位數與各小類月均銷售額本身都已經 在 categories.*.revenue.mid 裡，門檻值與觸發結果寫入 articles/00_verdict/data.json 的 scale_summary。
-assumptions_snapshot.scale_rules.capital_median_threshold_ntd,2000000
-assumptions_snapshot.scale_rules.branch_pct_threshold,30
-assumptions_snapshot.scale_rules.granularity_note,篇④（04_scale）的資本額中位數與分店占比只拆到「餐飲／零售」兩個大類 （capital.restaurant_ring5 / retail_ring5 的 median_registered_capital， branch.restaurant_by_ring / retail_by_ring 的 branch_pct），沒有拆到本頁 16 個小類（3 碼）逐一計算 -- 這是已讀過篇④全文確認的資料粒度限制，不是 本頁漏做。本頁對同一大類的所有小類套用同一組篇④大類數字（餐飲：資本額 中位數 5 萬元、5 分圈分店占比 3.2%；零售：資本額中位數 5 萬元、5 分圈 分店占比 8.1%），兩者都遠低於門檻（200 萬元／30%），所以這兩條資料判準 目前對全部 16 個小類都不會觸發 -- 程式仍然照算（保留门槛，未來篇④若補 小類級資料可以直接生效），但實際負責抓出「大型業態」的是月均銷售額判準 與下面的 manual_overrides，不是這兩條。
-assumptions_snapshot.scale_rules.manual_overrides.471.short_label,量販／百貨
-assumptions_snapshot.scale_rules.manual_overrides.471.reason,471綜合商品零售業涵蓋百貨公司、量販店、超市等大型業態，全市每店月均 銷售額由這些大型店拉高，非中小型獨立店家可比，一定列為 large。
-assumptions_snapshot.scale_rules.manual_overrides.481.short_label,建材量販
-assumptions_snapshot.scale_rules.manual_overrides.481.reason,481建材零售業全市每店月均銷售額由大型建材量販／工程材料商拉高，非 一般小型建材行水準；未達月均銷售額 3 倍中位數的資料判準門檻，屬人工 手動覆蓋（Owner 對成大商圈實際觀察：核心商圈內看不到中小型建材行， 這個小類的「全市平均」幾乎等於大型業態平均），一定列為 large。
-assumptions_snapshot.scale_rules.manual_overrides.482.short_label,加油站
-assumptions_snapshot.scale_rules.manual_overrides.482.reason,482燃料及相關產品零售業以加油站為主力，全市每店月均銷售額由極少數 大型加油站拉高，一般小型店家不可能達到這個規模，一定列為 large。
-assumptions_snapshot.scale_rules.manual_overrides.484.short_label,汽機車經銷
-assumptions_snapshot.scale_rules.manual_overrides.484.reason,484汽機車及其零配件、用品零售業全市每店月均銷售額由大型汽車經銷商 拉高，小型機車行／零配件行規模差距極大，一定列為 large。
-method_notes.revenue_source,餐飲 4 個情境（561-餐館／561-小吃／562-借用餐館係數／563-飲料店）改用篇⑫由下而上模型：客群消費預算→推估客單價（三檔）→進店率×位置係數（主幹道/次要/巷弄）→來客數→月營收，revenue_bottom_up.low/mid/high 分別對應巷弄/次要道路/主幹道；月淨利、投資回收都用revenue_bottom_up.mid（次要道路、中檔客單價）算。篇⑩法一同業平均（『臺南市全市 × 行業』每店平均銷售額，民國111年/2022年財政部營業稅銷售額 ÷ 稅籍店數，D1 裁定粒度只到全市）降為 revenue 欄的對照數字。零售 13 個小類篇⑫沒有建由下而上鏈，維持篇⑩法一同業平均月營收，revenue.low/high＝該小類所屬大類（餐飲/零售）全部小類每店月均銷售額的 P25/P75（篇⑩已知限制）
-method_notes.bottom_up_source,篇⑫ revenue_bottom_up/unit_price/capture_rate（基準來客以同業校準，需求端／供給端為上下界，位置係數與客單價為情境變數）。稅籍 561餐食業合併了餐館與小吃兩種業態（篇⑩已知限制），本頁拆成561-餐館、561-小吃兩個情境；563飲料業對應篇⑫『飲料店』；562外燴及團膳承包業沒有自己的客單價/進店率錨點（外燴是大宗預訂/外送模式，不是現場零售座位模式），借用『餐館』的由下而上係數計算，頁面與 data.json（borrowed_from 欄）都標示這是借用值，不是562自己的獨立估計。餐飲 4 個情境的坪數預設（餐館25/小吃15/飲料店8坪）改用篇⑫ method_notes.assumptions_local.default_area_ping（依業態實際店型設定），不再套用 assumptions.yaml 統一的餐飲25坪預設（該預設仍用於562的借用計算與零售13個小類）。
-method_notes.rent_source,租金＝articles/09_property/data.json 東區店面租金中位數（942.1 元/坪/月，樣本 34 筆）× 坪數；5分圈/10分圈實價登錄店面樣本數 n<5（1/3 筆），依 Q29 樣本數少不做統計，改用東區全區替代
-method_notes.cost_structure_source,成本比例＝assumptions.yaml 業界常規預設值（非本商圈實測），可調整；試算器預設帶入這些值，使用者可自行改
-method_notes.survival_source,同批 2022 年開店、到資料截止約滿 4 年的 5 分圈存活率 63.0%，取自篇③；這是商圈整體（不分業種）的統計，不是特定業種或個店的預測
-method_notes.scale_source,17 個小類／情境的 revenue.mid（餐飲用同業平均對照值、零售用同業平均月營收）用來判定 scale，跟由下而上營收是兩個不同概念（scale 判定的是『全市平均是否被少數大型店拉高』，由下而上是『這個位置能估出多少營收』），刻意不混用，門檻計算方式不變：例如 482燃料及相關產品零售業（加油站等）與 471綜合商品零售業（百貨/量販）平均月營收達數百萬元——回本快是因為分母是大型業態的平均值，不是一般中小型獨立店家能預期的水準。本頁把 17 個小類／情境分成 scale=small／large 兩組（assumptions.yaml#scale_rules）：large＝該小類全市每店月均銷售額 > 全體中位數的 3 倍，或篇④資本額中位數 > 200 萬，或篇④分店占比 > 30%，任一成立；加上人工手動覆蓋 manual_overrides（482/471/484/481，各附一句理由，都是零售小類，餐飲 4 個情境目前沒有一個觸發 large）。large 者不算進小店數字範圍，改標「大型業態，非小店可比」，預設從總表隱藏，可展開查看；試算器下拉選單另分「大型業態（參考）」群組。已知限制：篇④的資本額中位數與分店占比只拆到餐飲/零售兩個大類，沒有拆到本頁的小類，這兩條資料判準因此對全部小類都不會觸發，真正抓出大型業態的是月均銷售額判準與 manual_overrides（見 assumptions.yaml#scale_rules.granularity_note）。
-method_notes.disclaimer,同業平均不是個店預測：任何一家店的實際營收會因地點、經營方式、規模而有巨大差異；餐飲的由下而上估算也是模型推估，不是本商圈實測，位置係數/進店率/客單價都是可調的假設；本頁數字是這些假設下的算術結果，不是對特定店面的獲利保證；本站只提供資料與分析，可不可行由你自己判斷
-method_notes.not_covered_in_numbers_yaml,篇①-⑩＋⑫原始數字（篇⑩月均、篇⑨租金中位數、篇③存活率、篇⑫由下而上營收等）本頁用 const 型別附來源路徑核對『抄得對不對』，不重算來源篇自己的算式（那件事已經在來源篇自己的 numbers.yaml 做過）；租金/成本/淨利三情境是乘減法組合，check_numbers 沒有通用加減法原語，同樣用 const 附完整公式；唯一能用 harness 原生 ratio 驗證的衍生數字是投資回收月數（除法）；scale_summary 的計數（small_count/large_count）同樣用 const 附計算方式
+overview_signals.survival.cohort_year,2022
+overview_signals.survival.cohort_survival_ring5_pct,59.2
+overview_signals.survival.recent12_open,223
+overview_signals.survival.recent12_close,178
+overview_signals.survival.close_org_type_solo_pct,79.6
+overview_signals.access.tra_daily_avg_in_2026,24939.4
+overview_signals.access.parking_ring5_facility_count,17
+overview_signals.access.parking_ring5_car_spaces,1430
+overview_signals.access.parking_ring5_moto_spaces,1495
+overview_signals.access.youbike_ring5_station_count,33
+overview_signals.access.youbike_ring5_dock_count,1177
+overview_signals.rent.dist_east_per_ping_median,1236.4
+overview_signals.rent.dist_east_area_ping_median,33.61
+overview_signals.rent.dist_east_n,22
+method_notes.revenue_source,同業月營收＝篇⑩：財政部營業稅銷售額（民國 111 年，臺南市全市，3 碼小類）÷ 稅籍店數 ÷ 12；P25／P75＝同大類（餐飲或零售）各小類每店月均的分位。餐飲 3 個小類另列依位置的參考營收＝同業月均 × 店家密度比（篇⑫）。
+method_notes.cost_rate_source,成本率＝經濟部統計處「批發、零售及餐飲業經營實況調查」（民國 113 年，全國）各業別的營業支出（營業成本＋營業費用）÷ 營業收入。營業支出已含進貨、薪資、租金、稅捐、折舊與其他營業支出，所以租金不另外扣。561 餐食業取 5611 餐館、562 取 5620 外燴及團膳承包業、563 取 5631 飲料店（餐飲業表 5）；零售小類取表 9 同代碼的小類，486 零售攤販不在表 9，取零售業合計。
+method_notes.net_profit_formula,月淨利＝月營收 ×（1－成本率）。試算器可改月營收與成本率。
+method_notes.rent_reference,店面月租金參考＝讀者填的坪數 × 東區店面每坪月租中位數（1236.4 元，樣本 22 筆，篇⑨實價登錄）。東區店面租賃面積中位數 33.61 坪只當參考值顯示。1 公里圈／2 公里圈店面租賃樣本 0／1 筆，少於 5 筆不算統計量，所以用東區全區。租金已含在成本率裡，月租金參考不再從月淨利扣。
+method_notes.investment,初期投資沒有公開統計，本頁不預填、不預算；讀者在試算器填了投資額，才顯示「投資額 ÷ 月淨利＝N 個月」。
+method_notes.scale_source,分組規則（分類口徑）：全市每店月均銷售額大於全部 16 個小類中位數的 3 倍，歸入「大型業態」另列；482 加油站、471 量販／百貨、484 汽機車經銷、481 建材量販另依人工分組列入（理由逐筆寫在表內）。分組不改變任何數字。
+method_notes.disclaimer,同業平均是全市平均，不是個店數字；成本率是全國調查平均。本站只整理公開資料與計算方法，不對任何地點或業種下結論。
 
 # table: categories
-code,name,group,industry_label,city_store_count,revenue_method,bottom_up_profile,borrowed_from,revenue,revenue_bottom_up,borrow_note,area_ping_default,rent_month,cost_pct_sum,cost,net_profit,investment,payback_months,survival_pct_used,scale,scale_reason,scale_signals
-561,餐食業（餐館情境）,餐飲,561餐食業（餐館情境）,13287,bottom_up,餐館,,"{""low"":210178,""mid"":211658,""high"":339306,""unit"":""元/月，全市同小類每店月均（同業平均，對照用）""}","{""low"":84898,""mid"":222254,""high"":293954,""tiers"":{""low"":""alley"",""mid"":""secondary"",""high"":""main_road""},""location_factor"":{""main_road"":1.32,""secondary"":1.05,""alley"":0.43},""unit_price"":{""low"":569.4,""mid"":645.9,""high"":722.6},""affordability_cap"":387.3,""capacity_cap_per_seat"":58131,""per_store_daily_customers_baseline"":10.92,""capture_rate_pct"":{""main_road"":18.02,""secondary"":14.33,""alley"":5.87},""vs_top_down_pct"":105,""source"":""articles/12_pricing/data.json#revenue_bottom_up.餐館""}",,25,23552.5,74,"{""low"":62824.5,""mid"":164468,""high"":217526}","{""low"":-1479,""mid"":34233.5,""high"":52875.5}",1500000,43.8,63,small,全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）,"{""revenue_multiple_vs_median"":0.62,""capital_median_ntd"":50000,""branch_pct"":3.2}"
-561,餐食業（小吃情境）,餐飲,561餐食業（小吃情境）,13287,bottom_up,小吃,,"{""low"":210178,""mid"":211658,""high"":339306,""unit"":""元/月，全市同小類每店月均（同業平均，對照用）""}","{""low"":81180,""mid"":201825,""high"":223200,""tiers"":{""low"":""alley"",""mid"":""secondary"",""high"":""main_road""},""location_factor"":{""main_road"":1.32,""secondary"":1.05,""alley"":0.43},""unit_price"":{""low"":220,""mid"":269.1,""high"":297.6},""affordability_cap"":387.3,""capacity_cap_per_seat"":24219,""per_store_daily_customers_baseline"":26.22,""capture_rate_pct"":{""main_road"":3.04,""secondary"":2.42,""alley"":0.99},""vs_top_down_pct"":95.4,""source"":""articles/12_pricing/data.json#revenue_bottom_up.小吃""}",,15,14131.5,74,"{""low"":60073.2,""mid"":149350.5,""high"":165168}","{""low"":6975.3,""mid"":38343,""high"":43900.5}",1500000,39.1,63,small,全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）,"{""revenue_multiple_vs_median"":0.62,""capital_median_ntd"":50000,""branch_pct"":3.2}"
-562,外燴及團膳承包業（借用餐館係數）,餐飲,562外燴及團膳承包業（借用餐館係數）,304,bottom_up,餐館,餐館,"{""low"":210178,""mid"":466953,""high"":339306,""unit"":""元/月，全市同小類每店月均（同業平均，對照用）""}","{""low"":84898,""mid"":222254,""high"":293954,""tiers"":{""low"":""alley"",""mid"":""secondary"",""high"":""main_road""},""location_factor"":{""main_road"":1.32,""secondary"":1.05,""alley"":0.43},""unit_price"":{""low"":569.4,""mid"":645.9,""high"":722.6},""affordability_cap"":387.3,""capacity_cap_per_seat"":58131,""per_store_daily_customers_baseline"":10.92,""capture_rate_pct"":{""main_road"":18.02,""secondary"":14.33,""alley"":5.87},""vs_top_down_pct"":105,""source"":""articles/12_pricing/data.json#revenue_bottom_up.餐館（562外燴及團膳承包業無自己錨點，借用 餐館 的係數）""}",外燴及團膳承包業沒有自己的客單價/進店率錨點（外燴是大宗預訂/外送模式，篇⑫沒有幫它單獨建模），借用「餐館」的由下而上係數（進店率×位置係數×客單價）計算，非它自己的獨立估計。,25,23552.5,74,"{""low"":62824.5,""mid"":164468,""high"":217526}","{""low"":-1479,""mid"":34233.5,""high"":52875.5}",1500000,43.8,63,small,全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）,"{""revenue_multiple_vs_median"":1.38,""capital_median_ntd"":50000,""branch_pct"":3.2}"
-563,飲料業（飲料店情境）,餐飲,563飲料業（飲料店情境）,4023,bottom_up,飲料店,,"{""low"":210178,""mid"":208697,""high"":339306,""unit"":""元/月，全市同小類每店月均（同業平均，對照用）""}","{""low"":80080,""mid"":217200,""high"":240000,""tiers"":{""low"":""alley"",""mid"":""secondary"",""high"":""main_road""},""location_factor"":{""main_road"":1.32,""secondary"":1.05,""alley"":0.43},""unit_price"":{""low"":59.2,""mid"":72.4,""high"":80},""affordability_cap"":387.3,""capacity_cap_per_seat"":6516,""per_store_daily_customers_baseline"":96.09,""capture_rate_pct"":{""main_road"":67.06,""secondary"":53.34,""alley"":21.84},""vs_top_down_pct"":104.1,""source"":""articles/12_pricing/data.json#revenue_bottom_up.飲料店""}",,8,7536.8,74,"{""low"":59259.2,""mid"":160728,""high"":177600}","{""low"":13284,""mid"":48935.2,""high"":54863.2}",1500000,30.7,63,small,全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）,"{""revenue_multiple_vs_median"":0.62,""capital_median_ntd"":50000,""branch_pct"":3.2}"
-471,綜合商品零售業,零售,471綜合商品零售業,2801,top_down,,,"{""low"":327205,""mid"":2754841,""high"":755884,""unit"":""元/月，全市同小類每店月均（同業平均法）""}",,,20,18842,85,"{""low"":278124.2,""mid"":2341614.9,""high"":642501.4}","{""low"":30238.8,""mid"":394384.1,""high"":94540.6}",800000,2,63,large,"全市每店月均銷售額 2,754,841 元，是全體 16 小類中位數（339,019 元）的 8.1 倍，超過 3 倍門檻；471綜合商品零售業涵蓋百貨公司、量販店、超市等大型業態，全市每店月均 銷售額由這些大型店拉高，非中小型獨立店家可比，一定列為 large。","{""revenue_multiple_vs_median"":8.13,""capital_median_ntd"":50000,""branch_pct"":8.1}"
-472,食品、飲料及菸草製品零售業,零售,472食品、飲料及菸草製品零售業,7996,top_down,,,"{""low"":327205,""mid"":337663,""high"":755884,""unit"":""元/月，全市同小類每店月均（同業平均法）""}",,,20,18842,85,"{""low"":278124.2,""mid"":287013.5,""high"":642501.4}","{""low"":30238.8,""mid"":31807.5,""high"":94540.6}",800000,25.2,63,small,全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）,"{""revenue_multiple_vs_median"":1,""capital_median_ntd"":50000,""branch_pct"":8.1}"
-473,布疋及服飾品零售業,零售,473布疋及服飾品零售業,2566,top_down,,,"{""low"":327205,""mid"":339019,""high"":755884,""unit"":""元/月，全市同小類每店月均（同業平均法）""}",,,20,18842,85,"{""low"":278124.2,""mid"":288166.1,""high"":642501.4}","{""low"":30238.8,""mid"":32010.9,""high"":94540.6}",800000,25,63,small,全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）,"{""revenue_multiple_vs_median"":1,""capital_median_ntd"":50000,""branch_pct"":8.1}"
-474,家用器具及用品零售業,零售,474家用器具及用品零售業,4193,top_down,,,"{""low"":327205,""mid"":521217,""high"":755884,""unit"":""元/月，全市同小類每店月均（同業平均法）""}",,,20,18842,85,"{""low"":278124.2,""mid"":443034.5,""high"":642501.4}","{""low"":30238.8,""mid"":59340.5,""high"":94540.6}",800000,13.5,63,small,全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）,"{""revenue_multiple_vs_median"":1.54,""capital_median_ntd"":50000,""branch_pct"":8.1}"
-475,藥品、醫療用品及化粧品零售業,零售,475藥品、醫療用品及化粧品零售業,2295,top_down,,,"{""low"":327205,""mid"":327205,""high"":755884,""unit"":""元/月，全市同小類每店月均（同業平均法）""}",,,20,18842,85,"{""low"":278124.2,""mid"":278124.2,""high"":642501.4}","{""low"":30238.8,""mid"":30238.8,""high"":94540.6}",800000,26.5,63,small,全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）,"{""revenue_multiple_vs_median"":0.97,""capital_median_ntd"":50000,""branch_pct"":8.1}"
-476,文教育樂用品零售業,零售,476文教育樂用品零售業,1279,top_down,,,"{""low"":327205,""mid"":608481,""high"":755884,""unit"":""元/月，全市同小類每店月均（同業平均法）""}",,,20,18842,85,"{""low"":278124.2,""mid"":517208.8,""high"":642501.4}","{""low"":30238.8,""mid"":72430.2,""high"":94540.6}",800000,11,63,small,全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）,"{""revenue_multiple_vs_median"":1.79,""capital_median_ntd"":50000,""branch_pct"":8.1}"
-481,建材零售業,零售,481建材零售業,837,top_down,,,"{""low"":327205,""mid"":678814,""high"":755884,""unit"":""元/月，全市同小類每店月均（同業平均法）""}",,,20,18842,85,"{""low"":278124.2,""mid"":576991.9,""high"":642501.4}","{""low"":30238.8,""mid"":82980.1,""high"":94540.6}",800000,9.6,63,large,481建材零售業全市每店月均銷售額由大型建材量販／工程材料商拉高，非 一般小型建材行水準；未達月均銷售額 3 倍中位數的資料判準門檻，屬人工 手動覆蓋（Owner 對成大商圈實際觀察：核心商圈內看不到中小型建材行， 這個小類的「全市平均」幾乎等於大型業態平均），一定列為 large。,"{""revenue_multiple_vs_median"":2,""capital_median_ntd"":50000,""branch_pct"":8.1}"
-482,燃料及相關產品零售業,零售,482燃料及相關產品零售業,573,top_down,,,"{""low"":327205,""mid"":8091691,""high"":755884,""unit"":""元/月，全市同小類每店月均（同業平均法）""}",,,20,18842,85,"{""low"":278124.2,""mid"":6877937.3,""high"":642501.4}","{""low"":30238.8,""mid"":1194911.7,""high"":94540.6}",800000,0.7,63,large,"全市每店月均銷售額 8,091,691 元，是全體 16 小類中位數（339,019 元）的 23.9 倍，超過 3 倍門檻；482燃料及相關產品零售業以加油站為主力，全市每店月均銷售額由極少數 大型加油站拉高，一般小型店家不可能達到這個規模，一定列為 large。","{""revenue_multiple_vs_median"":23.87,""capital_median_ntd"":50000,""branch_pct"":8.1}"
-483,資訊及通訊設備零售業,零售,483資訊及通訊設備零售業,1007,top_down,,,"{""low"":327205,""mid"":755884,""high"":755884,""unit"":""元/月，全市同小類每店月均（同業平均法）""}",,,20,18842,85,"{""low"":278124.2,""mid"":642501.4,""high"":642501.4}","{""low"":30238.8,""mid"":94540.6,""high"":94540.6}",800000,8.5,63,small,全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）,"{""revenue_multiple_vs_median"":2.23,""capital_median_ntd"":50000,""branch_pct"":8.1}"
-484,汽機車及其零配件、用品零售業,零售,484汽機車及其零配件、用品零售業,2210,top_down,,,"{""low"":327205,""mid"":1729969,""high"":755884,""unit"":""元/月，全市同小類每店月均（同業平均法）""}",,,20,18842,85,"{""low"":278124.2,""mid"":1470473.6,""high"":642501.4}","{""low"":30238.8,""mid"":240653.4,""high"":94540.6}",800000,3.3,63,large,"全市每店月均銷售額 1,729,969 元，是全體 16 小類中位數（339,019 元）的 5.1 倍，超過 3 倍門檻；484汽機車及其零配件、用品零售業全市每店月均銷售額由大型汽車經銷商 拉高，小型機車行／零配件行規模差距極大，一定列為 large。","{""revenue_multiple_vs_median"":5.1,""capital_median_ntd"":50000,""branch_pct"":8.1}"
-485,其他專賣零售業,零售,485其他專賣零售業,2736,top_down,,,"{""low"":327205,""mid"":219661,""high"":755884,""unit"":""元/月，全市同小類每店月均（同業平均法）""}",,,20,18842,85,"{""low"":278124.2,""mid"":186711.9,""high"":642501.4}","{""low"":30238.8,""mid"":14107.1,""high"":94540.6}",800000,56.7,63,small,全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）,"{""revenue_multiple_vs_median"":0.65,""capital_median_ntd"":50000,""branch_pct"":8.1}"
-486,零售攤販,零售,486零售攤販,312,top_down,,,"{""low"":327205,""mid"":69194,""high"":755884,""unit"":""元/月，全市同小類每店月均（同業平均法）""}",,,20,18842,85,"{""low"":278124.2,""mid"":58814.9,""high"":642501.4}","{""low"":30238.8,""mid"":-8462.9,""high"":94540.6}",800000,,63,small,全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）,"{""revenue_multiple_vs_median"":0.2,""capital_median_ntd"":50000,""branch_pct"":8.1}"
-487,其他非店面零售業,零售,487其他非店面零售業,5638,top_down,,,"{""low"":327205,""mid"":181531,""high"":755884,""unit"":""元/月，全市同小類每店月均（同業平均法）""}",,,20,18842,85,"{""low"":278124.2,""mid"":154301.4,""high"":642501.4}","{""low"":30238.8,""mid"":8387.6,""high"":94540.6}",800000,95.4,63,small,全市每店月均銷售額、篇④資本額中位數、篇④分店占比皆未達大型業態門檻（詳見 assumptions.yaml#scale_rules）,"{""revenue_multiple_vs_median"":0.54,""capital_median_ntd"":50000,""branch_pct"":8.1}"
+code,name,group,industry_label,city_store_count,revenue,cost_rate,net_profit,revenue_by_location,net_profit_by_location,scale,scale_reason,scale_signals
+561,餐食業,餐飲,561餐食業,13296,"{""low"":210549,""mid"":211514,""high"":339234,""unit"":""元/月，全市同小類每店月均（P25／P75＝同大類各小類每店月均的分位）""}","{""survey_code"":""5611"",""survey_name"":""餐館"",""year_roc"":""113"",""revenue_mn"":838746,""opex_mn"":704217,""cost_rate_pct"":84,""rent_share_pct"":6,""fields"":""營業支出（含營業成本及費用）÷ 營業收入"",""table"":""表5 餐飲業歷年營運收支－按小類分"",""url"":""https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37795"",""applied_to"":""561"",""note"":""561 餐食業含餐館與餐食攤販，調查只有 5611 餐館，取餐館的成本率""}","{""low"":33688,""mid"":33842,""high"":54277}","{""major"":{""label"":""臨主要幹道"",""density_ratio"":1.19,""value"":251702},""mid"":{""label"":""臨次要道路"",""density_ratio"":0.77,""value"":162866},""minor"":{""label"":""巷弄"",""density_ratio"":0.56,""value"":118448}}","{""major"":40272,""mid"":26059,""minor"":18952}",small,全市每店月均銷售額未達全部小類中位數的 3 倍,"{""revenue_multiple_vs_median"":0.52}"
+562,外燴及團膳承包業,餐飲,562外燴及團膳承包業,304,"{""low"":210549,""mid"":466953,""high"":339234,""unit"":""元/月，全市同小類每店月均（P25／P75＝同大類各小類每店月均的分位）""}","{""survey_code"":""5620"",""survey_name"":""外燴及團膳承包業"",""year_roc"":""113"",""revenue_mn"":65893,""opex_mn"":56081,""cost_rate_pct"":85.1,""rent_share_pct"":1.3,""fields"":""營業支出（含營業成本及費用）÷ 營業收入"",""table"":""表5 餐飲業歷年營運收支－按小類分"",""url"":""https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37795"",""applied_to"":""562"",""note"":""""}","{""low"":31372,""mid"":69576,""high"":50546}","{""major"":{""label"":""臨主要幹道"",""density_ratio"":1.19,""value"":555674},""mid"":{""label"":""臨次要道路"",""density_ratio"":0.77,""value"":359554},""minor"":{""label"":""巷弄"",""density_ratio"":0.56,""value"":261494}}","{""major"":82795,""mid"":53574,""minor"":38963}",small,全市每店月均銷售額未達全部小類中位數的 3 倍,"{""revenue_multiple_vs_median"":1.16}"
+563,飲料業,餐飲,563飲料業,4006,"{""low"":210549,""mid"":209583,""high"":339234,""unit"":""元/月，全市同小類每店月均（P25／P75＝同大類各小類每店月均的分位）""}","{""survey_code"":""5631"",""survey_name"":""飲料店"",""year_roc"":""113"",""revenue_mn"":133130,""opex_mn"":113920,""cost_rate_pct"":85.6,""rent_share_pct"":6.1,""fields"":""營業支出（含營業成本及費用）÷ 營業收入"",""table"":""表5 餐飲業歷年營運收支－按小類分"",""url"":""https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37795"",""applied_to"":""563"",""note"":""""}","{""low"":30319,""mid"":30180,""high"":48850}","{""major"":{""label"":""臨主要幹道"",""density_ratio"":1.19,""value"":249404},""mid"":{""label"":""臨次要道路"",""density_ratio"":0.77,""value"":161379},""minor"":{""label"":""巷弄"",""density_ratio"":0.56,""value"":117366}}","{""major"":35914,""mid"":23239,""minor"":16901}",small,全市每店月均銷售額未達全部小類中位數的 3 倍,"{""revenue_multiple_vs_median"":0.52}"
+471,綜合商品零售業,零售,471綜合商品零售業,2805,"{""low"":328206,""mid"":2750913,""high"":758899,""unit"":""元/月，全市同小類每店月均（P25／P75＝同大類各小類每店月均的分位）""}","{""survey_code"":""471"",""survey_name"":""綜合商品零售業"",""year_roc"":""113"",""revenue_mn"":1543370,""opex_mn"":1476008,""cost_rate_pct"":95.6,""rent_share_pct"":1.7,""fields"":""營業支出（含營業成本及費用）÷ 營業收入"",""table"":""表9 零售及餐飲業全年營業收支－按小類分"",""url"":""https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800"",""applied_to"":""471"",""note"":""""}","{""low"":14441,""mid"":121040,""high"":33392}",,,large,"全市每店月均銷售額 2,750,913 元，是全部 16 個小類中位數（403,583 元）的 6.8 倍，大於 3 倍分組門檻；471 綜合商品零售業涵蓋百貨公司、量販店、超市等大型業態。","{""revenue_multiple_vs_median"":6.82}"
+472,食品、飲料及菸草製品零售業,零售,472食品、飲料及菸草製品零售業,7979,"{""low"":328206,""mid"":338382,""high"":758899,""unit"":""元/月，全市同小類每店月均（P25／P75＝同大類各小類每店月均的分位）""}","{""survey_code"":""472"",""survey_name"":""食品飲料及菸草製品零售業"",""year_roc"":""113"",""revenue_mn"":292923,""opex_mn"":253976,""cost_rate_pct"":86.7,""rent_share_pct"":4.3,""fields"":""營業支出（含營業成本及費用）÷ 營業收入"",""table"":""表9 零售及餐飲業全年營業收支－按小類分"",""url"":""https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800"",""applied_to"":""472"",""note"":""""}","{""low"":43651,""mid"":45005,""high"":100934}",,,small,全市每店月均銷售額未達全部小類中位數的 3 倍,"{""revenue_multiple_vs_median"":0.84}"
+473,布疋及服飾品零售業,零售,473布疋及服飾品零售業,2557,"{""low"":328206,""mid"":340213,""high"":758899,""unit"":""元/月，全市同小類每店月均（P25／P75＝同大類各小類每店月均的分位）""}","{""survey_code"":""473"",""survey_name"":""布疋及服飾品零售業"",""year_roc"":""113"",""revenue_mn"":352909,""opex_mn"":316153,""cost_rate_pct"":89.6,""rent_share_pct"":7.6,""fields"":""營業支出（含營業成本及費用）÷ 營業收入"",""table"":""表9 零售及餐飲業全年營業收支－按小類分"",""url"":""https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800"",""applied_to"":""473"",""note"":""""}","{""low"":34133,""mid"":35382,""high"":78925}",,,small,全市每店月均銷售額未達全部小類中位數的 3 倍,"{""revenue_multiple_vs_median"":0.84}"
+474,家用器具及用品零售業,零售,474家用器具及用品零售業,4189,"{""low"":328206,""mid"":521714,""high"":758899,""unit"":""元/月，全市同小類每店月均（P25／P75＝同大類各小類每店月均的分位）""}","{""survey_code"":""474"",""survey_name"":""家用器具及用品零售業"",""year_roc"":""113"",""revenue_mn"":234258,""opex_mn"":212584,""cost_rate_pct"":90.7,""rent_share_pct"":5.8,""fields"":""營業支出（含營業成本及費用）÷ 營業收入"",""table"":""表9 零售及餐飲業全年營業收支－按小類分"",""url"":""https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800"",""applied_to"":""474"",""note"":""""}","{""low"":30523,""mid"":48519,""high"":70578}",,,small,全市每店月均銷售額未達全部小類中位數的 3 倍,"{""revenue_multiple_vs_median"":1.29}"
+475,藥品、醫療用品及化粧品零售業,零售,475藥品、醫療用品及化粧品零售業,2288,"{""low"":328206,""mid"":328206,""high"":758899,""unit"":""元/月，全市同小類每店月均（P25／P75＝同大類各小類每店月均的分位）""}","{""survey_code"":""475"",""survey_name"":""藥品醫療用品及化粧品零售業"",""year_roc"":""113"",""revenue_mn"":213181,""opex_mn"":194754,""cost_rate_pct"":91.4,""rent_share_pct"":4.3,""fields"":""營業支出（含營業成本及費用）÷ 營業收入"",""table"":""表9 零售及餐飲業全年營業收支－按小類分"",""url"":""https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800"",""applied_to"":""475"",""note"":""""}","{""low"":28226,""mid"":28226,""high"":65265}",,,small,全市每店月均銷售額未達全部小類中位數的 3 倍,"{""revenue_multiple_vs_median"":0.81}"
+476,文教育樂用品零售業,零售,476文教育樂用品零售業,1286,"{""low"":328206,""mid"":605169,""high"":758899,""unit"":""元/月，全市同小類每店月均（P25／P75＝同大類各小類每店月均的分位）""}","{""survey_code"":""476"",""survey_name"":""文教、育樂用品零售業"",""year_roc"":""113"",""revenue_mn"":86362,""opex_mn"":78983,""cost_rate_pct"":91.5,""rent_share_pct"":5.9,""fields"":""營業支出（含營業成本及費用）÷ 營業收入"",""table"":""表9 零售及餐飲業全年營業收支－按小類分"",""url"":""https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800"",""applied_to"":""476"",""note"":""""}","{""low"":27898,""mid"":51439,""high"":64506}",,,small,全市每店月均銷售額未達全部小類中位數的 3 倍,"{""revenue_multiple_vs_median"":1.5}"
+481,建材零售業,零售,481建材零售業,835,"{""low"":328206,""mid"":680439,""high"":758899,""unit"":""元/月，全市同小類每店月均（P25／P75＝同大類各小類每店月均的分位）""}","{""survey_code"":""481"",""survey_name"":""建材零售業"",""year_roc"":""113"",""revenue_mn"":26328,""opex_mn"":23471,""cost_rate_pct"":89.1,""rent_share_pct"":3.8,""fields"":""營業支出（含營業成本及費用）÷ 營業收入"",""table"":""表9 零售及餐飲業全年營業收支－按小類分"",""url"":""https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800"",""applied_to"":""481"",""note"":""""}","{""low"":35774,""mid"":74168,""high"":82720}",,,large,481 建材零售業的全市每店月均銷售額由大型建材量販與工程材料商拉高；未達 3 倍門檻， 屬人工分組（Owner 對商圈的實地觀察：核心商圈內少見中小型建材行）。,"{""revenue_multiple_vs_median"":1.69}"
+482,燃料及相關產品零售業,零售,482燃料及相關產品零售業,573,"{""low"":328206,""mid"":8091691,""high"":758899,""unit"":""元/月，全市同小類每店月均（P25／P75＝同大類各小類每店月均的分位）""}","{""survey_code"":""482"",""survey_name"":""燃料零售業"",""year_roc"":""113"",""revenue_mn"":267354,""opex_mn"":257014,""cost_rate_pct"":96.1,""rent_share_pct"":2.2,""fields"":""營業支出（含營業成本及費用）÷ 營業收入"",""table"":""表9 零售及餐飲業全年營業收支－按小類分"",""url"":""https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800"",""applied_to"":""482"",""note"":""""}","{""low"":12800,""mid"":315576,""high"":29597}",,,large,"全市每店月均銷售額 8,091,691 元，是全部 16 個小類中位數（403,583 元）的 20.1 倍，大於 3 倍分組門檻；482 燃料及相關產品零售業以加油站為主，全市每店月均銷售額由大型加油站拉高。","{""revenue_multiple_vs_median"":20.05}"
+483,資訊及通訊設備零售業,零售,483資訊及通訊設備零售業,1003,"{""low"":328206,""mid"":758899,""high"":758899,""unit"":""元/月，全市同小類每店月均（P25／P75＝同大類各小類每店月均的分位）""}","{""survey_code"":""483"",""survey_name"":""資通訊及家電設備零售業"",""year_roc"":""113"",""revenue_mn"":282257,""opex_mn"":266496,""cost_rate_pct"":94.4,""rent_share_pct"":2.1,""fields"":""營業支出（含營業成本及費用）÷ 營業收入"",""table"":""表9 零售及餐飲業全年營業收支－按小類分"",""url"":""https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800"",""applied_to"":""483"",""note"":""""}","{""low"":18380,""mid"":42498,""high"":42498}",,,small,全市每店月均銷售額未達全部小類中位數的 3 倍,"{""revenue_multiple_vs_median"":1.88}"
+484,汽機車及其零配件、用品零售業,零售,484汽機車及其零配件、用品零售業,2210,"{""low"":328206,""mid"":1729969,""high"":758899,""unit"":""元/月，全市同小類每店月均（P25／P75＝同大類各小類每店月均的分位）""}","{""survey_code"":""484"",""survey_name"":""汽機車及其零配件用品零售業"",""year_roc"":""113"",""revenue_mn"":911349,""opex_mn"":876268,""cost_rate_pct"":96.2,""rent_share_pct"":1.5,""fields"":""營業支出（含營業成本及費用）÷ 營業收入"",""table"":""表9 零售及餐飲業全年營業收支－按小類分"",""url"":""https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800"",""applied_to"":""484"",""note"":""""}","{""low"":12472,""mid"":65739,""high"":28838}",,,large,"全市每店月均銷售額 1,729,969 元，是全部 16 個小類中位數（403,583 元）的 4.3 倍，大於 3 倍分組門檻；484 汽機車及其零配件、用品零售業的全市每店月均銷售額由大型汽車經銷商拉高。","{""revenue_multiple_vs_median"":4.29}"
+485,其他專賣零售業,零售,485其他專賣零售業,2735,"{""low"":328206,""mid"":219742,""high"":758899,""unit"":""元/月，全市同小類每店月均（P25／P75＝同大類各小類每店月均的分位）""}","{""survey_code"":""485"",""survey_name"":""其他專賣零售業"",""year_roc"":""113"",""revenue_mn"":76076,""opex_mn"":66733,""cost_rate_pct"":87.7,""rent_share_pct"":4.1,""fields"":""營業支出（含營業成本及費用）÷ 營業收入"",""table"":""表9 零售及餐飲業全年營業收支－按小類分"",""url"":""https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800"",""applied_to"":""485"",""note"":""""}","{""low"":40369,""mid"":27028,""high"":93345}",,,small,全市每店月均銷售額未達全部小類中位數的 3 倍,"{""revenue_multiple_vs_median"":0.54}"
+486,零售攤販,零售,486零售攤販,314,"{""low"":328206,""mid"":68753,""high"":758899,""unit"":""元/月，全市同小類每店月均（P25／P75＝同大類各小類每店月均的分位）""}","{""survey_code"":""47-48"",""survey_name"":""零售業"",""year_roc"":""113"",""revenue_mn"":4854323,""opex_mn"":4561701,""cost_rate_pct"":94,""rent_share_pct"":2.8,""fields"":""營業支出（含營業成本及費用）÷ 營業收入"",""table"":""表9 零售及餐飲業全年營業收支－按小類分"",""url"":""https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800"",""applied_to"":""486"",""note"":""調查表 9 沒有 486 零售攤販，取零售業合計的成本率""}","{""low"":19692,""mid"":4125,""high"":45534}",,,small,全市每店月均銷售額未達全部小類中位數的 3 倍,"{""revenue_multiple_vs_median"":0.17}"
+487,其他非店面零售業,零售,487其他非店面零售業,5651,"{""low"":328206,""mid"":181114,""high"":758899,""unit"":""元/月，全市同小類每店月均（P25／P75＝同大類各小類每店月均的分位）""}","{""survey_code"":""487"",""survey_name"":""其他非店面零售業"",""year_roc"":""113"",""revenue_mn"":567956,""opex_mn"":539262,""cost_rate_pct"":94.9,""rent_share_pct"":1.9,""fields"":""營業支出（含營業成本及費用）÷ 營業收入"",""table"":""表9 零售及餐飲業全年營業收支－按小類分"",""url"":""https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800"",""applied_to"":""487"",""note"":""""}","{""low"":16739,""mid"":9237,""high"":38704}",,,small,全市每店月均銷售額未達全部小類中位數的 3 倍,"{""revenue_multiple_vs_median"":0.45}"
+
+# table: cost_rates
+survey_code,survey_name,year_roc,revenue_mn,opex_mn,cost_rate_pct,rent_share_pct,fields,table,url
+5611,餐館,113,838746,704217,84,6,營業支出（含營業成本及費用）÷ 營業收入,表5 餐飲業歷年營運收支－按小類分,https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37795
+5620,外燴及團膳承包業,113,65893,56081,85.1,1.3,營業支出（含營業成本及費用）÷ 營業收入,表5 餐飲業歷年營運收支－按小類分,https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37795
+5631,飲料店,113,133130,113920,85.6,6.1,營業支出（含營業成本及費用）÷ 營業收入,表5 餐飲業歷年營運收支－按小類分,https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37795
+471,綜合商品零售業,113,1543370,1476008,95.6,1.7,營業支出（含營業成本及費用）÷ 營業收入,表9 零售及餐飲業全年營業收支－按小類分,https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800
+472,食品飲料及菸草製品零售業,113,292923,253976,86.7,4.3,營業支出（含營業成本及費用）÷ 營業收入,表9 零售及餐飲業全年營業收支－按小類分,https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800
+473,布疋及服飾品零售業,113,352909,316153,89.6,7.6,營業支出（含營業成本及費用）÷ 營業收入,表9 零售及餐飲業全年營業收支－按小類分,https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800
+474,家用器具及用品零售業,113,234258,212584,90.7,5.8,營業支出（含營業成本及費用）÷ 營業收入,表9 零售及餐飲業全年營業收支－按小類分,https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800
+475,藥品醫療用品及化粧品零售業,113,213181,194754,91.4,4.3,營業支出（含營業成本及費用）÷ 營業收入,表9 零售及餐飲業全年營業收支－按小類分,https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800
+476,文教、育樂用品零售業,113,86362,78983,91.5,5.9,營業支出（含營業成本及費用）÷ 營業收入,表9 零售及餐飲業全年營業收支－按小類分,https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800
+481,建材零售業,113,26328,23471,89.1,3.8,營業支出（含營業成本及費用）÷ 營業收入,表9 零售及餐飲業全年營業收支－按小類分,https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800
+482,燃料零售業,113,267354,257014,96.1,2.2,營業支出（含營業成本及費用）÷ 營業收入,表9 零售及餐飲業全年營業收支－按小類分,https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800
+483,資通訊及家電設備零售業,113,282257,266496,94.4,2.1,營業支出（含營業成本及費用）÷ 營業收入,表9 零售及餐飲業全年營業收支－按小類分,https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800
+484,汽機車及其零配件用品零售業,113,911349,876268,96.2,1.5,營業支出（含營業成本及費用）÷ 營業收入,表9 零售及餐飲業全年營業收支－按小類分,https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800
+485,其他專賣零售業,113,76076,66733,87.7,4.1,營業支出（含營業成本及費用）÷ 營業收入,表9 零售及餐飲業全年營業收支－按小類分,https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800
+47-48,零售業,113,4854323,4561701,94,2.8,營業支出（含營業成本及費用）÷ 營業收入,表9 零售及餐飲業全年營業收支－按小類分,https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800
+487,其他非店面零售業,113,567956,539262,94.9,1.9,營業支出（含營業成本及費用）÷ 營業收入,表9 零售及餐飲業全年營業收支－按小類分,https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800
 
 # table: dimensions
 key,name,question,facts,articles,evidence
-footfall,人流,這裡人多不多？,"[""台鐵台南站日均進出站合計 50,022 人次"",""同業校準後的有效日人流 116,522 人次/天"",""臨主要幹道的店家密度是全圈平均的 1.32 倍""]","[""11_footfall"",""08_access""]","[{""label"":""台鐵日均進出站合計"",""value"":50021.6,""unit"":""人次/天"",""source"":""articles/11_footfall/data.json#composition.by_key.tra（avg_in + avg_out）""},{""label"":""同業校準後有效日人流"",""value"":116522.5,""unit"":""人次/天"",""source"":""articles/12_pricing/data.json#effective_footfall.daily_effective_footfall""},{""label"":""臨主要幹道店家密度係數"",""value"":1.32,""unit"":""倍"",""source"":""articles/11_footfall/data.json#streets.tiers.major.location_factor""}]"
-capture,客流,有人流會不會走進來？,"[""餐館隱含進店率 13.65%，基準來客超出需求端與供給端的上下界"",""小吃隱含進店率 2.3%，基準來客落在需求端與供給端的上下界"",""飲料店隱含進店率 50.8%，基準來客超出需求端與供給端的上下界""]","[""12_pricing""]","[{""label"":""餐館隱含進店率"",""value"":13.65,""unit"":""%"",""source"":""articles/12_pricing/data.json#capture_rate.categories.餐館.implied_capture_rate""},{""label"":""小吃隱含進店率"",""value"":2.3,""unit"":""%"",""source"":""articles/12_pricing/data.json#capture_rate.categories.小吃.implied_capture_rate""},{""label"":""飲料店隱含進店率"",""value"":50.8,""unit"":""%"",""source"":""articles/12_pricing/data.json#capture_rate.categories.飲料店.implied_capture_rate""}]"
-customer_segment,消費族群,附近住的、來的是什麼人？,"[""固定客群（學生＋教職員＋醫院員工）共 29,649 人"",""固定客群相當於 5 分圈居住人口的 27.8%"",""10 分圈居住人口 392,469 人""]","[""05_population"",""07_campus""]","[{""label"":""固定客群合計（學生＋教職員＋醫院員工）"",""value"":29649,""unit"":""人"",""source"":""articles/07_campus/data.json#fixed_population.total""},{""label"":""固定客群占 5 分圈居住人口比"",""value"":27.8,""unit"":""%"",""source"":""articles/07_campus/data.json#residential_comparison.ratio_fixed_to_residential_pct""},{""label"":""10 分圈居住人口"",""value"":392469,""unit"":""人"",""source"":""articles/05_population/data.json#rings.10.area_weighted.population""}]"
-spending_power,消費能力,這些人有沒有錢花？,"[""10 分圈村里所得加權平均 1001.3 千元/年，全市 815.3 千元/年"",""10 分圈比全市高 22.8%"",""餐館客單價中檔推估 646 元""]","[""06_income"",""12_pricing""]","[{""label"":""10 分圈村里所得加權平均"",""value"":1001.3,""unit"":""千元/年"",""source"":""articles/06_income/data.json#district_stats.ring10.weighted_mean""},{""label"":""全市村里所得加權平均"",""value"":815.3,""unit"":""千元/年"",""source"":""articles/06_income/data.json#district_stats.city.weighted_mean""},{""label"":""10 分圈與全市的差距"",""value"":22.8,""unit"":""%"",""source"":""(articles/06_income/data.json#district_stats.ring10.weighted_mean ÷ articles/06_income/data.json#district_stats.city.weighted_mean − 1) × 100""},{""label"":""餐館客單價中檔（篇⑫推估）"",""value"":645.9,""unit"":""元"",""source"":""articles/12_pricing/data.json#unit_price.categories.餐館.mid""}]"
-access,交通,客人到得了嗎？,"[""台鐵台南站日均進站 24,820 人次"",""5 分圈停車位（汽車＋機車）4,050 個"",""5 分圈 YouBike 站點 66 處""]","[""08_access""]","[{""label"":""台鐵台南站日均進站"",""value"":24820.1,""unit"":""人次/天"",""source"":""articles/08_access/data.json#tra.ytd.avg_in""},{""label"":""5 分圈停車位（汽車＋機車）"",""value"":4050,""unit"":""個"",""source"":""articles/08_access/data.json#parking.by_ring.cumulative.5（car_spaces + moto_spaces）""},{""label"":""5 分圈 YouBike 站點"",""value"":66,""unit"":""處"",""source"":""articles/08_access/data.json#youbike.by_ring.cumulative.5.station_count""}]"
-competition,產業競爭,同業擠不擠、活得下去嗎？,"[""5 分圈店家密度是全市的 23.6 倍"",""2022 年開店的店，4 年後還有 63.0% 在營業"",""最大宗餐館業態（5611）的集中度 LQ 為 0.98""]","[""02_industry"",""03_survival"",""04_scale""]","[{""label"":""5 分圈店家密度是全市倍數"",""value"":23.6,""unit"":""倍"",""source"":""articles/01_outline/data.json#density.density_ratio_vs_city""},{""label"":""2022 年開店戶 4 年後存活率"",""value"":63,""unit"":""%"",""source"":""articles/03_survival/data.json#cohort_survival.ring5（年份=2022）.rate_pct""},{""label"":""最大宗餐館業態（5611）LQ"",""value"":0.98,""unit"":"""",""source"":""articles/02_industry/data.json#lq.restaurant（code=5611）.lq""}]"
-competitors,競品,附近同業是誰、在哪、開多久？,"[""餐館 5 分圈 1,456 家（全市 12,031 家），密度每平方公里 186 家，全市每平方公里 5.49 家；連鎖／分公司占比 3.0%"",""小吃／飲料店 5 分圈 616 家，密度是全市的 42.9 倍，最近對手 115 公尺，連鎖占比 4.1%"",""5 分圈近 12 個月（全業態）開 684 家、關 511 家，淨增 +173 家""]","[""13_competitors""]",[]
+footfall,人流,這裡人多不多？,"[""台鐵台南站日均進站 24,939 人次"",""3 公里圈內觀光景點日均遊客 34,276 人次"",""臨主要幹道的店家密度比 1.19 倍（1 公里圈三檔合計＝1）""]","[""11_footfall"",""08_access""]","[{""label"":""台鐵台南站日均進站"",""value"":24939.4,""unit"":""人次/天"",""source"":""articles/11_footfall/data.json#composition.by_key.tra.avg_in""},{""label"":""觀光景點日均遊客"",""value"":34276.1,""unit"":""人次/天"",""source"":""articles/11_footfall/data.json#tourism.in_ring_daily_avg""},{""label"":""臨主要幹道店家密度比"",""value"":1.19,""unit"":""倍"",""source"":""articles/11_footfall/data.json#streets.tiers.major.location_factor""}]"
+capture,位置差異,同一商圈裡，不同位置的同業營收差多少？,"[""餐食業全市每店月均 211,514 元"",""乘店家密度比：臨主要幹道 251,702 元、巷弄 118,448 元"",""1 公里圈居民餐飲預算 ÷ 圈內 642 家餐飲店＝每店 142,860 元/月""]","[""12_pricing""]","[{""label"":""餐食業全市每店月均"",""value"":211514,""unit"":""元/月"",""source"":""articles/12_pricing/data.json#location_revenue.peers（561）.per_store_monthly_ntd""},{""label"":""餐食業臨主要幹道參考營收"",""value"":251702,""unit"":""元/月"",""source"":""articles/12_pricing/data.json#location_revenue.peers（561）.by_location.major""},{""label"":""餐食業巷弄參考營收"",""value"":118448,""unit"":""元/月"",""source"":""articles/12_pricing/data.json#location_revenue.peers（561）.by_location.minor""},{""label"":""1 公里圈每店可分到的月預算"",""value"":142860,""unit"":""元/月"",""source"":""articles/12_pricing/data.json#budget_pool.per_store_budget_monthly_ntd""}]"
+customer_segment,消費族群,附近住的、來的是什麼人？,"[""固定客群（學生＋教職員＋醫院員工）共 29,649 人"",""固定客群相當於 1 公里圈居住人口的 147.4%"",""2 公里圈居住人口 142,034 人""]","[""05_population"",""07_campus""]","[{""label"":""固定客群合計（學生＋教職員＋醫院員工）"",""value"":29649,""unit"":""人"",""source"":""articles/07_campus/data.json#fixed_population.total""},{""label"":""固定客群占 1 公里圈居住人口比"",""value"":147.4,""unit"":""%"",""source"":""articles/07_campus/data.json#residential_comparison.ratio_fixed_to_residential_pct""},{""label"":""2 公里圈居住人口"",""value"":142034,""unit"":""人"",""source"":""articles/05_population/data.json#rings.2000.area_weighted.population""}]"
+spending_power,消費能力,這些人一個月花多少錢在外食？,"[""2 公里圈村里所得加權平均 1018.0 千元/年，全市 833.1 千元/年，高 22.2%"",""臺南平均每人每月外食預算 4,329 元"",""依國健署外食次數換算，每次外食預算 71～143 元""]","[""06_income"",""12_pricing""]","[{""label"":""2 公里圈村里所得加權平均"",""value"":1018,""unit"":""千元/年"",""source"":""articles/06_income/data.json#district_stats.ring10.weighted_mean""},{""label"":""全市村里所得加權平均"",""value"":833.1,""unit"":""千元/年"",""source"":""articles/06_income/data.json#district_stats.city.weighted_mean""},{""label"":""2 公里圈與全市的差距"",""value"":22.2,""unit"":""%"",""source"":""(ring10.weighted_mean ÷ city.weighted_mean − 1) × 100""},{""label"":""臺南平均每人每月外食預算"",""value"":4329,""unit"":""元"",""source"":""articles/12_pricing/data.json#segments.tainan.per_person_monthly_dining_ntd""}]"
+access,交通,客人到得了嗎？,"[""台鐵台南站日均進站 24,939 人次"",""1 公里圈停車位（汽車＋機車）2,925 個"",""1 公里圈 YouBike 站點 33 處""]","[""08_access""]","[{""label"":""台鐵台南站日均進站"",""value"":24939.4,""unit"":""人次/天"",""source"":""articles/08_access/data.json#tra.ytd.avg_in""},{""label"":""1 公里圈停車位（汽車＋機車）"",""value"":2925,""unit"":""個"",""source"":""articles/08_access/data.json#parking.by_ring.cumulative.1000（car_spaces + moto_spaces）""},{""label"":""1 公里圈 YouBike 站點"",""value"":33,""unit"":""處"",""source"":""articles/08_access/data.json#youbike.by_ring.cumulative.1000.station_count""}]"
+competition,產業競爭,同業有多密、開了多久？,"[""1 公里圈店家密度是全市的 19.9 倍"",""2022 年開店的店，4 年後還有 59.2% 在營業"",""最大宗餐館業態（5611）的集中度 LQ 為 1.0""]","[""02_industry"",""03_survival"",""04_scale""]","[{""label"":""1 公里圈店家密度是全市倍數"",""value"":19.9,""unit"":""倍"",""source"":""articles/01_outline/data.json#density.density_ratio_vs_city""},{""label"":""2022 年開店戶 4 年後存活率"",""value"":59.2,""unit"":""%"",""source"":""articles/03_survival/data.json#cohort_survival.ring5（年份=2022）.rate_pct""},{""label"":""最大宗餐館業態（5611）LQ"",""value"":1,""unit"":"""",""source"":""articles/02_industry/data.json#lq.restaurant（code=5611）.lq""}]"
+competitors,競品,附近同業是誰、在哪、開多久？,"[""餐館 1 公里圈 440 家（全市 12,041 家），密度每平方公里 163 家，全市每平方公里 5.49 家；連鎖／分公司占比 6.6%"",""小吃／飲料店 1 公里圈 176 家，密度是全市的 35.7 倍，最近對手 115 公尺，連鎖占比 5.1%"",""1 公里圈近 12 個月（全業態）開 223 家、關 178 家，淨增 +45 家""]","[""13_competitors""]",[]
+
+# table: provenance
+id,agency,dataset,year,url,licence
+vat_sales,財政部,財政部營業稅銷售額（行業×臺南市全市）,民國 111 年,https://www.fia.gov.tw/,政府資料開放授權條款-第1版
+moea_catering_survey,經濟部統計處,批發、零售及餐飲業經營實況調查（餐飲業部分）,民國 113 年,https://www.moea.gov.tw/Mns/dos/content/ContentLink.aspx?menu_id=9431,待查
+realprice_rent,內政部,內政部實價登錄（租賃，臺南市，含店面判準）,擷取 2026-10-12,https://plvr.land.moi.gov.tw/DownloadOpenData,政府資料開放授權條款-第1版
+tax_reg,財政部財政資訊中心,全國營業(稅籍)登記資料集,擷取 2026-10-12,https://data.gov.tw/dataset/9400,政府資料開放授權條款-第1版
+addr_points,臺南市政府,臺南市門牌坐標資料-僅供參考,擷取 2026-10-12,https://data.gov.tw/dataset/120044,政府資料開放授權條款-第1版
+industry_codes,財政部,稅務行業標準分類,擷取 2026-10-12,https://data.gov.tw/dataset/28483,政府資料開放授權條款-第1版
+segis_pop,內政部（社會經濟資料服務平臺）,統計區人口統計（最小統計區）,擷取 2026-10-12,https://data.gov.tw/dataset/18681,政府資料開放授權條款-第1版
+osm_network,OpenStreetMap 貢獻者,OpenStreetMap 台南路網（OSMnx 抓取，距離圈計算用）,,https://www.openstreetmap.org/copyright,ODbL
+hh_survey_region,行政院主計總處,主計總處家庭收支調查（平均每戶消費支出，按縣市）,擷取 2026-10-12,https://www.stat.gov.tw/,政府資料開放授權條款-第1版
+hh_survey_structure,行政院主計總處,主計總處家庭收支調查（消費支出結構占比，全國）,擷取 2026-10-12,https://www.stat.gov.tw/,政府資料開放授權條款-第1版
+dining_out_frequency,衛生福利部國民健康署,國民營養健康狀況變遷調查（106-109 年）成果報告 表3.9.1 國人每週外食次數,民國 106-109 年,https://crc.sfaa.gov.tw/Uploadfile/StatiscsKnowledge/34_20220629145208_2497642.pdf,政府機關公開發布之調查報告，僅引用統計數字並標明出處，不重製報告全文
+biz_open,經濟部商業發展署,商業設立登記清冊(月份),擷取 2026-10-12,https://data.gov.tw/dataset/6668,政府資料開放授權條款-第1版
+biz_close,經濟部商業發展署,商業歇業登記清冊(月份),擷取 2026-10-12,https://data.gov.tw/dataset/6670,政府資料開放授權條款-第1版
+corp_open,經濟部商業發展署,公司設立登記清冊(月份),擷取 2026-10-12,https://data.gov.tw/dataset/6047,政府資料開放授權條款-第1版
+corp_close,經濟部商業發展署,公司解散登記清冊(月份),擷取 2026-10-12,https://data.gov.tw/dataset/6049,政府資料開放授權條款-第1版
+moe_udb,教育部,教育部大專校院校務資訊公開平臺（成大學生數／教師數）,擷取 2026-10-12,https://udb.moe.edu.tw/udata/index,待查
+nckuh,國立成功大學醫學院附設醫院,成大醫院組織規模,擷取 2026-10-12,https://nckuh.hosp.ncku.edu.tw/p/412-1000-29536.php,公開頁引用
+tra,國營臺灣鐵路股份有限公司,臺鐵每日各站點進出站人數,擷取 2026-10-12,https://data.gov.tw/dataset/8792,政府資料開放授權條款-第1版
+tourism_visits,交通部觀光署,歷年國內主要觀光遊憩據點遊客人數月別統計,擷取 2026-10-12,https://data.gov.tw/dataset/8116,政府資料開放授權條款-第1版
+tn_parking,臺南市政府,台南市公有停車場（免費＋收費）,擷取 2026-10-12,https://data.tainan.gov.tw/,政府資料開放授權條款-第1版
+tn_youbike,臺南市政府,台南市 YouBike 2.0 即時站點,擷取 2026-10-12,https://data.tainan.gov.tw/,政府資料開放授權條款-第1版
+income,財政部財政資訊中心,綜稅綜合所得總額各縣市鄉鎮村里統計分析表,擷取 2026-10-12,https://data.gov.tw/dataset/103066,政府資料開放授權條款-第1版
+moea_cost_structure,經濟部統計處,批發、零售及餐飲業經營實況調查 表9 零售及餐飲業全年營業收支－按小類分,民國 113 年,https://www.moea.gov.tw/Mns/DOS/content/wHandMenuFile.ashx?file_id=37800,引用統計數字並標明出處

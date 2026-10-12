@@ -1,50 +1,44 @@
 # table: meta
 field,value
 meta.article_no,10
-meta.title,消費金流推斷：兩法交叉
-meta.vat_sales_data_date,2026-09-08
+meta.title,消費金流：同業營收與居民消費
+meta.vat_sales_data_date,2026-10-12
 meta.vat_sales_year_roc,111
 meta.vat_sales_year_ce,2022
-meta.hh_survey_region_data_date,2026-09-08
-meta.hh_survey_structure_data_date,2026-09-08
-meta.hh_survey_year,2024
-meta.stores_geo_data_date,2026-09-08
-meta.produced_date,2026-09-08
-meta.primary_ring,10
-meta.secondary_ring,5
+meta.hh_survey_region_data_date,2026-10-12
+meta.hh_survey_structure_data_date,2026-10-12
+meta.hh_survey_year,2025
+meta.stores_geo_data_date,2026-10-12
+meta.produced_date,2026-10-12
+meta.primary_ring,2000
+meta.secondary_ring,1000
+meta.rings_used,2000
+meta.ring_labels.1000,1 公里
+meta.ring_labels.2000,2 公里
+meta.ring_labels.3000,3 公里
 meta.district_id,ncku
 meta.district_name,成大商圈
 meta.industry_labels.56,餐飲業
 meta.industry_labels.47-48,零售業
 population_ref.source_path,articles/05_population/data.json
-population_ref.method,面積加權法（每個最小統計區依與 10 分鐘等時圈交集面積 / 統計區總面積分配後加總）
-population_ref.households,171316
-population_ref.population,392469
-population_ref.data_date,2026-09-08
+population_ref.method,面積加權法（每個最小統計區依與 2 公里圈交集面積 / 統計區總面積分配後加總）
+population_ref.households,64097
+population_ref.population,142034
+population_ref.data_date,2026-10-12
 method1_supply.majors.56.label,餐飲業
 method1_supply.majors.56.industry_label,56餐飲業
 method1_supply.majors.56.city_sales_thousand,45526070
 method1_supply.majors.56.city_sales_ntd,45526070000
-method1_supply.majors.56.city_store_count,17614
-method1_supply.majors.56.per_store_annual_ntd,2584653
-method1_supply.majors.56.per_store_monthly_ntd,215388
-method1_supply.majors.56.ring10_store_count,6154
-method1_supply.majors.56.ring10_supply_annual_ntd,15905951787
-method1_supply.majors.56.ring10_supply_monthly_ntd,1325495982
-method1_supply.majors.56.ring5_store_count,2185
-method1_supply.majors.56.ring5_supply_annual_ntd,5647465820
+method1_supply.majors.56.city_store_count,17606
+method1_supply.majors.56.per_store_annual_ntd,2585827
+method1_supply.majors.56.per_store_monthly_ntd,215486
 method1_supply.majors.47-48.label,零售業
 method1_supply.majors.47-48.industry_label,47-48零售業
 method1_supply.majors.47-48.city_sales_thousand,317231954
 method1_supply.majors.47-48.city_sales_ntd,317231954000
-method1_supply.majors.47-48.city_store_count,34443
-method1_supply.majors.47-48.per_store_annual_ntd,9210346
-method1_supply.majors.47-48.per_store_monthly_ntd,767529
-method1_supply.majors.47-48.ring10_store_count,9695
-method1_supply.majors.47-48.ring10_supply_annual_ntd,89294306362
-method1_supply.majors.47-48.ring10_supply_monthly_ntd,7441192197
-method1_supply.majors.47-48.ring5_store_count,2948
-method1_supply.majors.47-48.ring5_supply_annual_ntd,27152100583
+method1_supply.majors.47-48.city_store_count,34425
+method1_supply.majors.47-48.per_store_annual_ntd,9215162
+method1_supply.majors.47-48.per_store_monthly_ntd,767930
 method1_supply.small_categories.471.code,471
 method1_supply.small_categories.471.name,綜合商品零售業
 method1_supply.small_categories.471.group,零售
@@ -52,9 +46,9 @@ method1_supply.small_categories.471.major2,47
 method1_supply.small_categories.471.industry_label,471綜合商品零售業
 method1_supply.small_categories.471.city_sales_thousand,92595715
 method1_supply.small_categories.471.city_sales_ntd,92595715000
-method1_supply.small_categories.471.city_store_count,2801
-method1_supply.small_categories.471.per_store_annual_ntd,33058092
-method1_supply.small_categories.471.per_store_monthly_ntd,2754841
+method1_supply.small_categories.471.city_store_count,2805
+method1_supply.small_categories.471.per_store_annual_ntd,33010950
+method1_supply.small_categories.471.per_store_monthly_ntd,2750913
 method1_supply.small_categories.472.code,472
 method1_supply.small_categories.472.name,食品、飲料及菸草製品零售業
 method1_supply.small_categories.472.group,零售
@@ -62,9 +56,9 @@ method1_supply.small_categories.472.major2,47
 method1_supply.small_categories.472.industry_label,472食品、飲料及菸草製品零售業
 method1_supply.small_categories.472.city_sales_thousand,32399407
 method1_supply.small_categories.472.city_sales_ntd,32399407000
-method1_supply.small_categories.472.city_store_count,7996
-method1_supply.small_categories.472.per_store_annual_ntd,4051952
-method1_supply.small_categories.472.per_store_monthly_ntd,337663
+method1_supply.small_categories.472.city_store_count,7979
+method1_supply.small_categories.472.per_store_annual_ntd,4060585
+method1_supply.small_categories.472.per_store_monthly_ntd,338382
 method1_supply.small_categories.473.code,473
 method1_supply.small_categories.473.name,布疋及服飾品零售業
 method1_supply.small_categories.473.group,零售
@@ -72,9 +66,9 @@ method1_supply.small_categories.473.major2,47
 method1_supply.small_categories.473.industry_label,473布疋及服飾品零售業
 method1_supply.small_categories.473.city_sales_thousand,10439086
 method1_supply.small_categories.473.city_sales_ntd,10439086000
-method1_supply.small_categories.473.city_store_count,2566
-method1_supply.small_categories.473.per_store_annual_ntd,4068233
-method1_supply.small_categories.473.per_store_monthly_ntd,339019
+method1_supply.small_categories.473.city_store_count,2557
+method1_supply.small_categories.473.per_store_annual_ntd,4082552
+method1_supply.small_categories.473.per_store_monthly_ntd,340213
 method1_supply.small_categories.474.code,474
 method1_supply.small_categories.474.name,家用器具及用品零售業
 method1_supply.small_categories.474.group,零售
@@ -82,9 +76,9 @@ method1_supply.small_categories.474.major2,47
 method1_supply.small_categories.474.industry_label,474家用器具及用品零售業
 method1_supply.small_categories.474.city_sales_thousand,26225532
 method1_supply.small_categories.474.city_sales_ntd,26225532000
-method1_supply.small_categories.474.city_store_count,4193
-method1_supply.small_categories.474.per_store_annual_ntd,6254599
-method1_supply.small_categories.474.per_store_monthly_ntd,521217
+method1_supply.small_categories.474.city_store_count,4189
+method1_supply.small_categories.474.per_store_annual_ntd,6260571
+method1_supply.small_categories.474.per_store_monthly_ntd,521714
 method1_supply.small_categories.475.code,475
 method1_supply.small_categories.475.name,藥品、醫療用品及化粧品零售業
 method1_supply.small_categories.475.group,零售
@@ -92,9 +86,9 @@ method1_supply.small_categories.475.major2,47
 method1_supply.small_categories.475.industry_label,475藥品、醫療用品及化粧品零售業
 method1_supply.small_categories.475.city_sales_thousand,9011230
 method1_supply.small_categories.475.city_sales_ntd,9011230000
-method1_supply.small_categories.475.city_store_count,2295
-method1_supply.small_categories.475.per_store_annual_ntd,3926462
-method1_supply.small_categories.475.per_store_monthly_ntd,327205
+method1_supply.small_categories.475.city_store_count,2288
+method1_supply.small_categories.475.per_store_annual_ntd,3938475
+method1_supply.small_categories.475.per_store_monthly_ntd,328206
 method1_supply.small_categories.476.code,476
 method1_supply.small_categories.476.name,文教育樂用品零售業
 method1_supply.small_categories.476.group,零售
@@ -102,9 +96,9 @@ method1_supply.small_categories.476.major2,47
 method1_supply.small_categories.476.industry_label,476文教育樂用品零售業
 method1_supply.small_categories.476.city_sales_thousand,9338967
 method1_supply.small_categories.476.city_sales_ntd,9338967000
-method1_supply.small_categories.476.city_store_count,1279
-method1_supply.small_categories.476.per_store_annual_ntd,7301772
-method1_supply.small_categories.476.per_store_monthly_ntd,608481
+method1_supply.small_categories.476.city_store_count,1286
+method1_supply.small_categories.476.per_store_annual_ntd,7262027
+method1_supply.small_categories.476.per_store_monthly_ntd,605169
 method1_supply.small_categories.481.code,481
 method1_supply.small_categories.481.name,建材零售業
 method1_supply.small_categories.481.group,零售
@@ -112,9 +106,9 @@ method1_supply.small_categories.481.major2,48
 method1_supply.small_categories.481.industry_label,481建材零售業
 method1_supply.small_categories.481.city_sales_thousand,6818003
 method1_supply.small_categories.481.city_sales_ntd,6818003000
-method1_supply.small_categories.481.city_store_count,837
-method1_supply.small_categories.481.per_store_annual_ntd,8145762
-method1_supply.small_categories.481.per_store_monthly_ntd,678814
+method1_supply.small_categories.481.city_store_count,835
+method1_supply.small_categories.481.per_store_annual_ntd,8165273
+method1_supply.small_categories.481.per_store_monthly_ntd,680439
 method1_supply.small_categories.482.code,482
 method1_supply.small_categories.482.name,燃料及相關產品零售業
 method1_supply.small_categories.482.group,零售
@@ -132,9 +126,9 @@ method1_supply.small_categories.483.major2,48
 method1_supply.small_categories.483.industry_label,483資訊及通訊設備零售業
 method1_supply.small_categories.483.city_sales_thousand,9134105
 method1_supply.small_categories.483.city_sales_ntd,9134105000
-method1_supply.small_categories.483.city_store_count,1007
-method1_supply.small_categories.483.per_store_annual_ntd,9070611
-method1_supply.small_categories.483.per_store_monthly_ntd,755884
+method1_supply.small_categories.483.city_store_count,1003
+method1_supply.small_categories.483.per_store_annual_ntd,9106785
+method1_supply.small_categories.483.per_store_monthly_ntd,758899
 method1_supply.small_categories.484.code,484
 method1_supply.small_categories.484.name,汽機車及其零配件、用品零售業
 method1_supply.small_categories.484.group,零售
@@ -152,9 +146,9 @@ method1_supply.small_categories.485.major2,48
 method1_supply.small_categories.485.industry_label,485其他專賣零售業
 method1_supply.small_categories.485.city_sales_thousand,7211922
 method1_supply.small_categories.485.city_sales_ntd,7211922000
-method1_supply.small_categories.485.city_store_count,2736
-method1_supply.small_categories.485.per_store_annual_ntd,2635936
-method1_supply.small_categories.485.per_store_monthly_ntd,219661
+method1_supply.small_categories.485.city_store_count,2735
+method1_supply.small_categories.485.per_store_annual_ntd,2636900
+method1_supply.small_categories.485.per_store_monthly_ntd,219742
 method1_supply.small_categories.486.code,486
 method1_supply.small_categories.486.name,零售攤販
 method1_supply.small_categories.486.group,零售
@@ -162,9 +156,9 @@ method1_supply.small_categories.486.major2,48
 method1_supply.small_categories.486.industry_label,486零售攤販
 method1_supply.small_categories.486.city_sales_thousand,259062
 method1_supply.small_categories.486.city_sales_ntd,259062000
-method1_supply.small_categories.486.city_store_count,312
-method1_supply.small_categories.486.per_store_annual_ntd,830327
-method1_supply.small_categories.486.per_store_monthly_ntd,69194
+method1_supply.small_categories.486.city_store_count,314
+method1_supply.small_categories.486.per_store_annual_ntd,825038
+method1_supply.small_categories.486.per_store_monthly_ntd,68753
 method1_supply.small_categories.487.code,487
 method1_supply.small_categories.487.name,其他非店面零售業
 method1_supply.small_categories.487.group,零售
@@ -172,9 +166,9 @@ method1_supply.small_categories.487.major2,48
 method1_supply.small_categories.487.industry_label,487其他非店面零售業
 method1_supply.small_categories.487.city_sales_thousand,12281679
 method1_supply.small_categories.487.city_sales_ntd,12281679000
-method1_supply.small_categories.487.city_store_count,5638
-method1_supply.small_categories.487.per_store_annual_ntd,2178375
-method1_supply.small_categories.487.per_store_monthly_ntd,181531
+method1_supply.small_categories.487.city_store_count,5651
+method1_supply.small_categories.487.per_store_annual_ntd,2173364
+method1_supply.small_categories.487.per_store_monthly_ntd,181114
 method1_supply.small_categories.561.code,561
 method1_supply.small_categories.561.name,餐食業
 method1_supply.small_categories.561.group,餐飲
@@ -182,9 +176,9 @@ method1_supply.small_categories.561.major2,56
 method1_supply.small_categories.561.industry_label,561餐食業
 method1_supply.small_categories.561.city_sales_thousand,33747552
 method1_supply.small_categories.561.city_sales_ntd,33747552000
-method1_supply.small_categories.561.city_store_count,13287
-method1_supply.small_categories.561.per_store_annual_ntd,2539893
-method1_supply.small_categories.561.per_store_monthly_ntd,211658
+method1_supply.small_categories.561.city_store_count,13296
+method1_supply.small_categories.561.per_store_annual_ntd,2538173
+method1_supply.small_categories.561.per_store_monthly_ntd,211514
 method1_supply.small_categories.562.code,562
 method1_supply.small_categories.562.name,外燴及團膳承包業
 method1_supply.small_categories.562.group,餐飲
@@ -202,82 +196,81 @@ method1_supply.small_categories.563.major2,56
 method1_supply.small_categories.563.industry_label,563飲料業
 method1_supply.small_categories.563.city_sales_thousand,10075072
 method1_supply.small_categories.563.city_sales_ntd,10075072000
-method1_supply.small_categories.563.city_store_count,4023
-method1_supply.small_categories.563.per_store_annual_ntd,2504368
-method1_supply.small_categories.563.per_store_monthly_ntd,208697
-method2_demand.region_year,2024
-method2_demand.struct_year,2024
-method2_demand.hh_annual_total_ntd,776782
-method2_demand.restaurant_pct,13.74
+method1_supply.small_categories.563.city_store_count,4006
+method1_supply.small_categories.563.per_store_annual_ntd,2514996
+method1_supply.small_categories.563.per_store_monthly_ntd,209583
+method2_demand.region_year,2025
+method2_demand.struct_year,2025
+method2_demand.hh_annual_total_ntd,811229
+method2_demand.restaurant_pct,14.19
 method2_demand.retail_categories.食品飲料及菸草.key,食品飲料及菸草
 method2_demand.retail_categories.食品飲料及菸草.column,食品飲料及菸草-百分比
-method2_demand.retail_categories.食品飲料及菸草.pct,15.3
+method2_demand.retail_categories.食品飲料及菸草.pct,15.36
 method2_demand.retail_categories.衣著鞋襪類.key,衣著鞋襪類
 method2_demand.retail_categories.衣著鞋襪類.column,衣著鞋襪類-百分比
-method2_demand.retail_categories.衣著鞋襪類.pct,2.62
+method2_demand.retail_categories.衣著鞋襪類.pct,2.57
 method2_demand.retail_categories.家具設備及家務維護.key,家具設備及家務維護
 method2_demand.retail_categories.家具設備及家務維護.column,家具設備及家務維護-百分比
-method2_demand.retail_categories.家具設備及家務維護.pct,2.92
+method2_demand.retail_categories.家具設備及家務維護.pct,2.81
 method2_demand.retail_categories.休閒、運動、文化及教育.key,休閒、運動、文化及教育
 method2_demand.retail_categories.休閒、運動、文化及教育.column,休閒、運動、文化及教育-百分比
-method2_demand.retail_categories.休閒、運動、文化及教育.pct,6.29
-method2_demand.retail_pct_sum,27.13
-method2_demand.per_household_annual_restaurant_ntd,106730
-method2_demand.per_household_annual_retail_ntd,210741
-method2_demand.ring10_households,171316
-method2_demand.ring10_demand_pool_restaurant_annual_ntd,18284530434
-method2_demand.ring10_demand_pool_retail_annual_ntd,36103297721
-method2_demand.ring10_demand_pool_restaurant_monthly_ntd,1523710870
-method2_demand.ring10_demand_pool_retail_monthly_ntd,3008608143
-cross.56.supply_annual_ntd,15905951787
-cross.56.demand_annual_ntd,18284530434
-cross.56.gap_ntd,2378578647
-cross.56.demand_to_supply_ratio_pct,115
-cross.56.gap_pct,15
-cross.56.bigger_side,demand
-cross.47-48.supply_annual_ntd,89294306362
-cross.47-48.demand_annual_ntd,36103297721
-cross.47-48.gap_ntd,-53191008641
-cross.47-48.demand_to_supply_ratio_pct,40.4
-cross.47-48.gap_pct,-59.6
-cross.47-48.bigger_side,supply
+method2_demand.retail_categories.休閒、運動、文化及教育.pct,6.63
+method2_demand.retail_pct_sum,27.37
+method2_demand.per_household_annual_restaurant_ntd,115113
+method2_demand.per_household_annual_retail_ntd,222033
+method2_demand.ring10_households,64097
+method2_demand.ring10_demand_pool_restaurant_annual_ntd,7378423286
+method2_demand.ring10_demand_pool_retail_annual_ntd,14231673385
+method2_demand.ring10_demand_pool_restaurant_monthly_ntd,614868607
+method2_demand.ring10_demand_pool_retail_monthly_ntd,1185972782
 revenue_bands.餐飲.n_small_categories,3
-revenue_bands.餐飲.p25_monthly_ntd,210178
-revenue_bands.餐飲.p75_monthly_ntd,339306
+revenue_bands.餐飲.p25_monthly_ntd,210549
+revenue_bands.餐飲.p75_monthly_ntd,339234
 revenue_bands.零售.n_small_categories,13
-revenue_bands.零售.p25_monthly_ntd,327205
-revenue_bands.零售.p75_monthly_ntd,755884
-method_notes.unit_assumption,"vat_sales（財政部營業稅銷售額）銷售額欄位的原始 CSV 未標註金額單位；本篇依內部量級交叉檢核判定為仟元（千元），非元：若照『元』解讀，臺南市 56 餐飲業全市年銷售額僅約 4,553 萬元，換算每店年營收不到千元，明顯不合理；改用『千元』解讀後，餐飲全市每店年營收約 258 萬元（約 21.5 萬元/月），且與法二（家庭收支調查）算出的 10 分圈餐飲消費池數量級相符（同為十位數億元），兩種獨立算法在數量級上互相印證，故本篇銷售額一律先乘 1000 換算為元後再使用；財政部官方資料集說明頁與 data.gov.tw API metadata 均未見明文單位標註，此為本篇依交叉檢核做出的假設，非官方文件直接確認，若日後找到官方單位聲明應覆核。"
+revenue_bands.零售.p25_monthly_ntd,328206
+revenue_bands.零售.p75_monthly_ntd,758899
+method_notes.unit_basis,"vat_sales（財政部營業稅銷售額）銷售額欄位的原始 CSV 未標註金額單位，本篇以千元判讀，乘 1000 換算為元。核對方式：經濟部統計處批發、零售及餐飲業經營實況調查，民國 113 年全國餐飲業營業收入 10,378 億元；臺南市 56 餐飲業銷售額（民國 111 年）以千元判讀為 455 億元，占全國 4.4%；若以元判讀只占全國 0.0044%，以百萬元判讀則是全國的 4,387%，兩者都不成立。財政部資料集說明頁沒有明文單位，找到官方單位聲明時再覆核。"
 method_notes.tax_basis,『銷售額』為加值型及非加值型營業稅籍申報之銷售額，一般認定為未稅（不含加值型營業稅本身 5%）之交易金額；惟小規模營業人（免用統一發票）等特定類型申報基礎是否完全一致，開放資料集未逐筆註明，本篇未做任何稅額調整，直接引用財政部原始申報數字。
-method_notes.year_mismatch,三個資料源使用不同年份：vat_sales（法一銷售額）為民國 111 年（2022 年）財政部最新可用年；hh_survey_region／hh_survey_structure（法二消費支出與結構）為主計總處最新可用年（2024 年）；稅籍店數（分母／10 分圈店數）取自 stores_geo 最新快照（2026-09-08）。供給端『每店平均』用 2022 年銷售額除以 2026 年店數，若近年店數成長，會低估 2022 年當時的真實每店平均；反過來若用這個比率乘上 2026 年店數估計『現在』的營收，也未反映 2022-2026 年間的物價與消費水準變化，兩個方向的年份錯位風險都存在，讀者需自行斟酌。
-method_notes.granularity,D1 裁定：財政部開放資料『按地區別及稅務行業別分』的地理粒度最細只到縣市（臺南市全市），沒有東區／北區等行政區級數字，更不用說 5／10 分鐘等時圈。法一的『每店月均銷售額』是全市平均比率，套到 10 分圈店數只是假設『10 分圈店家的營收水準跟全市同業平均一樣』，不是 10 分圈本身的實測值。
-method_notes.structure_caveat,『餐廳及住宿』是主計總處家庭收支調查消費型態表的既有分類，同時包含餐廳外食與住宿（旅館）支出，官方未進一步拆分兩者占比，本篇整類用來近似『外食支出』，可能高估外食部分。
+method_notes.year_mismatch,三個資料源使用不同年份：vat_sales（法一銷售額）為民國 111 年（2022 年）財政部最新可用年；hh_survey_region／hh_survey_structure（法二消費支出與結構）為主計總處最新可用年（2025 年）；稅籍店數（法一分母）取自 stores_geo 最新快照（2026-10-12）。法一的『每店平均』是 2022 年銷售額除以 2026 年店數：若 2022-2026 年間店數增加，算出的數字會低於 2022 年當時的實際每店平均，店數減少則相反；2022-2026 年間的物價與消費水準變化也沒有反映。
+method_notes.granularity,財政部開放資料『按地區別及稅務行業別分』的地理粒度最細只到縣市（臺南市全市），沒有東區／北區等行政區級數字，更不用說 1 公里／2 公里／3 公里 的距離圈。法一的『每店月均銷售額』是全市平均比率，不是 2 公里圈或其他距離圈本身的實測值，本篇不把它乘到圈內店數。
+method_notes.structure_caveat,『餐廳及住宿』是主計總處家庭收支調查消費型態表的既有分類，同時包含餐廳外食與住宿（旅館）支出，官方未進一步拆分兩者占比，本篇整類用來近似『外食支出』，外食部分的占比含住宿支出。
 method_notes.mid_level_note,vat_sales 只公布到稅務行業標準分類『小』類（3 碼，如 561 餐食業、471 綜合商品零售業），比稅籍店家掛的『細』類（4 碼，如 5611 餐館）粗一級。本篇把稅籍店家依 industry_mid 前 3 碼併回『小』類再跟 vat_sales 對齊，圖表與讀者工具顯示的『業種』是小類，不是稅籍原始細類。
-method_notes.revenue_band_note,『月營收區間』只是同業（同一小類）全市平均值，不是對任何一家特定店的預測，也不是機率分布。P25／P75 是把餐飲（3 個小類）或零售（13 個小類）底下所有小類各自的『全市每店月均銷售額』當一組數字，取其四分位距，用來呈現『這個大類底下不同小型態彼此差多少』；餐飲小類數量僅 3 個，四分位距統計意義有限，僅供參考。任何一家店的實際營收會因地點、經營方式、規模而有巨大差異，不應把這個區間當成自己這家店的預測。
+method_notes.revenue_band_note,『月營收區間』只是同業（同一小類）全市平均值，不是對任何一家特定店的預測，也不是機率分布。P25／P75 是把餐飲（3 個小類）或零售（13 個小類）底下所有小類各自的『全市每店月均銷售額』當一組數字，取其四分位距，用來呈現『這個大類底下不同小型態彼此差多少』；餐飲小類數量僅 3 個，四分位距統計意義有限，僅呈現同業差異。任何一家店的實際營收會因地點、經營方式、規模而有巨大差異，這個區間不是任何一家店的預測。本篇的銷售額是營業額，不含成本與租金的扣除；成本比例見總覽頁（採經濟部統計處調查）。
 method_notes.retail_categories_included,食品飲料及菸草-百分比; 衣著鞋襪類-百分比; 家具設備及家務維護-百分比; 休閒、運動、文化及教育-百分比
 method_notes.retail_categories_excluded,住宅服務水電瓦斯及其他燃料-百分比; 醫療保健-百分比; 交通及資通訊-百分比; 保險及金融服務-百分比; 其他-百分比
-method_notes.ring_definition,"10 分圈＝10 分鐘機車等時圈整個範圍（面積加權/店數累計皆為 ring∈{5,10} 或整個 10 分等時圈範圍，非環狀 shell），與篇①/篇⑤一致"
-method_notes.primary_ring,10
-method_notes.data_version,2026-09-08
+method_notes.ring_definition,2 公里圈＝沿實際道路量的 2 公里整個範圍（面積加權／店數累計皆含 1 公里圈內，非環狀），與篇①/篇⑤一致；道路距離不是直線距離，已剔除機車不能行駛的快速道路／高架橋
+method_notes.primary_ring,2000
+method_notes.data_version,2026-10-12
 
 # table: revenue_bands.餐飲.items
 code,name,industry_label,city_store_count,per_store_monthly_ntd
-561,餐食業,561餐食業,13287,211658
+561,餐食業,561餐食業,13296,211514
 562,外燴及團膳承包業,562外燴及團膳承包業,304,466953
-563,飲料業,563飲料業,4023,208697
+563,飲料業,563飲料業,4006,209583
 
 # table: revenue_bands.零售.items
 code,name,industry_label,city_store_count,per_store_monthly_ntd
-471,綜合商品零售業,471綜合商品零售業,2801,2754841
-472,食品、飲料及菸草製品零售業,472食品、飲料及菸草製品零售業,7996,337663
-473,布疋及服飾品零售業,473布疋及服飾品零售業,2566,339019
-474,家用器具及用品零售業,474家用器具及用品零售業,4193,521217
-475,藥品、醫療用品及化粧品零售業,475藥品、醫療用品及化粧品零售業,2295,327205
-476,文教育樂用品零售業,476文教育樂用品零售業,1279,608481
-481,建材零售業,481建材零售業,837,678814
+471,綜合商品零售業,471綜合商品零售業,2805,2750913
+472,食品、飲料及菸草製品零售業,472食品、飲料及菸草製品零售業,7979,338382
+473,布疋及服飾品零售業,473布疋及服飾品零售業,2557,340213
+474,家用器具及用品零售業,474家用器具及用品零售業,4189,521714
+475,藥品、醫療用品及化粧品零售業,475藥品、醫療用品及化粧品零售業,2288,328206
+476,文教育樂用品零售業,476文教育樂用品零售業,1286,605169
+481,建材零售業,481建材零售業,835,680439
 482,燃料及相關產品零售業,482燃料及相關產品零售業,573,8091691
-483,資訊及通訊設備零售業,483資訊及通訊設備零售業,1007,755884
+483,資訊及通訊設備零售業,483資訊及通訊設備零售業,1003,758899
 484,汽機車及其零配件、用品零售業,484汽機車及其零配件、用品零售業,2210,1729969
-485,其他專賣零售業,485其他專賣零售業,2736,219661
-486,零售攤販,486零售攤販,312,69194
-487,其他非店面零售業,487其他非店面零售業,5638,181531
+485,其他專賣零售業,485其他專賣零售業,2735,219742
+486,零售攤販,486零售攤販,314,68753
+487,其他非店面零售業,487其他非店面零售業,5651,181114
+
+# table: provenance
+id,agency,dataset,year,url,licence
+vat_sales,財政部,財政部營業稅銷售額（行業×臺南市全市）,擷取 2026-10-12,https://www.fia.gov.tw/,政府資料開放授權條款-第1版
+moea_catering_survey,經濟部統計處,批發、零售及餐飲業經營實況調查（餐飲業部分）,擷取 2026-10-12,https://www.moea.gov.tw/Mns/dos/content/ContentLink.aspx?menu_id=9431,待查
+hh_survey_region,行政院主計總處,主計總處家庭收支調查（平均每戶消費支出，按縣市）,擷取 2026-10-12,https://www.stat.gov.tw/,政府資料開放授權條款-第1版
+hh_survey_structure,行政院主計總處,主計總處家庭收支調查（消費支出結構占比，全國）,擷取 2026-10-12,https://www.stat.gov.tw/,政府資料開放授權條款-第1版
+tax_reg,財政部財政資訊中心,全國營業(稅籍)登記資料集,擷取 2026-10-12,https://data.gov.tw/dataset/9400,政府資料開放授權條款-第1版
+addr_points,臺南市政府,臺南市門牌坐標資料-僅供參考,擷取 2026-10-12,https://data.gov.tw/dataset/120044,政府資料開放授權條款-第1版
+industry_codes,財政部,稅務行業標準分類,擷取 2026-10-12,https://data.gov.tw/dataset/28483,政府資料開放授權條款-第1版
+segis_pop,內政部（社會經濟資料服務平臺）,統計區人口統計（最小統計區）,擷取 2026-10-12,https://data.gov.tw/dataset/18681,政府資料開放授權條款-第1版

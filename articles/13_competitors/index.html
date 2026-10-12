@@ -156,7 +156,7 @@
     <div class="kicker">開店分析所 · 篇⑬ / 13</div>
     <h1>附近的競品：你的對手是誰、在哪、開多久、多大</h1>
     <p class="lede" id="lede">
-      挑一個業態、一個選址點，看看 5 分鐘機車商圈裡已經有多少家同業、密度是全市的幾倍、
+      挑一個業態、一個選址點，看看沿道路<span id="lede-ring">店家分析圈</span>範圍裡已經有多少家同業、密度是全市的幾倍、
       離你最近的 10 家對手在哪裡、開了多久、資本額多大、是連鎖分店還是獨立店家。
       業態最多可切換 8 個，選址點可以用預設三個核心點，也可以直接點地圖換點。
     </p>
@@ -217,7 +217,7 @@
 
   <section class="card">
     <h2>圖 E · 近 12 個月同業態開／關</h2>
-    <p class="subtitle" id="chartE-subtitle">本業態只有「開店」查得到（見下方誠實揭露）；灰色兩根是 5 分圈全業態代理，只供對照量級</p>
+    <p class="subtitle" id="chartE-subtitle">本業態只有「開店」查得到（見下方誠實揭露）；灰色兩根是店家分析圈全業態代理，只供對照量級</p>
     <div class="echart" id="chartE"></div>
     <button class="table-toggle" data-target="tableE">顯示資料表格</button>
     <table class="data-table" id="tableE"></table>
@@ -233,7 +233,7 @@
 
   <footer class="site-footer">
     開店分析所｜資料來源：財政部稅籍登記資料、稅務行業標準分類（industry_codes）、近 12 個月開歇業事件（biz_events）、
-    街道等級借用篇⑪ streets.geojson、5 分圈邊界借用篇① isochrones、OpenStreetMap（© OpenStreetMap contributors，ODbL）。
+    街道等級借用篇⑪ streets.geojson、距離圈邊界借用篇①、OpenStreetMap（© OpenStreetMap contributors，ODbL）。
     互動圖與海報由同一份資料腳本產出。
   </footer>
 
@@ -257,6 +257,11 @@
   ]);
 
   const meta = data.meta;
+  // 圈值一律從 data.json 讀，不寫死
+  const STORE_RING = meta.primary_ring;
+  const storeRingName = `${meta.primary_ring_label}圈`;
+  const ringOf = (f) => Number(f.properties.ring_m ?? f.properties.minutes);
+  document.getElementById("lede-ring").textContent = ` ${meta.primary_ring_label}`;
   const byType = data.data.by_type;
   const businessTypes = meta.business_types; // [{key,label,codes_note}]
 
@@ -275,7 +280,7 @@
   // ---------------------------------------------------------------
   document.getElementById("meta-line").innerHTML =
     `資料日期 <b>${meta.data_date}</b>　·　產出日期 <b>${meta.produced_date}</b>　·　` +
-    `5 分圈面積 <b>${fmt1(meta.ring5_area_km2)}</b> km²　·　全市面積 <b>${fmt(meta.city_area_km2)}</b> km²`;
+    `${storeRingName}面積 <b>${fmt1(meta.ring5_area_km2)}</b> km²　·　全市面積 <b>${fmt(meta.city_area_km2)}</b> km²`;
 
   // ---------------------------------------------------------------
   // 業態選擇器
@@ -338,7 +343,7 @@
     const pub = byType[currentTypeKey].public;
     const nearest = nearestN(currentTypeKey, currentSite, 1)[0];
     const stats = [
-      { label: "5 分圈家數", value: fmt(pub.ring5_count), unit: "家", sub: `全市 ${fmt(pub.city_count)} 家` },
+      { label: `${storeRingName}家數`, value: fmt(pub.ring5_count), unit: "家", sub: `全市 ${fmt(pub.city_count)} 家` },
       { label: "密度倍數", value: fmt1(pub.density.density_ratio_vs_city), unit: "倍", sub: `全市平均的幾倍` },
       { label: "最近對手距離", value: nearest ? fmt(Math.round(nearest.distance_km * 1000)) : "—", unit: "公尺", sub: currentSite.name || "自訂點" },
       { label: "連鎖占比", value: fmt1(pub.branch.pct), unit: "%", sub: `${fmt(pub.branch.count)} 家為分店` },
@@ -361,12 +366,12 @@
   function filterTier(fc, tier) {
     return { type: "FeatureCollection", features: fc.features.filter((f) => f.properties.tier === tier) };
   }
-  function featureFor(fc, minutes) {
-    const f = fc.features.find((x) => x.properties.minutes === minutes);
+  function featureFor(fc, ringM) {
+    const f = fc.features.find((x) => ringOf(x) === ringM);
     return { type: "FeatureCollection", features: f ? [f] : [] };
   }
 
-  const ring5Feature = isochrones.features.find((f) => f.properties.minutes === 5);
+  const ring5Feature = isochrones.features.find((f) => ringOf(f) === STORE_RING);
   const ring5Coords = (ring5Feature.geometry.type === "Polygon" ? ring5Feature.geometry.coordinates : ring5Feature.geometry.coordinates.flat()).flat();
   const lons0 = ring5Coords.map((c) => c[0]);
   const lats0 = ring5Coords.map((c) => c[1]);
@@ -387,7 +392,7 @@
   const style = {
     version: 8,
     sources: {
-      ring5: { type: "geojson", data: featureFor(isochrones, 5) },
+      ring5: { type: "geojson", data: featureFor(isochrones, STORE_RING) },
       streetsMajor: { type: "geojson", data: filterTier(streets, "major") },
       streetsMid: { type: "geojson", data: filterTier(streets, "mid") },
       streetsMinor: { type: "geojson", data: filterTier(streets, "minor") },
@@ -441,7 +446,7 @@
 
   document.getElementById("map-legend").innerHTML = `
     <h4>圖例</h4>
-    <div class="legend-row"><span class="legend-swatch-dot" style="background:${TIER_COLOR.major}55;border-color:${TIER_COLOR.major}"></span></div>
+    <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#c3c2b7;border-top-style:dashed;border-top-width:1.6px"></span>${storeRingName}邊界</div>
     <div class="legend-row"><span class="legend-swatch-dot" style="background:#2a78d6"></span>連鎖／分店</div>
     <div class="legend-row"><span class="legend-swatch-dot" style="background:#eb6834"></span>獨立店家</div>
     <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:${TIER_COLOR.major};border-top-style:solid;border-top-width:3.2px"></span>臨主要幹道</div>
@@ -586,7 +591,7 @@
     const oc = pub.openclose_12m;
     const mc = data.market_context.openclose_12m_all_industries_ring5;
     document.getElementById("chartE-subtitle").textContent =
-      `${pub.label}近 12 個月開了 ${oc.open_12m} 家（關店數查不到，見下方誠實揭露）；5 分圈全業態近 12 個月開 ${mc.open_12m}、關 ${mc.close_12m}、淨增 ${signed(mc.net_12m)}`;
+      `${pub.label}近 12 個月開了 ${oc.open_12m} 家（關店數查不到，見下方誠實揭露）；${storeRingName}全業態近 12 個月開 ${mc.open_12m}、關 ${mc.close_12m}、淨增 ${signed(mc.net_12m)}`;
     const cats = [`${pub.label}·開`, "全業態代理·開", "全業態代理·關"];
     const vals = [oc.open_12m, mc.open_12m, mc.close_12m];
     const colors = ["#1baf7a", "#c3c2b7", "#c3c2b7"];

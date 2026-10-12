@@ -4,6 +4,8 @@
        點／hover／focus 顯示白話 tooltip；手機可點；Esc 關閉；一次只開一個。
    (b) 把「方法說明」與「誠實揭露」包成 <details class="method">（HTML 端已改標籤，
        這裡只補：確保各篇原本用 <h2>方法說明</h2> 的殘留頁面也能運作）。
+   (d) 資料出處：讀本篇 ./data.json 的 provenance（機構／資料集／年度／網址），
+       在「怎麼算的」區塊尾端加一張「資料出處」表；沒有該欄就安靜略過。
    (c) 重點數字契約：讀 ../_shared/verdicts.json，若有本篇 slug 就在 <h1> 下方插入
        <section class="keyfacts">（headline + 三條 facts + note + 固定說明）；
        沒有該檔或該 slug 就安靜略過。
@@ -262,7 +264,7 @@
 
   // 固定說明：與 site/src/config.ts 的 DATA_ONLY_NOTE 同一句，改字兩邊一起改。
   var DATA_ONLY_NOTE =
-    "本站只整理公開資料與分析，不判斷哪裡適不適合開店、賺不賺得到；每個數字怎麼算的都寫在『怎麼算的』，判斷留給你。";
+    "本站只整理公開資料與計算方法，不對任何地點或業種下結論；每個數字怎麼算的、出處在哪，都寫在『怎麼算的』。";
 
   function renderKeyFacts(v) {
     var h1 = document.querySelector("h1");
@@ -366,11 +368,84 @@
   }
 
   // ---------------------------------------------------------------
+  // 資料出處表（data.json#provenance → 「怎麼算的」區塊尾端）
+  // ---------------------------------------------------------------
+  function safeUrl(u) {
+    return /^https?:\/\//i.test(u || "") ? u : "";
+  }
+
+  function renderProvenance(rows) {
+    if (!Array.isArray(rows) || !rows.length) return;
+    var host = document.querySelector("details.method") || document.querySelector(".method");
+    if (!host || host.querySelector(".provenance")) return;
+    var wrap = document.createElement("div");
+    wrap.className = "provenance";
+    var h = document.createElement("h3");
+    h.className = "provenance-title";
+    h.textContent = "資料出處";
+    wrap.appendChild(h);
+    var scroller = document.createElement("div");
+    scroller.className = "provenance-scroll";
+    var table = document.createElement("table");
+    table.className = "provenance-table";
+    var thead = document.createElement("thead");
+    var hr = document.createElement("tr");
+    ["機構", "資料集", "年度／版本", "網址"].forEach(function (t) {
+      var th = document.createElement("th");
+      th.textContent = t;
+      hr.appendChild(th);
+    });
+    thead.appendChild(hr);
+    table.appendChild(thead);
+    var tbody = document.createElement("tbody");
+    rows.forEach(function (r) {
+      var tr = document.createElement("tr");
+      [r.agency || "", r.dataset || "", r.year || ""].forEach(function (t) {
+        var td = document.createElement("td");
+        td.textContent = t;
+        tr.appendChild(td);
+      });
+      var tdu = document.createElement("td");
+      var url = safeUrl(r.url);
+      if (url) {
+        var a = document.createElement("a");
+        a.href = url;
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.textContent = url;
+        tdu.appendChild(a);
+      } else {
+        tdu.textContent = "—";
+      }
+      tr.appendChild(tdu);
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    scroller.appendChild(table);
+    wrap.appendChild(scroller);
+    host.appendChild(wrap);
+  }
+
+  function setupProvenance() {
+    fetch("./data.json")
+      .then(function (res) {
+        return res.ok ? res.json() : null;
+      })
+      .then(function (d) {
+        if (d && d.provenance) renderProvenance(d.provenance);
+      })
+      .catch(function () {
+        /* 沒有 data.json 就安靜略過 */
+      });
+  }
+
+  // ---------------------------------------------------------------
   // 啟動：初次掃描 + MutationObserver 追蹤各篇非同步塞入的內容
   // ---------------------------------------------------------------
   function init() {
     ensureMethodDetails();
     setupKeyFacts();
+    setupProvenance();
 
     loadGlossary().then(function (glossary) {
       termRegex = buildRegex(glossary);

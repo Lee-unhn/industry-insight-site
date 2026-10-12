@@ -27,7 +27,7 @@
     --series-1: #2a78d6;   /* blue -- 東區 / 農業 */
     --series-2: #eb6834;   /* orange -- 北區 / 工業 */
     --series-3: #1baf7a;   /* aqua -- 中西區 / 服務業 */
-    --series-4: #eda100;   /* yellow -- 10 分圈範圍合計 */
+    --series-4: #eda100;   /* yellow -- 三區合計 */
     --series-5: #7a5ea8;   /* purple -- 全市對照 */
     --series-8: #e34948;   /* red -- 標註/中心點 */
 
@@ -290,13 +290,13 @@
 <div class="wrap">
 
   <header class="hero">
-    <div class="kicker">開店分析所 · 篇⑥ / 10</div>
+    <div class="kicker">開店分析所 · 篇⑥ / 13</div>
     <h1>居住人口所得與職業：村里所得四分位＋東區職業結構</h1>
     <p class="lede" id="lede">
-      以財政部村里綜合所得統計，看東區、北區、中西區（機車 10 分鐘等時圈涵蓋的核心行政區）
+      以財政部村里綜合所得統計，看東區、北區、中西區（商圈沿道路 <span data-ring-label>2 公里</span>圈所在的核心行政區）
       居民所得水準與臺南市其餘地區的差距；再用主計總處 109 年人口普查，看這三區的
       15 歲以上有工作人口在農業／工業／服務業的分布。兩者合起來，回答「這裡的居民
-      口袋深不深、平常在哪個產業上班」。
+      口袋深不深、平常在哪個產業上班」。<span id="lede-cov"></span>
     </p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
@@ -307,7 +307,7 @@
 
   <section class="card">
     <h2>圖 A · 各里所得中位數排行</h2>
-    <p class="subtitle" id="chartA-subtitle">涵蓋東區、北區、中西區（機車 10 分鐘範圍）；虛線＝這個範圍與臺南市其餘地區的中位數平均對照（單位：千元，年綜合所得）</p>
+    <p class="subtitle" id="chartA-subtitle">涵蓋東區、北區、中西區三區全部村里；虛線＝這三區與臺南市其餘地區的中位數平均對照（單位：千元，年綜合所得）</p>
     <div class="echart" id="chartA"></div>
     <button class="table-toggle" data-target="tableA">顯示全部村里原始資料表格（可逐筆核對）</button>
     <div class="table-scroll" id="tableA-wrap"><table id="tableA"></table></div>
@@ -337,7 +337,7 @@
   <section class="card map-card">
     <div class="map-head">
       <h2>地圖 · 哪一區所得比較高</h2>
-      <p class="subtitle">底圖沿用篇①路網；顏色愈深代表這個行政區的加權平均所得愈高；紅色虛線＝機車 10 分鐘範圍邊界</p>
+      <p class="subtitle">底圖沿用篇①路網；顏色愈深代表這個行政區的加權平均所得愈高；紅色虛線＝沿道路 <span data-ring-label>2 公里</span>圈邊界</p>
     </div>
     <div id="map">
       <div class="map-legend" id="map-legend"></div>
@@ -352,7 +352,7 @@
   </details>
 
   <footer class="site-footer">
-    開店分析所｜資料來源：財政部綜稅所得總額各縣市鄉鎮村里統計分析表（111 年度）、
+    開店分析所｜資料來源：財政部綜稅所得總額各縣市鄉鎮村里統計分析表（<span data-income-year>112</span> 年度）、
     內政部統計區人口統計（segis_pop）、主計總處三大普查動態查詢系統（109 年人口及住宅普查）、
     OpenStreetMap（© OpenStreetMap contributors，ODbL）。互動圖與海報由同一份資料腳本產出。
   </footer>
@@ -376,16 +376,30 @@
     fetch("../01_outline/isochrones_simplified.geojson").then((r) => r.json()),
   ]);
 
+  // 圈值、圈名、所得年度一律讀 data.json（腳本由 sources.yaml／落地資料推出），頁面不寫死
+  const RING = data.meta.ring_used;
+  const RL = data.meta.ring_label;
+  const INCOME_YEAR = data.meta.income_tax_year;
+  document.querySelectorAll("[data-ring-label]").forEach((el) => { el.textContent = RL; });
+  document.querySelectorAll("[data-income-year]").forEach((el) => { el.textContent = INCOME_YEAR; });
+
   const DISTRICT_ORDER = ["東區", "北區", "中西區"];
   const DISTRICT_COLOR = { "東區": "#2a78d6", "北區": "#eb6834", "中西區": "#1baf7a" };
   const ds = data.district_stats;
   const rc = data.ring_coverage;
+  // 居住人口圈內人口占三區人口的比例（圈內人口依統計區面積比例分攤，見方法說明）
+  const covPop = DISTRICT_ORDER.reduce((a, d) => a + rc[d].pop_in_ring10, 0);
+  const covAll = DISTRICT_ORDER.reduce((a, d) => a + rc[d].total_pop, 0);
+  const covPct = (covPop / covAll) * 100;
+  document.getElementById("lede-cov").textContent =
+    `注意：沿道路 ${RL}圈內的居民約 ${fmt(covPop)} 人，占三區人口的 ${fmt1(covPct)}%；` +
+    `村里沒有邊界圖資，切不出圈內的村里，所以下面的所得是三區全部村里的數字，是行政區級參照，不是圈內居民本身。`;
 
   // ---------------------------------------------------------------
   // 標頭 / meta
   // ---------------------------------------------------------------
   document.getElementById("meta-line").innerHTML =
-    `所得資料日期 <b>${data.meta.income_data_date}</b>（111 年度）　·　` +
+    `所得資料日期 <b>${data.meta.income_data_date}</b>（${INCOME_YEAR} 年度）　·　` +
     `職業普查資料日期 <b>${data.meta.census_occ_data_date || "－"}</b>（109 年）　·　` +
     `產出日期 <b>${data.meta.produced_date}</b>`;
 
@@ -395,8 +409,8 @@
   const gapPct = (ds.ring10.weighted_mean / ds.city.weighted_mean - 1) * 100;
   const eastVsNorth = (ds["東區"].weighted_mean / ds["北區"].weighted_mean - 1) * 100;
   const stats = [
-    { label: "這裡居民的加權平均所得", value: fmt1(ds.ring10.weighted_mean), unit: "千元", sub: `全市 ${fmt1(ds.city.weighted_mean)} 千元，高出 ${fmt1(gapPct)}%` },
-    { label: "涵蓋幾個里（東＋北＋中西）", value: fmt(ds.ring10.n), unit: "里", sub: `東 ${ds["東區"].n}／北 ${ds["北區"].n}／中西 ${ds["中西區"].n}` },
+    { label: "三區居民的加權平均所得", value: fmt1(ds.ring10.weighted_mean), unit: "千元", sub: `全市 ${fmt1(ds.city.weighted_mean)} 千元，${gapPct >= 0 ? "高出" : "低了"} ${fmt1(Math.abs(gapPct))}%` },
+    { label: "涵蓋幾個里（東＋北＋中西）", value: fmt(ds.ring10.n), unit: "里", sub: `東 ${ds["東區"].n}／北 ${ds["北區"].n}／中西 ${ds["中西區"].n}；${RL}圈內人口占三區 ${fmt1(covPct)}%` },
     { label: "東區跟北區所得差多少", value: fmt1(eastVsNorth), unit: "%", sub: `東 ${fmt1(ds["東區"].weighted_mean)} 千元 vs 北 ${fmt1(ds["北區"].weighted_mean)} 千元` },
     { label: "東區有多少人做服務業", value: data.census_occupation.available ? fmt1(data.census_occupation.districts["東區"]["服務業"].pct) : "－", unit: data.census_occupation.available ? "%" : "", sub: data.census_occupation.available ? "有工作人口，109 年普查" : "資料待補（D3）" },
   ];
@@ -419,8 +433,8 @@
   // ---- 圖 A：村里所得中位數分布（橫向長條，104 村里，依中位數排序） ----
   const villages = data.villages; // 已由資料腳本依中位數遞減排序
   document.getElementById("chartA-subtitle").textContent =
-    `涵蓋東區、北區、中西區（機車 10 分鐘範圍，共 ${fmt(villages.length)} 個里；已濾除原始表的「合計」「其他」彙總列，見方法說明）；` +
-    `虛線＝這個範圍與臺南市其餘地區的中位數平均對照。單位：千元（新臺幣年綜合所得）`;
+    `涵蓋東區、北區、中西區三區全部村里（共 ${fmt(villages.length)} 個里；已濾除原始表的「合計」「其他」彙總列，見方法說明）；` +
+    `虛線＝這三區與臺南市其餘地區的中位數平均對照。單位：千元（新臺幣年綜合所得）`;
   const villagesAsc = villages.slice().reverse(); // ECharts 類目軸由下到上，最大值放最上面用遞增資料
   const chartA = echarts.init(document.getElementById("chartA"));
   chartA.setOption({
@@ -459,7 +473,7 @@
           label: { formatter: (p) => p.name, color: "#52514e", fontSize: 10.5 },
           lineStyle: { type: "dashed", color: "#898781", width: 1.4 },
           data: [
-            { name: `10 分圈範圍均值 ${fmt1(ds.ring10.mean_of_median)}`, xAxis: ds.ring10.mean_of_median },
+            { name: `三區均值 ${fmt1(ds.ring10.mean_of_median)}`, xAxis: ds.ring10.mean_of_median },
             { name: `臺南市其餘均值 ${fmt1(ds.city_rest.mean_of_median)}`, xAxis: ds.city_rest.mean_of_median, lineStyle: { color: "#e34948" } },
           ],
         },
@@ -478,7 +492,7 @@
 
   // ---- 圖 B：四分位對照（五層） ----
   const groupOrder = ["東區", "北區", "中西區", "ring10", "city"];
-  const groupLabel = { "東區": "東區", "北區": "北區", "中西區": "中西區", ring10: "10 分圈範圍", city: "臺南市全市" };
+  const groupLabel = { "東區": "東區", "北區": "北區", "中西區": "中西區", ring10: "三區合計", city: "臺南市全市" };
   const seriesDefs = [
     { key: "mean_of_q1", name: "村里第一分位簡單平均", color: "#86b6ef" },
     { key: "mean_of_median", name: "村里中位數簡單平均", color: "#2a78d6" },
@@ -567,7 +581,7 @@
   const minIncome = Math.min(...incomes), maxIncome = Math.max(...incomes);
 
   function ring10Feature() {
-    const f = ring10Geo.features.find((x) => x.properties.minutes === 10);
+    const f = ring10Geo.features.find((x) => x.properties.ring_m === RING);
     return { type: "FeatureCollection", features: f ? [f] : [] };
   }
 
@@ -643,7 +657,7 @@
     <h4>圖例</h4>
     <div class="legend-ramp"></div>
     <div class="legend-ramp-labels"><span>${fmt1(minIncome)} 千元</span><span>${fmt1(maxIncome)} 千元</span></div>
-    <div class="legend-row" style="margin-top:6px"><span class="legend-swatch-line" style="border-top-color:#e34948;border-top-style:dashed;border-top-width:2px"></span>10 分鐘等時圈邊界</div>
+    <div class="legend-row" style="margin-top:6px"><span class="legend-swatch-line" style="border-top-color:#e34948;border-top-style:dashed;border-top-width:2px"></span>沿道路 ${RL}圈邊界</div>
     <div style="margin-top:4px">灰線＝主要道路（重用篇①路網）</div>
     <div style="margin-top:4px;color:var(--text-muted)">choropleth 為行政區級（無村里邊界圖資，見方法說明）</div>
   `;
@@ -659,15 +673,16 @@
   // ---------------------------------------------------------------
   const mn = data.method_notes;
   document.getElementById("method-dl").innerHTML = `
-    <dt>涵蓋範圍</dt><dd>東區／北區／中西區三個行政區的全部村里（整區判定，見「村里↔統計區對映」）</dd>
+    <dt>涵蓋範圍</dt><dd>東區／北區／中西區三個行政區的全部村里（整區判定，見「村里↔統計區對映」）；不是只算 ${RL}圈內的村里</dd>
+    <dt>${RL}圈怎麼量</dt><dd>沿實際道路量的距離（不是直線距離），用 OpenStreetMap 道路網，剔除機車不能行駛的快速道路／高架橋</dd>
     <dt>原始表彙總列處理</dt><dd>${mn.aggregate_rows_excluded}</dd>
     <dt>村里↔統計區對映</dt><dd>${mn.village_to_minstat_mapping}</dd>
-    <dt>10 分圈涵蓋方法</dt><dd>${mn.ring_coverage_method}</dd>
-    <dt>10 分圈人口加權涵蓋率</dt><dd>東區 ${fmt1(rc["東區"].coverage_pct)}%（統計區 ${fmt(rc["東區"].n_minstat_areas)} 個）／北區 ${fmt1(rc["北區"].coverage_pct)}%（${fmt(rc["北區"].n_minstat_areas)} 個）／中西區 ${fmt1(rc["中西區"].coverage_pct)}%（${fmt(rc["中西區"].n_minstat_areas)} 個）</dd>
+    <dt>三區整區判定的說明</dt><dd>${mn.ring_coverage_method}</dd>
+    <dt>${RL}圈人口加權涵蓋率</dt><dd>三區合計 ${fmt1(covPct)}%（約 ${fmt(covPop)} 人）；東區 ${fmt1(rc["東區"].coverage_pct)}%（統計區 ${fmt(rc["東區"].n_minstat_areas)} 個）／北區 ${fmt1(rc["北區"].coverage_pct)}%（${fmt(rc["北區"].n_minstat_areas)} 個）／中西區 ${fmt1(rc["中西區"].coverage_pct)}%（${fmt(rc["中西區"].n_minstat_areas)} 個）</dd>
     <dt>所得單位</dt><dd>${mn.income_unit}</dd>
     <dt>職業/行業資料細度</dt><dd>${mn.census_occ_granularity}</dd>
     <dt>choropleth 細度</dt><dd>${mn.choropleth_granularity}</dd>
-    <dt>資料版本</dt><dd>所得 ${data.meta.income_data_date}（111 年度）；職業普查 ${data.meta.census_occ_data_date || "－"}（109 年）</dd>
+    <dt>資料版本</dt><dd>所得 ${data.meta.income_data_date}（${INCOME_YEAR} 年度）；職業普查 ${data.meta.census_occ_data_date || "－"}（109 年）</dd>
   `;
   document.getElementById("honest-note").textContent =
     `誠實揭露：${mn.numbers_yaml_coverage}`;

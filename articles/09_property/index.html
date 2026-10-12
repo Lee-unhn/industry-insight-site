@@ -29,9 +29,9 @@
        驗證：lightness/chroma/CVD/normal-vision 全 PASS（見驗收回報）；
        #1baf7a/#eda100 對淺色背景的對比 WARN 一律搭配資料表格 toggle（skill
        規則：WARN 不可忽略，需可見標籤或表格） */
-    --series-1: #2a78d6;   /* blue -- 5 分圈（單圈） */
-    --series-2: #eb6834;   /* orange -- 10 分圈（累計） */
-    --series-3: #1baf7a;   /* aqua -- 15 分圈（單圈） */
+    --series-1: #2a78d6;   /* blue -- 店家分析圈（單圈） */
+    --series-2: #eb6834;   /* orange -- 居住人口圈（累計） */
+    --series-3: #1baf7a;   /* aqua -- 可及性參考圈（單圈） */
     --series-4: #eda100;   /* yellow -- 東區（未達圈或未落點） */
     --series-other: #c3c2b7; /* 其他行政區：刻意去彩度，Other 類別不列入強制
                                  categorical 檢查（dataviz skill：第 N 類折進
@@ -40,9 +40,9 @@
                                 為驗證過的類別配對（dataviz validate_palette.js
                                 ΔE 33.6，正常色覺／CVD 皆可分辨） */
 
-    --ring-5:  #184f95;
-    --ring-10: #2a78d6;
-    --ring-15: #86b6ef;
+    --ring-store:  #184f95;
+    --ring-pop:    #2a78d6;
+    --ring-access: #86b6ef;
   }
 
   * { box-sizing: border-box; }
@@ -131,13 +131,12 @@
 <div class="wrap">
 
   <header class="hero">
-    <div class="kicker">開店分析所 · 篇⑨ / 10</div>
+    <div class="kicker">開店分析所 · 篇⑨ / 13</div>
     <h1>店面租金與不動產：實價登錄</h1>
     <p class="lede" id="lede">
       以內政部實價登錄臺南市最新一季（單季揭露）租賃／買賣資料，篩出店面交易，
-      依 5 分圈、10 分圈（累計）、東區全區、臺南市全市四層分別統計每坪租金／
-      單價；地址落點率遠低於篇①的稅籍地址，5／10 分圈兩層樣本數常見不足 5
-      筆，本頁如實只列筆數，不用其他圈的數字平滑補上。
+      依 <span id="lede-layers">店家分析圈、居住人口圈（累計）</span>、東區全區、臺南市全市四層分別統計每坪租金／
+      單價；地址落點率遠低於篇①的稅籍地址<span id="lede-sparse"></span>。
     </p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
@@ -148,7 +147,7 @@
 
     <section class="card">
       <h2>圖 A · 每筆租金案件，坪數對租金</h2>
-      <p class="subtitle">每一點代表一筆店面租賃案件（不含地址），顏色代表落在哪個範圍或行政區；全市共 143 筆</p>
+      <p class="subtitle">每一點代表一筆店面租賃案件（不含地址），顏色代表落在哪個範圍或行政區；全市共 <span id="n-rent-city">－</span> 筆</p>
       <div class="echart" id="chartA"></div>
       <button class="table-toggle" data-target="tableA">顯示資料表格</button>
       <div class="table-scroll"><table class="data-table" id="tableA"></table></div>
@@ -156,7 +155,7 @@
 
     <section class="card">
       <h2>圖 B · 各範圍租金中位數比較</h2>
-      <p class="subtitle">上下橫線＝這個範圍租金較低與較高的四分位；樣本數（n）小於 5 筆的範圍只標筆數、不畫中位數，避免用太少資料誤導（Q29）</p>
+      <p class="subtitle">上下橫線＝這個範圍租金較低與較高的四分位；樣本數（n）小於 5 筆的範圍只標筆數、不畫中位數，避免用太少資料誤導</p>
       <div class="echart" id="chartB"></div>
       <button class="table-toggle" data-target="tableB">顯示資料表格</button>
       <div class="table-scroll"><table class="data-table" id="tableB"></table></div>
@@ -164,7 +163,7 @@
 
     <section class="card">
       <h2>圖 C · 每筆買賣案件，坪數對單價</h2>
-      <p class="subtitle">每一點代表一筆店面買賣案件（不含地址），顏色代表落在哪個範圍或行政區；全市共 61 筆</p>
+      <p class="subtitle">每一點代表一筆店面買賣案件（不含地址），顏色代表落在哪個範圍或行政區；全市共 <span id="n-sale-city">－</span> 筆</p>
       <div class="echart" id="chartC"></div>
       <button class="table-toggle" data-target="tableC">顯示資料表格</button>
       <div class="table-scroll"><table class="data-table" id="tableC"></table></div>
@@ -186,7 +185,7 @@
 
   <section class="card">
     <h2>各範圍完整數字對照表</h2>
-    <p class="subtitle">租賃店面、買賣店面、非店面住宅三種類別對照，每個範圍都標示樣本數；樣本數小於 5 筆只列筆數（Q29）</p>
+    <p class="subtitle">租賃店面、買賣店面、非店面住宅三種類別對照，每個範圍都標示樣本數；樣本數小於 5 筆只列筆數</p>
     <button class="table-toggle" data-target="tableSummary">顯示完整總表</button>
     <div class="table-scroll"><table class="data-table" id="tableSummary"></table></div>
   </section>
@@ -213,9 +212,7 @@
   const fmtOrDash = (v, f) => (v === null || v === undefined ? "－" : f(v));
 
   const LAYER_KEYS = ["ring5", "ring10", "dist_east", "city"];
-  const LAYER_SHORT = { ring5: "5 分圈", ring10: "10 分圈（累計）", dist_east: "東區", city: "臺南市全市" };
   const LAYER_COLOR = { ring5: "#2a78d6", ring10: "#eb6834", ring15: "#1baf7a", dist_east: "#eda100", other: "#c3c2b7" };
-  const LAYER_TAG_LABEL = { ring5: "5 分圈", ring10: "10 分圈", ring15: "15 分圈", dist_east: "東區（圈外）", other: "其他行政區" };
 
   // ---------------------------------------------------------------
   // 資料載入
@@ -226,9 +223,23 @@
     fetch("../01_outline/isochrones_simplified.geojson").then((r) => r.json()),
   ]);
 
+  // 圈名／圖層名一律讀 data.json（meta.ring_labels／layer_short／layer_tag_label），不寫死圈值
+  const LAYER_SHORT = data.meta.layer_short;
+  const LAYER_TAG_LABEL = data.meta.layer_tag_label;
+  const RING_PLAIN = data.meta.ring_labels;
+  const MAP_RING = data.meta.map_ring;
+  const MAP_RING_LABEL = RING_PLAIN[String(MAP_RING)];
+  const MIN_N = data.method_notes.min_n_for_stats;
+
   // ---------------------------------------------------------------
   // 標頭 / meta
   // ---------------------------------------------------------------
+  document.getElementById("lede-layers").textContent = `${LAYER_SHORT.ring5}、${LAYER_SHORT.ring10}`;
+  document.getElementById("lede-sparse").textContent = data.meta.sparse_ring_layers.length
+    ? `，${data.meta.sparse_ring_layers.map((k) => LAYER_SHORT[k]).join("／")}樣本數不足 ${MIN_N} 筆，本頁如實只列筆數，不用其他圈的數字平滑補上`
+    : "";
+  document.getElementById("n-rent-city").textContent = fmt(data.rent_shop.city.n);
+  document.getElementById("n-sale-city").textContent = fmt(data.sale_shop.city.n);
   document.getElementById("meta-line").innerHTML =
     `資料日期 <b>${data.meta.data_date}</b>（租賃）／<b>${data.meta.sale_data_date}</b>（買賣）　·　產出日期 <b>${data.meta.produced_date}</b>　·　` +
     `${data.meta.season_note}`;
@@ -321,7 +332,7 @@
         const r = layerRows[i];
         let s = `${LAYER_SHORT[LAYER_KEYS[i]]}　n=${fmt(r.n)}`;
         if (r.stats_available) s += `<br/>中位數 ${fmt(r.per_ping.median)} 元/坪（四分位 ${fmt(r.per_ping.q1)}–${fmt(r.per_ping.q3)}）`;
-        else s += `<br/>樣本不足 5 筆，不列統計量`;
+        else s += `<br/>樣本不足 ${MIN_N} 筆，不列統計量`;
         return s;
       },
     },
@@ -375,8 +386,8 @@
     })),
   };
 
-  function featureFor(fc, minutes) {
-    const f = fc.features.find((x) => x.properties.minutes === minutes);
+  function featureFor(fc, ringM) {
+    const f = fc.features.find((x) => (x.properties.ring_m ?? x.properties.minutes) === ringM);
     return { type: "FeatureCollection", features: f ? [f] : [] };
   }
 
@@ -384,14 +395,14 @@
     version: 8,
     sources: {
       roads: { type: "geojson", data: roads },
-      ring15: { type: "geojson", data: featureFor(isochrones, 15) },
+      ringMap: { type: "geojson", data: featureFor(isochrones, MAP_RING) },
       pts: { type: "geojson", data: pointsFC },
     },
     layers: [
       { id: "bg", type: "background", paint: { "background-color": "#fcfcfb" } },
       { id: "roads-line", type: "line", source: "roads", paint: { "line-color": "#c3c2b7", "line-width": 0.8, "line-opacity": 0.9 } },
-      { id: "ring15-line", type: "line", source: "ring15", paint: { "line-color": "#86b6ef", "line-width": 1.8, "line-dasharray": [2, 1.6] } },
-      { id: "ring15-fill", type: "fill", source: "ring15", paint: { "fill-color": "#86b6ef", "fill-opacity": 0.06 } },
+      { id: "ringMap-line", type: "line", source: "ringMap", paint: { "line-color": "#86b6ef", "line-width": 1.8, "line-dasharray": [2, 1.6] } },
+      { id: "ringMap-fill", type: "fill", source: "ringMap", paint: { "fill-color": "#86b6ef", "fill-opacity": 0.06 } },
       {
         id: "pts-rent", type: "circle", source: "pts", filter: ["==", ["get", "type"], "rent"],
         paint: {
@@ -411,10 +422,10 @@
     ],
   };
 
-  const g15 = isochrones.features.find((f) => f.properties.minutes === 15).geometry;
-  const ring15Coords = g15.type === "Polygon" ? g15.coordinates.flat() : g15.coordinates.flat(2);
-  const lons = ring15Coords.map((c) => c[0]);
-  const lats = ring15Coords.map((c) => c[1]);
+  const gMap = isochrones.features.find((f) => (f.properties.ring_m ?? f.properties.minutes) === MAP_RING).geometry;
+  const ringMapCoords = gMap.type === "Polygon" ? gMap.coordinates.flat() : gMap.coordinates.flat(2);
+  const lons = ringMapCoords.map((c) => c[0]);
+  const lats = ringMapCoords.map((c) => c[1]);
   const bounds = [[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]];
 
   const map = new maplibregl.Map({
@@ -437,7 +448,7 @@
         const label = f.properties.type === "rent" ? "租賃店面" : "買賣店面";
         new maplibregl.Popup({ closeButton: true })
           .setLngLat(e.lngLat)
-          .setHTML(`<div style="font-size:12px">${label}｜落點於 ${f.properties.ring} 分圈｜此網格 ${f.properties.count} 筆（已偏移至 100m 網格中心，非原始門牌）</div>`)
+          .setHTML(`<div style="font-size:12px">${label}｜落點於 ${RING_PLAIN[f.properties.ring] || f.properties.ring}圈內｜此網格 ${f.properties.count} 筆（已偏移至 100m 網格中心，非原始門牌）</div>`)
           .addTo(map);
       });
     }
@@ -447,10 +458,10 @@
     <h4>圖例</h4>
     <div class="legend-row"><span class="legend-swatch-dot" style="background:#2a78d6"></span>租賃店面</div>
     <div class="legend-row"><span class="legend-swatch-dot" style="background:#eb6834"></span>買賣店面</div>
-    <div style="margin-top:4px">圓點大小＝該網格筆數；灰線＝主要道路；淺藍虛線區域＝15 分圈範圍</div>
+    <div style="margin-top:4px">圓點大小＝該網格筆數；灰線＝主要道路；淺藍虛線區域＝${MAP_RING_LABEL}圈範圍</div>
   `;
   document.getElementById("sparse-note").textContent =
-    `僅 ${data.map_points.reduce((a, p) => a + p.count, 0)} 筆落在 15 分圈內（地址落點率低，見方法說明）`;
+    `僅 ${data.map_points.reduce((a, p) => a + p.count, 0)} 筆落在 ${MAP_RING_LABEL}圈內（地址落點率低，見方法說明）`;
 
   window.addEventListener("resize", () => {
     chartA.resize(); chartB.resize(); chartC.resize();

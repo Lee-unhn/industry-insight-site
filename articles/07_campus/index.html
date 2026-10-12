@@ -102,12 +102,12 @@
 <div class="wrap">
 
   <header class="hero">
-    <div class="kicker">開店分析所 · 篇⑦ / 10</div>
+    <div class="kicker">開店分析所 · 篇⑦ / 13</div>
     <h1>校園與醫院族群：學生分層、教職員、醫院員工、進駐廠商、南科通勤</h1>
     <p class="lede" id="lede">
-      成大商圈的固定客群有多大？這篇不套等時圈——學生、教職員、醫院員工本身就是定點族群，
+      成大商圈的固定客群有多大？這篇不套距離圈——學生、教職員、醫院員工本身就是定點族群，
       不是「落在圈內」的店家。從教育部彙總數、成大醫院官網、產學進駐廠商名錄三個來源，
-      算出一個「不靠居住人口也存在」的基本客群量，並與 5 分圈居住人口對照。
+      算出一個「不靠居住人口也存在」的基本客群量，並與沿道路 <span data-ring-label>1 公里</span>圈居住人口對照。
     </p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
@@ -177,6 +177,9 @@
   const fmt1 = (n) => Number(n).toLocaleString("zh-Hant-TW", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
   const data = await fetch("./data.json").then((r) => r.json());
+  // 居住人口對照圈的圈名讀 data.json（腳本由 sources.yaml 推出），頁面不寫死圈值
+  const RL = data.residential_comparison.ring_label;
+  document.querySelectorAll("[data-ring-label]").forEach((el) => { el.textContent = RL; });
 
   document.getElementById("meta-line").innerHTML =
     `資料日期 <b>${data.meta.data_date}</b>　·　產出日期 <b>${data.meta.produced_date}</b>　·　` +
@@ -198,7 +201,7 @@
     },
     {
       label: "商圈穩定客群總量", value: fmt(data.fixed_population.total), unit: "人",
-      sub: `學生＋教職員＋醫院員工；是機車 5 分鐘範圍居住人口的 ${fmt1(data.residential_comparison.ratio_fixed_to_residential_pct)}%`,
+      sub: `學生＋教職員＋醫院員工；約為 ${RL}圈居住人口的 ${fmt1(data.fixed_population.total / data.residential_comparison.population)} 倍`,
     },
   ];
   document.getElementById("stat-row").innerHTML = stats.map((s) => `
@@ -295,13 +298,13 @@
     p.label, fmt(p.count), `${fmt1((p.count / data.fixed_population.total) * 100)}%`,
   ]));
 
-  // ---- 圖 C：固定客群 vs 5 分圈居住人口 ----
+  // ---- 圖 C：固定客群 vs 店家分析圈居住人口 ----
   const rc = data.residential_comparison;
   document.getElementById("subtitleC").textContent =
     rc.is_estimate
-      ? `5 分圈居住人口為粗略估計（${rc.method}）`
-      : `5 分圈居住人口引用篇⑤（${rc.method}）`;
-  const compareLabels = ["固定客群總量", `5 分圈居住人口${rc.is_estimate ? "（估）" : ""}`];
+      ? `${RL}圈居住人口為粗略估計（${rc.method}）`
+      : `${RL}圈居住人口（${rc.method}）`;
+  const compareLabels = ["固定客群總量", `${RL}圈居住人口${rc.is_estimate ? "（估）" : ""}`];
   const compareValues = [data.fixed_population.total, rc.population];
   const chartC = echarts.init(document.getElementById("chartC"));
   chartC.setOption({
@@ -362,8 +365,8 @@
   `;
   document.getElementById("honest-note").textContent =
     `誠實揭露：固定客群總量（${fmt(data.fixed_population.total)} 人）不含進駐廠商員工數（官網名錄無公開員工數字，只有家數）與南科臺南園區從業員工數` +
-    `（${fmt(data.stsp_commute.count)} 人，2025 年官方年報數字，鄰近大型就業中心，但非本商圈定義族群）——` +
-    `兩者只作對照脈絡，不計入總量，避免虛灌客群規模；圖 C 的居住人口對照數字取自 5 分圈範圍。`;
+    `（${fmt(data.stsp_commute.count)} 人，${data.stsp_commute.year} 年官方年報數字，鄰近大型就業中心，但非本商圈定義族群）——` +
+    `兩者只作對照脈絡，不計入總量，避免虛灌客群規模；圖 C 的居住人口對照數字取自沿道路 ${RL}範圍。`;
 
 })().catch((err) => {
   console.error("[index] 載入失敗", err);

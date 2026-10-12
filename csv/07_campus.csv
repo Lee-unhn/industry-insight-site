@@ -2,16 +2,16 @@
 field,value
 meta.article_no,7
 meta.title,校園與醫院族群：學生分層、教職員、醫院員工、進駐廠商、南科通勤
-meta.data_date,2026-09-08
-meta.moe_udb_data_date,2026-09-08
-meta.nckuh_data_date,2026-09-08
-meta.ncku_incub_data_date,2026-09-08
-meta.produced_date,2026-09-08
+meta.data_date,2026-10-12
+meta.moe_udb_data_date,2026-10-12
+meta.nckuh_data_date,2026-10-12
+meta.ncku_incub_data_date,2026-10-12
+meta.produced_date,2026-10-12
 meta.rings_used,
 meta.primary_ring,
 meta.district_id,ncku
 meta.district_name,成大商圈
-meta.note,本篇不套等時圈：學生／教職員／醫院員工／進駐廠商是定點族群，非「落在圈內的店家」這種空間篩選對象（見 INDUSTRY-INSIGHT.md §9.2）
+meta.note,本篇不套距離圈：學生／教職員／醫院員工／進駐廠商是定點族群，非「落在圈內的店家」這種空間篩選對象（見 INDUSTRY-INSIGHT.md §9.2）
 students.academic_year,114
 students.total.count,23485
 students.total.source_url,https://udb.moe.edu.tw/udata/DetailReport/StatStudent/TourCard/Parameter?Parameter=%7B%22Year%22%3A%20null%2C%20%22UniversityKey%22%3A%20%22000012CE61A1%22%2C%20%22UniversityId%22%3A%20%220005%22%2C%20%22EduSystemId%22%3A%20%22N%22%7D
@@ -20,7 +20,7 @@ faculty.source_url,https://udb.moe.edu.tw/udata/DetailReport/StatRegularTeacher/
 hospital.total,4871
 hospital.stat_date,2025-12-31
 incubator.company_count,21
-incubator.stat_date,2026-09-08
+incubator.stat_date,2026-10-12
 incubator.source_url,https://ttbic.ncku.edu.tw/p/412-1085-10755.php?Lang=zh-tw
 incubator.note,頁面只有每家廠商的自由文字介紹，沒有結構化的產業類別欄位，故只統計家數，無產業分布
 stsp_commute.count,77216
@@ -33,20 +33,22 @@ fixed_population.faculty,1293
 fixed_population.hospital,4871
 fixed_population.total,29649
 fixed_population.excluded,"進駐廠商員工數：官網名錄無公開員工數字，只有家數（21 家），故不加入; 南科臺南園區從業員工數（77,216 人，2025 年）：鄰近大型就業中心脈絡數字，非本商圈定義族群，只作對照"
-residential_comparison.ring_minutes,5
-residential_comparison.population,106770
-residential_comparison.households,48599
-residential_comparison.method,引用 articles/05_population/data.json 的 rings.5.area_weighted（最小統計區在 TWD97 面積加權法，非粗略估計）
+residential_comparison.ring_minutes,1000
+residential_comparison.ring_m,1000
+residential_comparison.ring_label,1 公里
+residential_comparison.population,20108
+residential_comparison.households,9561
+residential_comparison.method,引用篇⑤的 1 公里圈居住人口（最小統計區依與圈的交集面積比例分配，非粗略估計）
 residential_comparison.is_estimate,false
 residential_comparison.fixed_population_total,29649
-residential_comparison.ratio_fixed_to_residential_pct,27.8
+residential_comparison.ratio_fixed_to_residential_pct,147.4
 method_notes.student_tier_definition,D4 裁定：學生分層只用教育部彙總數（學士／碩士／博士／專任教師），系所明細不追；學士桶＝學士班-日間/進修＋附設進院＋二專/五專各學制（NCKU 目前這些非日間學士班學制皆為 0 人，桶法本身不預設是 0）
 method_notes.hospital_category_definition,職類取成大醫院官網五個「XX合計」小計列（醫師／護理／醫事／行政／技工工友駐警），五者加總＝官網公告總計，逐筆核對過
 method_notes.incubator_definition,頁面只有每家廠商的自由文字介紹，沒有結構化的產業類別欄位，故只統計家數，無產業分布
 method_notes.stsp_commute_definition,南科台南園區從業員工數非公開開放資料，來源是南部科學園區管理局年報 e-book 頁面文字層裡的公告數字（見來源 URL），2026-09-08 人工核對，非新聞稿轉述整個南科（含高雄園區等）的合計數
 method_notes.fixed_population_definition,固定客群總量＝學生＋專任教師＋醫院員工三者加總；進駐廠商員工數與南科通勤族因無法可靠計數或非本商圈定義族群，不計入
-method_notes.residential_comparison_definition,引用 articles/05_population/data.json 的 rings.5.area_weighted（最小統計區在 TWD97 面積加權法，非粗略估計）
-method_notes.data_version,2026-09-08
+method_notes.residential_comparison_definition,引用篇⑤的 1 公里圈居住人口（最小統計區依與圈的交集面積比例分配，非粗略估計）
+method_notes.data_version,2026-10-12
 
 # table: students.tiers
 label,count,pct
@@ -61,3 +63,9 @@ label,count,pct
 醫事,575,11.8
 行政,1136,23.3
 技工工友駐警,91,1.9
+
+# table: provenance
+id,agency,dataset,year,url,licence
+moe_udb,教育部,教育部大專校院校務資訊公開平臺（成大學生數／教師數）,擷取 2026-10-12,https://udb.moe.edu.tw/udata/index,待查
+nckuh,國立成功大學醫學院附設醫院,成大醫院組織規模,擷取 2026-10-12,https://nckuh.hosp.ncku.edu.tw/p/412-1000-29536.php,公開頁引用
+ncku_incub,國立成功大學,成大產學進駐廠商／南科台南園區就業人數,擷取 2026-10-12,https://ttbic.ncku.edu.tw/,待查
