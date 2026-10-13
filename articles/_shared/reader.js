@@ -6,6 +6,8 @@
        這裡只補：確保各篇原本用 <h2>方法說明</h2> 的殘留頁面也能運作）。
    (d) 資料出處：讀本篇 ./data.json 的 provenance（機構／資料集／年度／網址），
        在「怎麼算的」區塊尾端加一張「資料出處」表；沒有該欄就安靜略過。
+   (e) 誠實揭露：讀本篇 ./data.json 的 honest_notes（最多 3 條、每條 ≤50 字），
+       畫進 #honest-note（沒有就在「怎麼算的」區塊尾端補一個）。各篇不另寫揭露文字。
    (c) 重點數字契約：讀 ../_shared/verdicts.json，若有本篇 slug 就在 <h1> 下方插入
        <section class="keyfacts">（headline + 三條 facts + note + 固定說明）；
        沒有該檔或該 slug 就安靜略過。
@@ -264,7 +266,7 @@
 
   // 固定說明：與 site/src/config.ts 的 DATA_ONLY_NOTE 同一句，改字兩邊一起改。
   var DATA_ONLY_NOTE =
-    "本站只整理公開資料與計算方法，不對任何地點或業種下結論；每個數字怎麼算的、出處在哪，都寫在『怎麼算的』。";
+    "只整理公開資料與算法，不對地點或業種下結論。算法與出處寫在「怎麼算的」。";
 
   function renderKeyFacts(v) {
     var h1 = document.querySelector("h1");
@@ -441,12 +443,37 @@
     host.appendChild(wrap);
   }
 
+  function renderHonestNotes(notes) {
+    if (!Array.isArray(notes) || !notes.length) return;
+    var box = document.getElementById("honest-note");
+    if (!box) {
+      var host = document.querySelector("details.method") || document.querySelector(".method");
+      if (!host) return;
+      box = document.createElement("div");
+      box.className = "honest-note";
+      box.id = "honest-note";
+      host.appendChild(box);
+    }
+    box.textContent = "";
+    var b = document.createElement("b");
+    b.textContent = "誠實揭露";
+    box.appendChild(b);
+    var ul = document.createElement("ul");
+    notes.forEach(function (t) {
+      var li = document.createElement("li");
+      li.textContent = String(t);
+      ul.appendChild(li);
+    });
+    box.appendChild(ul);
+  }
+
   function setupProvenance() {
     fetch("./data.json")
       .then(function (res) {
         return res.ok ? res.json() : null;
       })
       .then(function (d) {
+        if (d && d.honest_notes) renderHonestNotes(d.honest_notes);
         if (d && d.provenance) renderProvenance(d.provenance);
       })
       .catch(function () {

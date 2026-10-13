@@ -2,9 +2,9 @@
 field,value
 meta.article_no,12
 meta.title,同業營收與位置差異
-meta.subtitle,同業一家店一個月做多少、不同位置差多少、附近居民的外食預算有多少
-meta.data_date,2026-10-12
-meta.produced_date,2026-10-12
+meta.subtitle,同業月營收、位置差異與居民外食預算
+meta.data_date,2026-10-13
+meta.produced_date,2026-10-13
 meta.rings_used,1000; 2000
 meta.ring_labels.1000,1 公里
 meta.ring_labels.2000,2 公里
@@ -108,16 +108,17 @@ stat_tiles.per_occasion.value_high,143
 stat_tiles.per_occasion.unit,元/次
 stat_tiles.per_occasion.label,每次外食預算範圍（臺南平均）
 stat_tiles.per_occasion.sub,"每人每月 4,329 元 ÷ 每月 30.3～60.7 次"
-method_notes.peer_revenue,同業每店月均營收取自篇⑩：財政部營業稅銷售額（民國 111 年，臺南市全市，3 碼小類）÷ 稅籍店數 ÷ 12。561 餐食業同時包含餐館與餐食攤販，稅籍資料沒有再細分。
-method_notes.location_revenue,各位置參考營收＝同業每店月均 × 店家密度比。店家密度比＝1 公里範圍內臨主要幹道／次要道路／巷弄（依 OpenStreetMap 道路分級、道路兩側 50 公尺）每平方公里店家數 ÷ 三檔合計的每平方公里店家數。店家密度比只描述店家分布，不是營收實測；兩個數字相乘的結果是「同業平均依店家密度比例換算」的參考值。
-method_notes.budget_pool,每店可分到的月預算＝1 公里居民戶數（篇⑤，統計區面積加權）× 臺南每戶年餐飲支出（篇⑩：主計總處家庭收支調查臺南市平均每戶消費支出 × 全國『餐廳及住宿』占比）÷ 12 ÷ 圈內餐飲店數（稅籍，中類 56）。只算圈內居民，不含學生、教職員、醫院員工與外來旅客（這幾群人的餐飲支出沒有公開統計）；『餐廳及住宿』同時含住宿支出。
-method_notes.dining_frequency,每週外食次數取自衛福部國民健康署國民營養健康狀況變遷調查（106-109 年）表3.9.1，19 歲以上全體；調查問「一週有幾天是外食／外帶」，早、午、晚三餐分開問再加總，含外帶。每月次數＝每週次數 × 52 ÷ 12，只用人數占比最高的區間（每週 7～未滿 14 次，占 34.8%）的上下界換算，不取區間中點。
-method_notes.per_person_budget,每人每月外食預算＝每戶月餐飲支出 ÷ 2 公里範圍平均每戶人數（2.216 人）。五等分位是全國家庭收支調查（按可支配所得排序的五組戶數），臺南平均是臺南市平均每戶消費支出；兩者都乘全國『餐廳及住宿』占比。
-method_notes.anchors,客單價公開錨點原樣列出：品牌、價格、價格類型、年度、地區、出處頁碼。這些是全國或其他縣市的品牌定價，不是本商圈的價格；本頁不把錨點換算成本商圈客單價。
-method_notes.industry_profitability,經濟部統計處批發、零售及餐飲業經營實況調查（民國 113 年，全國）：成本率＝營業支出（營業成本＋營業費用）÷ 營業收入；營業利益率由調查直接發布。
+honest_notes,店家密度比只描述店家分布，不是營收實測。; 預算池只算圈內居民，不含學生、教職員、醫院員工與旅客。; 客單價錨點是全國或其他縣市價格，不是本商圈價格。
+method_notes.peer_revenue,同業每店月均＝營業稅銷售額（民國 111 年，全市）÷ 稅籍店數 ÷ 12。餐食業含餐館與攤販。
+method_notes.location_revenue,各位置參考營收＝同業月均 × 店家密度比。密度比＝1 公里內該級道路兩側 50 公尺的店家密度 ÷ 三級合計密度。
+method_notes.budget_pool,每店月預算＝1 公里居民戶數 × 臺南每戶年餐飲支出 ÷ 12 ÷ 圈內餐飲店數。
+method_notes.dining_frequency,外食次數取自國民營養健康調查，取人數最多的區間（每週 7～未滿 14 次，34.8%），每月次數＝每週 × 52 ÷ 12。
+method_notes.per_person_budget,每人每月外食預算＝每戶月餐飲支出 ÷ 2 公里平均每戶人數（2.216 人）。
+method_notes.anchors,客單價錨點原樣列出品牌、價格、年度、地區與出處，不換算成本商圈客單價。
+method_notes.industry_profitability,經濟部餐飲業經營實況調查（民國 113 年，全國），成本率＝營業支出 ÷ 營業收入。
 method_notes.ring_use.1000,店家密度比、居民餐飲預算池、圈內餐飲店數
 method_notes.ring_use.2000,客群人數（居民、戶數、平均每戶人數）
-method_notes.data_version,2026-10-12
+method_notes.data_version,2026-10-13
 
 # table: segments.quintiles
 group,household_annual_spending_ntd,household_monthly_dining_ntd,per_person_monthly_dining_ntd

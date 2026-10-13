@@ -6,7 +6,7 @@
     "moe_udb_data_date": "2026-10-12",
     "nckuh_data_date": "2026-10-12",
     "ncku_incub_data_date": "2026-10-12",
-    "produced_date": "2026-10-12",
+    "produced_date": "2026-10-13",
     "rings_used": [],
     "primary_ring": null,
     "district_id": "ncku",
@@ -83,7 +83,7 @@
     "year": 2025,
     "source": "南部科學園區管理局《南部科學園區2025年年報》臺南園區營運概況（2026-09-08 人工核對 e-book 頁面文字層）",
     "source_url": "https://www.stsp.gov.tw/STSIPA_UPLOAD/eBook/2025/index.html",
-    "note": "臺南園區從業員工數，是鄰近的大型就業中心脈絡數字，不等於本商圈通勤者精確計數，未列入固定客群總量"
+    "note": "鄰近就業中心的員工數，不等於本商圈通勤人數，不計入固定客群"
   },
   "fixed_population": {
     "students": 23485,
@@ -101,20 +101,25 @@
     "ring_label": "1 公里",
     "population": 20108,
     "households": 9561,
-    "method": "引用篇⑤的 1 公里圈居住人口（最小統計區依與圈的交集面積比例分配，非粗略估計）",
+    "method": "引用篇⑤的 1 公里圈居住人口，最小統計區依交集面積比例分配",
     "is_estimate": false,
     "fixed_population_total": 29649,
     "ratio_fixed_to_residential_pct": 147.4
   },
   "method_notes": {
-    "student_tier_definition": "D4 裁定：學生分層只用教育部彙總數（學士／碩士／博士／專任教師），系所明細不追；學士桶＝學士班-日間/進修＋附設進院＋二專/五專各學制（NCKU 目前這些非日間學士班學制皆為 0 人，桶法本身不預設是 0）",
-    "hospital_category_definition": "職類取成大醫院官網五個「XX合計」小計列（醫師／護理／醫事／行政／技工工友駐警），五者加總＝官網公告總計，逐筆核對過",
+    "student_tier_definition": "學生分層只用教育部彙總數。分學士、碩士、博士三層，系所明細不追。",
+    "hospital_category_definition": "職類取成大醫院官網五個小計。五類相加等於官網總計，已逐筆核對。",
     "incubator_definition": "頁面只有每家廠商的自由文字介紹，沒有結構化的產業類別欄位，故只統計家數，無產業分布",
-    "stsp_commute_definition": "南科台南園區從業員工數非公開開放資料，來源是南部科學園區管理局年報 e-book 頁面文字層裡的公告數字（見來源 URL），2026-09-08 人工核對，非新聞稿轉述整個南科（含高雄園區等）的合計數",
-    "fixed_population_definition": "固定客群總量＝學生＋專任教師＋醫院員工三者加總；進駐廠商員工數與南科通勤族因無法可靠計數或非本商圈定義族群，不計入",
-    "residential_comparison_definition": "引用篇⑤的 1 公里圈居住人口（最小統計區依與圈的交集面積比例分配，非粗略估計）",
+    "stsp_commute_definition": "南科臺南園區員工數取自南科管理局年報。2026-09-08 人工核對。",
+    "fixed_population_definition": "固定客群＝學生＋專任教師＋醫院員工。進駐廠商員工與南科員工無法可靠計數，不計入。",
+    "residential_comparison_definition": "引用篇⑤的 1 公里圈居住人口，最小統計區依交集面積比例分配",
     "data_version": "2026-10-12"
   },
+  "honest_notes": [
+    "固定客群 29,649 人不含進駐廠商員工，官網只公布家數。",
+    "南科臺南園區 77,216 人只作對照，不計入固定客群。",
+    "圖 C 的居住人口取自沿道路 1 公里範圍。"
+  ],
   "provenance": [
     {
       "id": "moe_udb",

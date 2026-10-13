@@ -3,7 +3,7 @@ field,value
 meta.article_no,8
 meta.title,到達人流：台鐵、公車站、YouBike、停車場
 meta.data_date,2026-10-12
-meta.produced_date,2026-10-12
+meta.produced_date,2026-10-13
 meta.rings_used,1000; 2000; 3000
 meta.primary_ring,3000
 meta.ring_labels.1000,1 公里
@@ -260,17 +260,18 @@ youbike.nearest_to_center_m.nckuh.distance_m,91
 youbike.nearest_to_center_m.nckuh.station_name,YouBike2.0_成大醫院(小東路)
 youbike.nearest_to_center_m.nckuh.station_sno,501309006
 youbike.snapshot_note,tn_youbike 為抓取當下即時快照（parquet 檔名 2026-10-12），tot/sbi/bemp 會隨時間變動，非固定基準值
-method_notes.bus_note,公車站牌座標僅在 TDX（運輸資料流通服務平臺）提供，需申請免費 API 金鑰（client_id/client_secret）；本篇暫不含公車路網/站點，待金鑰到位後補
-method_notes.parking_note,資料為台南市公有停車場（付費＋免費，全市 408 筆），不含私有停車場/收費停車格，非市場全部車位供給
-method_notes.youbike_note,資料為抓取當下 YouBike 2.0 即時快照，只計入 act=='1'（目前在營運）站點；車柱總數(tot)/可借車數(sbi)會隨時間變動
-method_notes.tra_note,台鐵資料涵蓋 2023-01-01～2026-10-01（1370 天、4 個年度：2023-2025 為完整年，2026 年至今為部分年，資料只到 2026-10-01）；pipeline/tra_station.py 合併 data/parquet/tra_hist/（回補年）與 data/parquet/tra/（當年至今）產出的單站多年序列。圖 A 月度曲線、平日/假日日均、近 12 個月 vs 前 12 個月比較只用「完整月」（該月落地天數等於該月日曆天數），排除未滿整月的 2026-10（1 天），避免部分月日均混進整月比較
+method_notes.bus_note,公車站牌座標要申請交通部 TDX 金鑰，本篇暫不含公車。
+method_notes.parking_note,台南市公有停車場，全市 408 筆。不含私有停車場與收費停車格。
+method_notes.youbike_note,YouBike 2.0 抓取當下的快照，只計營運中站點。車柱數會隨時間變動。
+method_notes.tra_note,台南站每日進出站人數。月度與年度比較只取完整月，2026-10（1 天）未滿整月不列入。
 method_notes.ring_use.1000,店家分析
 method_notes.ring_use.2000,居住人口
 method_notes.ring_use.3000,可及性參考（本篇主要圈）
-method_notes.isochrone_method,OpenStreetMap 道路網上的沿路距離（不是直線距離，剔除機車不能行駛的快速道路／高架橋），與篇①同一份 data/geo/isochrones.geojson
-method_notes.sum_verification_gap_note,停車位數、YouBike 車柱數兩類數字的原始欄位在 parquet 落地時型別是字串（非數值），check_numbers 的 sum 規則對字串欄位會直接失敗（DuckDB SUM(VARCHAR) 不支援），這兩類數字改用人工 duckdb（帶顯式轉型）與 pandas 交叉驗證，見任務回報；台鐵（tra_station）的兩個計數欄位已是 int64，不受此限，台鐵日均與加總數字全部改用 sum/ratio 規則接地
-method_notes.osm_attribution,地圖底圖（路網/距離圈邊界）重用篇①產出，© OpenStreetMap contributors (ODbL)
+method_notes.isochrone_method,OpenStreetMap 道路網上的沿路距離，剔除機車不能走的快速道路與高架橋。
+method_notes.station_source_note,台南站座標取自臺鐵車站基本資料集（政府資料開放平臺）。
+method_notes.osm_attribution,底圖與範圍邊界沿用篇①，© OpenStreetMap contributors (ODbL)
 method_notes.data_version,2026-10-12
+honest_notes,公車站牌座標要申請金鑰，本篇暫不含公車。; 停車場只含市府公有場站，不含私人停車場。; 台鐵人次是整個車站的進站旅客，不是專為本商圈而來。
 
 # table: meta.centers
 id,name,lat,lon

@@ -3,7 +3,7 @@
     "article_no": 11,
     "title": "人流：誰在什麼時候來、從哪條路來",
     "data_date": "2026-10-12",
-    "produced_date": "2026-10-12",
+    "produced_date": "2026-10-13",
     "district_id": "ncku",
     "district_name": "成大商圈",
     "centers": [
@@ -69,14 +69,14 @@
         "kind": "stock",
         "value": 4871,
         "unit": "人",
-        "note": "官網公告成大醫院「每日急診超過 200 人次」，門診人次無公開細項數字，僅供量級參考，不落地成可重算數字"
+        "note": "門診人次無公開細項；官網稱每日急診超過 200 人次"
       },
       {
         "key": "tra",
         "label": "台鐵台南站進站",
         "kind": "flow",
         "value": 24939.4,
-        "unit": "人次/天（日均進站，借用篇⑧）"
+        "unit": "人次/天（日均進站，沿用篇⑧）"
       },
       {
         "key": "tourism",
@@ -86,7 +86,7 @@
         "unit": "人次/天（日均）"
       }
     ],
-    "kind_note": "stock＝這個範圍住/待著多少人的存量（不是當天出現人次）；flow＝有實測的當天平均出現人次；兩種概念量級不能直接相加，並列只是讓你看到量級差距",
+    "kind_note": "存量是住在或待在範圍內的人數。實測流量是當天平均出現人次。兩種不能相加，並列只為對照量級。",
     "by_key": {
       "residents": {
         "population": 142034,
@@ -546,7 +546,7 @@
     ],
     "tiers": {
       "major": {
-        "label": "臨主要幹道（primary／secondary／trunk）",
+        "label": "臨主要幹道",
         "length_km": 9.78,
         "edge_count": 71,
         "buffer_area_km2": 0.527,
@@ -556,7 +556,7 @@
         "location_factor": 1.19
       },
       "mid": {
-        "label": "臨次要道路（tertiary）",
+        "label": "臨次要道路",
         "length_km": 30.78,
         "edge_count": 259,
         "buffer_area_km2": 1.434,
@@ -566,7 +566,7 @@
         "location_factor": 0.77
       },
       "minor": {
-        "label": "臨巷弄／小路（residential 等）",
+        "label": "臨巷弄／小路",
         "length_km": 20.09,
         "edge_count": 232,
         "buffer_area_km2": 0.97,
@@ -603,26 +603,31 @@
       "sub": "臨巷弄為 0.56 倍（路口車流量調查沒有公開資料，改用道路等級計算）"
     }
   },
+  "honest_notes": [
+    "路口車流量沒有公開資料，改用道路等級算店家密度比。",
+    "成大行事曆算不出寒暑假天數，暑假改用台鐵月運量對照。",
+    "只用一次性公開資料，沒有逐時段的人流曲線。"
+  ],
   "method_notes": {
     "not_available": {
-      "intersection_traffic_survey": "路口車流量調查：沒有公開資料集，改用 OpenStreetMap 道路等級（primary/secondary/trunk、tertiary、residential 等三檔）算店家密度比，不是直接量測的車流量",
-      "hospital_outpatient_volume": "健保署醫療院所服務量（成大醫院門診件數）：沒有公開細項數字，只能引成大醫院官網「每日急診超過 200 人次」一句話當量級註記（非本篇落地計算，不進 numbers.yaml）",
-      "industrial_census_workforce": "工商普查統計區員工數：沒有公開資料，改用教育部校務資訊公開平臺（學生/教師）與成大醫院組織規模頁（醫院員工）兩個可直接取得的來源",
-      "polling_footfall": "人流不做輪詢（不用桌機排程、不租 VPS），只用一次性公開資料，因此沒有逐時段人流曲線，只有日/週/月的聚合量級"
+      "intersection_traffic_survey": "路口車流量沒有公開資料，改用道路等級算店家密度比。",
+      "hospital_outpatient_volume": "成大醫院門診人次沒有公開細項，只引官網「每日急診超過 200 人次」。",
+      "industrial_census_workforce": "工商普查員工數沒有公開資料，改用教育部與成大醫院公開數字。",
+      "polling_footfall": "只用一次性公開資料，沒有逐時段的人流曲線。"
     },
-    "calendar_limitation": "成大行事曆資料的『結束日期』實際是『下一學期起始月的前一天』的推論值，上／下學期首尾相接、補集是 0 天——用這份資料完全算不出真正的寒假／暑假天數，本欄位如實呈現這個限制（空窗天數為 0 是資料限制，不是計算錯誤）；行事曆PDF裡確實有寒假/暑假文字段落，但版面（週次直式網格）目前抽不出逐日日期",
-    "monthly_index_formula": "月別指數有兩條，各自計算、並列呈現，不相加、不加權：台鐵指數＝該曆月『完整月』跨年平均日均進站人次 ÷ 12 個曆月的平均值（只計進站）；觀光指數＝該月圈內景點合計人次 ÷ 12 個月平均值（2023 年）；兩條都是「12 個月平均=1.0」的相對指數，不是實際人數",
-    "summer_vs_rest_note": "以 7-8 月（成大通常認知的暑假月份）對照其餘 10 個完整月的台鐵日均進站與出站，作為「學期 vs 假期」的實證替代（行事曆資料本身無法給出精確假期起訖，改用台鐵這個真實量測數字的月度落差當佐證，見 calendar_limitation）",
-    "tourism_coord_note": "公開地標座標（人工查證常見地址概略定位，非資料集提供、非精確門牌座標），僅用來判斷是否落入沿道路 3 公里範圍；候選 12 個地標中，3 個經座標比對落在 3 公里圈外（國立臺灣歷史博物館、奇美博物館、安平小鎮），予以排除；另有 2 個候選在 2023 年 tourism_visits 資料已停止列管（五妃廟、延平郡王祠），改列臺南市層級對照（method_notes.not_available 未涵蓋此段落，見 tourism.city_level_reference）",
-    "streets_method": "1 公里圈內道路（tainan_drive.graphml OpenStreetMap 道路網）依 highway 標籤分三檔：主要幹道=['primary', 'primary_link', 'secondary', 'secondary_link', 'trunk', 'trunk_link']、次要道路=['tertiary', 'tertiary_link']、巷弄等=['living_street', 'residential', 'service', 'unclassified']（排除 motorway/motorway_link 快速道路，同篇①距離圈路網處理）；每檔道路（clip 到 1 公里圈後）在 TWD97(EPSG:3826) 投影下buffer 50 公尺聯集；店家（ring==1000）依「優先序 major>mid>minor」指派到第一個涵蓋它的緩衝範圍內（同時臨多檔道路者算最高檔，避免重複計算）；店家密度比＝該檔『店數/該檔緩衝區面積』÷『三檔緩衝區聯集內全部已分類店數/聯集面積』（全圈平均密度），即「這檔道路店家密度是全圈平均的幾倍」，作為總覽頁的資料依據（路口車流量調查沒有公開資料，改用此 OpenStreetMap 道路等級代替）",
+    "calendar_limitation": "成大行事曆的學期首尾相接，算不出寒暑假天數。",
+    "monthly_index_formula": "台鐵與觀光各除以自己的 12 個月平均，1.0＝平均月。觀光用 2023 年。",
+    "summer_vs_rest_note": "行事曆算不出假期，改比台鐵 7-8 月與其餘 10 個完整月的日均。",
+    "tourism_coord_note": "景點座標依公開地址人工定位。12 個候選中 3 個在 3 公里圈外，2 個 2023 年已無資料。",
+    "streets_method": "1 公里圈內道路依開放地圖分三級，各取兩側 50 公尺。店家密度比＝該級密度 ÷ 全圈平均。",
     "ring_use": {
-      "1000": "街道等級三檔與店家密度比",
-      "2000": "居住人口（借用篇⑤）",
-      "3000": "觀光景點落點判定"
+      "1000": "店家密度比",
+      "2000": "居民",
+      "3000": "景點"
     },
-    "isochrone_method": "沿實際道路量的距離（不是直線距離），剔除機車不能行駛的快速道路／高架橋；OpenStreetMap 道路網，與篇①同一份 data/geo/isochrones.geojson",
-    "reuse_note": "居住人口借用 articles/05_population/data.json（面積加權演算法已驗證，不重算）；台鐵到站量級借用 articles/08_access/data.json 的 tra.ytd（合併/去重/完整月篩選已在篇⑧做過）；地圖底圖與店家密度網格互動頁直接 fetch 篇①的 roads.geojson/density.geojson，不重新產生",
-    "osm_attribution": "地圖底圖（路網/距離圈邊界）與街道分級重用 OpenStreetMap 路網，© OpenStreetMap contributors (ODbL)",
+    "isochrone_method": "距離沿實際道路量，不含機車不能走的快速道路與高架橋。",
+    "reuse_note": "居民人數沿用篇⑤，台鐵量級沿用篇⑧，地圖底圖沿用篇①，都不重算。",
+    "osm_attribution": "底圖與街道分級用 OpenStreetMap 路網，© OpenStreetMap contributors (ODbL)",
     "data_version": "2026-10-12"
   },
   "provenance": [

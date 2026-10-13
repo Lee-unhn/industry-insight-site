@@ -6,7 +6,7 @@
     "income_tax_year": 112,
     "census_year": "109",
     "census_occ_data_date": "2026-09-08",
-    "produced_date": "2026-10-12",
+    "produced_date": "2026-10-13",
     "ring_used": 2000,
     "ring_m": [
       1000,
@@ -1270,14 +1270,18 @@
     }
   },
   "method_notes": {
-    "income_unit": "千元（新臺幣，年綜合所得總額／平均數／中位數／分位數皆同單位）",
-    "aggregate_rows_excluded": "財政部原始表每個縣市別群組尾端埋了「合計」（該組總和列）與「其他」（零星村里彙總列）兩列非村里資料，已在村里數與所有加總/平均計算前濾除（若誤把「合計」列當村里一起加總，會讓所得總額等數字被重複計入一次）。濾除前後的列數（district_stats.*.n_raw_including_aggregates／n_aggregate_rows_excluded）都收錄進 numbers.yaml 逐一驗證。",
-    "village_to_minstat_mapping": "minstat_tainan.geojson 屬性只有 CODEBASE/CODE1/CODE2/TOWN/COUNTY，無村里代碼或村里名稱欄位，探查後確認無現成村里↔統計區對映可用（與 segis_age5 既有紀錄的限制一致）。",
-    "ring_coverage_method": "所得比較範圍採整區判定：東區/北區/中西區三個行政區全部村里都算入，不是只算 2 公里圈內的村里（沒有村里邊界圖資，無法切出圈內村里）。以最小統計區幾何與 2 公里圈的面積交集比例對 segis_pop 人口加權，算出每區落在 2 公里圈內的人口占比（東區約 23.6%、北區約 44.2%、中西區約 39.0%），所以這組所得數字是「2 公里圈所在核心三區」的行政區級參照，不是圈內居民本身的所得（非逐筆可驗證數字，見 ring_coverage 區塊）。",
-    "numbers_yaml_coverage": "income parquet 六個數值欄位落地為字串（VARCHAR，見 data/schema/income.json），check_numbers 的 sum 規則對 VARCHAR 欄位呼叫 SUM 會直接噴 DuckDB Binder Error（無 CAST；篇①-④同一限制，故從未出現 type: sum）。實測也發現 count 規則無法反過來當「讀出某村里某欄原始值」用（count 只能回傳列數，不能回傳欄位值，拿它跟 data.json 的實際數字比對必然 FAIL）。因此 income 的可驗證範圍只到「列數」這一級（village 數依行政區/三區合計/全市），村里原始值（納稅單位、所得總額、平均數、中位數、分位數）與所有跨村里加總/平均（加權平均、分位數簡單平均等）都不進 numbers.yaml -- 不是不重要，是這組原語在 VARCHAR欄位上數學上做不到。這些數字仍在 data.json 逐筆列出（供頁面顯示與任何人自行核對用），來源是 data/parquet/income 的 112 年度村里所得表；要逐筆核對可直接下載 sources.yaml income 條目的原始 CSV 比對。census_occ 是本檔自產的parquet，數值欄位落地時特意轉為 int64，同一組原語（尤其 sum）在這裡完全可用。",
-    "census_occ_granularity": "普查在鄉鎮市區層級只公開行業別（農業/工業/服務業三級），無職業別（職業別要到縣市層級才有）；本篇依 D3 條款改標示為行業結構。",
-    "choropleth_granularity": "choropleth 只做到行政區級（東/北/中西三區 dissolve 統計區邊界），非村里級 -- 沒有落地的村里邊界圖資可用。"
+    "income_unit": "千元（新臺幣），年綜合所得總額、平均數、中位數、分位數同單位",
+    "aggregate_rows_excluded": "原始表的「合計」「其他」兩列不是村里，計算前已濾除。",
+    "village_to_minstat_mapping": "沒有村里邊界圖資，對不到統計區，所以用行政區整區判定。",
+    "ring_coverage_method": "三區全部村里都算，不只算 2 公里圈內的村里，所得是行政區級參照。",
+    "census_occ_granularity": "鄉鎮市區層級的普查只公開行業別，沒有職業別，所以標示為行業結構。",
+    "choropleth_granularity": "地圖只做到行政區級，沒有村里邊界圖資。"
   },
+  "honest_notes": [
+    "2 公里圈內居民只占三區人口 33.4%，所得是三區整體數字。",
+    "村里數字是各里統計，不是個別居民的收入。",
+    "普查只公開行業別，圖 D 不是職業別。"
+  ],
   "provenance": [
     {
       "id": "income",

@@ -278,7 +278,7 @@
     <h1>成大商圈開店數字總覽</h1>
     <p class="lede" id="lede">數字摘要載入中...</p>
     <details class="lede-more" id="lede-more" hidden><summary>怎麼分組、怎麼算的</summary><p id="lede-full"></p></details>
-    <p class="data-only-note" id="data-only-note">只整理公開資料與計算方法，每個數字附出處；不對任何地點或業種下結論。</p>
+    <p class="data-only-note" id="data-only-note">只整理公開資料與算法，不對地點或業種下結論。</p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
 
@@ -286,7 +286,7 @@
 
   <section class="card" id="dimension-scorecard-card">
     <h2>七個面向</h2>
-    <p class="subtitle">開店前最常被問的七個問題，各列三個數字；不打分數、不加總，點進去看算法。</p>
+    <p class="subtitle">開店前常問的七個問題，各列三個數字</p>
     <div class="dim-grid" id="dim-grid"></div>
   </section>
 
@@ -304,7 +304,7 @@
 
   <section class="card" id="calculator-card">
     <h2>試算器</h2>
-    <p class="subtitle" id="calc-subtitle">選業種後，月營收與成本率先帶入公開資料的數字（附出處），都可以改；坪數與初期投資由你自己填。</p>
+    <p class="subtitle" id="calc-subtitle">月營收與成本率已預填，都可改</p>
     <div class="calc-grid">
       <div>
         <div class="step-label">① 選業種</div>
@@ -362,7 +362,7 @@
 
   <section class="card">
     <h2>商圈整體數字</h2>
-    <p class="subtitle">商圈層級的客群、店家密度、開關店數，來自篇⑤⑦①③。</p>
+    <p class="subtitle">商圈的客群、密度與開關店數</p>
     <div class="chart-grid">
       <div>
         <div class="echart" id="chart-customer"></div>
@@ -428,10 +428,10 @@
   // ---------------- stat tiles ----------------
   const cb = overview.customer_base, comp = overview.competition, sv = overview.survival, access = overview.access;
   const stats = [
-    { label: `${RL.pop}居住人口＋固定客群`, value: fmt(cb.resident_population_ring10 + cb.fixed_population_total), unit: "人", sub: `居住 ${fmt(cb.resident_population_ring10)} ＋ 學生/教職員/醫院員工 ${fmt(cb.fixed_population_total)}` },
-    { label: `${RL.store}店家密度與全市相比`, value: fmt1(comp.density_ratio_vs_city), unit: "倍", sub: `${RL.store}內 ${fmt(comp.ring5_store_count)} 家店` },
-    { label: `${sv.cohort_year} 年開的店，約 4 年後仍在營業`, value: fmt1(sv.cohort_survival_ring5_pct), unit: "%", sub: `近一年開 ${fmt(sv.recent12_open)} 家、關 ${fmt(sv.recent12_close)} 家` },
-    { label: "台鐵日均進站（2026 年至今）", value: fmt0(access.tra_daily_avg_in_2026), unit: "人次", sub: `${RL.store}停車位 ${fmt(access.parking_ring5_car_spaces + access.parking_ring5_moto_spaces)} 個` },
+    { label: `${RL.pop}人口＋固定客群`, value: fmt(cb.resident_population_ring10 + cb.fixed_population_total), unit: "人", sub: `固定客群 ${fmt(cb.fixed_population_total)} 人` },
+    { label: `${RL.store}密度是全市`, value: fmt1(comp.density_ratio_vs_city), unit: "倍", sub: `${RL.store} ${fmt(comp.ring5_store_count)} 家店` },
+    { label: `${sv.cohort_year} 年開店 4 年後存活`, value: fmt1(sv.cohort_survival_ring5_pct), unit: "%", sub: `近一年關 ${fmt(sv.recent12_close)} 家` },
+    { label: "台南站日均進站", value: fmt0(access.tra_daily_avg_in_2026), unit: "人次", sub: "2026 年至今" },
   ];
   document.getElementById("stat-row").innerHTML = stats.map((s) => `
     <div class="stat-tile">
@@ -454,7 +454,7 @@
     const facts = splitFacts(d.facts || [], d.evidence || []).map((p, i) => `
       <li class="fact" title="${esc((d.facts || [])[i])}">
         <span class="fact-num">${p.num ? `<span data-count>${esc(p.num)}</span>` : ""}${p.unit ? `<small class="fact-unit">${esc(p.unit)}</small>` : ""}</span>
-        <span class="fact-label">${esc(p.label)}${p.sub ? `<span class="fact-sub">．${esc(p.sub)}</span>` : ""}</span>
+        <span class="fact-label">${esc(p.label)}</span>
       </li>`).join("");
     return `
       <div class="dim-card" data-reveal>
@@ -473,12 +473,10 @@
   const scaleSummary = data.scale_summary;
   const verdictTableEl = document.getElementById("verdict-table");
 
-  document.getElementById("verdict-subtitle").innerHTML =
-    `${scaleSummary.small_count} 個一般小店小類（全 ${cats.length} 個扣除 ${scaleSummary.large_count} 個大型業態）。` +
-    `同業月營收＝財政部營業稅銷售額（民國 ${data.meta.vat_year_roc} 年）÷ 稅籍店數；月淨利＝月營收 ×（1－成本率），成本率取自經濟部調查（民國 ${data.meta.cost_rate_year_roc} 年，已含租金）。` +
-    `另有 ${scaleSummary.large_count} 個大型業態（${scaleSummary.large_short_labels.join("、")}）預設隱藏。`;
+  document.getElementById("verdict-subtitle").textContent =
+    `${scaleSummary.small_count} 個小店小類，大型業態預設隱藏`;
   document.getElementById("toggle-large-label").textContent =
-    `顯示大型業態（${scaleSummary.large_count} 個，全市平均由少數大型店拉高）`;
+    `顯示大型業態（${scaleSummary.large_count} 個）`;
 
   function locCell(c) {
     if (!c.revenue_by_location) return `<span class="topdown-ref-cell">—</span>`;
@@ -488,8 +486,8 @@
   verdictTableEl.innerHTML = `
     <thead><tr>
       <th>業種小類</th>
-      <th>同業月營收（P25／中位／P75）</th>
-      <th>依位置參考營收（同業月均 × 店家密度比）</th>
+      <th title="P25／中位／P75">同業月營收</th>
+      <th title="同業月均 × 店家密度比">依位置參考營收</th>
       <th>成本率</th>
       <th>月淨利（中位）</th>
     </tr></thead>
@@ -512,9 +510,9 @@
 
   // ---------------- 成本率出處表 ----------------
   document.getElementById("cost-table-subtitle").textContent =
-    "成本率＝營業支出（營業成本＋營業費用，含進貨、薪資、租金、折舊等）÷ 營業收入；全國數字，單位百萬元。租金占比只列參考，已含在成本率內。";
+    "全國數字，單位百萬元；租金已含在成本率";
   document.getElementById("cost-table").innerHTML =
-    `<thead><tr><th>調查業別</th><th>營業收入</th><th>營業支出</th><th>成本率</th><th>其中租金占營收</th><th>年度</th><th>表號／出處</th></tr></thead><tbody>` +
+    `<thead><tr><th>調查業別</th><th>營業收入</th><th>營業支出</th><th>成本率</th><th>租金占營收</th><th>年度</th><th>出處</th></tr></thead><tbody>` +
     data.cost_rates.map((r) => `<tr><td>${esc(r.survey_code)} ${esc(r.survey_name)}</td><td>${fmt0(r.revenue_mn)}</td><td>${fmt0(r.opex_mn)}</td><td>${fmt1(r.cost_rate_pct)}%</td>` +
       `<td>${r.rent_share_pct === null ? "—" : fmt1(r.rent_share_pct) + "%"}</td><td>民國 ${esc(r.year_roc)} 年</td><td><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.table)}</a></td></tr>`).join("") +
     `</tbody>`;
@@ -551,14 +549,14 @@
       Object.entries(cat.revenue_by_location).map(([k, t]) => ({ key: k, label: t.label, ratio: t.density_ratio })));
     locToggleEl.innerHTML = items.map((t) =>
       `<button type="button" data-loc="${t.key}" class="${t.key === currentLoc ? "active" : ""}">${t.label}<span class="factor">${t.ratio === null ? "×1" : "×" + t.ratio}</span></button>`).join("");
-    locHintEl.textContent = `店家密度比＝${RL.store}內該位置每平方公里店家數 ÷ 三檔合計（篇⑪）；描述店家分布，不是營收實測`;
+    locHintEl.textContent = "密度比是店家分布，非營收實測";
+    locHintEl.title = `店家密度比＝${RL.store}內該位置每平方公里店家數 ÷ 三檔合計（篇⑪）`;
   }
 
   function setReferenceRevenue(cat) {
     const v = referenceRevenue(cat);
     revenueInput.value = Math.round(v);
-    const where = currentLoc === "avg" ? "全市每店月均" : `全市每店月均 × ${cat.revenue_by_location[currentLoc].label}店家密度比`;
-    document.getElementById("revenue-hint").innerHTML = `參考值：${where} ${fmt0(v)} 元（財政部營業稅銷售額，民國 ${data.meta.vat_year_roc} 年，<a href="../10_spending/index.html">篇⑩</a>）`;
+    document.getElementById("revenue-hint").innerHTML = `參考 ${fmt0(v)} 元，出自<a href="../10_spending/index.html">篇⑩</a>`;
   }
 
   function onCategoryChange() {
@@ -569,13 +567,14 @@
     if (hasLoc) renderLocToggle(cat);
     setReferenceRevenue(cat);
     costRateInput.value = cat.cost_rate.cost_rate_pct;
-    document.getElementById("cost-hint").innerHTML =
-      `預帶：經濟部批發、零售及餐飲業經營實況調查 民國 ${esc(cat.cost_rate.year_roc)} 年 ${esc(cat.cost_rate.survey_code)} ${esc(cat.cost_rate.survey_name)}，` +
-      `營業支出 ÷ 營業收入（<a href="${esc(cat.cost_rate.url)}" target="_blank" rel="noopener">${esc(cat.cost_rate.table)}</a>）${cat.cost_rate.note ? "；" + esc(cat.cost_rate.note) : ""}`;
+    const costHint = document.getElementById("cost-hint");
+    costHint.innerHTML =
+      `經濟部 ${esc(cat.cost_rate.year_roc)} 年調查，<a href="${esc(cat.cost_rate.url)}" target="_blank" rel="noopener" title="${esc(cat.cost_rate.table)}">出處</a>`;
+    costHint.title = `${cat.cost_rate.survey_code} ${cat.cost_rate.survey_name}${cat.cost_rate.note ? "；" + cat.cost_rate.note : ""}`;
     document.getElementById("area-hint").innerHTML =
-      `參考：東區店面租賃面積中位數 ${fmt1(ref.area_ping_median)} 坪（實價登錄 ${fmt(ref.n)} 筆，<a href="../09_property/index.html">篇⑨</a>）`;
+      `<a href="../09_property/index.html">東區店面面積中位數 ${fmt1(ref.area_ping_median)} 坪</a>`;
     if (cat.scale === "large") {
-      calcScaleWarningEl.textContent = `大型業態：${cat.scale_reason}`;
+      calcScaleWarningEl.textContent = cat.scale_reason;
       calcScaleWarningEl.classList.add("show");
     } else {
       calcScaleWarningEl.textContent = "";
@@ -592,15 +591,15 @@
     const net = revenue * (1 - rate / 100);
     const rows = [
       `<div class="row"><span class="k">月營收</span><span class="v">${fmt0(revenue)} 元</span></div>`,
-      `<div class="row"><span class="k">成本（${fmt1(rate)}% × 月營收，已含租金）</span><span class="v">${fmt0(revenue * rate / 100)} 元</span></div>`,
+      `<div class="row"><span class="k">成本（已含租金）</span><span class="v">${fmt0(revenue * rate / 100)} 元</span></div>`,
       `<div class="row total"><span class="k">月淨利</span><span class="v ${net >= 0 ? "pos" : "neg"}" data-testid="calc-net">${fmt0(net)} 元</span></div>`,
     ];
     if (areaRaw !== "" && Number(areaRaw) > 0) {
       const area = Number(areaRaw);
       const rent = area * ref.rent_per_ping_month;
       const share = revenue > 0 ? rent / revenue * 100 : null;
-      rows.push(`<div class="row"><span class="k">月租金參考（${fmt1(area)} 坪 × 東區每坪月租中位數 ${fmt0(ref.rent_per_ping_month)} 元）</span><span class="v">${fmt0(rent)} 元</span></div>`);
-      if (share !== null) rows.push(`<div class="row"><span class="k">月租金參考占月營收（成本率已含租金，不另扣）</span><span class="v">${fmt1(share)}%</span></div>`);
+      rows.push(`<div class="row"><span class="k">月租金參考（${fmt1(area)} 坪）</span><span class="v">${fmt0(rent)} 元</span></div>`);
+      if (share !== null) rows.push(`<div class="row"><span class="k">租金占月營收（不另扣）</span><span class="v">${fmt1(share)}%</span></div>`);
     }
     if (invRaw !== "" && Number(invRaw) > 0) {
       const inv = Number(invRaw);
@@ -637,8 +636,8 @@
     textStyle: CHART_TEXT,
     grid: { left: 8, right: 54, top: 10, bottom: 8, containLabel: true },
     tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
-    xAxis: { type: "value", axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
-    yAxis: { type: "category", data: [`${RL.pop}居住人口`, "固定客群（學生/教職員/醫院）"], axisLine: AXIS_LINE, axisTick: { show: false }, axisLabel: { color: "#52514e", fontSize: 11.5 } },
+    xAxis: { type: "value", splitNumber: 3, axisLabel: { ...AXIS_LABEL, hideOverlap: true, formatter: (v) => (v >= 10000 ? `${v / 10000} 萬` : String(v)) }, splitLine: SPLIT_LINE },
+    yAxis: { type: "category", data: [`${RL.pop}居住人口`, "固定客群"], axisLine: AXIS_LINE, axisTick: { show: false }, axisLabel: { color: "#52514e", fontSize: 11.5 } },
     series: [{
       type: "bar", barMaxWidth: 28,
       data: [cb.resident_population_ring10, cb.fixed_population_total],
@@ -646,14 +645,14 @@
       label: { show: true, position: "right", color: "#52514e", fontSize: 11, formatter: (p) => p.value.toLocaleString("zh-Hant-TW") },
     }],
   });
-  document.getElementById("chart-customer-note").textContent = `固定客群相當於 ${RL.store}居住人口的 ${fmt1(cb.fixed_to_resident_ring5_ratio_pct)}%`;
+  document.getElementById("chart-customer-note").textContent = `固定客群是${RL.store}人口的 ${fmt1(cb.fixed_to_resident_ring5_ratio_pct)}%`;
 
   const chartCompetition = echarts.init(document.getElementById("chart-competition"));
   chartCompetition.setOption({
     textStyle: CHART_TEXT,
-    grid: { left: 8, right: 54, top: 10, bottom: 8, containLabel: true },
+    grid: { left: 8, right: 54, top: 10, bottom: 30, containLabel: true },
     tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
-    xAxis: { type: "value", name: "家/km²", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
+    xAxis: { type: "value", name: "家/km²", nameLocation: "middle", nameGap: 26, nameTextStyle: AXIS_LABEL, splitNumber: 3, axisLabel: { ...AXIS_LABEL, hideOverlap: true }, splitLine: SPLIT_LINE },
     yAxis: { type: "category", data: ["全市平均", RL.store], axisLine: AXIS_LINE, axisTick: { show: false }, axisLabel: { color: "#52514e", fontSize: 11.5 } },
     series: [{
       type: "bar", barMaxWidth: 28,
@@ -662,23 +661,23 @@
       label: { show: true, position: "right", color: "#52514e", fontSize: 11, formatter: (p) => p.value.toLocaleString("zh-Hant-TW") },
     }],
   });
-  document.getElementById("chart-competition-note").textContent = `${RL.store}店家密度是全市平均的 ${fmt1(comp.density_ratio_vs_city)} 倍`;
+  document.getElementById("chart-competition-note").textContent = `${RL.store}密度是全市的 ${fmt1(comp.density_ratio_vs_city)} 倍`;
 
   const chartOpenClose = echarts.init(document.getElementById("chart-openclose"));
   chartOpenClose.setOption({
     textStyle: CHART_TEXT,
     grid: { left: 8, right: 18, top: 10, bottom: 8, containLabel: true },
     tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
-    xAxis: { type: "category", data: ["近 12 個月開店", "近 12 個月關店"], axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, axisTick: { show: false } },
+    xAxis: { type: "category", data: ["開店", "關店"], axisLine: AXIS_LINE, axisLabel: { color: "#52514e", fontSize: 11.5 }, axisTick: { show: false } },
     yAxis: { type: "value", name: "家", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
     series: [{
       type: "bar", barMaxWidth: 40,
       data: [sv.recent12_open, sv.recent12_close],
-      itemStyle: { color: (p) => p.dataIndex === 0 ? "#2a78d6" : "#c3c2b7", borderRadius: [4, 4, 0, 0] },
+      itemStyle: { color: (p) => p.dataIndex === 0 ? "#2a78d6" : "#7d7b74", borderRadius: [4, 4, 0, 0] },
       label: { show: true, position: "top", color: "#52514e", fontSize: 11, formatter: (p) => p.value.toLocaleString("zh-Hant-TW") },
     }],
   });
-  document.getElementById("chart-openclose-note").textContent = `${data.meta.cohort_year_for_4yr_survival} 年開的店，約 4 年後${RL.store}仍在營業 ${fmt1(sv.cohort_survival_ring5_pct)}%`;
+  document.getElementById("chart-openclose-note").textContent = `${RL.store}近 12 個月開關店數`;
 
   window.addEventListener("resize", () => {
     chartCustomer.resize(); chartCompetition.resize(); chartOpenClose.resize();
@@ -686,16 +685,14 @@
 
   // ---------------- 怎麼算的 ----------------
   const mn = data.method_notes;
-  const ri = data.reader_inputs || {};
   document.getElementById("method-dl").innerHTML = `
     <dt>同業月營收</dt><dd>${mn.revenue_source}</dd>
     <dt>成本率</dt><dd>${mn.cost_rate_source}</dd>
     <dt>月淨利</dt><dd>${mn.net_profit_formula}</dd>
     <dt>坪數與租金參考</dt><dd>${mn.rent_reference}</dd>
     <dt>初期投資</dt><dd>${mn.investment}</dd>
-    <dt>讀者可填欄位</dt><dd>${Object.values(ri).map((f) => `${esc(f.label)}（${esc(f.unit)}）：${esc(f.description)}`).join("<br/>")}</dd>
-    <dt>大型業態（分組規則）</dt><dd>${mn.scale_source}</dd>
-    <dt>本頁列為大型業態</dt><dd>${cats.filter((c) => c.scale === "large").map((c) => `${c.code} ${c.name}：${esc(c.scale_reason)}`).join("／")}</dd>
+    <dt>大型業態</dt><dd>${mn.scale_source}</dd>
+    <dt>本頁列為大型業態</dt><dd>${cats.filter((c) => c.scale === "large").map((c) => esc(c.name)).join("、")}</dd>
   `;
   document.getElementById("disclaimer-note").textContent = mn.disclaimer;
   document.dispatchEvent(new CustomEvent("motion:scan"));

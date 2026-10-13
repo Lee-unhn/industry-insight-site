@@ -3,7 +3,7 @@ field,value
 meta.article_no,2
 meta.title,業種結構：餐飲／零售細分行業占比
 meta.data_date,2026-10-12
-meta.produced_date,2026-10-12
+meta.produced_date,2026-10-13
 meta.rings_used,1000; 2000; 3000
 meta.primary_ring,1000
 meta.ring_labels.1000,1 公里
@@ -43,18 +43,19 @@ lq.most_scarce.lq,0.39
 lq.most_scarce.label,相對稀少
 top_ring_compare_restaurant.n_requested,8
 top_ring_compare_restaurant.n_available,5
-top_ring_compare_restaurant.truncated_note,此細類全部只有 5 種 4 碼分類，故「前 8 名」實際列出全部 5 種
+top_ring_compare_restaurant.truncated_note,全市此細類僅 5 種，三圈對照全部列出
 top_ring_compare_restaurant.ring_totals.1000,642
 top_ring_compare_restaurant.ring_totals.2000,2146
 top_ring_compare_restaurant.ring_totals.3000,2524
-method_notes.ring_scope,細類家數表／LQ 用 1 公里圈（沿道路量的距離）；三圈對照表額外列 2 公里／3 公里圈供參考
-method_notes.mid_level_definition,稅務行業標準分類「細」類（4 碼），即 industry_mid
-method_notes.lq_formula,LQ = (該細類在 1 公里圈的家數占比) ÷ (該細類在臺南市全市的家數占比)；占比＝該細類家數 ÷ 同一大類（餐飲或零售）在該範圍的家數，與「占餐飲比／占零售比」欄位算法相同，只是分別在 1 公里圈與全市各算一次再相除
-method_notes.lq_threshold_concentrated,LQ > 1.3 標示為「相對集中」
-method_notes.lq_threshold_scarce,LQ < 0.7 標示為「相對稀少」
-method_notes.lq_threshold_normal,0.7 ≤ LQ ≤ 1.3 標示為「接近全市平均」
-method_notes.lq_min_count,家數少於 5 家的業種不計算區位商數（1 公里圈內該細類家數 < 5），與上列 1.3／0.7 門檻並列為分組規則
-method_notes.top_ring_compare_note,此細類全部只有 5 種 4 碼分類，故「前 8 名」實際列出全部 5 種
+honest_notes,圈內少於 5 家的細類共 15 種，不計算區位商數; 家數少時，區位商數容易因幾家之差大幅變動; 區位商數比的是業種結構，不代表整體店數多寡
+method_notes.ring_scope,細類家數與區位商數用 1 公里圈，三圈對照表另列 2 公里／3 公里圈
+method_notes.mid_level_definition,稅務行業標準分類的 4 碼細類
+method_notes.lq_formula,區位商數＝細類在 1 公里圈的占比 ÷ 該細類在全市的占比；占比以同大類家數為底
+method_notes.lq_threshold_concentrated,區位商數高於 1.3 為「相對集中」
+method_notes.lq_threshold_scarce,區位商數低於 0.7 為「相對稀少」
+method_notes.lq_threshold_normal,介於 0.7 與 1.3 之間為「接近全市平均」
+method_notes.lq_min_count,1 公里圈內少於 5 家的細類不計算區位商數
+method_notes.top_ring_compare_note,全市此細類僅 5 種，三圈對照全部列出
 method_notes.data_version,2026-10-12
 
 # table: restaurant_mid_ring5

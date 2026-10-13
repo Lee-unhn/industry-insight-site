@@ -87,6 +87,9 @@
     border-left: 3px solid var(--series-2); font-size: 12.5px; color: var(--text-secondary); border-radius: 0 6px 6px 0;
   }
 
+  .honest-note ul { margin: 4px 0 0; padding-left: 18px; }
+  .honest-note li { margin: 2px 0; }
+
   .context-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
   @media (max-width: 700px) { .context-row { grid-template-columns: 1fr; } }
   .context-card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
@@ -105,9 +108,7 @@
     <div class="kicker">開店分析所 · 篇⑦ / 13</div>
     <h1>校園與醫院族群：學生分層、教職員、醫院員工、進駐廠商、南科通勤</h1>
     <p class="lede" id="lede">
-      成大商圈的固定客群有多大？這篇不套距離圈——學生、教職員、醫院員工本身就是定點族群，
-      不是「落在圈內」的店家。從教育部彙總數、成大醫院官網、產學進駐廠商名錄三個來源，
-      算出一個「不靠居住人口也存在」的基本客群量，並與沿道路 <span data-ring-label>1 公里</span>圈居住人口對照。
+      成大學生、教職員、醫院員工是固定出現的客群。算出這群人有多少，再跟 <span data-ring-label>1 公里</span>圈居住人口對照。
     </p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
@@ -134,7 +135,7 @@
 
     <section class="card">
       <h2>圖 B · 穩定客群是哪些人組成的</h2>
-      <p class="subtitle">學生＋專任教師＋成大醫院員工三者加總，各占多少</p>
+      <p class="subtitle">學生＋專任教師＋醫院員工，各占多少</p>
       <div class="echart wide" id="chartB"></div>
       <button class="table-toggle" data-target="tableB">顯示資料表格</button>
       <div class="table-wrap"><table class="data-table" id="tableB"></table></div>
@@ -150,7 +151,7 @@
 
     <section class="card">
       <h2>順帶一提：附近還有哪些就業人口</h2>
-      <p class="subtitle">這兩個數字沒算進上面的穩定客群總量，但可以當作附近就業狀況的參考</p>
+      <p class="subtitle">這兩個數字不計入固定客群</p>
       <div class="context-row" id="context-row"></div>
     </section>
 
@@ -229,7 +230,7 @@
 
   // ---- 圖 A：學生分層 ----
   document.getElementById("subtitleA").textContent =
-    `${data.students.academic_year} 學年度在學學生數 ${fmt(data.students.total.count)} 人，依教育部彙總學制歸戶（系所明細不追）`;
+    `${data.students.academic_year} 學年度在學學生 ${fmt(data.students.total.count)} 人`;
   const tierLabels = t.map((x) => x.label);
   const chartA = echarts.init(document.getElementById("chartA"));
   chartA.setOption({
@@ -250,7 +251,7 @@
   // ---- 圖 D：醫院職類 ----
   const cats = data.hospital.categories;
   document.getElementById("subtitleD").textContent =
-    `統計至 ${data.hospital.stat_date}，總計 ${fmt(data.hospital.total)} 人（官網「XX合計」小計列，五類相加＝總計）`;
+    `統計至 ${data.hospital.stat_date}，共 ${fmt(data.hospital.total)} 人`;
   const chartD = echarts.init(document.getElementById("chartD"));
   chartD.setOption({
     textStyle: CHART_TEXT,
@@ -302,8 +303,8 @@
   const rc = data.residential_comparison;
   document.getElementById("subtitleC").textContent =
     rc.is_estimate
-      ? `${RL}圈居住人口為粗略估計（${rc.method}）`
-      : `${RL}圈居住人口（${rc.method}）`;
+      ? `${RL}圈居住人口為粗略估計`
+      : `${RL}圈居住人口依面積比例分配`;
   const compareLabels = ["固定客群總量", `${RL}圈居住人口${rc.is_estimate ? "（估）" : ""}`];
   const compareValues = [data.fixed_population.total, rc.population];
   const chartC = echarts.init(document.getElementById("chartC"));
@@ -363,10 +364,6 @@
     <dt>居住人口對照</dt><dd>${mn.residential_comparison_definition}</dd>
     <dt>資料版本</dt><dd>${mn.data_version}</dd>
   `;
-  document.getElementById("honest-note").textContent =
-    `誠實揭露：固定客群總量（${fmt(data.fixed_population.total)} 人）不含進駐廠商員工數（官網名錄無公開員工數字，只有家數）與南科臺南園區從業員工數` +
-    `（${fmt(data.stsp_commute.count)} 人，${data.stsp_commute.year} 年官方年報數字，鄰近大型就業中心，但非本商圈定義族群）——` +
-    `兩者只作對照脈絡，不計入總量，避免虛灌客群規模；圖 C 的居住人口對照數字取自沿道路 ${RL}範圍。`;
 
 })().catch((err) => {
   console.error("[index] 載入失敗", err);

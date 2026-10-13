@@ -255,11 +255,7 @@
   <header class="hero">
     <div class="kicker">開店分析所 · 篇⑩ / 13</div>
     <h1>消費金流：同業營收與居民消費</h1>
-    <p class="lede" id="lede">
-      兩組各自獨立的公開資料數字：法一（供給端）用臺南市全市營業稅銷售額除以全市稅籍店數，得各行業的每店月均銷售額（全市層級）；
-      法二（需求端）用臺南市每戶消費支出乘上全國消費結構占比，再乘成大商圈沿道路 <span class="ring-primary">居住人口圈</span>圈戶數，得居民一年的餐飲／零售消費額。
-      兩組數字並列呈現，不互相換算、不互相比較。
-    </p>
+    <p class="lede" id="lede">全市各行業每店月均銷售額，與附近住戶一年的消費額，兩組數字各自獨立。</p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
 
@@ -271,7 +267,7 @@
 
     <section class="card">
       <h2>圖 A · 各行業每月平均賣多少（全市）</h2>
-      <p class="subtitle">用全市營業稅銷售額 ÷ 全市稅籍店數 ÷ 12 個月推算（統計上稱法一；單位：元／月／店；小類＝稅務行業標準分類 3 碼）</p>
+      <p class="subtitle">全市銷售額 ÷ 店數 ÷ 12 個月</p>
       <div class="echart tall" id="chartA"></div>
       <button class="table-toggle" data-target="tableA">顯示資料表格</button>
       <table class="data-table" id="tableA"></table>
@@ -279,7 +275,7 @@
 
     <section class="card">
       <h2>圖 B · 附近住戶一年花多少錢（換算）</h2>
-      <p class="subtitle">用全市每戶年消費支出 × 全國消費結構占比 × 這裡的戶數換算（統計上稱法二），依類別堆疊呈現（單位：億元／年）</p>
+      <p class="subtitle">每戶年支出 × 消費結構 × 戶數，單位億元</p>
       <div class="echart" id="chartB"></div>
       <button class="table-toggle" data-target="tableB">顯示資料表格</button>
       <table class="data-table" id="tableB"></table>
@@ -287,10 +283,7 @@
 
     <section class="card">
       <h2>圖 C · 各業種每店月均銷售額區間（全市）</h2>
-      <p class="subtitle">
-        每一列是一個細分行業在全市的每店月均銷售額（法一）；P25、P75 顯示同大類（餐飲／零售）其他細分行業的落差範圍，
-        呈現的是同業間的差異，不是在預測任何一家店會賺多少（見下方誠實揭露）。點欄位名稱可以排序。
-      </p>
+      <p class="subtitle">同大類各行業的落差範圍；點欄位名可排序</p>
       <div class="sort-table-wrap">
         <table class="sort-table" id="tableD"></table>
       </div>
@@ -301,10 +294,7 @@
   <details class="card method">
     <summary>怎麼算的（方法與資料限制）</summary>
     <dl id="method-dl"></dl>
-    <div class="honest-note" id="honest-note-1"></div>
-    <div class="honest-note" id="honest-note-2"></div>
-    <div class="honest-note" id="honest-note-3"></div>
-    <div class="honest-note" id="honest-note-4"></div>
+    <div class="honest-note" id="honest-note"></div>
   </details>
 
   <footer class="site-footer">
@@ -393,7 +383,7 @@
         return `${d.industry_label}（${d.group}）<br/>全市 ${fmt(d.city_store_count)} 家<br/>每店月均 ${fmt(d.per_store_monthly_ntd)} 元`;
       },
     },
-    xAxis: { type: "value", name: "元／月／店", nameTextStyle: AXIS_LABEL, axisLabel: { ...AXIS_LABEL, formatter: (v) => fmt(v) }, splitLine: SPLIT_LINE },
+    xAxis: { type: "value", name: "萬元／月／店", nameTextStyle: AXIS_LABEL, axisLabel: { ...AXIS_LABEL, hideOverlap: true, formatter: (v) => `${fmt(v / 10000)}萬` }, splitLine: SPLIT_LINE },
     yAxis: {
       type: "category",
       data: smallRev.map((d) => `${d.name}（${d.code}）`),
@@ -524,17 +514,16 @@
   // ---------------------------------------------------------------
   const mn = data.method_notes;
   document.getElementById("method-dl").innerHTML = `
-    <dt>邊界</dt><dd>法二用沿實際道路量的 ${PRIMARY_LABEL}圈（不是直線距離，剔除機車不能行駛的快速道路／高架橋；居住人口與戶數）；法一是全市數字，不分圈</dd>
-    <dt>法一（供給端）</dt><dd>臺南市全市（56 餐飲業／47-48 零售業）年銷售額 ÷ 全市稅籍店數 = 每店年均，再 ÷ 12 得每店月均；不乘到圈內店數</dd>
-    <dt>法二（需求端）</dt><dd>臺南市每戶年消費支出 × 全國消費型態占比 × ${PRIMARY_LABEL}圈戶數（戶數引用篇⑤，${data.population_ref.method}）</dd>
-    <dt>零售採用類別</dt><dd>${mn.retail_categories_included.join("、")}（排除：${mn.retail_categories_excluded.join("、")}）</dd>
+    <dt>邊界</dt><dd>法二用沿道路量的${PRIMARY_LABEL}圈戶數；法一是全市數字，不分圈</dd>
+    <dt>法一（供給端）</dt><dd>全市年銷售額 ÷ 稅籍店數 ÷ 12，得每店月均；不乘到圈內店數</dd>
+    <dt>法二（需求端）</dt><dd>全市每戶年消費支出 × 全國消費結構占比 × ${PRIMARY_LABEL}圈戶數（戶數引用篇⑤）</dd>
+    <dt>零售採用類別</dt><dd>${mn.retail_categories_note}</dd>
     <dt>行業對照層級</dt><dd>${mn.mid_level_note}</dd>
+    <dt>銷售額單位</dt><dd>${mn.unit_basis}</dd>
+    <dt>銷售額稅基</dt><dd>${mn.tax_basis}</dd>
+    <dt>月營收區間</dt><dd>${mn.revenue_band_note}</dd>
     <dt>資料版本</dt><dd>${mn.data_version}</dd>
   `;
-  document.getElementById("honest-note-1").textContent = `銷售額單位判讀：${mn.unit_basis}`;
-  document.getElementById("honest-note-2").textContent = `誠實揭露（粒度＝全市）：${mn.granularity} 誠實揭露（推算性質）：${mn.structure_caveat}`;
-  document.getElementById("honest-note-3").textContent = `誠實揭露（年份錯位）：${mn.year_mismatch} 稅基備註：${mn.tax_basis}`;
-  document.getElementById("honest-note-4").textContent = `誠實揭露（讀者工具）：${mn.revenue_band_note}`;
 
 })().catch((err) => {
   console.error("[index] 載入失敗", err);

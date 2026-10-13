@@ -126,6 +126,7 @@
   .anchor-table td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .anchor-table thead th { color: var(--text-secondary); font-weight: 600; border-bottom: 1px solid var(--baseline); }
   .anchor-table a { color: var(--series-1); word-break: break-all; }
+  #table-anchors th:nth-child(1), #table-anchors td:nth-child(1), #table-anchors th:nth-child(4), #table-anchors td:nth-child(4) { white-space: nowrap; }
   .table-scroll { overflow-x: auto; }
 </style>
 </head>
@@ -136,8 +137,7 @@
     <div class="kicker">開店分析所 · 篇⑫ / 13</div>
     <h1 id="page-title">同業營收與位置差異</h1>
     <p class="lede" id="lede">
-      同業一家店一個月做多少（財政部營業稅銷售額）、同一個商圈裡不同位置的店家密度差多少（OpenStreetMap 道路分級），
-      以及附近居民每個月的外食預算有多少（家庭收支調查、國健署外食次數）。每個數字都附出處。
+      同業每店月營收、各位置差異與附近居民外食預算，每個數字附出處。
     </p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
@@ -186,13 +186,14 @@
 
   <section class="card">
     <h2>客單價公開錨點（原樣列出）</h2>
-    <p class="subtitle">全國或其他縣市的品牌定價、政府調查摘要，逐筆列出處；不是本商圈的價格，本頁不換算</p>
+    <p class="subtitle">非本商圈價格，逐筆附出處；不換算</p>
     <div class="table-scroll"><table class="anchor-table" id="table-anchors"></table></div>
   </section>
 
   <details class="card method">
     <summary>怎麼算的（方法與資料限制）</summary>
     <dl id="method-dl"></dl>
+    <div class="honest-note" id="honest-note"></div>
   </details>
 
   <footer class="site-footer" id="site-footer">
@@ -256,9 +257,7 @@
 
   // ---------------- 圖 A ----------------
   const tiers = loc.tiers;
-  document.getElementById("chartA-subtitle").textContent =
-    `灰色＝全市每店月均（民國 ${loc.vat_year_roc} 年營業稅銷售額 ÷ 稅籍店數）；藍色＝乘上 ${STORE_RING}內各位置的店家密度比（` +
-    tiers.map((t) => `${t.label} ${t.density_ratio}`).join("／") + "）";
+  document.getElementById("chartA-subtitle").textContent = "灰＝全市每店月均；藍＝乘上各位置店家密度比";
   const seriesDefs = [{ name: "全市每店月均", color: "#c3c2b7", get: (p) => p.per_store_monthly_ntd }].concat(
     tiers.map((t, i) => ({ name: t.label, color: ["#184f95", "#2a78d6", "#9ec5f4"][i], get: (p) => p.by_location[t.key] }))
   );
@@ -280,8 +279,7 @@
     loc.peers.map((p) => [`${p.code} ${p.name}`, fmt(p.city_store_count), `${fmt0(p.per_store_monthly_ntd)} 元`].concat(tiers.map((t) => `${fmt0(p.by_location[t.key])} 元`))));
 
   // ---------------- 圖 B ----------------
-  document.getElementById("chartB-subtitle").textContent =
-    `${STORE_RING}居民 ${fmt(pool.households)} 戶 × 每戶年餐飲支出 ${fmt0(pool.household_annual_dining_ntd)} 元 ÷ 12 ÷ 圈內 ${fmt(pool.restaurant_store_count)} 家餐飲店；對照全市餐飲業每店月均`;
+  document.getElementById("chartB-subtitle").textContent = "居民餐飲預算分給圈內每家店，對照同業月均";
   const chartB = echarts.init(document.getElementById("chartB"));
   chartB.setOption({
     textStyle: CHART_TEXT,
@@ -306,8 +304,7 @@
   ]);
 
   // ---------------- 圖 C ----------------
-  document.getElementById("chartC-subtitle").textContent =
-    `衛福部國民健康署國民營養健康狀況變遷調查（民國 ${dfq.survey_years} 年，19 歲以上 ${fmt(dfq.row_used.n)} 人，含外帶）；人數最多的區間是「${mb.label}」（${mb.pct}%）`;
+  document.getElementById("chartC-subtitle").textContent = "19 歲以上，含外帶，每週次數分布";
   const chartC = echarts.init(document.getElementById("chartC"));
   chartC.setOption({
     textStyle: CHART_TEXT,
@@ -326,8 +323,7 @@
     dfq.by_age_all.map((r) => [r.age_group, fmt(r.n)].concat(BK.map((k) => `${fmt1(r[k])}%`))));
 
   // ---------------- 圖 D ----------------
-  document.getElementById("chartD-subtitle").textContent =
-    `每人每月外食預算＝每戶月餐飲支出 ÷ ${POP_RING}平均每戶 ${seg.household_size} 人；每次外食預算＝每人每月 ÷ 每月 ${mb.monthly_lo}～${mb.monthly_hi} 次（每週 ${mb.weekly_lo}～未滿 ${mb.weekly_hi} 次 × 52 ÷ 12）`;
+  document.getElementById("chartD-subtitle").textContent = "每人每月外食預算，與每次預算範圍";
   const rowsD = seg.quintiles.map((q) => ({ label: `全國${q.group}`, perPerson: q.per_person_monthly_dining_ntd, occ: dfq.per_occasion_budget.quintiles[q.group] }))
     .concat([{ label: "臺南市平均", perPerson: seg.tainan.per_person_monthly_dining_ntd, occ: dfq.per_occasion_budget.tainan_avg }]);
   const chartD = echarts.init(document.getElementById("chartD"));
@@ -353,7 +349,7 @@
         `${fmt0(dfq.per_occasion_budget.tainan_avg.low)}～${fmt0(dfq.per_occasion_budget.tainan_avg.high)} 元`]]));
 
   // ---------------- 客群人數 ----------------
-  document.getElementById("segments-subtitle").textContent = `居民取${POP_RING}（統計區面積加權）；學生、教職員、醫院員工是全校／全院人數，不拆距離圈`;
+  document.getElementById("segments-subtitle").textContent = `居民取${POP_RING}，其餘為全校全院人數`;
   const tSeg = document.getElementById("table-segments");
   tSeg.innerHTML = `<thead><tr><th>客群</th><th>人數</th><th>出處</th></tr></thead><tbody>` + [
     [`${POP_RING}居民`, `${fmt(seg.residents_population)} 人（${fmt(seg.residents_households)} 戶）`, "內政部統計區人口"],
@@ -379,7 +375,7 @@
   // ---------------- 方法說明 ----------------
   const mn = data.method_notes;
   document.getElementById("method-dl").innerHTML = `
-    <dt>商圈範圍</dt><dd>${POP_RING}＝客群人數；${STORE_RING}＝店家密度比、居民預算池與店數；都是沿實際道路量的距離</dd>
+    <dt>商圈範圍</dt><dd>${POP_RING}看客群；${STORE_RING}看密度比與店數；距離沿實際道路量</dd>
     <dt>同業每店月均營收</dt><dd>${mn.peer_revenue}</dd>
     <dt>各位置參考營收</dt><dd>${mn.location_revenue}</dd>
     <dt>每店可分到的月預算</dt><dd>${mn.budget_pool}</dd>

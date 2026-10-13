@@ -3,7 +3,7 @@ field,value
 meta.article_no,1
 meta.title,成大商圈輪廓：路網距離圈、店家總量與分布
 meta.data_date,2026-10-12
-meta.produced_date,2026-10-12
+meta.produced_date,2026-10-13
 meta.rings_used,1000; 2000; 3000
 meta.ring_labels.1000,1 公里
 meta.ring_labels.2000,2 公里
@@ -94,15 +94,16 @@ org_type_by_ring.3000.獨資.count,9156
 org_type_by_ring.3000.獨資.pct,59.4
 org_type_by_ring.3000.其他.count,875
 org_type_by_ring.3000.其他.pct,5.7
-method_notes.isochrone_method,OpenStreetMap 道路網上沿實際道路量的距離（非直線距離），剔除機車不能行駛的快速道路與高架橋
+honest_notes,"全市 135,626 家中有 9,517 家地址比對不到，未計入地圖與依圈統計; 密度網格只涵蓋 3 公里圈; 公開頁不顯示逐店店名或點位"
+method_notes.isochrone_method,在 OpenStreetMap 道路網上沿實際道路量距離，避開機車不能走的快速道路與高架橋
 method_notes.centers_count,3
 method_notes.ring_use.1000,店家分析
 method_notes.ring_use.2000,居住人口
 method_notes.ring_use.3000,可及性參考
-method_notes.join_method,稅籍營業地址與臺南市門牌坐標離線比對（exact/no_floor/street_fallback 三級 cascade）
+method_notes.join_method,稅籍營業地址對臺南市門牌坐標，依完整地址、去掉樓層、同一街道三級比對
 method_notes.join_rate_pct,93
 method_notes.unmatched_pct,7
-method_notes.unmatched_note,未落點店家（無法比對到座標）不計入地圖與任何依圈分組的圖表
+method_notes.unmatched_note,未落點的店不進地圖，也不進依圈統計
 method_notes.data_version,2026-10-12
 method_notes.osm_attribution,© OpenStreetMap contributors (ODbL)
 

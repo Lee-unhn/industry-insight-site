@@ -134,9 +134,7 @@
     <div class="kicker">開店分析所 · 篇⑪ / 13</div>
     <h1>人流：誰在什麼時候來、從哪條路來</h1>
     <p class="lede" id="lede">
-      不做輪詢、只用一次性公開資料，把成大商圈的人流拆成五個來源（居民、學生教職員、
-      醫院員工、台鐵到站、周邊景點旅客），看時間上怎麼波動、街道上怎麼分布。
-      路口車流量調查沒有公開資料，改用道路等級（臨主要幹道／次要道路／巷弄）算店家密度比當替代。
+      人流拆成居民、學生教職員、醫院員工、台鐵、景點旅客五個來源，看季節起伏與街道分布。
     </p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
@@ -154,7 +152,7 @@
 
     <section class="card">
       <h2>圖 B · 一年 12 個月：台鐵進站與觀光人次的月別指數</h2>
-      <p class="subtitle" id="chartB-subtitle">兩條曲線各自對自己的 12 個月平均（=1.0）算相對值，並列呈現，不相加、不是實際人數</p>
+      <p class="subtitle" id="chartB-subtitle">各除以自己的 12 個月平均，1.0＝平均月</p>
       <div class="echart" id="chartB"></div>
       <button class="table-toggle" data-target="tableB">顯示資料表格</button>
       <table class="data-table" id="tableB"></table>
@@ -173,7 +171,7 @@
   <section class="card map-card">
     <div class="map-head">
       <h2>圖 D · 街道等級地圖與三檔店家密度</h2>
-      <p class="subtitle" id="chartD-subtitle">店家分析圈內道路依道路等級分三檔上色；灰色網格為篇①店家密度網格（重用，未重算）；右側為三檔道路兩側範圍內的店家密度與店家密度比。</p>
+      <p class="subtitle" id="chartD-subtitle">店家分析圈道路分三級，右圖是店家密度比</p>
     </div>
     <div class="streets-sub-grid">
       <div style="position:relative;">
@@ -192,16 +190,13 @@
   <details class="card method">
     <summary>怎麼算的（方法與資料限制）</summary>
     <dl id="method-dl"></dl>
-    <div class="honest-note" id="honest-note-1"></div>
-    <div class="honest-note" id="honest-note-2"></div>
-    <div class="honest-note" id="honest-note-3"></div>
-    <div class="honest-note" id="honest-note-4"></div>
+    <div class="honest-note" id="honest-note"></div>
   </details>
 
   <footer class="site-footer">
-    開店分析所｜資料來源：臺鐵每日各站進出站人數（臺鐵公司）、教育部校務資訊公開平臺（moe_udb）、
-    成大醫院組織規模頁（nckuh）、歷年國內主要觀光遊憩據點遊客人數月別統計（交通部觀光署）、
-    成功大學行事曆（web.ncku.edu.tw）、居住人口借用篇⑤、台鐵到站量級借用篇⑧、OpenStreetMap
+    開店分析所｜資料來源：臺鐵每日各站進出站人數（臺鐵公司）、教育部校務資訊公開平臺、
+    成大醫院組織規模頁、歷年國內主要觀光遊憩據點遊客人數月別統計（交通部觀光署）、
+    成功大學行事曆（web.ncku.edu.tw）、居住人口沿用篇⑤、台鐵到站量級沿用篇⑧、OpenStreetMap
     （© OpenStreetMap contributors，ODbL）。互動圖與海報由同一份資料腳本產出。
   </footer>
 
@@ -227,21 +222,21 @@
   const ringName = (m) => `${data.meta.ring_labels[String(m)]}圈`;
   const ringOf = (f) => Number(f.properties.ring_m ?? f.properties.minutes);
   document.getElementById("chartD-subtitle").textContent =
-    `${ringName(RING.store)}內道路依道路等級分三檔上色；灰色網格為篇①店家密度網格（重用，未重算）；右側為三檔道路兩側範圍內的店家密度與店家密度比。`;
+    `${ringName(RING.store)}道路分三級，右圖是店家密度比`;
 
   // ---------------------------------------------------------------
   // 標頭 / meta
   // ---------------------------------------------------------------
   document.getElementById("meta-line").innerHTML =
     `資料日期 <b>${data.meta.data_date}</b>　·　產出日期 <b>${data.meta.produced_date}</b>　·　` +
-    `觀光資料年份 <b>${data.tourism.latest_year}</b>（tourism_visits 最新可比對年份）`;
+    `觀光資料年份 <b>${data.tourism.latest_year}</b>（最新可比對年份）`;
 
   // ---------------------------------------------------------------
   // Stat tiles
   // ---------------------------------------------------------------
   const st = data.stat_tiles;
   const stats = [
-    { label: st.tra_daily.label, value: fmt(Math.round(st.tra_daily.value)), unit: st.tra_daily.unit, sub: "借用篇⑧（今年至今日均）" },
+    { label: st.tra_daily.label, value: fmt(Math.round(st.tra_daily.value)), unit: st.tra_daily.unit, sub: "沿用篇⑧（今年至今日均）" },
     { label: st.students_faculty_total.label, value: fmt(st.students_faculty_total.value), unit: st.students_faculty_total.unit, sub: st.students_faculty_total.sub },
     { label: st.tourism_daily.label, value: fmt(Math.round(st.tourism_daily.value)), unit: st.tourism_daily.unit, sub: `${data.tourism.latest_year} 年，${data.tourism.in_ring_sites.length} 處已定位景點` },
     { label: st.major_road_location_factor.label, value: fmt1(st.major_road_location_factor.value), unit: st.major_road_location_factor.unit, sub: st.major_road_location_factor.sub },
@@ -278,7 +273,6 @@
       label: { show: true, position: "right", color: "#52514e", fontSize: 11, formatter: (p) => fmt(Math.round(p.value)) },
     }],
   });
-  document.getElementById("chartA-subtitle").textContent = data.composition.kind_note;
 
   document.getElementById("composition-table").innerHTML =
     `<thead><tr><th>來源</th><th>性質</th><th>量級</th><th>單位／備註</th></tr></thead><tbody>` +
@@ -396,7 +390,7 @@
     <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:${TIER_COLOR.mid};border-top-style:solid;border-top-width:2px"></span>臨次要道路</div>
     <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:${TIER_COLOR.minor};border-top-style:solid;border-top-width:1px"></span>臨巷弄／小路</div>
     <div class="legend-row"><span class="legend-swatch-line" style="border-top-color:#c3c2b7;border-top-style:dashed;border-top-width:1.6px"></span>${ringName(RING.store)}邊界</div>
-    <div class="legend-row" style="margin-top:4px;">深色網格＝店家密度較高（重用篇①）</div>
+    <div class="legend-row" style="margin-top:4px;">深色網格＝店家密度較高</div>
   `;
 
   // ---------------------------------------------------------------
@@ -407,7 +401,7 @@
   const chartD = echarts.init(document.getElementById("chartD"));
   chartD.setOption({
     textStyle: { color: "#52514e", fontFamily: "system-ui, -apple-system, 'Segoe UI', 'Microsoft JhengHei', sans-serif" },
-    grid: { left: 8, right: 40, top: 10, bottom: 8, containLabel: true },
+    grid: { left: 8, right: 48, top: 10, bottom: 30, containLabel: true },
     tooltip: {
       trigger: "axis", axisPointer: { type: "shadow" },
       formatter: (params) => {
@@ -417,7 +411,7 @@
         return `${t.label}<br/>店家密度比 ${fmt1(t.location_factor)} 倍<br/>密度 ${fmt1(t.density_per_km2)}/km²<br/>店數 ${fmt(t.store_count)}（${fmt1(t.store_pct_of_ring5)}%）`;
       },
     },
-    xAxis: { type: "value", name: "店家密度比（全圈平均=1.0）", nameTextStyle: { color: "#898781", fontSize: 10.5 }, axisLine: { lineStyle: { color: "#c3c2b7" } }, axisLabel: { color: "#898781", fontSize: 11 }, splitLine: { lineStyle: { color: "#e1e0d9" } } },
+    xAxis: { type: "value", name: "店家密度比（全圈平均＝1.0）", nameLocation: "middle", nameGap: 26, nameTextStyle: { color: "#898781", fontSize: 10.5 }, axisLine: { lineStyle: { color: "#c3c2b7" } }, axisLabel: { color: "#898781", fontSize: 11 }, splitLine: { lineStyle: { color: "#e1e0d9" } } },
     yAxis: { type: "category", data: tierOrder.map((t) => tiers[t].label), axisLine: { lineStyle: { color: "#c3c2b7" } }, axisLabel: { color: "#52514e", fontSize: 11 }, axisTick: { show: false } },
     series: [{
       type: "bar", barMaxWidth: 26, data: tierOrder.map((t) => tiers[t].location_factor),
@@ -453,7 +447,7 @@
   // ---------------------------------------------------------------
   const mn = data.method_notes;
   document.getElementById("method-dl").innerHTML = `
-    <dt>商圈邊界</dt><dd>${ringName(RING.store)}＝街道等級與店家密度比；${ringName(RING.pop)}＝居住人口（借用篇⑤）；${ringName(RING.access)}＝觀光景點落點判定（都是沿實際道路量的距離，不是直線距離）</dd>
+    <dt>商圈邊界</dt><dd>${ringName(RING.store)}看店家密度比，${ringName(RING.pop)}看居民，${ringName(RING.access)}看景點。距離沿實際道路量。</dd>
     <dt>人流來源</dt><dd>${data.composition.kind_note}</dd>
     <dt>月別指數</dt><dd>${mn.monthly_index_formula}</dd>
     <dt>暑假對照</dt><dd>${mn.summer_vs_rest_note}</dd>
@@ -463,10 +457,6 @@
     <dt>地圖著作權</dt><dd>${mn.osm_attribution}</dd>
     <dt>資料版本</dt><dd>${mn.data_version}</dd>
   `;
-  document.getElementById("honest-note-1").textContent = `誠實揭露（路口車流量調查）：${mn.not_available.intersection_traffic_survey}`;
-  document.getElementById("honest-note-2").textContent = `誠實揭露（醫院門診量）：${mn.not_available.hospital_outpatient_volume}`;
-  document.getElementById("honest-note-3").textContent = `誠實揭露（行事曆資料限制）：${mn.calendar_limitation}`;
-  document.getElementById("honest-note-4").textContent = `誠實揭露（不做輪詢）：${mn.not_available.polling_footfall}`;
 
 })().catch((err) => {
   console.error("[index] 載入失敗", err);

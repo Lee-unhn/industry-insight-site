@@ -111,12 +111,7 @@
   <header class="hero">
     <div class="kicker">開店分析所 · 篇③ / 13</div>
     <h1>開歇業與存活率：近 5 年月度曲線</h1>
-    <p class="lede" id="lede">
-      成大商圈（沿道路 <span class="js-ring-primary">1 公里</span>內的核心商圈）每個月開幾家、關幾家？開了店之後能撐多久？
-      本篇用 <span id="js-window">62 個月（2021-07～2026-08）</span>的開歇業事件，畫出月度趨勢與 12 個月移動平均、
-      年度開歇業對照、開業年 cohort 存活率，以及開業後仍在營業的簡化生存曲線，
-      <span class="js-ring-primary">1 公里</span>圈與全臺南並列對照。每張圖都附筆數，讀數字時請一併看筆數。
-    </p>
+    <p class="lede" id="lede">成大商圈每個月開幾家、關幾家？開了店能撐多久？</p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
 
@@ -128,7 +123,7 @@
 
     <section class="card">
       <h2>圖 A · 這裡每個月開幾家、關幾家</h2>
-      <p class="subtitle">細線＝當月原始值；粗線＝12 個月移動平均，抹平單月忽高忽低看長期趨勢（第 12 個月即 <span id="js-ma-start">2022-06</span> 起才有值）；長條＝淨增（開業－歇業）。可用下方滑桿縮放月份範圍。</p>
+      <p class="subtitle">細線＝當月值，粗線＝12 個月移動平均</p>
       <div class="echart tall" id="chartA"></div>
       <button class="table-toggle" data-target="tableA">顯示資料表格</button>
       <div class="data-table" id="tableA"></div>
@@ -136,7 +131,7 @@
 
     <section class="card">
       <h2>圖 B · 每年開幾家、關幾家</h2>
-      <p class="subtitle">年份標「＊」者為部分年觀察（<span id="js-partial-b">2021 僅 7-12 月、2026 僅 1-8 月</span>），不可直接跟整年比較</p>
+      <p class="subtitle">年份標＊者不足一整年</p>
       <div class="echart" id="chartB"></div>
       <button class="table-toggle" data-target="tableB">顯示資料表格</button>
       <div class="data-table" id="tableB"></div>
@@ -144,7 +139,7 @@
 
     <section class="card">
       <h2>圖 C · 同一年開的店，現在還剩幾成</h2>
-      <p class="subtitle" id="subtitleC">同一年開業的店分成一組（統計上稱 cohort），追蹤到現在還在營業的比例；<span id="js-partial-c">2021、2026 資料不滿一整年，2026 那組才開幕沒多久，存活率偏高是觀察期太短所致，不是真的比較耐久</span></p>
+      <p class="subtitle" id="subtitleC">同年開業的店，現在還在營業的比例</p>
       <div class="echart" id="chartC"></div>
       <button class="table-toggle" data-target="tableC">顯示資料表格</button>
       <div class="data-table" id="tableC"></div>
@@ -152,7 +147,7 @@
 
     <section class="card">
       <h2>圖 D · 開店之後能撐多久</h2>
-      <p class="subtitle" id="subtitleD">用生存曲線估算開店後仍在營業的比例如何隨時間下降（方法上有右設限，處理「還沒看到結局」的店）；虛線＝全臺南對照。灰色虛線是「一半店還在」的參考線。</p>
+      <p class="subtitle" id="subtitleD">開店後仍在營業的比例；虛線＝全臺南</p>
       <div class="echart" id="chartD"></div>
       <button class="table-toggle" data-target="tableD">顯示資料表格</button>
       <div class="data-table" id="tableD"></div>
@@ -194,13 +189,7 @@
   const partialText = partialYears.map((y) => `${y} ${data.meta.partial_years[y]}`).join("、");
   const lastYear = data.cohort_survival.years[data.cohort_survival.years.length - 1];
   const fullYears = data.cohort_survival.years.filter((y) => !partialYears.includes(y));
-  document.querySelectorAll(".js-ring-primary").forEach((el) => { el.textContent = PL; });
-  document.getElementById("js-window").textContent =
-    `${data.meta.months_present} 個月（${ymDash(data.meta.month_start)}～${ymDash(data.meta.month_end)}）`;
-  document.getElementById("js-ma-start").textContent = ymDash(data.monthly.ring5.months[11]);
-  document.getElementById("js-partial-b").textContent = partialText;
-  document.getElementById("js-partial-c").textContent =
-    `${partialYears.join("、")} 資料不滿一整年，${lastYear} 那組才開幕沒多久，存活率偏高是觀察期太短所致，不是真的比較耐久`;
+
 
   // ---------------------------------------------------------------
   // 標頭 / meta
@@ -380,7 +369,7 @@
   const chartD = echarts.init(document.getElementById("chartD"));
   chartD.setOption({
     textStyle: CHART_TEXT,
-    grid: { left: 8, right: 18, top: 30, bottom: 8, containLabel: true },
+    grid: { left: 8, right: 30, top: 30, bottom: 8, containLabel: true },
     legend: { top: 0, right: 0, textStyle: { color: "#52514e", fontSize: 12 } },
     tooltip: {
       trigger: "axis",
@@ -399,7 +388,7 @@
         name: `${PL}圈`, type: "line", data: kmR.map((r) => r.survival_pct), showSymbol: false, step: "end",
         lineStyle: { color: "#184f95", width: 2.4 }, itemStyle: { color: "#184f95" },
         areaStyle: { color: "#184f95", opacity: 0.08 },
-        markLine: { silent: true, symbol: "none", lineStyle: { color: "#898781", type: "dashed", width: 1 }, label: { show: true, formatter: "50%", color: "#898781", fontSize: 10 }, data: [{ yAxis: 50 }] },
+        markLine: { silent: true, symbol: "none", lineStyle: { color: "#898781", type: "dashed", width: 1 }, label: { show: true, formatter: "50%", color: "#898781", fontSize: 10, position: "insideEndTop" }, data: [{ yAxis: 50 }] },
       },
       {
         name: "全臺南", type: "line", data: kmC.map((r) => r.survival_pct), showSymbol: false, step: "end",
@@ -421,47 +410,27 @@
   const mn = data.method_notes;
   const cs = data.close_structure;
   const rr = data.restaurant_retail_open;
-  const orgBuckets = cs.org_type.buckets.map((b) => `${b.label} ${fmt1(b.pct)}%（${fmt(b.count)} 家）`).join("　·　");
+  const orgBuckets = cs.org_type.buckets.map((b) => `${b.label} ${fmt1(b.pct)}%`).join("、");
   const capBuckets = cs.capital.buckets.map((b) => `${b.label} ${fmt1(b.pct_of_registered)}%`).join("　·　");
   document.getElementById("method-dl").innerHTML = `
     <dt>統計範圍</dt><dd>${mn.scope_note}</dd>
     <dt>資料視窗</dt><dd>${mn.data_window_note}</dd>
-    <dt>移動平均定義</dt><dd>${mn.ma_definition}</dd>
+    <dt>移動平均</dt><dd>${mn.ma_definition}</dd>
     <dt>仍營業判定</dt><dd>${mn.still_active_definition}</dd>
-    <dt>生存曲線方法</dt><dd>${mn.km_method}</dd>
+    <dt>生存曲線</dt><dd>${mn.km_method}</dd>
     <dt>中位存活月數</dt><dd>${mn.km_median_note}</dd>
-    <dt>生存曲線資料品質</dt><dd>${mn.km_data_quality_note}</dd>
-    <dt>歇業組織型態</dt><dd>${mn.close_org_type_buckets}；本篇實測（${PL}圈，共 ${fmt(cs.org_type.total)} 筆）：${orgBuckets}</dd>
-    <dt>歇業資本額分箱</dt><dd>${mn.close_capital_note}；已登記 ${fmt(cs.capital.registered_count)} 筆中位數 ${fmt(cs.capital.median_registered_capital)} 元，分布：${capBuckets}</dd>
-    <dt>行業別覆蓋率</dt><dd>${mn.industry_coverage_note}</dd>
-    <dt>開業餐飲／零售占比範圍</dt><dd>${mn.restaurant_retail_scope}；本篇實測（${PL}圈開業事件，共 ${fmt(rr.total_open)} 筆，industry_major 覆蓋率 ${fmt1(rr.coverage_pct)}%）：${rr.industry_labels["56"]} ${fmt1(rr.restaurant.pct)}%、${rr.industry_labels["47-48"]} ${fmt1(rr.retail.pct)}%（有行業別的 ${fmt(rr.n_with_industry)} 筆中，餐飲 ${fmt(rr.restaurant.count)} 筆、零售 ${fmt(rr.retail.count)} 筆）</dd>
+    <dt>重複紀錄</dt><dd>${mn.km_data_quality_note}</dd>
+    <dt>歇業組織型態</dt><dd>${orgBuckets}；${mn.close_org_type_buckets}</dd>
+    <dt>歇業資本額</dt><dd>已登記 ${fmt(cs.capital.registered_count)} 筆，中位數 ${fmt(cs.capital.median_registered_capital)} 元</dd>
+    <dt>資本額算法</dt><dd>${mn.close_capital_note}</dd>
+    <dt>行業別覆蓋</dt><dd>${mn.industry_coverage_note}</dd>
+    <dt>開業行業占比</dt><dd>${rr.industry_labels["56"]} ${fmt1(rr.restaurant.pct)}%、${rr.industry_labels["47-48"]} ${fmt1(rr.retail.pct)}%（有行業別的 ${fmt(rr.n_with_industry)} 筆中）</dd>
+    <dt>占比範圍</dt><dd>${mn.restaurant_retail_scope}</dd>
     <dt>隱私處理</dt><dd>${mn.privacy_note}</dd>
     <dt>資料版本</dt><dd>${mn.data_version}</dd>
   `;
   const kmRing = data.km_survival.ring5;
   const kmCity = data.km_survival.city;
-  const medNote = kmRing.median_survival_months == null
-    ? `本篇中位存活月數標示為「${kmRing.median_survival_label}」：整段觀察期（最長 ${kmRing.max_duration_months} 個月）存活率都沒有跌破 50%，不是「無法計算」，而是資料視窗還不夠長、看不到跌破的那一刻。`
-    : `${PL}圈的生存曲線在第 ${kmRing.median_survival_months} 個月才跌破 50%：這一段的觀察中家數只剩 ${fmt(st.median_survival_months.at_risk_at_median)} 家（共 ${fmt(kmRing.n)} 家開業樣本，其中 ${fmt(kmRing.n_events_observed)} 家已歇業、${fmt(kmRing.n_censored)} 家仍在營業或觀察期結束），尾端少數幾家就能讓曲線大幅下掉，「${kmRing.median_survival_label}」不能當成穩定的中位數；較可靠的是樣本還多的前段，開店滿 12／24／36 個月時仍營業約 ${fmt1(kmRing.s_at["12"])}%／${fmt1(kmRing.s_at["24"])}%／${fmt1(kmRing.s_at["36"])}%。全臺南（${fmt(kmCity.n)} 家）則${kmCity.median_survival_months == null ? `整段觀察期都沒有跌破 50%（${kmCity.median_survival_label}）` : `在第 ${kmCity.median_survival_months} 個月跌破 50%`}。`;
-  document.getElementById("subtitleD").textContent +=
-    kmRing.median_survival_months == null
-      ? "兩條線在目前觀察期內都還沒跌破。"
-      : `全臺南${kmCity.median_survival_months == null ? "在目前觀察期內沒有跌破" : `在第 ${kmCity.median_survival_months} 個月跌破`}；${PL}圈只有 ${fmt(kmRing.n)} 家樣本，曲線在第 ${kmRing.median_survival_months} 個月才跌破，當時觀察中家數只剩 ${fmt(st.median_survival_months.at_risk_at_median)} 家，尾端不穩定。`;
-  const cMin = Math.min(...cRing5.map((r) => r.open_count));
-  const cMax = Math.max(...cRing5.map((r) => r.open_count));
-  document.getElementById("subtitleC").insertAdjacentText("beforeend",
-    `；${PL}圈每組 ${fmt(cMin)}～${fmt(cMax)} 家，差一家店存活率約差 ${fmt1(100 / cMax)}～${fmt1(100 / cMin)} 個百分點`);
-  document.getElementById("honest-note").innerHTML = `
-    <b>誠實揭露</b>
-    <ul>
-      <li>${partialText}，其餘年份（${fullYears.join("、")}）為完整 12 個月；圖 B 年度長條與這兩年的比較僅供參考，不是同基準的整年對照。</li>
-      <li>圖 C 的 ${lastYear} cohort 開業至今僅數月，「存活率」偏高是觀察期過短、還沒來得及歇業所致，不代表這批店真的比較耐久，不可跟 ${fullYears[0]}-${fullYears[fullYears.length - 1]} 等已有數年觀察期的 cohort 直接比較。</li>
-      <li>圖 A／B／歇業結構／開業行業占比皆以 ${PL}圈為主；圖 C／D 的存活率與生存曲線另列全臺南對照，全臺南範圍不要求地址落點成功、涵蓋所有稅籍開歇業事件，${PL}圈範圍則要求落點成功且在核心商圈內，兩者分母定義不同。</li>
-      <li>${PL}圈內 ${data.meta.months_present} 個月共 ${fmt(sumArr(mo.open))} 筆開業、${fmt(sumArr(mo.close))} 筆歇業，平均每月開業約 ${fmt1(sumArr(mo.open) / mo.months.length)} 筆、歇業約 ${fmt1(sumArr(mo.close) / mo.months.length)} 筆；圖 A 的單月曲線會上下跳動，看長期方向請看 12 個月移動平均。圖 B 整年每年 ${fmt(Math.min(...annual.filter((r) => !r.partial).map((r) => r.open)))}～${fmt(Math.max(...annual.filter((r) => !r.partial).map((r) => r.open)))} 筆開業，圖 C 每個 cohort ${fmt(cMin)}～${fmt(cMax)} 家。歇業結構的組織型態、資本額分箱共 ${fmt(cs.org_type.total)} 筆。</li>
-      <li>industry_major（行業別）只在該筆登記編號目前仍在稅籍名冊上時才有值，因此開業事件的餐飲／零售占比只涵蓋仍營業者（覆蓋率 ${fmt1(rr.coverage_pct)}%），不代表全部開業事件的行業結構；歇業事件幾乎查不到行業別（覆蓋率 &lt;0.1%），因此歇業資本額分箱不拆餐飲／零售，只看整體。</li>
-      <li>${medNote}</li>
-    </ul>
-  `;
 
 })().catch((err) => {
   console.error("[index] 載入失敗", err);

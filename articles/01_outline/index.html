@@ -263,6 +263,8 @@
     color: var(--text-secondary);
     border-radius: 0 6px 6px 0;
   }
+  .honest-note ul { margin: 6px 0 0; padding-left: 18px; }
+  .honest-note li { margin: 3px 0; }
 
   footer.site-footer {
     margin-top: 28px;
@@ -283,9 +285,7 @@
     <div class="kicker">開店分析所 · 篇① / 13</div>
     <h1>成大商圈輪廓：路網距離圈、店家總量與分布</h1>
     <p class="lede" id="lede">
-      以台南火車站後站、成大光復校區正門、成大醫院正門三個核心點，沿道路 <span id="lede-rings">1 公里／2 公里／3 公里</span>
-      的距離圈聯集，界定成大商圈範圍，統計圈內店家總量、業種結構與店家密度，
-      作為之後各篇細部分析的地理骨架。
+      以三個核心點沿道路量 <span id="lede-rings">1 公里／2 公里／3 公里</span>，界定成大商圈，統計店家總量、業種與密度。
     </p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
@@ -297,7 +297,7 @@
   <section class="card map-card">
     <div class="map-head">
       <h2>地圖 · 商圈範圍與店家分布</h2>
-      <p class="subtitle">底圖是自行計算的道路網（沒有用外部地圖圖磚）；三層距離圈用顏色、線的粗細、虛線實線三種方式區分，黑白列印也看得出差異。</p>
+      <p class="subtitle">底圖是自算路網；三層距離圈用顏色、粗細、虛實區分</p>
     </div>
     <div id="map">
       <div class="map-legend" id="map-legend"></div>
@@ -309,7 +309,7 @@
 
     <section class="card">
       <h2>圖 A · 三個範圍各有多少店</h2>
-      <p class="subtitle">單圈＝只算剛好落在這一圈的店；累計＝加上更小圈的店，等於這一圈範圍內的店家總數（單位：家）</p>
+      <p class="subtitle">單圈只算落在該圈的店；累計再加上內圈</p>
       <div class="echart" id="chartA"></div>
       <button class="table-toggle" data-target="tableA">顯示資料表格</button>
       <table class="data-table" id="tableA"></table>
@@ -317,7 +317,7 @@
 
     <section class="card">
       <h2>圖 B · 核心商圈最常見的 12 種店</h2>
-      <p class="subtitle">依「稅務行業標準分類」細分行業，店數由多到少排序（單位：家）</p>
+      <p class="subtitle">依稅務行業標準分類細類，店數由多到少</p>
       <div class="echart" id="chartB" style="height:340px"></div>
       <button class="table-toggle" data-target="tableB">顯示資料表格</button>
       <table class="data-table" id="tableB"></table>
@@ -325,7 +325,7 @@
 
     <section class="card">
       <h2>圖 C · 餐飲、零售各占多少</h2>
-      <p class="subtitle">三個範圍分別統計、只算落在該範圍內的店，三類加起來是 100%（單位：% 家數占比）</p>
+      <p class="subtitle">各範圍分開算，三類合計 100%</p>
       <div class="echart" id="chartC"></div>
       <button class="table-toggle" data-target="tableC">顯示資料表格</button>
       <table class="data-table" id="tableC"></table>
@@ -333,7 +333,7 @@
 
     <section class="card">
       <h2>圖 D · 公司、獨資等組織型態各占多少</h2>
-      <p class="subtitle">三個範圍分別統計、只算落在該範圍內的店，四類加起來是 100%（單位：% 家數占比）</p>
+      <p class="subtitle">各範圍分開算，四類合計 100%</p>
       <div class="echart" id="chartD"></div>
       <button class="table-toggle" data-target="tableD">顯示資料表格</button>
       <table class="data-table" id="tableD"></table>
@@ -388,7 +388,7 @@
   // ---------------------------------------------------------------
   document.getElementById("meta-line").innerHTML =
     `資料日期 <b>${data.meta.data_date}</b>　·　產出日期 <b>${data.meta.produced_date}</b>　·　` +
-    `join 率 <b>${fmt1(data.join.join_rate_pct)}%</b>（未落點 ${fmt1(data.join.unmatched_pct)}%，不進圖表）`;
+    `落點率 <b>${fmt1(data.join.join_rate_pct)}%</b>`;
 
   // ---------------------------------------------------------------
   // Stat tiles
@@ -552,14 +552,17 @@
     yAxis: { type: "value", name: "家", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
     series: [
       {
-        name: "單圈", type: "bar", data: singleVals, barMaxWidth: 22,
+        name: "單圈", type: "bar", data: singleVals, barMaxWidth: 40, barGap: "12%",
         itemStyle: { color: "#2a78d6", borderRadius: [4, 4, 0, 0] },
+        labelLayout: { hideOverlap: true },
         label: { show: true, position: "top", color: "#52514e", fontSize: 11, formatter: (p) => p.value.toLocaleString("zh-Hant-TW") },
       },
       {
-        name: "累計", type: "bar", data: cumVals, barMaxWidth: 22,
+        name: "累計", type: "bar", data: cumVals, barMaxWidth: 40,
         itemStyle: { color: "#eb6834", borderRadius: [4, 4, 0, 0] },
-        label: { show: true, position: "top", color: "#52514e", fontSize: 11, formatter: (p) => p.value.toLocaleString("zh-Hant-TW") },
+        // 最內圈的單圈與累計同值：只留單圈那個標籤，避免兩個相同數字疊在一起
+        label: { show: true, position: "top", color: "#52514e", fontSize: 11, formatter: (p) => (p.value === singleVals[p.dataIndex] ? "" : p.value.toLocaleString("zh-Hant-TW")) },
+        labelLayout: { hideOverlap: true },
       },
     ],
   });
@@ -604,19 +607,19 @@
     yAxis: { type: "value", name: "%", max: 100, nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
     series: [
       {
-        name: `餐飲（${data.restaurant_retail.industry_labels["56"]}）`, type: "bar", stack: "s", barMaxWidth: 22,
+        name: `餐飲（${data.restaurant_retail.industry_labels["56"]}）`, type: "bar", stack: "s", barMaxWidth: 48,
         data: rrSingle.map((d) => d.restaurant_pct),
         itemStyle: { color: "#2a78d6" },
         label: { show: true, color: "#fff", fontSize: 11, formatter: (p) => `${p.value}%` },
       },
       {
-        name: `零售（${data.restaurant_retail.industry_labels["47-48"]}）`, type: "bar", stack: "s", barMaxWidth: 22,
+        name: `零售（${data.restaurant_retail.industry_labels["47-48"]}）`, type: "bar", stack: "s", barMaxWidth: 48,
         data: rrSingle.map((d) => d.retail_pct),
         itemStyle: { color: "#eb6834" },
         label: { show: true, color: "#fff", fontSize: 11, formatter: (p) => `${p.value}%` },
       },
       {
-        name: "其他業種", type: "bar", stack: "s", barMaxWidth: 22,
+        name: "其他業種", type: "bar", stack: "s", barMaxWidth: 48,
         data: otherPct.map((v) => Math.round(v * 10) / 10),
         itemStyle: { color: "#c3c2b7", borderRadius: [4, 4, 0, 0] },
         label: { show: true, color: "#52514e", fontSize: 11, formatter: (p) => `${p.value}%` },
@@ -640,7 +643,7 @@
     xAxis: { type: "category", data: ringLabels, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, axisTick: { show: false } },
     yAxis: { type: "value", name: "%", max: 100, nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE },
     series: orgOrder.map((key, idx) => ({
-      name: key, type: "bar", stack: "org", barMaxWidth: 22,
+      name: key, type: "bar", stack: "org", barMaxWidth: 48,
       data: orgByRing.map((r) => r[key].pct),
       itemStyle: { color: orgColors[key], borderRadius: idx === orgOrder.length - 1 ? [4, 4, 0, 0] : [0, 0, 0, 0] },
       label: { show: true, color: (key === "公司" || key === "獨資") ? "#fff" : "#0b0b0b", fontSize: 10.5, formatter: (p) => p.value >= 5 ? `${p.value}%` : "" },
@@ -674,17 +677,14 @@
   const mn = data.method_notes;
   const centersHtml = data.meta.centers.map((c) => c.name).join("、");
   document.getElementById("method-dl").innerHTML = `
-    <dt>商圈邊界定義</dt><dd>在 OpenStreetMap 道路網上，沿實際道路量的距離（不是直線距離），剔除機車不能行駛的快速道路與高架橋</dd>
-    <dt>三個核心點</dt><dd>${centersHtml}（距離圈取三核心聯集）</dd>
+    <dt>商圈邊界定義</dt><dd>${mn.isochrone_method}</dd>
+    <dt>三個核心點</dt><dd>${centersHtml}，三點的距離圈合併計算</dd>
     <dt>圈的用途</dt><dd>${RINGS_M.map((m) => `${RL[String(m)]}＝${mn.ring_use[String(m)]}`).join("；")}</dd>
     <dt>店家落點方法</dt><dd>${mn.join_method}</dd>
-    <dt>join 率</dt><dd>${fmt1(mn.join_rate_pct)}%；未落點 ${fmt1(mn.unmatched_pct)}%（${mn.unmatched_note}）</dd>
+    <dt>落點率</dt><dd>${fmt1(mn.join_rate_pct)}%；未落點 ${fmt1(mn.unmatched_pct)}%，${mn.unmatched_note}</dd>
     <dt>資料版本</dt><dd>${mn.data_version}</dd>
     <dt>路網著作權</dt><dd>${mn.osm_attribution}</dd>
   `;
-  document.getElementById("honest-note").textContent =
-    `誠實揭露：全市 ${fmt(data.join.total_count)} 家稅籍店家中，${fmt(data.join.unmatched_count)} 家（${fmt1(data.join.unmatched_pct)}%）` +
-    `因地址比對不到門牌坐標而未落點，未計入本頁地圖與任何依圈分組的統計；密度網格僅涵蓋 ${L_ACCESS}圈範圍，公開頁不顯示逐店店名或點位。`;
 
 })().catch((err) => {
   console.error("[index] 載入失敗", err);

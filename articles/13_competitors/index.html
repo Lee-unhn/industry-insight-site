@@ -156,9 +156,7 @@
     <div class="kicker">開店分析所 · 篇⑬ / 13</div>
     <h1>附近的競品：你的對手是誰、在哪、開多久、多大</h1>
     <p class="lede" id="lede">
-      挑一個業態、一個選址點，看看沿道路<span id="lede-ring">店家分析圈</span>範圍裡已經有多少家同業、密度是全市的幾倍、
-      離你最近的 10 家對手在哪裡、開了多久、資本額多大、是連鎖分店還是獨立店家。
-      業態最多可切換 8 個，選址點可以用預設三個核心點，也可以直接點地圖換點。
+      挑業態與選址點，看沿道路<span id="lede-ring">店家分析圈</span>範圍內的同業家數、密度與最近對手。
     </p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
@@ -180,7 +178,7 @@
   <section class="card map-card">
     <div class="map-head">
       <h2>圖 A · 對手點位地圖</h2>
-      <p class="subtitle" id="chartA-subtitle">藍點＝連鎖／分店，橘點＝獨立店家；三色線為篇⑪街道等級（重用，未重算）；紅星為目前選址點，點地圖任意處可換點</p>
+      <p class="subtitle" id="chartA-subtitle">藍＝連鎖分店，橘＝獨立店家；紅星＝選址點</p>
     </div>
     <div style="position:relative;">
       <div id="map"></div>
@@ -191,7 +189,7 @@
 
   <section class="card">
     <h2>圖 B · 最近 10 家對手</h2>
-    <p class="subtitle" id="chartB-subtitle">距離用直線距離（haversine 公式）即時重算，不是實際走路／開車距離；點欄名可排序</p>
+    <p class="subtitle" id="chartB-subtitle">直線距離，點欄名可排序</p>
     <table class="nearest-table" id="nearest-table"></table>
   </section>
 
@@ -199,7 +197,7 @@
 
     <section class="card">
       <h2>圖 C · 開業年分布</h2>
-      <p class="subtitle" id="chartC-subtitle">近 10 年逐年新開店數；更早的併入「更早」</p>
+      <p class="subtitle" id="chartC-subtitle">近 10 年逐年新開店數</p>
       <div class="echart" id="chartC"></div>
       <button class="table-toggle" data-target="tableC">顯示資料表格</button>
       <table class="data-table" id="tableC"></table>
@@ -207,7 +205,7 @@
 
     <section class="card">
       <h2>圖 D · 資本額分箱 vs 連鎖占比</h2>
-      <p class="subtitle" id="chartD-subtitle">各資本額級距的店數，疊色顯示連鎖／獨立占比</p>
+      <p class="subtitle" id="chartD-subtitle">各資本額級距店數，疊色為連鎖占比</p>
       <div class="echart" id="chartD"></div>
       <button class="table-toggle" data-target="tableD">顯示資料表格</button>
       <table class="data-table" id="tableD"></table>
@@ -217,7 +215,7 @@
 
   <section class="card">
     <h2>圖 E · 近 12 個月同業態開／關</h2>
-    <p class="subtitle" id="chartE-subtitle">本業態只有「開店」查得到（見下方誠實揭露）；灰色兩根是店家分析圈全業態代理，只供對照量級</p>
+    <p class="subtitle" id="chartE-subtitle">本業態只查得到開店，灰色為全業態對照</p>
     <div class="echart" id="chartE"></div>
     <button class="table-toggle" data-target="tableE">顯示資料表格</button>
     <table class="data-table" id="tableE"></table>
@@ -226,14 +224,12 @@
   <details class="card method">
     <summary>怎麼算的（方法與資料限制）</summary>
     <dl id="method-dl"></dl>
-    <div class="honest-note" id="honest-note-1"></div>
-    <div class="honest-note" id="honest-note-2"></div>
-    <div class="honest-note" id="honest-note-3"></div>
+    <div class="honest-note" id="honest-note"></div>
   </details>
 
   <footer class="site-footer">
-    開店分析所｜資料來源：財政部稅籍登記資料、稅務行業標準分類（industry_codes）、近 12 個月開歇業事件（biz_events）、
-    街道等級借用篇⑪ streets.geojson、距離圈邊界借用篇①、OpenStreetMap（© OpenStreetMap contributors，ODbL）。
+    開店分析所｜資料來源：財政部稅籍登記資料、稅務行業標準分類、近 12 個月開歇業事件、
+    街道等級借用篇⑪、距離圈邊界借用篇①、OpenStreetMap（© OpenStreetMap contributors，ODbL）。
     互動圖與海報由同一份資料腳本產出。
   </footer>
 
@@ -531,7 +527,7 @@
     const h = fy.histogram;
     const labels = h.years.map((y) => `${y}`);
     document.getElementById("chartC-subtitle").textContent =
-      `近 ${fy.recent_years_window} 年新開 ${fy.recent_count} 家（占 ${fy.recent_pct}%）；${h.window_start_year} 年以前的 ${h.older_count} 家併入「更早」`;
+      `近 ${fy.recent_years_window} 年新開 ${fy.recent_count} 家（占 ${fy.recent_pct}%）`;
     if (!chartC) chartC = echarts.init(document.getElementById("chartC"));
     chartC.setOption({
       textStyle: { color: "#52514e", fontFamily: "system-ui, -apple-system, 'Segoe UI', 'Microsoft JhengHei', sans-serif" },
@@ -558,7 +554,7 @@
     const cap = byType[currentTypeKey].public.capital;
     const buckets = cap.buckets;
     document.getElementById("chartD-subtitle").textContent =
-      `登記資本額中位數 ${fmt(Math.round(cap.median_registered_capital))} 元；未登記（多為分店，資本歸總公司）${cap.unregistered.count} 家（${cap.unregistered.pct_of_total}%）`;
+      `登記資本額中位數 ${fmt(Math.round(cap.median_registered_capital))} 元`;
     if (!chartD) chartD = echarts.init(document.getElementById("chartD"));
     chartD.setOption({
       textStyle: { color: "#52514e", fontFamily: "system-ui, -apple-system, 'Segoe UI', 'Microsoft JhengHei', sans-serif" },
@@ -583,7 +579,7 @@
   }
 
   // ---------------------------------------------------------------
-  // 圖 E：近 12 個月同業態開／關（本業態只有開店可查，見誠實揭露）
+  // 圖 E：近 12 個月同業態開／關（本業態只有開店可查）
   // ---------------------------------------------------------------
   let chartE = null;
   function renderChartE() {
@@ -591,7 +587,7 @@
     const oc = pub.openclose_12m;
     const mc = data.market_context.openclose_12m_all_industries_ring5;
     document.getElementById("chartE-subtitle").textContent =
-      `${pub.label}近 12 個月開了 ${oc.open_12m} 家（關店數查不到，見下方誠實揭露）；${storeRingName}全業態近 12 個月開 ${mc.open_12m}、關 ${mc.close_12m}、淨增 ${signed(mc.net_12m)}`;
+      `${pub.label}近12個月開 ${oc.open_12m} 家，關店數查不到`;
     const cats = [`${pub.label}·開`, "全業態代理·開", "全業態代理·關"];
     const vals = [oc.open_12m, mc.open_12m, mc.close_12m];
     const colors = ["#1baf7a", "#c3c2b7", "#c3c2b7"];
@@ -645,9 +641,6 @@
     <dt>公開區網格</dt><dd>${mn.grid_method}</dd>
     <dt>資料版本</dt><dd>${mn.data_version}</dd>
   `;
-  document.getElementById("honest-note-1").textContent = `誠實揭露（近12個月關店數無法拆到業態）：${mn.openclose_12m_note}`;
-  document.getElementById("honest-note-2").textContent = `誠實揭露（近12個月商圈整體淨增只是全業態代理）：${mn.market_context_note}`;
-  document.getElementById("honest-note-3").textContent = `道路等級參照：${data.road_tier_reference.source_note}`;
 
   // ---------------------------------------------------------------
   // 總入口

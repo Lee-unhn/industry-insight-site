@@ -3,7 +3,7 @@
     "article_no": 1,
     "title": "成大商圈輪廓：路網距離圈、店家總量與分布",
     "data_date": "2026-10-12",
-    "produced_date": "2026-10-12",
+    "produced_date": "2026-10-13",
     "rings_used": [
       1000,
       2000,
@@ -249,18 +249,23 @@
       }
     }
   },
+  "honest_notes": [
+    "全市 135,626 家中有 9,517 家地址比對不到，未計入地圖與依圈統計",
+    "密度網格只涵蓋 3 公里圈",
+    "公開頁不顯示逐店店名或點位"
+  ],
   "method_notes": {
-    "isochrone_method": "OpenStreetMap 道路網上沿實際道路量的距離（非直線距離），剔除機車不能行駛的快速道路與高架橋",
+    "isochrone_method": "在 OpenStreetMap 道路網上沿實際道路量距離，避開機車不能走的快速道路與高架橋",
     "centers_count": 3,
     "ring_use": {
       "1000": "店家分析",
       "2000": "居住人口",
       "3000": "可及性參考"
     },
-    "join_method": "稅籍營業地址與臺南市門牌坐標離線比對（exact/no_floor/street_fallback 三級 cascade）",
+    "join_method": "稅籍營業地址對臺南市門牌坐標，依完整地址、去掉樓層、同一街道三級比對",
     "join_rate_pct": 93.0,
     "unmatched_pct": 7.0,
-    "unmatched_note": "未落點店家（無法比對到座標）不計入地圖與任何依圈分組的圖表",
+    "unmatched_note": "未落點的店不進地圖，也不進依圈統計",
     "data_version": "2026-10-12",
     "osm_attribution": "© OpenStreetMap contributors (ODbL)"
   },

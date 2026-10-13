@@ -9,7 +9,7 @@ meta.hh_survey_region_data_date,2026-10-12
 meta.hh_survey_structure_data_date,2026-10-12
 meta.hh_survey_year,2025
 meta.stores_geo_data_date,2026-10-12
-meta.produced_date,2026-10-12
+meta.produced_date,2026-10-13
 meta.primary_ring,2000
 meta.secondary_ring,1000
 meta.rings_used,2000
@@ -229,16 +229,18 @@ revenue_bands.餐飲.p75_monthly_ntd,339234
 revenue_bands.零售.n_small_categories,13
 revenue_bands.零售.p25_monthly_ntd,328206
 revenue_bands.零售.p75_monthly_ntd,758899
-method_notes.unit_basis,"vat_sales（財政部營業稅銷售額）銷售額欄位的原始 CSV 未標註金額單位，本篇以千元判讀，乘 1000 換算為元。核對方式：經濟部統計處批發、零售及餐飲業經營實況調查，民國 113 年全國餐飲業營業收入 10,378 億元；臺南市 56 餐飲業銷售額（民國 111 年）以千元判讀為 455 億元，占全國 4.4%；若以元判讀只占全國 0.0044%，以百萬元判讀則是全國的 4,387%，兩者都不成立。財政部資料集說明頁沒有明文單位，找到官方單位聲明時再覆核。"
-method_notes.tax_basis,『銷售額』為加值型及非加值型營業稅籍申報之銷售額，一般認定為未稅（不含加值型營業稅本身 5%）之交易金額；惟小規模營業人（免用統一發票）等特定類型申報基礎是否完全一致，開放資料集未逐筆註明，本篇未做任何稅額調整，直接引用財政部原始申報數字。
-method_notes.year_mismatch,三個資料源使用不同年份：vat_sales（法一銷售額）為民國 111 年（2022 年）財政部最新可用年；hh_survey_region／hh_survey_structure（法二消費支出與結構）為主計總處最新可用年（2025 年）；稅籍店數（法一分母）取自 stores_geo 最新快照（2026-10-12）。法一的『每店平均』是 2022 年銷售額除以 2026 年店數：若 2022-2026 年間店數增加，算出的數字會低於 2022 年當時的實際每店平均，店數減少則相反；2022-2026 年間的物價與消費水準變化也沒有反映。
-method_notes.granularity,財政部開放資料『按地區別及稅務行業別分』的地理粒度最細只到縣市（臺南市全市），沒有東區／北區等行政區級數字，更不用說 1 公里／2 公里／3 公里 的距離圈。法一的『每店月均銷售額』是全市平均比率，不是 2 公里圈或其他距離圈本身的實測值，本篇不把它乘到圈內店數。
-method_notes.structure_caveat,『餐廳及住宿』是主計總處家庭收支調查消費型態表的既有分類，同時包含餐廳外食與住宿（旅館）支出，官方未進一步拆分兩者占比，本篇整類用來近似『外食支出』，外食部分的占比含住宿支出。
-method_notes.mid_level_note,vat_sales 只公布到稅務行業標準分類『小』類（3 碼，如 561 餐食業、471 綜合商品零售業），比稅籍店家掛的『細』類（4 碼，如 5611 餐館）粗一級。本篇把稅籍店家依 industry_mid 前 3 碼併回『小』類再跟 vat_sales 對齊，圖表與讀者工具顯示的『業種』是小類，不是稅籍原始細類。
-method_notes.revenue_band_note,『月營收區間』只是同業（同一小類）全市平均值，不是對任何一家特定店的預測，也不是機率分布。P25／P75 是把餐飲（3 個小類）或零售（13 個小類）底下所有小類各自的『全市每店月均銷售額』當一組數字，取其四分位距，用來呈現『這個大類底下不同小型態彼此差多少』；餐飲小類數量僅 3 個，四分位距統計意義有限，僅呈現同業差異。任何一家店的實際營收會因地點、經營方式、規模而有巨大差異，這個區間不是任何一家店的預測。本篇的銷售額是營業額，不含成本與租金的扣除；成本比例見總覽頁（採經濟部統計處調查）。
+honest_notes,銷售額原檔未標單位，以千元判讀並與經濟部餐飲營收核對; 財政部只公布到縣市，每店月均是全市平均，不是圈內實測; 三份資料年份不同；「餐廳及住宿」含住宿，只能近似外食
+method_notes.unit_basis,原檔未標金額單位，以千元判讀，並對照經濟部全國餐飲營收
+method_notes.tax_basis,銷售額一般視為未稅，本篇不做稅額調整
+method_notes.year_mismatch,三份資料年份不同，銷售額、消費支出與店數不是同一年
+method_notes.granularity,財政部只公布到縣市，沒有行政區或距離圈的數字
+method_notes.structure_caveat,「餐廳及住宿」含住宿支出，官方未拆分，只能近似外食
+method_notes.mid_level_note,銷售額只公布到行業小類，稅籍店家併回小類對齊
+method_notes.revenue_band_note,月營收區間是同業平均，不是任何一家店的預測
+method_notes.retail_categories_note,食品飲料及菸草、衣著鞋襪、家具設備及家務維護、休閒運動文化及教育
 method_notes.retail_categories_included,食品飲料及菸草-百分比; 衣著鞋襪類-百分比; 家具設備及家務維護-百分比; 休閒、運動、文化及教育-百分比
 method_notes.retail_categories_excluded,住宅服務水電瓦斯及其他燃料-百分比; 醫療保健-百分比; 交通及資通訊-百分比; 保險及金融服務-百分比; 其他-百分比
-method_notes.ring_definition,2 公里圈＝沿實際道路量的 2 公里整個範圍（面積加權／店數累計皆含 1 公里圈內，非環狀），與篇①/篇⑤一致；道路距離不是直線距離，已剔除機車不能行駛的快速道路／高架橋
+method_notes.ring_definition,2 公里圈沿實際道路量，範圍含1 公里圈，不是環狀
 method_notes.primary_ring,2000
 method_notes.data_version,2026-10-12
 

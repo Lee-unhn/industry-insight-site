@@ -95,8 +95,9 @@
     background: rgba(252,252,251,0.85); padding: 1px 6px; border-radius: 4px; z-index: 5;
   }
   .sparse-note {
-    position: absolute; bottom: 4px; right: 8px; font-size: 10.5px; color: var(--text-secondary);
+    position: absolute; bottom: 28px; right: 8px; font-size: 10.5px; color: var(--text-secondary);
     background: rgba(252,252,251,0.9); padding: 2px 8px; border-radius: 4px; z-index: 5; border: 1px solid var(--border);
+    max-width: calc(100% - 210px); text-align: right; line-height: 1.4; box-sizing: border-box;
   }
 
   .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
@@ -133,11 +134,7 @@
   <header class="hero">
     <div class="kicker">開店分析所 · 篇⑨ / 13</div>
     <h1>店面租金與不動產：實價登錄</h1>
-    <p class="lede" id="lede">
-      以內政部實價登錄臺南市最新一季（單季揭露）租賃／買賣資料，篩出店面交易，
-      依 <span id="lede-layers">店家分析圈、居住人口圈（累計）</span>、東區全區、臺南市全市四層分別統計每坪租金／
-      單價；地址落點率遠低於篇①的稅籍地址<span id="lede-sparse"></span>。
-    </p>
+    <p class="lede" id="lede">臺南市最新一季店面租賃與買賣，分四層統計每坪價格；門牌落點率低。</p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
 
@@ -147,7 +144,7 @@
 
     <section class="card">
       <h2>圖 A · 每筆租金案件，坪數對租金</h2>
-      <p class="subtitle">每一點代表一筆店面租賃案件（不含地址），顏色代表落在哪個範圍或行政區；全市共 <span id="n-rent-city">－</span> 筆</p>
+      <p class="subtitle">每點一筆店面租賃，全市共 <span id="n-rent-city">－</span> 筆</p>
       <div class="echart" id="chartA"></div>
       <button class="table-toggle" data-target="tableA">顯示資料表格</button>
       <div class="table-scroll"><table class="data-table" id="tableA"></table></div>
@@ -155,7 +152,7 @@
 
     <section class="card">
       <h2>圖 B · 各範圍租金中位數比較</h2>
-      <p class="subtitle">上下橫線＝這個範圍租金較低與較高的四分位；樣本數（n）小於 5 筆的範圍只標筆數、不畫中位數，避免用太少資料誤導</p>
+      <p class="subtitle">橫線為租金四分位；不足 5 筆不畫中位數</p>
       <div class="echart" id="chartB"></div>
       <button class="table-toggle" data-target="tableB">顯示資料表格</button>
       <div class="table-scroll"><table class="data-table" id="tableB"></table></div>
@@ -163,7 +160,7 @@
 
     <section class="card">
       <h2>圖 C · 每筆買賣案件，坪數對單價</h2>
-      <p class="subtitle">每一點代表一筆店面買賣案件（不含地址），顏色代表落在哪個範圍或行政區；全市共 <span id="n-sale-city">－</span> 筆</p>
+      <p class="subtitle">每點一筆店面買賣，全市共 <span id="n-sale-city">－</span> 筆</p>
       <div class="echart" id="chartC"></div>
       <button class="table-toggle" data-target="tableC">顯示資料表格</button>
       <div class="table-scroll"><table class="data-table" id="tableC"></table></div>
@@ -172,7 +169,7 @@
     <section class="card map-card">
       <div class="map-head">
         <h2>地圖 · 租賃、買賣案件在哪裡</h2>
-        <p class="subtitle">為保護隱私，點位已偏移到 100 公尺網格中心，不顯示實際門牌；底圖沿用篇①的道路網</p>
+        <p class="subtitle">點位已偏移到 100 公尺網格中心</p>
       </div>
       <div id="map">
         <div class="map-legend" id="map-legend"></div>
@@ -185,7 +182,7 @@
 
   <section class="card">
     <h2>各範圍完整數字對照表</h2>
-    <p class="subtitle">租賃店面、買賣店面、非店面住宅三種類別對照，每個範圍都標示樣本數；樣本數小於 5 筆只列筆數</p>
+    <p class="subtitle">租賃、買賣、住宅三類對照，各範圍標樣本數</p>
     <button class="table-toggle" data-target="tableSummary">顯示完整總表</button>
     <div class="table-scroll"><table class="data-table" id="tableSummary"></table></div>
   </section>
@@ -234,10 +231,6 @@
   // ---------------------------------------------------------------
   // 標頭 / meta
   // ---------------------------------------------------------------
-  document.getElementById("lede-layers").textContent = `${LAYER_SHORT.ring5}、${LAYER_SHORT.ring10}`;
-  document.getElementById("lede-sparse").textContent = data.meta.sparse_ring_layers.length
-    ? `，${data.meta.sparse_ring_layers.map((k) => LAYER_SHORT[k]).join("／")}樣本數不足 ${MIN_N} 筆，本頁如實只列筆數，不用其他圈的數字平滑補上`
-    : "";
   document.getElementById("n-rent-city").textContent = fmt(data.rent_shop.city.n);
   document.getElementById("n-sale-city").textContent = fmt(data.sale_shop.city.n);
   document.getElementById("meta-line").innerHTML =
@@ -289,8 +282,8 @@
     }));
     return {
       textStyle: CHART_TEXT,
-      grid: { left: 10, right: 18, top: 30, bottom: 8, containLabel: true },
-      legend: { top: 0, left: 0, textStyle: { color: "#52514e", fontSize: 11 }, itemWidth: 10, itemHeight: 10 },
+      grid: { left: 10, right: 18, top: 28, bottom: 52, containLabel: true },
+      legend: { type: "scroll", bottom: 0, left: "center", itemGap: 14, textStyle: { color: "#52514e", fontSize: 11 }, itemWidth: 10, itemHeight: 10 },
       tooltip: {
         trigger: "item",
         formatter: (p) => `${p.seriesName}<br/>${xLabel}: ${fmt1(p.value[0])} 坪<br/>${yLabel}: ${fmt(Math.round(p.value[1]))} ${unit}`,
@@ -520,11 +513,9 @@
     <dt>落點方法</dt><dd>${mn.join_method}</dd>
     <dt>落點率</dt><dd>租賃全量 ${fmt1(data.join_stats.rent_all.join_rate_pct)}%（店面子集 ${fmt1(data.join_stats.rent_shop.join_rate_pct)}%）；買賣全量 ${fmt1(data.join_stats.sale_all.join_rate_pct)}%（店面子集 ${fmt1(data.join_stats.sale_shop.join_rate_pct)}%）</dd>
     <dt>未落點處理</dt><dd>${mn.unmatched_note}</dd>
-    <dt>地圖偏移</dt><dd>${mn.map_privacy_note}（網格 ${mn.map_grid_cell_m}m）</dd>
+    <dt>地圖偏移</dt><dd>${mn.map_privacy_note}</dd>
     <dt>資料版本</dt><dd>${mn.data_version}</dd>
   `;
-  document.getElementById("honest-note").textContent =
-    `誠實揭露：${mn.join_caveat}`;
 
 })().catch((err) => {
   console.error("[index] 載入失敗", err);

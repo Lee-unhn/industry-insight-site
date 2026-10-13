@@ -139,11 +139,7 @@
   <header class="hero">
     <div class="kicker">開店分析所 · 篇⑤ / 13</div>
     <h1>居住人口結構：年齡、性別、戶數</h1>
-    <p class="lede" id="lede">
-      以沿道路 <span data-ring="pop">2 公里</span>圈作為居住人口腹地（<span data-ring="store">1 公里</span>／<span data-ring="access">3 公里</span>只做對照），用最小統計區人口統計
-      算出圈內人口、戶數、性別與三段年齡結構；同時比對「面積加權分配」與「整區質心
-      落圈」兩種估計法的差距，並與東區、北區、中西區及臺南市全市對照。
-    </p>
+    <p class="lede" id="lede">以沿道路 <span data-ring="pop">2 公里</span>圈為居住人口腹地，看人口、戶數、性別與年齡結構。</p>
     <p class="meta-line" id="meta-line">資料日期讀取中...</p>
   </header>
 
@@ -152,7 +148,7 @@
   <section class="card map-card">
     <div class="map-head">
       <h2>地圖 · 住在附近的人口密度</h2>
-      <p class="subtitle">底圖沿用篇①的道路網；顏色愈深代表這個統計區本身人口愈密集（人/km²，未依落圈比例拆分）</p>
+      <p class="subtitle">顏色愈深，統計區人口愈密集（人/km²）</p>
     </div>
     <div id="map">
       <div class="map-legend" id="map-legend"></div>
@@ -163,7 +159,7 @@
   <div class="chart-grid">
     <section class="card">
       <h2>圖 A · 三個範圍各住多少人、多少戶</h2>
-      <p class="subtitle"><span data-ring="store">1 公里</span>／<span data-ring="pop">2 公里</span>／<span data-ring="access">3 公里</span>範圍，用面積加權法估計（單位：人／戶）</p>
+      <p class="subtitle"><span data-ring="store">1 公里</span>／<span data-ring="pop">2 公里</span>／<span data-ring="access">3 公里</span>範圍（單位：人／戶）</p>
       <div class="echart" id="chartA"></div>
       <button class="table-toggle" data-target="tableA">顯示資料表格</button>
       <table class="data-table" id="tableA"></table>
@@ -171,7 +167,7 @@
 
     <section class="card">
       <h2>圖 B · 年齡結構跟東區、全市比起來如何</h2>
-      <p class="subtitle">腹地（沿道路 <span data-ring="pop">2 公里</span>範圍）vs 東區 vs 臺南市全市，三個年齡層加起來是 100%（單位：% 人口占比）</p>
+      <p class="subtitle">腹地、東區、全市的三段年齡占比（%）</p>
       <div class="echart" id="chartB"></div>
       <button class="table-toggle" data-target="tableB">顯示資料表格</button>
       <table class="data-table" id="tableB"></table>
@@ -179,7 +175,7 @@
 
     <section class="card">
       <h2>圖 D1 · 男生女生比例</h2>
-      <p class="subtitle">三個範圍都用面積加權法估計（單位：每 100 位女性對應的男性人數）</p>
+      <p class="subtitle">每 100 位女性對應的男性人數</p>
       <div class="echart" id="chartD1"></div>
       <button class="table-toggle" data-target="tableD1">顯示資料表格</button>
       <table class="data-table" id="tableD1"></table>
@@ -196,7 +192,7 @@
 
   <section class="card">
     <h2>圖 E · 各年齡層住多少人（男女分開看）</h2>
-    <p class="subtitle" id="chartE-subtitle">粒度讀取中...</p>
+    <p class="subtitle" id="chartE-subtitle">五歲一組，涵蓋東區</p>
     <div class="echart-tall" id="chartE"></div>
     <button class="table-toggle" data-target="tableE">顯示資料表格</button>
     <table class="data-table" id="tableE"></table>
@@ -204,7 +200,7 @@
 
   <section class="card">
     <h2>兩種人口估計方法，算出來差多少</h2>
-    <p class="subtitle">面積加權法（本站主要採用）vs 整區質心落圈法（對照用）；兩種方法怎麼算見下方「方法說明」</p>
+    <p class="subtitle">面積加權法（採用）對質心落圈法（對照）</p>
     <table class="method-table" id="method-table"></table>
   </section>
 
@@ -261,7 +257,7 @@
     { label: "腹地居住人口", value: fmt(r10w.population), unit: "人", sub: `沿道路 ${RL(RP)}範圍，涵蓋 ${fmt(r10w.minstat_count)} 個最小統計區` },
     { label: "腹地戶數", value: fmt(r10w.households), unit: "戶", sub: `沿道路 ${RL(RP)}範圍，平均每戶 ${fmt2(r10w.avg_household_size)} 人` },
     { label: "65 歲以上老年人口占比", value: fmt1(r10w.age_bands.age_65_up.pct), unit: "%", sub: `全市 ${fmt1(data.districts.city.age_bands.age_65_up.pct)}%` },
-    { label: "兩種算法差多少", value: signed1(diff10.population_diff_pct), unit: "%", sub: "面積加權法 vs 質心落圈法，人口估計差距，見下方方法說明" },
+    { label: "兩種算法差多少", value: signed1(diff10.population_diff_pct), unit: "%", sub: "面積加權法與質心落圈法的差距" },
   ];
   document.getElementById("stat-row").innerHTML = stats.map((s) => `
     <div class="stat-tile">
@@ -433,7 +429,7 @@
     textStyle: CHART_TEXT, grid: baseGrid(),
     tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
     xAxis: { type: "category", data: ringLabels, axisLine: AXIS_LINE, axisLabel: AXIS_LABEL, axisTick: { show: false } },
-    yAxis: { type: "value", name: "男/百女", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE, min: 80, max: 100 },
+    yAxis: { type: "value", name: "男/百女", nameTextStyle: AXIS_LABEL, axisLabel: AXIS_LABEL, splitLine: SPLIT_LINE, min: 0 },
     series: [{ type: "bar", data: ringsW.map((r) => r.sex_ratio), barMaxWidth: 30,
       itemStyle: { color: "#2a78d6", borderRadius: [4, 4, 0, 0] },
       label: { show: true, position: "top", color: "#52514e", fontSize: 11, formatter: (p) => fmt1(p.value) } }],
@@ -455,8 +451,6 @@
 
   // ---- 圖 E：年齡金字塔（五歲組，一級發布區，東區聚合）----
   const pyramid = data.age_pyramid;
-  document.getElementById("chartE-subtitle").textContent =
-    `粒度：${pyramid.granularity}（${pyramid.district_label}）；${pyramid.note}`;
   const bandLabels = pyramid.bands.map((b) => b.label);
   const chartE = echarts.init(document.getElementById("chartE"));
   chartE.setOption({
@@ -522,19 +516,16 @@
   // 方法說明
   // ---------------------------------------------------------------
   const mn = data.method_notes;
+  const periodText = String(mn.data_period).replace(/(\d+)Y(\d+)M/, "$1 年 $2 月");
   document.getElementById("method-dl").innerHTML = `
-    <dt>腹地圈</dt><dd>${RL(mn.primary_ring)}（沿實際道路量的距離，不是直線距離，剔除機車不能行駛的快速道路／高架橋；${RING_M.filter((m) => m !== mn.primary_ring).map(RL).join("／")}只做對照，用途：${RING_M.map((m) => `${RL(m)}＝${mn.ring_use[String(m)]}`).join("、")}）</dd>
+    <dt>腹地圈</dt><dd>${RL(mn.primary_ring)}圈為腹地，距離沿實際道路量；${RING_M.filter((m) => m !== mn.primary_ring).map(RL).join("／")}只做對照</dd>
     <dt>面積加權法</dt><dd>${mn.area_weighted_method}</dd>
     <dt>整區質心落圈法</dt><dd>${mn.centroid_method}</dd>
     <dt>兩法差距</dt><dd>${mn.method_diff_note}</dd>
     <dt>戶數資料說明</dt><dd>${mn.household_data_caveat}</dd>
-    <dt>年齡金字塔粒度</dt><dd>${mn.age_pyramid_granularity}；${mn.age_pyramid_note}</dd>
-    <dt>資料時間</dt><dd>民國 ${mn.data_period}（快照日期 ${mn.data_version}）</dd>
+    <dt>年齡金字塔</dt><dd>${mn.age_pyramid_granularity}；${mn.age_pyramid_note}</dd>
+    <dt>資料時間</dt><dd>民國 ${periodText}，快照日期 ${mn.data_version}</dd>
   `;
-  document.getElementById("honest-note").textContent =
-    `誠實揭露：本頁人口／戶數數字為統計估計，不是實際普查逐戶計數——面積加權法把每個最小統計區依「與圈的交集面積比例」拆分計入，` +
-    `整區質心落圈法則是整區 100% 算入或算出，兩法差距見上表（${mn.method_diff_note}）；圖 E 年齡金字塔受限於資料只發布到` +
-    `一級發布區的粒度，無法直接對應到距離圈，改用涵蓋東區的一級發布區聚合代表，人口總數已與東區（最小統計區三段年齡組）交叉核對相符。`;
 
 })().catch((err) => {
   console.error("[index] 載入失敗", err);

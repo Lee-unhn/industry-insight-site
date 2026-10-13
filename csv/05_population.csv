@@ -4,7 +4,7 @@ meta.article_no,5
 meta.title,居住人口結構：年齡、性別、戶數
 meta.data_date,2026-10-12
 meta.census_period,113Y12M
-meta.produced_date,2026-10-12
+meta.produced_date,2026-10-13
 meta.rings_used,1000; 2000; 3000
 meta.ring_m,1000; 2000; 3000
 meta.primary_ring,2000
@@ -264,12 +264,12 @@ method_notes.primary_ring,2000
 method_notes.ring_use.1000,店家分析
 method_notes.ring_use.2000,居住人口
 method_notes.ring_use.3000,可及性參考
-method_notes.area_weighted_method,每個最小統計區在 EPSG:3826（TWD97）下與距離圈多邊形算交集面積，交集面積 / 統計區總面積 = 權重，人口／戶數／性別／年齡組依權重分配後加總
-method_notes.centroid_method,每個最小統計區取代表點（representative point，一定落在多邊形內部），落在圈內＝整區 100% 算入該圈，不拆分
-method_notes.method_diff_note,人口估計的差距（面積加權法相對質心落圈法）：1 公里圈 -0.1%（219 個統計區碰到該圈）、2 公里圈 -0.7%（990 個統計區碰到該圈）、3 公里圈 +0.1%（1977 個統計區碰到該圈）；兩法差距來自圈邊界上被拆分或整區算進算出的統計區，三圈差距都在 ±0.7% 以內；細節見上方「兩種估計法對照」表格
-method_notes.household_data_caveat,戶數（H_CNT）來自 segis_pop，落地為 VARCHAR（相容既有快照），check_numbers 的 duckdb sum 規則無法對 VARCHAR 欄位重算，本篇戶數相關數字改標 const 並附來源說明，人工抽樣用 duckdb CAST 交叉驗證
-method_notes.age_pyramid_granularity,一級發布區（CODE1）
-method_notes.age_pyramid_note,五歲年齡組資料只發布到一級發布區，無法對到距離圈幾何，退回涵蓋東區的一級發布區聚合並標明（規格 #3 圖 E）
+method_notes.area_weighted_method,依每個統計區落在圈內的面積比例，分配人口、戶數、性別與年齡
+method_notes.centroid_method,統計區的代表點落在圈內，就整區算進該圈，不拆分
+method_notes.method_diff_note,兩法人口差距：1 公里圈 -0.1%、2 公里圈 -0.7%、3 公里圈 +0.1%
+method_notes.household_data_caveat,戶數取自同一份人口統計，另以人工抽樣交叉核對
+method_notes.age_pyramid_granularity,一級發布區
+method_notes.age_pyramid_note,五歲年齡組只發布到一級發布區，改用涵蓋東區的一級發布區合計
 method_notes.district_prefix_map.中西區,A6737
 method_notes.district_prefix_map.仁德區,A6727
 method_notes.district_prefix_map.北區,A6734
@@ -279,6 +279,7 @@ method_notes.district_prefix_map.東區,A6732
 method_notes.district_prefix_map.永康區,A6731
 method_notes.data_period,113Y12M
 method_notes.data_version,2026-10-12
+honest_notes,人口與戶數是統計估計，不是逐戶普查的計數。; 面積加權法按交集面積拆分，質心落圈法整區算入或算出。; 年齡金字塔只到一級發布區，改用涵蓋東區的合計代表。
 
 # table: meta.centers
 id,name,lat,lon
